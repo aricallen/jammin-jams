@@ -4,3 +4,5 @@ private/
 .vscode/
 yarn.lock
 data/
+.env
+.env*
