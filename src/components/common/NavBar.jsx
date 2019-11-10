@@ -14,6 +14,7 @@ const Wrapper = styled('nav')`
 
 const Brand = styled('div')`
   flex-grow: 1;
+  font-family: 'Anton', sans-serif;
 `;
 
 const NavList = styled('ul')`
@@ -27,6 +28,7 @@ const NavItem = styled('li')`
 
 const NavLink = styled(Link)`
   text-decoration: none;
+  color: black;
   transition: color ${animation};
 
   &:active {
