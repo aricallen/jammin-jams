@@ -1,0 +1,6 @@
+node_modules/
+private/
+*.log
+.vscode/
+yarn.lock
+data/
