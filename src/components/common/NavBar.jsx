@@ -15,6 +15,7 @@ const Wrapper = styled('nav')`
 const Brand = styled('div')`
   flex-grow: 1;
   font-family: 'Anton', sans-serif;
+  font-size: ${spacing.quadruple}px;
 `;
 
 const NavList = styled('ul')`
@@ -54,7 +55,11 @@ const navItems = [
 export const NavBar = () => {
   return (
     <Wrapper>
-      <Brand>Jammin&apos; Jams</Brand>
+      <Brand>
+        <NavLink to="/">
+          Jammin&apos; Jams
+        </NavLink>
+      </Brand>
       <NavList>
         {navItems.map((item) => (
           <NavItem key={item.path}>
