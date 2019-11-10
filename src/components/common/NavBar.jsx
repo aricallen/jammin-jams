@@ -25,6 +25,7 @@ const NavList = styled('ul')`
 const NavItem = styled('li')`
   margin-left: ${spacing.double}px;
   display: inline-block;
+  font-size: ${spacing.triple}px;
 `;
 
 const NavLink = styled(Link)`
