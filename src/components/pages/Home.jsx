@@ -17,12 +17,18 @@ const Hero = styled('div')`
 `;
 
 export const Home = () => {
+  const colorMap = {
+    headband: 'purple',
+    earBar: 'orange',
+    earEnd: 'red',
+    peach: 'pink',
+  };
   return (
     <Wrapper>
       <Hero>
-        <Logo />
-        <LogoOutline />
-        <LogoFilled />
+        {/* <Logo />
+        <LogoOutline /> */}
+        <LogoFilled width="100%" height="320px" colorMap={colorMap} />
       </Hero>
     </Wrapper>
   );
