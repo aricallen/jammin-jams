@@ -1,8 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { Logo } from '../common/Logo';
 import { LogoFilled } from '../common/LogoFilled';
-import { LogoOutline } from '../common/LogoOutline';
 import { pallet } from '../../constants/style-guide';
 
 const Wrapper = styled('div')``;
@@ -13,7 +11,20 @@ const Hero = styled('div')`
   display: flex;
   align-items: center;
   justify-content: space-around;
-  background-color: ${pallet.strawberry};
+  background-color: ${pallet.peach};
+
+  svg {
+    height: 256px;
+  }
+
+  svg.dropping {
+    height: 256px;
+    transition: height 0.1s ease-in;
+  }
+
+  svg.kicked {
+    height: 512px;
+  }
 `;
 
 export const Home = () => {
@@ -23,12 +34,30 @@ export const Home = () => {
     earEnd: 'red',
     peach: 'pink',
   };
+
+  const [logoClass, setLogoClass] = useState(null);
+
+  const BPM = 120;
+  const secondsPerMinute = 60;
+  const beatsPerSecond = BPM / secondsPerMinute; // 2 beats per second
+  const kickInterval = 1000 / beatsPerSecond;
+
+  // window.setInterval(() => {
+  //   if (logoClass !== 'kicked') {
+  //     setLogoClass('kicked');
+  //   }
+
+  //   setTimeout(() => {
+  //     if (logoClass !== 'dropping') {
+  //       setLogoClass('dropping');
+  //     }
+  //   }, 100);
+  // }, kickInterval);
+
   return (
     <Wrapper>
       <Hero>
-        {/* <Logo />
-        <LogoOutline /> */}
-        <LogoFilled width="100%" height="320px" colorMap={colorMap} />
+        <LogoFilled className={logoClass} colorMap={colorMap} />
       </Hero>
     </Wrapper>
   );

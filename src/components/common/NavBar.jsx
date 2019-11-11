@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
+import { Logo } from './Logo';
 import { sizes, pallet, spacing, animation } from '../../constants/style-guide';
 
 const Wrapper = styled('nav')`
@@ -16,6 +17,13 @@ const Brand = styled('div')`
   flex-grow: 1;
   font-family: 'Anton', sans-serif;
   font-size: ${spacing.quadruple}px;
+  cursor: pointer;
+`;
+
+const NavLogo = styled(Logo)`
+  width: ${spacing.quadruple}px;
+  height: ${spacing.quadruple}px;
+  margin-right: ${spacing.regular}px;
 `;
 
 const NavList = styled('ul')`
@@ -58,6 +66,7 @@ export const NavBar = () => {
     <Wrapper>
       <Brand>
         <NavLink to="/">
+          <NavLogo />
           Jammin&apos; Jams
         </NavLink>
       </Brand>
