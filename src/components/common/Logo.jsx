@@ -1,39 +1,39 @@
 import React from 'react';
 
-export const Logo = () => (
+export const Logo = (props) => (
   <svg
     width="249px"
     height="184px"
     viewBox="0 0 249 184"
     version="1.1"
+    xmlns="http://www.w3.org/2000/svg"
+    {...props}
   >
     <defs>
-      <ellipse id="path-1" cx="17.5" cy="40" rx="17.5" ry="40" />
-      <ellipse id="path-3" cx="17.5" cy="40" rx="17.5" ry="40" />
+      <path
+        d="M17,79.9839875 C7.56623733,79.3790334 0,61.7091617 0,40 C0,18.2908383 7.56623733,0.620966616 17,0.0160124813 L17,79.9839875 Z"
+        id="path-1"
+      />
+      <path
+        d="M17,79.9839875 C7.56623733,79.3790334 0,61.7091617 0,40 C0,18.2908383 7.56623733,0.620966616 17,0.0160124813 L17,79.9839875 Z"
+        id="path-3"
+      />
     </defs>
     <g id="Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
       <g id="Logo-Solid">
         <g id="Headphones">
-          <g id="headband" transform="translate(34.000000, 0.000000)">
-            <ellipse id="Oval" fill="#000000" cx="91.5" cy="60" rx="89.5" ry="60" />
-            <ellipse id="Oval" fill="#FFFFFF" cx="91.5" cy="75" rx="74.5" ry="60" />
-            <rect id="Rectangle" fill="#FFFFFF" x="0" y="57" width="185" height="44" />
+          <g id="headband" transform="translate(36.000000, 0.000000)" fill="#000000">
+            <path
+              d="M0.109928404,57 C2.44154351,25.2566654 41.5710933,0 89.5,0 C137.428907,0 176.558456,25.2566654 178.890072,57 L160.589373,57 C151.096109,32.6573583 122.858431,15 89.5,15 C56.1415687,15 27.9038911,32.6573583 18.410627,57 L0.109928404,57 Z"
+              id="Combined-Shape"
+            />
           </g>
           <g id="left-ear" transform="translate(0.000000, 63.000000)">
             <g id="ear-end" transform="translate(0.000000, 18.000000)">
               <mask id="mask-2" fill="white">
                 <use xlinkHref="#path-1" />
               </mask>
-              <use id="Oval" fill="#000000" xlinkHref="#path-1" />
-              <rect
-                id="Rectangle"
-                fill="#FFFFFF"
-                mask="url(#mask-2)"
-                x="17"
-                y="-1"
-                width="18"
-                height="85"
-              />
+              <use id="Combined-Shape" fill="#000000" xlinkHref="#path-1" />
             </g>
             <g id="ear-bar" transform="translate(25.000000, 0.000000)" fill="#000000">
               <rect id="Rectangle" x="0" y="14" width="35" height="90" />
@@ -49,16 +49,7 @@ export const Logo = () => (
               <mask id="mask-4" fill="white">
                 <use xlinkHref="#path-3" />
               </mask>
-              <use id="Oval" fill="#000000" xlinkHref="#path-3" />
-              <rect
-                id="Rectangle"
-                fill="#FFFFFF"
-                mask="url(#mask-4)"
-                x="17"
-                y="-1"
-                width="18"
-                height="85"
-              />
+              <use id="Combined-Shape" fill="#000000" xlinkHref="#path-3" />
             </g>
             <g id="ear-bar" transform="translate(25.000000, 0.000000)" fill="#000000">
               <rect id="Rectangle" x="0" y="14" width="35" height="90" />
