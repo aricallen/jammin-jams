@@ -1,0 +1,17 @@
+@keyframes bumping {
+  0% {
+    height: 256px;
+  }
+  5% {
+    height: 512px;
+  }
+  10% {
+    height: 256px;
+  }
+  20% {
+    height: 320px;
+  }
+  100% {
+    height: 256px;
+  }
+}
