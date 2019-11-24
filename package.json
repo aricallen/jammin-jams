@@ -9,11 +9,13 @@
     "start": "yarn dev",
     "dev": "node --max-old-space-size=8192 node_modules/.bin/webpack-dev-server --mode development --hot",
     "build:local": "webpack --mode production",
-    "deploy": "sh scripts/deploy.sh",
-    "run:local": "yarn build:local && yarn deploy && yarn serve",
-    "deploy:production": "yarn build:production && yarn deploy",
     "build:production": "TARGET_ENV=production yarn build:local",
-    "serve": "nodemon ./api/index.js"
+    "deploy": "sh scripts/deploy.sh",
+    "deploy:production": "yarn build:production && yarn package && yarn deploy",
+    "package": "sh scripts/package.sh",
+    "run:local": "yarn build:local && yarn package && yarn serve",
+    "serve": "nodemon ./api/index.js",
+    "clean": "rm -rf dist/ tmp/"
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",
