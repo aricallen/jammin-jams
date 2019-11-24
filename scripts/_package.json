@@ -6,13 +6,14 @@
   "author": "aricallen",
   "license": "MIT",
   "scripts": {
-    "start": "yarn serve:production",
+    "start": "yarn serve",
     "serve:production": "nodemon ./api/index.js"
   },
   "devDependencies": {},
   "dependencies": {
     "express": "^4.17.1",
     "lodash": "^4.17.15",
-    "nodemon": "^2.0.1"
+    "nodemon": "^2.0.1",
+    "body-parser": "^1.19.0"
   }
 }
