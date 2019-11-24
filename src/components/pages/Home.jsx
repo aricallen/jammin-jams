@@ -23,11 +23,7 @@ const Logo = styled(LogoFilled, {
   shouldForwardProp: p => p !== 'stepIndex',
 })`
   .ear-bar {
-    fill: ${p => {
-      console.log('p', JSON.stringify(p));
-      console.log('stepIndex', p.stepIndex);
-      return steps[p.stepIndex].earBar;
-    }};
+    fill: ${p => steps[p.stepIndex].earBar};
   }
   .headband, .ear-bar, .ear-end, .peach {
     transition: fill 0.1s ease-in-out;

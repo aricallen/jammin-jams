@@ -11,9 +11,9 @@ cp -R dist tmp/
 cp Procfile tmp/
 cp scripts/_package.json tmp/package.json
 cd tmp
-# git init
-# git remote add dokku dokku@138.197.199.22:jammin-jams
-# git add .
-# git commit -am "releasing..."
-# git push dokku master -f
+git init
+git remote add dokku dokku@138.197.199.22:jammin-jams
+git add .
+git commit -am "releasing..."
+git push dokku master -f
 set +x

@@ -10,7 +10,7 @@
     "dev": "node --max-old-space-size=8192 node_modules/.bin/webpack-dev-server --mode development --hot",
     "build:local": "webpack --mode production",
     "deploy": "sh scripts/deploy.sh",
-    "deploy:local": "yarn build:local && yarn deploy && yarn serve",
+    "run:local": "yarn build:local && yarn deploy && yarn serve",
     "deploy:production": "yarn build:production && yarn deploy",
     "build:production": "TARGET_ENV=production yarn build:local",
     "serve": "nodemon ./api/index.js"
