@@ -1,3 +1,4 @@
+import React from 'react';
 import styled from '@emotion/styled';
 import { spacing } from '../../constants/style-guide';
 
@@ -18,3 +19,12 @@ export const Section = styled('section')`
 export const Paragraph = styled('p')`
   margin-top: ${spacing.double}px;
 `;
+
+export const Emphasis = styled('span')`
+  font-style: italic;
+  font-weight: bold;
+`;
+
+export const Emoji = ({ label, children }) => {
+  return <span aria-label={label}>{children}</span>;
+};

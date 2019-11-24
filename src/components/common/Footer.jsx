@@ -6,7 +6,7 @@ import { Input } from './Forms';
 const Wrapper = styled('div')`
   width: 100%;
   min-height: ${sizes.rowHeight}px;
-  background-color: black;
+  background-color: white;
   color: white;
   display: flex;
   align-items: center;
@@ -40,14 +40,14 @@ const Span = styled('span')`
 export const Footer = () => {
   return (
     <Wrapper>
-      <FormWrapper>
+      {/* <FormWrapper>
         <FieldsWrapper>
           <Span>Join our mailing list!</Span>
           <Input placeholder="first name" />
           <Input placeholder="last name" />
           <Input placeholder="email address" />
         </FieldsWrapper>
-      </FormWrapper>
+      </FormWrapper> */}
     </Wrapper>
   );
 };

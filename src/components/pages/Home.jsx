@@ -1,33 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useLayoutEffect } from 'react';
 import styled from '@emotion/styled';
 import { LogoFilled } from '../common/LogoFilled';
-// import { pallet } from '../../constants/style-guide';
+import { pallet, animation } from '../../constants/style-guide';
+import { WelcomeForm } from '../misc/WelcomeForm';
 
-const steps = [{
-  earBar: 'yellow',
-}, {
-  earBar: 'orange',
-}, {
-  earBar: 'purple',
-}, {
-  earBar: 'red',
-}];
+// const steps = [{
+//   earBar: 'yellow',
+// }, {
+//   earBar: 'orange',
+// }, {
+//   earBar: 'purple',
+// }, {
+//   earBar: 'red',
+// }];
 
 const Wrapper = styled('div')`
   height: 100%;
 `;
 
 // animation: grooving 0.5s 4;
-const Logo = styled(LogoFilled, {
-  shouldForwardProp: p => p !== 'stepIndex',
-})`
-  .ear-bar {
-    fill: ${p => steps[p.stepIndex].earBar};
-  }
-  .headband, .ear-bar, .ear-end, .peach {
-    transition: fill 0.1s ease-in-out;
-  }
-`;
+// const Logo = styled(LogoFilled, {
+//   shouldForwardProp: p => p !== 'stepIndex',
+// })`
+//   .ear-bar {
+//     fill: ${p => steps[p.stepIndex].earBar};
+//   }
+//   .headband, .ear-bar, .ear-end, .peach {
+//     transition: fill 0.1s ease-in-out;
+//   }
+// `;
+
+const FADE_OUT = 1;
 
 const Hero = styled('div')`
   width: 100%;
@@ -36,6 +39,11 @@ const Hero = styled('div')`
   align-items: center;
   justify-content: space-around;
   background-color: white;
+  transition: opacity ${FADE_OUT}s ease-in-out;
+  opacity: 1;
+  &.done-bumping {
+    opacity: 0;
+  }
 `;
 
 const LogoWrapper = styled('div')`
@@ -45,29 +53,33 @@ const LogoWrapper = styled('div')`
 `;
 
 export const Home = () => {
-  const [stepIndex, setStepIndex] = useState(0);
-  const [className, setClassName] = useState('grooving');
-  setTimeout(() => {
-    setClassName('done-grooving');
-  }, 2 * 1000);
+  const [isBumping, setIsBumping] = useState(true);
+  const [isShowingForm, setIsShowingForm] = useState(false);
 
-  // const props = className === 'grooving' ? {} : { colorMap };
+  const heroRef = useRef();
 
-  const increment = () => {
-    if (stepIndex < steps.length - 1) {
-      setStepIndex(stepIndex + 1);
-      setTimeout(increment, 2000);
-    }
+  const listenForAnimation = () => {
+    heroRef.current.addEventListener('animationend', () => {
+      setIsBumping(false);
+    });
+    heroRef.current.addEventListener('transitionend', () => {
+      setIsShowingForm(true);
+    });
   };
-  increment();
+
+  useLayoutEffect(listenForAnimation, []);
 
   return (
     <Wrapper>
-      <Hero>
-        <LogoWrapper>
-          <Logo className={className} stepIndex={stepIndex} />
-        </LogoWrapper>
-      </Hero>
+      {isShowingForm ? (
+        <WelcomeForm />
+      ) : (
+        <Hero ref={heroRef} className={isBumping ? 'is-bumping' : 'done-bumping'}>
+          <LogoWrapper>
+            <LogoFilled />
+          </LogoWrapper>
+        </Hero>
+      )}
     </Wrapper>
   );
 };
