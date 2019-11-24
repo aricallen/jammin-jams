@@ -1,1 +1,1 @@
-web: yarn serve:production
+web: yarn start

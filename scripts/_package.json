@@ -1,0 +1,18 @@
+{
+  "name": "jammin-jams",
+  "version": "0.0.1",
+  "description": "jam charged with techno",
+  "main": "index.js",
+  "author": "aricallen",
+  "license": "MIT",
+  "scripts": {
+    "start": "yarn serve:production",
+    "serve:production": "nodemon ./api/index.js"
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "express": "^4.17.1",
+    "lodash": "^4.17.15",
+    "nodemon": "^2.0.1"
+  }
+}

@@ -6,3 +6,4 @@ yarn.lock
 data/
 .env
 .env*
+tmp/
