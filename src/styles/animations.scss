@@ -1,0 +1,102 @@
+@keyframes bumping {
+  0% {
+    height: 256px;
+    width: 256px;
+  }
+  10% {
+    height: 512px;
+    width: 512px;
+  }
+  20% {
+    height: 256px;
+    width: 256px;
+  }
+  30% {
+    height: 320px;
+    width: 320px;
+  }
+  100% {
+    height: 256px;
+    width: 256px;
+  }
+}
+
+@keyframes fade-in {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes grooving-ear-end {
+  0% {
+    fill: $strawberry; /* strawberry */
+  }
+  20% {
+    fill: $apricot; /* peach */
+  }
+  30% {
+    fill: $peach; /* apricot */
+  }
+  100% {
+    fill: $peach;
+  }
+}
+
+@keyframes grooving-ear-bar {
+  0% {
+    fill: white;
+  }
+  20% {
+    fill: $strawberry;
+  }
+  50% {
+    fill: $apricot;
+  }
+  75% {
+    fill: $peach;
+  }
+  100% {
+    fill: $peach;
+  }
+}
+
+@keyframes grooving-peach {
+  0% {
+    fill: white;
+  }
+  5% {
+    fill: white;
+  }
+  10% {
+    fill: $strawberry;
+  }
+  20% {
+    fill: $apricot;
+  }
+  100% {
+    fill: $peach;
+  }
+}
+
+$grooving-time: 0.5s 4;
+
+.grooving {
+  .headband {
+    fill: black;
+  }
+  .ear-end {
+    animation: grooving-ear-end $grooving-time;
+    fill: $strawberry;
+  }
+  .ear-bar {
+    animation: grooving-ear-bar $grooving-time;
+    fill: $apricot;
+  }
+  .peach {
+    animation: grooving-peach $grooving-time;
+    fill: $peach;
+  }
+}

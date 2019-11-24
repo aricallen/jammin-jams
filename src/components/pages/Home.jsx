@@ -1,38 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useLayoutEffect } from 'react';
 import styled from '@emotion/styled';
 import { LogoFilled } from '../common/LogoFilled';
-// import { pallet } from '../../constants/style-guide';
-
-const steps = [{
-  earBar: 'yellow',
-}, {
-  earBar: 'orange',
-}, {
-  earBar: 'purple',
-}, {
-  earBar: 'red',
-}];
 
 const Wrapper = styled('div')`
-  background-color: black;
-  height: 100vh;
+  height: 100%;
 `;
 
-// animation: grooving 0.5s 4;
-const Logo = styled(LogoFilled, {
-  shouldForwardProp: p => p !== 'stepIndex',
-})`
-  .ear-bar {
-    fill: ${p => {
-      console.log('p', JSON.stringify(p));
-      console.log('stepIndex', p.stepIndex);
-      return steps[p.stepIndex].earBar;
-    }};
-  }
-  .headband, .ear-bar, .ear-end, .peach {
-    transition: fill 0.1s ease-in-out;
-  }
-`;
+const FADE_OUT = 1;
 
 const Hero = styled('div')`
   width: 100%;
@@ -41,6 +15,11 @@ const Hero = styled('div')`
   align-items: center;
   justify-content: space-around;
   background-color: white;
+  transition: opacity ${FADE_OUT}s ease-in-out;
+  opacity: 1;
+  &.done-bumping {
+    opacity: 0;
+  }
 `;
 
 const LogoWrapper = styled('div')`
@@ -49,39 +28,29 @@ const LogoWrapper = styled('div')`
   animation: bumping 0.5s 4;
 `;
 
-const Body = styled('div')`
-  background-color: black;
-  color: white;
-  min-height: 100%;
-`;
+export const Home = ({ history }) => {
+  const [isBumping, setIsBumping] = useState(true);
 
-export const Home = () => {
-  const [stepIndex, setStepIndex] = useState(0);
-  const [className, setClassName] = useState('grooving');
-  setTimeout(() => {
-    setClassName('done-grooving');
-  }, 2 * 1000);
+  const heroRef = useRef();
 
-  // const props = className === 'grooving' ? {} : { colorMap };
-
-  const increment = () => {
-    if (stepIndex < steps.length - 1) {
-      setStepIndex(stepIndex + 1);
-      setTimeout(increment, 2000);
-    }
+  const listenForAnimation = () => {
+    heroRef.current.addEventListener('animationend', () => {
+      setIsBumping(false);
+    });
+    heroRef.current.addEventListener('transitionend', () => {
+      history.push('/waitlist');
+    });
   };
-  increment();
+
+  useLayoutEffect(listenForAnimation, []);
 
   return (
     <Wrapper>
-      <Hero>
+      <Hero ref={heroRef} className={isBumping ? 'is-bumping' : 'done-bumping'}>
         <LogoWrapper>
-          <Logo className={className} stepIndex={stepIndex} />
+          <LogoFilled className="grooving" />
         </LogoWrapper>
       </Hero>
-      <Body>
-        some text
-      </Body>
     </Wrapper>
   );
 };

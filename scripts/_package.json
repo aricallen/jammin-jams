@@ -1,0 +1,28 @@
+{
+  "name": "jammin-jams",
+  "version": "0.0.1",
+  "description": "jam charged with techno",
+  "main": "index.js",
+  "author": "aricallen",
+  "license": "MIT",
+  "scripts": {
+    "start": "yarn serve",
+    "serve": "nodemon ./server/index.js"
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "express": "^4.17.1",
+    "lodash": "^4.17.15",
+    "nodemon": "^2.0.1",
+    "body-parser": "^1.19.0",
+    "promise-mysql": "^4.1.1",
+    "dotenv": "^8.2.0",
+    "emailjs": "^2.2.0",
+    "express-session": "^1.17.0",
+    "helmet": "^3.21.2"
+  },
+  "engines": {
+    "node": ">=12.13.1",
+    "yarn": ">=1.19.1"
+  }
+}
