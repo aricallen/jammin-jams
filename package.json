@@ -15,7 +15,7 @@
     "package": "sh scripts/package.sh",
     "run:local": "yarn build:local && yarn package && yarn serve",
     "serve": "nodemon ./api/index.js",
-    "clean": "rm -rf dist/ tmp/"
+    "clean": "rm -rf dist/ tmp/ build/"
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",

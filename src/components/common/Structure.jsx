@@ -2,7 +2,6 @@ import styled from '@emotion/styled';
 import { spacing } from '../../constants/style-guide';
 
 export const Content = styled('div')`
-  height: 100vh;
   padding: ${spacing.quadruple}px;
 `;
 

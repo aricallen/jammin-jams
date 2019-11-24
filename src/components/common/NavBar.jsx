@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { Link } from 'react-router-dom';
+import { NavLink as BaseNavLink } from 'react-router-dom';
 import { Logo } from './Logo';
 import { sizes, pallet, spacing, animation } from '../../constants/style-guide';
 
@@ -36,7 +36,7 @@ const NavItem = styled('li')`
   font-size: ${spacing.triple}px;
 `;
 
-const NavLink = styled(Link)`
+const NavLink = styled(BaseNavLink)`
   text-decoration: none;
   color: black;
   transition: color ${animation};
@@ -73,7 +73,9 @@ export const NavBar = () => {
       <NavList>
         {navItems.map((item) => (
           <NavItem key={item.path}>
-            <NavLink to={item.path}>{item.text}</NavLink>
+            <NavLink to={item.path} activeStyle={{
+              color: pallet.strawberry,
+            }}>{item.text}</NavLink>
           </NavItem>
         ))}
       </NavList>

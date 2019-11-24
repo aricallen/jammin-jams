@@ -14,8 +14,7 @@ const steps = [{
 }];
 
 const Wrapper = styled('div')`
-  background-color: black;
-  height: 100vh;
+  height: 100%;
 `;
 
 // animation: grooving 0.5s 4;
@@ -45,12 +44,6 @@ const LogoWrapper = styled('div')`
   animation: bumping 0.5s 4;
 `;
 
-const Body = styled('div')`
-  background-color: black;
-  color: white;
-  min-height: 100%;
-`;
-
 export const Home = () => {
   const [stepIndex, setStepIndex] = useState(0);
   const [className, setClassName] = useState('grooving');
@@ -75,9 +68,6 @@ export const Home = () => {
           <Logo className={className} stepIndex={stepIndex} />
         </LogoWrapper>
       </Hero>
-      <Body>
-        some text
-      </Body>
     </Wrapper>
   );
 };
