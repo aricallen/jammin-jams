@@ -1,8 +1,16 @@
+# dev artificats
+dist/
+build/
+dev-scripts/
 node_modules/
-private/
 *.log
 .vscode/
-yarn.lock
 data/
+
+# sensitive stuffs
 .env
 .env*
+
+# user uploads
+src/assets/uploads
+server/.tmp.uploads
