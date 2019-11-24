@@ -6,9 +6,13 @@
   "author": "aricallen",
   "license": "MIT",
   "scripts": {
+    "start": "yarn dev",
     "dev": "node --max-old-space-size=8192 node_modules/.bin/webpack-dev-server --mode development --hot",
-    "build": "webpack --mode production && yarn serve:production",
-    "serve:production": "nodemon ./node_modules/.bin/serve ./dist"
+    "build": "webpack --mode production",
+    "copy-assets": "cp -R src/assets dist/ && cp -R src/styles dist/",
+    "build:production": "TARGET_ENV=production yarn build && yarn copy-assets",
+    "serve:production": "nodemon ./node_modules/.bin/serve ./dist",
+    "start:production": "yarn build:production && yarn serve:production"
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",
