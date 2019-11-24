@@ -1,13 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
+import { appCheck } from './utils/app-check';
 import { App } from './components/App';
 
-fetch('/api/status').then((response) => response.json()).then((json) => {
-  if (json.status === 'ok') {
-    console.log('api server status -> OK!');
-  }
-});
+appCheck();
 
 ReactDOM.render(
   <App />,

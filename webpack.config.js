@@ -1,5 +1,10 @@
+require('dotenv').config();
 const path = require('path');
+const DotEnv = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+
+const apiProxyPath = `http://localhost:${process.env.API_PORT}`;
+console.log(`proxying api requests to ${apiProxyPath}`);
 
 module.exports = {
   entry: path.join(__dirname, 'src', 'index.js'),
@@ -13,6 +18,10 @@ module.exports = {
     contentBase: path.join(__dirname, 'src'),
     open: false,
     historyApiFallback: true,
+    port: process.env.PORT,
+    proxy: {
+      '/api': apiProxyPath
+    }
   },
 
   // Enable sourcemaps for debugging webpack's output.
@@ -58,6 +67,7 @@ module.exports = {
   },
 
   plugins: [
+    new DotEnv({ path: '.env' }),
     new HtmlWebpackPlugin({
       template: './src/index.html',
       filename: 'index.html',
