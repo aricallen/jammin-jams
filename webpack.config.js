@@ -1,13 +1,5 @@
 const path = require('path');
-const DotEnv = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
-const getEnvPath = () => {
-  if (process.env.TARGET_ENV) {
-    return path.join(__dirname, `.env.${process.env.TARGET_ENV}`);
-  }
-  return path.join(__dirname, '.env.development');
-};
 
 module.exports = {
   entry: path.join(__dirname, 'src', 'index.js'),
@@ -66,9 +58,6 @@ module.exports = {
   },
 
   plugins: [
-    new DotEnv({
-      path: getEnvPath(),
-    }),
     new HtmlWebpackPlugin({
       template: './src/index.html',
       filename: 'index.html',
