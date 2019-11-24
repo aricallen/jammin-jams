@@ -1,17 +1,8 @@
 import React from 'react';
 import { omit } from 'lodash';
 
-const WHITE = '#FFFFFF';
-
-const defaultColorMap = {
-  headband: WHITE,
-  earBar: WHITE,
-  earEnd: WHITE,
-  peach: WHITE
-};
-
 export const LogoFilled = (props = {}) => {
-  const colors = props.colorMap || defaultColorMap;
+  const colors = props.colorMap || {};
   return (
     <svg
       name="logo-filled"
@@ -44,7 +35,7 @@ export const LogoFilled = (props = {}) => {
       <g id="logo-filled-Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
         <g id="logo-filled-Logo-Filled">
           <g id="logo-filled-Headphones-Outline">
-            <g id="logo-filled-headband-background" transform="translate(40.000000, 2.000000)" fill={colors.headband}>
+            <g id="logo-filled-headband-background" className="headband" fill={colors.headband} transform="translate(40.000000, 2.000000)">
               <path
                 d="M2.67980083e-14,51 C2.36960229,22.5813289 39.5192525,0 85,0 C130.480748,0 167.630398,22.5813289 170,51 L161.091974,51 C155.278304,25.2084505 122.987753,5.47169811 84.0246635,5.47169811 C45.0615737,5.47169811 12.7710227,25.2084505 6.95735309,51 L-1.15463195e-14,51 Z"
                 id="logo-filled-Combined-Shape"
@@ -67,9 +58,9 @@ export const LogoFilled = (props = {}) => {
                 <mask id="logo-filled-mask-2" fill="white">
                   <use xlinkHref="#logo-filled-path-1" />
                 </mask>
-                <use id="logo-filled-Combined-Shape" fill={colors.earEnd} xlinkHref="#logo-filled-path-1" />
+                <use id="logo-filled-Combined-Shape" className="ear-end" fill={colors.earEnd} xlinkHref="#logo-filled-path-1" />
               </g>
-              <g id="logo-filled-ear-bar" transform="translate(25.000000, 0.000000)" fill={colors.earBar}>
+              <g id="logo-filled-ear-bar" transform="translate(25.000000, 0.000000)" className="ear-bar" fill={colors.earBar}>
                 <path
                   d="M0.0119770362,92 L0,92 L0,12 L0.0119770362,12 C0.332168357,5.32823338 7.03195407,0 15.25,0 C23.4680459,0 30.1678316,5.32823338 30.488023,12 L30.5,12 L30.5,92 L30.488023,92 C30.1678316,98.6717666 23.4680459,104 15.25,104 C7.03195407,104 0.332168357,98.6717666 0.0119770362,92 Z"
                   id="logo-filled-Combined-Shape"
@@ -84,9 +75,9 @@ export const LogoFilled = (props = {}) => {
                 <mask id="logo-filled-mask-4" fill="white">
                   <use xlinkHref="#logo-filled-path-3" />
                 </mask>
-                <use id="logo-filled-Combined-Shape" fill={colors.earEnd} xlinkHref="#logo-filled-path-3" />
+                <use id="logo-filled-Combined-Shape" className="ear-end" fill={colors.earEnd} xlinkHref="#logo-filled-path-3" />
               </g>
-              <g id="logo-filled-ear-bar" transform="translate(26.000000, 0.000000)" fill={colors.earBar}>
+              <g id="logo-filled-ear-bar" transform="translate(26.000000, 0.000000)" className="ear-bar" fill={colors.earBar}>
                 <path
                   d="M0.0119770362,92 L0,92 L0,12 L0.0119770362,12 C0.332168357,5.32823338 7.03195407,0 15.25,0 C23.4680459,0 30.1678316,5.32823338 30.488023,12 L30.5,12 L30.5,92 L30.488023,92 C30.1678316,98.6717666 23.4680459,104 15.25,104 C7.03195407,104 0.332168357,98.6717666 0.0119770362,92 Z"
                   id="logo-filled-Combined-Shape"
@@ -133,6 +124,7 @@ export const LogoFilled = (props = {}) => {
               <path
                 d="M58.7621314,117.449604 C58.4808223,116.70446 58.6683617,113.071885 59.2309799,109.43931 C59.793598,105.899878 59.7628079,102.088688 59.4814988,101.809259 C59.2001897,101.52983 57.0997291,102.950975 54.9430261,104.906977 C47.8165294,111.33384 44.5091379,112.885599 29.5997566,112.885599 C17.8785449,112.885599 15.9093813,112.60617 11.5022057,110.650168 C8.40780581,109.253024 6.62618163,107.85588 6.62618163,106.92445 C6.62618163,105.061591 9.43927244,102.267302 13.9402177,99.5661568 L17.1283873,97.7032978 L13.1900602,94.1638656 C5.31340592,86.9918583 1,75.4421322 1,61.6569753 C1,41.3518117 10.9395875,27.0077971 37.1013321,9.590065 C48.166156,2.23177177 55.3864224,1.25497608 61.950301,1.90697674 C75.8282157,3.11783512 98.9266255,18.6745787 110.085219,35.4403101 C112.429461,38.7934564 115.773174,44.9633317 117.179719,49.1547645 C119.336422,55.6747712 119.665372,57.7846294 119.196524,64.3046361 C118.727675,73.0600736 116.122511,81.374351 112.184184,87.242357 C108.996014,91.9926475 108.114074,94.1638656 110.645856,94.1638656 C114.302874,94.1638656 113.609571,97.1521114 108.452238,101.809259 C102.661612,106.980712 93.8792075,109.467837 84.9887788,109.43931 C78.1869233,109.417484 71.647725,108.217564 66.6077844,104.906977 C64.6386208,103.602975 61.4085128,102.546731 61.1272037,102.546731 C60.8458946,102.546731 61.1272037,107.902407 61.1272037,110.976125 C61.1272037,114.6087 61.1063737,114.780915 61.950301,115.526059 C61.2939131,116.662859 63.5443858,116.70446 63.2630767,117.449604 C62.6066888,119.21932 59.5122889,119.312463 58.7621314,117.449604 Z"
                 id="logo-filled-Fill"
+                className="peach"
                 fill={colors.peach}
               />
               <path
