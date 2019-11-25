@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import useForm from 'react-hook-form';
 import { Content, Header1, Section, Paragraph, Emphasis, Emoji } from '../common/Structure';
-import { Input, Fieldset, Label, Button as BaseButton } from '../common/Forms';
+import { Input, FormError, Fieldset, Label, Form, Button as BaseButton } from '../common/Forms';
 import { animation, spacing } from '../../constants/style-guide';
 
 const ContentWrapper = styled(Content)`
@@ -33,6 +34,11 @@ const SubmitButton = styled(BaseButton)`
 
 export const WelcomeForm = () => {
   const [isViewingForm, setIsViewingForm] = useState(false);
+  const { handleSubmit, errors, register } = useForm();
+
+  const onSubmit = (values) => {
+    console.log(values);
+  };
 
   return (
     <ContentWrapper>
@@ -62,39 +68,60 @@ export const WelcomeForm = () => {
 
       <Section>
         <FormWrapper className={isViewingForm ? 'is-visible' : 'is-hidden'}>
-          <Fieldset>
-            <Label>First Name</Label>
-            <Input placeholder="Jane" />
-          </Fieldset>
-          <Fieldset>
-            <Label>Last Name</Label>
-            <Input placeholder="Awesome" />
-          </Fieldset>
-          <Fieldset>
-            <Label>Email</Label>
-            <Input placeholder="jane.awesome@somemail.com" />
-          </Fieldset>
-          <Fieldset>
-            <Label>Zipcode</Label>
-            <Input placeholder="12345" />
-          </Fieldset>
-          <Fieldset>
-            <Label>Favorite jam</Label>
-            <Input placeholder="peach" />
-          </Fieldset>
-          <Fieldset>
-            <Label>Least favorite jam</Label>
-            <Input placeholder="onion" />
-          </Fieldset>
-          <Fieldset>
-            <Label>Favorite genre of music</Label>
-            <Input placeholder="techno" />
-          </Fieldset>
-          <SubmitButton
-            onClick={() => alert('thanks!')}
-          >
-            Sign me up!
-          </SubmitButton>
+          <Form onSubmit={handleSubmit(onSubmit)}>
+
+            <Fieldset className="required">
+              <Label>First Name</Label>
+              <Input placeholder="Jane" name="firstName" ref={register({
+                required: true,
+              })} />
+              {errors.firstName && <FormError>This field is required.</FormError>}
+            </Fieldset>
+
+            <Fieldset className="required">
+              <Label>Last Name</Label>
+              <Input placeholder="Awesome" name="lastName" ref={register({
+                required: true,
+              })} />
+              {errors.lastName && <FormError>This field is required.</FormError>}
+            </Fieldset>
+
+            <Fieldset className="required">
+              <Label>Email</Label>
+              <Input placeholder="jane.awesome@somemail.com" name="email" ref={register({
+                required: true,
+              })} />
+              {errors.email && <FormError>This field is required.</FormError>}
+            </Fieldset>
+
+            <Fieldset className="required">
+              <Label>Zipcode</Label>
+              <Input placeholder="12345" name="zipCode" ref={register({
+                required: true,
+              })} />
+              {errors.zipCode && <FormError>This field is required.</FormError>}
+            </Fieldset>
+
+            <Fieldset>
+              <Label>Favorite jam</Label>
+              <Input placeholder="peach" name="favoriteJam" ref={register} />
+            </Fieldset>
+
+            <Fieldset>
+              <Label>Least favorite jam</Label>
+              <Input placeholder="onion" name="leastFavoriteJam" ref={register} />
+            </Fieldset>
+
+            <Fieldset>
+              <Label>Favorite genre of music</Label>
+              <Input placeholder="techno" name="favoriteGenre" ref={register} />
+            </Fieldset>
+            <SubmitButton
+              type="submit"
+            >
+              Sign me up!
+            </SubmitButton>
+          </Form>
         </FormWrapper>
       </Section>
     </ContentWrapper>

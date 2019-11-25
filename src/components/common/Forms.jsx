@@ -17,6 +17,12 @@ export const Input = styled('input')`
 
 export const Fieldset = styled('fieldset')`
   margin-bottom: ${spacing.regular}px;
+  &.required {
+    label::after {
+      color: red;
+      content: " *";
+    }
+  }
 `;
 
 export const Label = styled('label')`
@@ -25,6 +31,7 @@ export const Label = styled('label')`
 `;
 
 export const Button = styled('button')`
+  cursor: pointer;
   padding: ${spacing.regular}px;
   background-color: ${pallet.strawberry};
   border-radius: ${spacing.regular}px;
@@ -38,4 +45,11 @@ export const Button = styled('button')`
     outline: none;
     box-shadow: 0 0 4px ${pallet.strawberry}
   }
+`;
+
+export const Form = styled('form')``;
+
+export const FormError = styled('span')`
+  color: ${pallet.red};
+  font-size: ${font.size.small}px;
 `;

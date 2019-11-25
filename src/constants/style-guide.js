@@ -22,6 +22,7 @@ export const font = {
     bold: 'Anton',
   },
   size: {
+    small: 12,
     regular: 16,
     large: 24,
   },
