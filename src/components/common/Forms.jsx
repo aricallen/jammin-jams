@@ -6,6 +6,7 @@ import { spacing, pallet, font } from '../../constants/style-guide';
 export const Input = styled('input')`
   padding: ${spacing.regular}px;
   border-radius: ${spacing.regular}px;
+  border-width: 1px;
   border-color: ${pallet.strawberry};
   width: 100%;
   &:active,
@@ -64,38 +65,35 @@ export const SelectElem = styled(ReactSelect)`
   &:active,
   &:focus,
   &:focus-within,
-  &:hover,
-  .react_sel-control {
+  &:hover {
     outline: none;
     box-shadow: 0 0 4px ${pallet.strawberry}
   }
-`;
-
-const ControlElem = styled('div')`
-  &:active,
-  &:focus,
-  &:focus-within,
-  &:hover,
-  .react_sel-control {
+  .react-select__control,
+  .react-select__control:active,
+  .react-select__control:focus,
+  .react-select__control:focus-within,
+  .react-select__control:hover {
     outline: none;
-    box-shadow: 0 0 4px ${pallet.strawberry}
+    border-radius: ${spacing.regular}px;
+    border-color: ${pallet.strawberry};
+  }
+  .react-select__control:active,
+  .react-select__control:focus,
+  .react-select__control:focus-within {
+    box-shadow: 0 0 4px ${pallet.strawberry};
+  }
+  .react-select__option:hover,
+  .react-select__option--is-selected {
+    background-color: ${pallet.strawberry};
   }
 `;
-const StyledControl = (props) => {
-  return (
-    <ControlElem>
-      <components.Control {...props} />
-    </ControlElem>
-  );
-};
 
 export const Select = (props) => {
   return (
     <SelectElem
       {...props}
-      components={{
-        control: StyledControl,
-      }}
+      classNamePrefix="react-select"
     />
   );
 };

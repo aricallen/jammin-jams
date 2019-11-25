@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import qs from 'query-string';
 import styled from '@emotion/styled';
 import useForm from 'react-hook-form';
 import { Content, Header1, Section, Paragraph, Emphasis, Emoji } from '../common/Structure';
@@ -50,8 +51,9 @@ const PAIRED_WITH = [
   'With a spoon (we get it)',
 ];
 
-export const Waitlist = ({ history }) => {
-  const [isViewingForm, setIsViewingForm] = useState(false);
+export const Waitlist = ({ history, location }) => {
+  const { open } = qs.parse(location.search);
+  const [isViewingForm, setIsViewingForm] = useState(open === 'true');
   const [selectValues, setSelectValues] = useState({});
   const { handleSubmit, errors, register } = useForm();
 
@@ -113,7 +115,10 @@ export const Waitlist = ({ history }) => {
       <Section>
         <Button
           className={isViewingForm ? 'is-hidden' : 'is-visible'}
-          onClick={() => setIsViewingForm(true)}
+          onClick={() => {
+            setIsViewingForm(true);
+            history.replace({ pathname: 'waitlist', search: qs.stringify({ open: true }) });
+          }}
         >
           Let&apos;s do this
         </Button>

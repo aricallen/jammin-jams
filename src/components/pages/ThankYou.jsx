@@ -10,7 +10,7 @@ export const ThankYou = () => {
           Please enjoy our latest techno set recorded live during the making of some amazing cranberry + orange marmalade.
         </Paragraph>
       </Section>
-      <Section>
+      <Section style={{ maxWidth: 600 }}>
         <Header2>
           Solstice -- Introspection -- 2019-11-24
         </Header2>

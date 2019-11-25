@@ -1,7 +1,7 @@
 export const pallet = {
   blueberry: '#7A7DB5',
   strawberry: '#FA5C66',
-  peach: '#',
+  peach: 'peach',
   apricot: '#F0941C',
 };
 

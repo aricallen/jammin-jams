@@ -60,6 +60,7 @@
     "lodash": "^4.17.15",
     "nodemon": "^2.0.1",
     "promise-mysql": "^4.1.1",
+    "query-string": "^6.9.0",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-hook-form": "^3.28.3",
