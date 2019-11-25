@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { Content, Header1, Section, Paragraph, Emphasis, Emoji } from '../common/Structure';
+import { Input, Fieldset, Label, Button as BaseButton } from '../common/Forms';
+import { animation, spacing } from '../../constants/style-guide';
 
 const ContentWrapper = styled(Content)`
   margin: 0 auto;
@@ -8,7 +10,30 @@ const ContentWrapper = styled(Content)`
   animation: fade-in 0.5s 1;
 `;
 
+const FormWrapper = styled('div')`
+  width: 50%;
+  &.is-hidden {
+    opacity: 0;
+  }
+  &.is-visible {
+    animation: fade-in 0.5s;
+  }
+`;
+
+const Button = styled(BaseButton)`
+  transition: opacity ${animation};
+  &.is-hidden {
+    opacity: 0;
+  }
+`;
+
+const SubmitButton = styled(BaseButton)`
+  margin-top: ${spacing.double}px;
+`;
+
 export const WelcomeForm = () => {
+  const [isViewingForm, setIsViewingForm] = useState(false);
+
   return (
     <ContentWrapper>
       <Header1>Welcome to Jammin&apos; Jams! We are <Emphasis>so stoked</Emphasis> that you are here.</Header1>
@@ -25,8 +50,52 @@ export const WelcomeForm = () => {
           Space will be limited so sign up now <Emoji label="please">🙏🏽</Emoji>
         </Paragraph>
       </Section>
+
       <Section>
-        inputs and stuff
+        <Button
+          className={isViewingForm ? 'is-hidden' : 'is-visible'}
+          onClick={() => setIsViewingForm(true)}
+        >
+          Let&apos;s do this
+        </Button>
+      </Section>
+
+      <Section>
+        <FormWrapper className={isViewingForm ? 'is-visible' : 'is-hidden'}>
+          <Fieldset>
+            <Label>First Name</Label>
+            <Input placeholder="Jane" />
+          </Fieldset>
+          <Fieldset>
+            <Label>Last Name</Label>
+            <Input placeholder="Awesome" />
+          </Fieldset>
+          <Fieldset>
+            <Label>Email</Label>
+            <Input placeholder="jane.awesome@somemail.com" />
+          </Fieldset>
+          <Fieldset>
+            <Label>Zipcode</Label>
+            <Input placeholder="12345" />
+          </Fieldset>
+          <Fieldset>
+            <Label>Favorite jam</Label>
+            <Input placeholder="peach" />
+          </Fieldset>
+          <Fieldset>
+            <Label>Least favorite jam</Label>
+            <Input placeholder="onion" />
+          </Fieldset>
+          <Fieldset>
+            <Label>Favorite genre of music</Label>
+            <Input placeholder="techno" />
+          </Fieldset>
+          <SubmitButton
+            onClick={() => alert('thanks!')}
+          >
+            Sign me up!
+          </SubmitButton>
+        </FormWrapper>
       </Section>
     </ContentWrapper>
   );

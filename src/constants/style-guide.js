@@ -16,4 +16,15 @@ export const sizes = {
   rowHeight: 64,
 };
 
+export const font = {
+  family: {
+    regular: 'Fjalla One',
+    bold: 'Anton',
+  },
+  size: {
+    regular: 16,
+    large: 24,
+  },
+};
+
 export const animation = '0.3s ease-in-out';

@@ -51,14 +51,14 @@ const NavLink = styled(BaseNavLink)`
 `;
 
 const navItems = [
-  {
-    text: 'About',
-    path: '/about',
-  },
-  {
-    text: 'Store',
-    path: '/store',
-  },
+  // {
+  //   text: 'About',
+  //   path: '/about',
+  // },
+  // {
+  //   text: 'Store',
+  //   path: '/store',
+  // },
 ];
 
 export const NavBar = () => {
