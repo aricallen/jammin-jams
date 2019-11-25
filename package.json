@@ -11,7 +11,7 @@
     "build:local": "webpack --mode production",
     "build:production": "TARGET_ENV=production yarn build:local",
     "deploy": "sh scripts/deploy.sh",
-    "deploy:production": "yarn build:production && yarn package && yarn deploy",
+    "deploy:production": "yarn clean && yarn build:production && yarn package && yarn deploy",
     "package": "sh scripts/package.sh",
     "run:local": "yarn build:local && yarn package && yarn serve",
     "serve": "nodemon ./api/index.js",

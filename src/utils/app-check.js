@@ -11,7 +11,7 @@ export const appCheck = () => {
     }
   })
   .catch((err) => {
-    alert(err.message);
+    console.error(err.message);
     console.error(err.stack);
   });
 };

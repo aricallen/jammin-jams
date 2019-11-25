@@ -19,7 +19,9 @@ if (process.env.TARGET_ENV === 'production') {
   const staticServer = express.static(staticDirPath);
   app.use('/', staticServer);
   app.get('*', (req, res) => {
-    res.sendFile(path.join(staticDirPath, 'index.html'));
+    if (req.originalUrl.includes('api') === false) {
+      res.sendFile(path.join(staticDirPath, 'index.html'));
+    }
   });
 }
 

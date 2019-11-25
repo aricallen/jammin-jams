@@ -52,12 +52,31 @@ const PAIRED_WITH = [
 
 export const Waitlist = ({ history }) => {
   const [isViewingForm, setIsViewingForm] = useState(false);
+  const [selectValues, setSelectValues] = useState({});
   const { handleSubmit, errors, register } = useForm();
+
+  const handleChange = (name) => (value) => {
+    if (Array.isArray(value)) {
+      const serialized = value.map((option) => option.value).join(', ');
+      setSelectValues({
+        ...selectValues,
+        [name]: serialized,
+      });
+    } else {
+      setSelectValues({
+        ...selectValues,
+        [name]: value.value,
+      });
+    }
+  };
 
   const onSubmit = async (values) => {
     console.log(values);
     try {
-      await addToWaitlist(values);
+      await addToWaitlist({
+        ...values,
+        ...selectValues,
+      });
       history.push('/thank-you');
     } catch (err) {
       console.error(err);
@@ -139,15 +158,20 @@ export const Waitlist = ({ history }) => {
             <Fieldset className="required">
               <Label>Preferred Subscription Frequency</Label>
               <Select
+                name="preferredFrequency"
                 options={frequencyOptions}
+                onChange={handleChange('preferredFrequency')}
               />
             </Fieldset>
 
             <Fieldset>
               <Label>I eat jam with... (one or more)</Label>
               <Select
+                name="pairWith"
                 options={pairedOptions}
+                onChange={handleChange('pairWith')}
                 isMulti={true}
+                closeMenuOnSelect={false}
               />
             </Fieldset>
 
