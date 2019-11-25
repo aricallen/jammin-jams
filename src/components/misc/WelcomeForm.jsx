@@ -4,6 +4,7 @@ import useForm from 'react-hook-form';
 import { Content, Header1, Section, Paragraph, Emphasis, Emoji } from '../common/Structure';
 import { Input, FormError, Fieldset, Label, Form, Button as BaseButton } from '../common/Forms';
 import { animation, spacing } from '../../constants/style-guide';
+import { addToWaitlist } from '../../services/adapter';
 
 const ContentWrapper = styled(Content)`
   margin: 0 auto;
@@ -36,8 +37,14 @@ export const WelcomeForm = () => {
   const [isViewingForm, setIsViewingForm] = useState(false);
   const { handleSubmit, errors, register } = useForm();
 
-  const onSubmit = (values) => {
+  const onSubmit = async (values) => {
     console.log(values);
+    try {
+      await addToWaitlist(values);
+      alert('thanks!');
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (

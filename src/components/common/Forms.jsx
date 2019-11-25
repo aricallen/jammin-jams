@@ -50,6 +50,7 @@ export const Button = styled('button')`
 export const Form = styled('form')``;
 
 export const FormError = styled('span')`
-  color: ${pallet.red};
+  color: red;
   font-size: ${font.size.small}px;
+  font-family: sans-serif;
 `;

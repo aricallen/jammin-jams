@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('babel-polyfill');
 const path = require('path');
 const DotEnv = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -7,7 +8,7 @@ const apiProxyPath = `http://localhost:${process.env.API_PORT}`;
 console.log(`proxying api requests to ${apiProxyPath}`);
 
 module.exports = {
-  entry: path.join(__dirname, 'src', 'index.js'),
+  entry: ['babel-polyfill', path.join(__dirname, 'src', 'index.js')],
   output: {
     path: path.join(__dirname, 'dist'),
     filename: '[name].[hash].js',
