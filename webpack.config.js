@@ -5,7 +5,9 @@ const DotEnv = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const apiProxyPath = `http://localhost:${process.env.API_PORT}`;
-console.log(`proxying api requests to ${apiProxyPath}`);
+if (process.env.TARGET_ENV !== 'production') {
+  console.log(`proxying api requests to ${apiProxyPath}`);
+}
 
 module.exports = {
   entry: ['babel-polyfill', path.join(__dirname, 'src', 'index.js')],
@@ -21,7 +23,7 @@ module.exports = {
     historyApiFallback: true,
     port: process.env.PORT,
     proxy: {
-      '/api': apiProxyPath
+      '/api': apiProxyPath,
     }
   },
 
