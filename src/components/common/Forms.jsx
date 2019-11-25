@@ -1,4 +1,6 @@
+import React from 'react';
 import styled from '@emotion/styled';
+import ReactSelect, { components } from 'react-select';
 import { spacing, pallet, font } from '../../constants/style-guide';
 
 export const Input = styled('input')`
@@ -54,3 +56,46 @@ export const FormError = styled('span')`
   font-size: ${font.size.small}px;
   font-family: sans-serif;
 `;
+
+export const SelectElem = styled(ReactSelect)`
+  border-radius: ${spacing.regular}px;
+  border-color: ${pallet.strawberry};
+  width: 100%;
+  &:active,
+  &:focus,
+  &:focus-within,
+  &:hover,
+  .react_sel-control {
+    outline: none;
+    box-shadow: 0 0 4px ${pallet.strawberry}
+  }
+`;
+
+const ControlElem = styled('div')`
+  &:active,
+  &:focus,
+  &:focus-within,
+  &:hover,
+  .react_sel-control {
+    outline: none;
+    box-shadow: 0 0 4px ${pallet.strawberry}
+  }
+`;
+const StyledControl = (props) => {
+  return (
+    <ControlElem>
+      <components.Control {...props} />
+    </ControlElem>
+  );
+};
+
+export const Select = (props) => {
+  return (
+    <SelectElem
+      {...props}
+      components={{
+        control: StyledControl,
+      }}
+    />
+  );
+};

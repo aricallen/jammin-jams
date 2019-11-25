@@ -12,6 +12,10 @@ export const Header1 = styled('h1')`
   margin-bottom: ${spacing.regular}px;
 `;
 
+export const Header2 = styled(Header1)`
+  font-size: 18px;
+`;
+
 export const Section = styled('section')`
   margin-top: ${spacing.double}px;
 `;

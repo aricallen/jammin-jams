@@ -4,6 +4,9 @@ import styled from '@emotion/styled';
 import { Home } from './pages/Home';
 import { About } from './pages/About';
 import { Store } from './pages/Store';
+import { Waitlist } from './pages/Waitlist';
+import { ThankYou } from './pages/ThankYou';
+
 import { NavBar } from './common/NavBar';
 import { Footer } from './common/Footer';
 import { Content } from './common/Structure';
@@ -24,6 +27,8 @@ export function App() {
           <Switch>
             <Route exact path="/store" component={Store} />
             <Route exact path="/about" component={About} />
+            <Route exact path="/waitlist" component={Waitlist} />
+            <Route exact path="/thank-you" component={ThankYou} />
             <Route path="/" component={Home} />
           </Switch>
         </Content>

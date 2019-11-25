@@ -1,8 +1,6 @@
 import React, { useState, useRef, useLayoutEffect } from 'react';
 import styled from '@emotion/styled';
 import { LogoFilled } from '../common/LogoFilled';
-import { pallet, animation } from '../../constants/style-guide';
-import { WelcomeForm } from '../misc/WelcomeForm';
 
 // const steps = [{
 //   earBar: 'yellow',
@@ -52,9 +50,8 @@ const LogoWrapper = styled('div')`
   animation: bumping 0.5s 4;
 `;
 
-export const Home = () => {
+export const Home = ({ history }) => {
   const [isBumping, setIsBumping] = useState(true);
-  const [isShowingForm, setIsShowingForm] = useState(false);
 
   const heroRef = useRef();
 
@@ -63,7 +60,7 @@ export const Home = () => {
       setIsBumping(false);
     });
     heroRef.current.addEventListener('transitionend', () => {
-      setIsShowingForm(true);
+      history.push('/waitlist');
     });
   };
 
@@ -71,15 +68,11 @@ export const Home = () => {
 
   return (
     <Wrapper>
-      {isShowingForm ? (
-        <WelcomeForm />
-      ) : (
-        <Hero ref={heroRef} className={isBumping ? 'is-bumping' : 'done-bumping'}>
-          <LogoWrapper>
-            <LogoFilled />
-          </LogoWrapper>
-        </Hero>
-      )}
+      <Hero ref={heroRef} className={isBumping ? 'is-bumping' : 'done-bumping'}>
+        <LogoWrapper>
+          <LogoFilled />
+        </LogoWrapper>
+      </Hero>
     </Wrapper>
   );
 };

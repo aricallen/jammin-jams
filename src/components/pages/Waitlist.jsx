@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import useForm from 'react-hook-form';
 import { Content, Header1, Section, Paragraph, Emphasis, Emoji } from '../common/Structure';
-import { Input, FormError, Fieldset, Label, Form, Button as BaseButton } from '../common/Forms';
+import { Input, FormError, Fieldset, Label, Form, Select, Button as BaseButton } from '../common/Forms';
 import { animation, spacing } from '../../constants/style-guide';
 import { addToWaitlist } from '../../services/adapter';
 
@@ -13,7 +13,9 @@ const ContentWrapper = styled(Content)`
 `;
 
 const FormWrapper = styled('div')`
-  width: 50%;
+  @media (min-width: 1024px) {
+    width: 50%;
+  }
   &.is-hidden {
     opacity: 0;
   }
@@ -33,7 +35,22 @@ const SubmitButton = styled(BaseButton)`
   margin-top: ${spacing.double}px;
 `;
 
-export const WelcomeForm = () => {
+const FREQUENCIES = [
+  'Once a month',
+  'Once a quarter',
+  'Not sure / It depends',
+];
+
+const PAIRED_WITH = [
+  'Cheeses',
+  'Nut butters',
+  'Bread & butter',
+  'Dairy (yogurt, ice cream, etc)',
+  'Baked goods',
+  'With a spoon (we get it)',
+];
+
+export const Waitlist = ({ history }) => {
   const [isViewingForm, setIsViewingForm] = useState(false);
   const { handleSubmit, errors, register } = useForm();
 
@@ -41,11 +58,21 @@ export const WelcomeForm = () => {
     console.log(values);
     try {
       await addToWaitlist(values);
-      alert('thanks!');
+      history.push('/thank-you');
     } catch (err) {
       console.error(err);
     }
   };
+
+  const frequencyOptions = FREQUENCIES.map((value) => ({
+    label: value,
+    value,
+  }));
+
+  const pairedOptions = PAIRED_WITH.map((value) => ({
+    label: value,
+    value,
+  }));
 
   return (
     <ContentWrapper>
@@ -102,25 +129,40 @@ export const WelcomeForm = () => {
             </Fieldset>
 
             <Fieldset className="required">
-              <Label>Zipcode</Label>
+              <Label>Zip Code</Label>
               <Input placeholder="12345" name="zipCode" ref={register({
                 required: true,
               })} />
               {errors.zipCode && <FormError>This field is required.</FormError>}
             </Fieldset>
 
+            <Fieldset className="required">
+              <Label>Preferred Subscription Frequency</Label>
+              <Select
+                options={frequencyOptions}
+              />
+            </Fieldset>
+
             <Fieldset>
-              <Label>Favorite jam</Label>
+              <Label>I eat jam with... (one or more)</Label>
+              <Select
+                options={pairedOptions}
+                isMulti={true}
+              />
+            </Fieldset>
+
+            <Fieldset>
+              <Label>Favorite Jam</Label>
               <Input placeholder="peach" name="favoriteJam" ref={register} />
             </Fieldset>
 
             <Fieldset>
-              <Label>Least favorite jam</Label>
+              <Label>Least Favorite Jam</Label>
               <Input placeholder="onion" name="leastFavoriteJam" ref={register} />
             </Fieldset>
 
             <Fieldset>
-              <Label>Favorite genre of music</Label>
+              <Label>Favorite Genre of Music</Label>
               <Input placeholder="techno" name="favoriteGenre" ref={register} />
             </Fieldset>
             <SubmitButton

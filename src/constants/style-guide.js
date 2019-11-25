@@ -12,6 +12,12 @@ export const spacing = {
   quadruple: 32,
 };
 
+export const screenSize = {
+  mobile: 768,
+  tablet: 1024,
+  desktop: 1440,
+};
+
 export const sizes = {
   rowHeight: 64,
 };
