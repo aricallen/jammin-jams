@@ -1,6 +1,7 @@
 html, body {
   width: 100%;
   min-height: 100vh;
+  line-height: 1.42em;
 }
 
 .anton {
@@ -9,4 +10,8 @@ html, body {
 
 .fjalla {
   font-family: 'Fjalla One', sans-serif;
+}
+
+.libre-franklin {
+  font-family: 'Libre Franklin', sans-serif;
 }

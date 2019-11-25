@@ -35,8 +35,8 @@ export const Button = styled('button')`
   padding: ${spacing.regular}px;
   background-color: ${pallet.strawberry};
   border-radius: ${spacing.regular}px;
-  font-family: ${font.family.bold};
   font-size: ${font.size.regular}px;
+  font-weight: ${font.weight.bold};
 
   &:active,
   &:focus,

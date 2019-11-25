@@ -2,7 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { NavLink as BaseNavLink } from 'react-router-dom';
 import { Logo } from './Logo';
-import { sizes, pallet, spacing, animation } from '../../constants/style-guide';
+import { sizes, pallet, spacing, animation, font } from '../../constants/style-guide';
 
 const Wrapper = styled('nav')`
   display: flex;
@@ -15,8 +15,8 @@ const Wrapper = styled('nav')`
 
 const Brand = styled('div')`
   flex-grow: 1;
-  font-family: 'Anton', sans-serif;
   font-size: ${spacing.quadruple}px;
+  font-weight: ${font.weight.black};
   cursor: pointer;
 `;
 
