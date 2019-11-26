@@ -1,5 +1,5 @@
 const express = require('express');
-const { serialize } = require('./utils/db-helpers');
+const { serialize, getConnection } = require('./utils/db-helpers');
 const { sendEmail, serializeForEmail } = require('./utils/email-helpers');
 
 const recipients = ['aric.allen2@gmail.com','celestetretto@gmail.com'];
@@ -9,10 +9,11 @@ const apiRouter = express.Router();
 apiRouter.get('/status', (req, res) => res.send({ status: 'ok' }));
 
 apiRouter.post('/waitlist', async (req, res) => {
-  const { body, db } = req;
+  const { body } = req;
+  const connection = await getConnection();
   const row = serialize(body);
   try {
-    const result = await db.query('INSERT INTO waitlist SET ?', row);
+    const result = await connection.query('INSERT INTO waitlist SET ?', row);
     console.log('inserted!', JSON.stringify(result));
     recipients.forEach((to) => {
       sendEmail({ message: serializeForEmail(row), to, subject: 'Someone Joined the waitlist for Jammin Jams!' });
