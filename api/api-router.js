@@ -19,6 +19,7 @@ apiRouter.post('/waitlist', async (req, res) => {
       sendEmail({ message: serializeForEmail(row), to, subject: 'Someone Joined the waitlist for Jammin Jams!' });
     });
     res.send({ message: 'inserted!' });
+    connection.release();
   } catch (err) {
     res.status(400).send({
       error: err,
