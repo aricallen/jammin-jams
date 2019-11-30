@@ -2,31 +2,9 @@ import React, { useState, useRef, useLayoutEffect } from 'react';
 import styled from '@emotion/styled';
 import { LogoFilled } from '../common/LogoFilled';
 
-// const steps = [{
-//   earBar: 'yellow',
-// }, {
-//   earBar: 'orange',
-// }, {
-//   earBar: 'purple',
-// }, {
-//   earBar: 'red',
-// }];
-
 const Wrapper = styled('div')`
   height: 100%;
 `;
-
-// animation: grooving 0.5s 4;
-// const Logo = styled(LogoFilled, {
-//   shouldForwardProp: p => p !== 'stepIndex',
-// })`
-//   .ear-bar {
-//     fill: ${p => steps[p.stepIndex].earBar};
-//   }
-//   .headband, .ear-bar, .ear-end, .peach {
-//     transition: fill 0.1s ease-in-out;
-//   }
-// `;
 
 const FADE_OUT = 1;
 
@@ -56,22 +34,22 @@ export const Home = ({ history }) => {
 
   const heroRef = useRef();
 
-  // const listenForAnimation = () => {
-  //   heroRef.current.addEventListener('animationend', () => {
-  //     setIsBumping(false);
-  //   });
-  //   heroRef.current.addEventListener('transitionend', () => {
-  //     history.push('/waitlist');
-  //   });
-  // };
+  const listenForAnimation = () => {
+    heroRef.current.addEventListener('animationend', () => {
+      setIsBumping(false);
+    });
+    heroRef.current.addEventListener('transitionend', () => {
+      history.push('/waitlist');
+    });
+  };
 
-  // useLayoutEffect(listenForAnimation, []);
+  useLayoutEffect(listenForAnimation, []);
 
   return (
     <Wrapper>
       <Hero ref={heroRef} className={isBumping ? 'is-bumping' : 'done-bumping'}>
         <LogoWrapper>
-          <LogoFilled />
+          <LogoFilled className="grooving" />
         </LogoWrapper>
       </Hero>
     </Wrapper>

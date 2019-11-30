@@ -21,24 +21,6 @@
   }
 }
 
-@keyframes grooving {
-  0% {
-    fill: #FA5C66; /* strawberry */
-  }
-  5% {
-    fill: #FFC0CB; /* peach */
-  }
-  10% {
-    fill: #F0941C; /* apricot */
-  }
-  20% {
-    fill: #7A7DB5; /* blueberry */
-  }
-  100% {
-    fill: #c41ec4; /* plum */
-  }
-}
-
 @keyframes fade-in {
   0% {
     opacity: 0;
@@ -48,6 +30,73 @@
   }
 }
 
-.headband, .ear-end, .ear-bar, .peach {
-  animation: grooving 0.5s 4;
+@keyframes grooving-ear-end {
+  0% {
+    fill: $strawberry; /* strawberry */
+  }
+  20% {
+    fill: $apricot; /* peach */
+  }
+  30% {
+    fill: $peach; /* apricot */
+  }
+  100% {
+    fill: $peach;
+  }
+}
+
+@keyframes grooving-ear-bar {
+  0% {
+    fill: white;
+  }
+  20% {
+    fill: $strawberry;
+  }
+  50% {
+    fill: $apricot;
+  }
+  75% {
+    fill: $peach;
+  }
+  100% {
+    fill: $peach;
+  }
+}
+
+@keyframes grooving-peach {
+  0% {
+    fill: white;
+  }
+  5% {
+    fill: white;
+  }
+  10% {
+    fill: $strawberry;
+  }
+  20% {
+    fill: $apricot;
+  }
+  100% {
+    fill: $peach;
+  }
+}
+
+$grooving-time: 0.5s 4;
+
+.grooving {
+  .headband {
+    fill: black;
+  }
+  .ear-end {
+    animation: grooving-ear-end $grooving-time;
+    fill: $strawberry;
+  }
+  .ear-bar {
+    animation: grooving-ear-bar $grooving-time;
+    fill: $apricot;
+  }
+  .peach {
+    animation: grooving-peach $grooving-time;
+    fill: $peach;
+  }
 }
