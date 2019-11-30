@@ -53,6 +53,37 @@ module.exports = {
         use: ['babel-loader'],
       },
 
+      {
+        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]',
+              outputPath: 'assets/fonts/'
+            }
+          }
+        ]
+      },
+
+      // css and styles
+      {
+        test: /\.scss$/,
+        use: [
+          // js -> style nodes
+          { loader: 'style-loader' },
+
+          // css -> commonjs
+          { loader: 'css-loader' },
+
+          // resolves relative paths for url(...)
+          { loader: 'resolve-url-loader' },
+
+          // scss -> css
+          { loader: 'sass-loader' },
+        ],
+      },
+
       // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
       {
         enforce: 'pre',

@@ -1,8 +1,9 @@
 export const pallet = {
   blueberry: '#7A7DB5',
   strawberry: '#FA5C66',
-  peach: 'peach',
+  peach: '#FFC0CB',
   apricot: '#F0941C',
+  plum: '#c41ec4',
 };
 
 export const spacing = {

@@ -35,7 +35,7 @@ export const LogoFilled = (props = {}) => {
       <g id="logo-filled-Page-1" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
         <g id="logo-filled-Logo-Filled">
           <g id="logo-filled-Headphones-Outline">
-            <g id="logo-filled-headband-background" className="headband" fill={colors.headband} transform="translate(40.000000, 2.000000)">
+            <g id="logo-filled-headband-background" className="headband" transform="translate(40.000000, 2.000000)" fill="none">
               <path
                 d="M2.67980083e-14,51 C2.36960229,22.5813289 39.5192525,0 85,0 C130.480748,0 167.630398,22.5813289 170,51 L161.091974,51 C155.278304,25.2084505 122.987753,5.47169811 84.0246635,5.47169811 C45.0615737,5.47169811 12.7710227,25.2084505 6.95735309,51 L-1.15463195e-14,51 Z"
                 id="logo-filled-Combined-Shape"
@@ -58,7 +58,7 @@ export const LogoFilled = (props = {}) => {
                 <mask id="logo-filled-mask-2" fill="white">
                   <use xlinkHref="#logo-filled-path-1" />
                 </mask>
-                <use id="logo-filled-Combined-Shape" className="ear-end" fill={colors.earEnd} xlinkHref="#logo-filled-path-1" />
+                <use id="logo-filled-Combined-Shape" className="ear-end" xlinkHref="#logo-filled-path-1" />
               </g>
               <g id="logo-filled-ear-bar" transform="translate(25.000000, 0.000000)" className="ear-bar" fill={colors.earBar}>
                 <path

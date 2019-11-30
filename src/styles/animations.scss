@@ -23,19 +23,19 @@
 
 @keyframes grooving {
   0% {
-    fill: 'yellow';
+    fill: #FA5C66; /* strawberry */
   }
   5% {
-    fill: 'blue';
+    fill: #FFC0CB; /* peach */
   }
   10% {
-    fill: 'orange';
+    fill: #F0941C; /* apricot */
   }
   20% {
-    fill: 'pink';
+    fill: #7A7DB5; /* blueberry */
   }
   100% {
-    fill: 'red';
+    fill: #c41ec4; /* plum */
   }
 }
 
@@ -46,4 +46,8 @@
   100% {
     opacity: 1;
   }
+}
+
+.headband, .ear-end, .ear-bar, .peach {
+  animation: grooving 0.5s 4;
 }

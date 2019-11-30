@@ -47,6 +47,7 @@ const Hero = styled('div')`
 const LogoWrapper = styled('div')`
   height: 256px;
   width: 100%;
+  // animation: bumping 0.5s 4;
   animation: bumping 0.5s 4;
 `;
 
@@ -55,16 +56,16 @@ export const Home = ({ history }) => {
 
   const heroRef = useRef();
 
-  const listenForAnimation = () => {
-    heroRef.current.addEventListener('animationend', () => {
-      setIsBumping(false);
-    });
-    heroRef.current.addEventListener('transitionend', () => {
-      history.push('/waitlist');
-    });
-  };
+  // const listenForAnimation = () => {
+  //   heroRef.current.addEventListener('animationend', () => {
+  //     setIsBumping(false);
+  //   });
+  //   heroRef.current.addEventListener('transitionend', () => {
+  //     history.push('/waitlist');
+  //   });
+  // };
 
-  useLayoutEffect(listenForAnimation, []);
+  // useLayoutEffect(listenForAnimation, []);
 
   return (
     <Wrapper>
