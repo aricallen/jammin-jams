@@ -84,7 +84,8 @@ export const SelectElem = styled(ReactSelect)`
     box-shadow: 0 0 4px ${pallet.strawberry};
   }
   .react-select__option:hover,
-  .react-select__option--is-selected {
+  .react-select__option--is-selected,
+  .react-select__option--is-focused {
     background-color: ${pallet.strawberry};
   }
 `;
