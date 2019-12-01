@@ -1,5 +1,6 @@
 dist/
 build/
+dev-scripts/
 node_modules/
 private/
 *.log
