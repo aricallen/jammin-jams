@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import ReactSelect, { components } from 'react-select';
+import ReactSelect from 'react-select';
 import { spacing, pallet, font } from '../../constants/style-guide';
 
 export const Input = styled('input')`
