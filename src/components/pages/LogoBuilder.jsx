@@ -89,7 +89,6 @@ export const LogoBuilder = () => {
     all: pallet.peach,
   };
   const [colorMap, setColorMap] = useState(defaultColorMap);
-  const svgRef = useRef();
 
   const updateAll = (value) => {
     const newMap = Object.keys(colorMap).reduce((acc, curr) => {
@@ -152,7 +151,7 @@ export const LogoBuilder = () => {
 
         <RightCol>
           <LogoWrapper>
-            <LogoFilled ref={svgRef} colorMap={colorMap} />
+            <LogoFilled colorMap={colorMap} />
           </LogoWrapper>
         </RightCol>
       </Grid>

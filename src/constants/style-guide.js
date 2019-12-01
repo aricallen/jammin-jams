@@ -5,6 +5,7 @@ export const pallet = {
   apricot: '#F0941C',
   plum: '#c41ec4',
   lavender: '#c0c5ff',
+  charcoal: '#323232',
 };
 
 export const spacing = {

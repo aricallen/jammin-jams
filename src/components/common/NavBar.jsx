@@ -59,6 +59,10 @@ const navItems = [
   //   text: 'Store',
   //   path: '/store',
   // },
+  {
+    text: 'Logo Builder',
+    path: '/logo-builder',
+  }
 ];
 
 export const NavBar = () => {
@@ -74,7 +78,7 @@ export const NavBar = () => {
         {navItems.map((item) => (
           <NavItem key={item.path}>
             <NavLink to={item.path} activeStyle={{
-              color: pallet.strawberry,
+              color: pallet.charcoal,
             }}>{item.text}</NavLink>
           </NavItem>
         ))}
