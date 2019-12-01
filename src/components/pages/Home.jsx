@@ -25,7 +25,6 @@ const Hero = styled('div')`
 const LogoWrapper = styled('div')`
   height: 256px;
   width: 100%;
-  // animation: bumping 0.5s 4;
   animation: bumping 0.5s 4;
 `;
 
