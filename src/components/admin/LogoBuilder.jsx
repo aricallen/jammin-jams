@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import { startCase } from 'lodash';
+import { ChromePicker } from 'react-color';
 import { pallet, spacing } from '../../constants/style-guide';
-import { Content, Header1, Paragraph } from '../common/Structure';
+import { Content, Header1 } from '../common/Structure';
 import { Input, Button, Fieldset, Label } from '../common/Forms';
 import { LogoFilled } from '../common/LogoFilled';
 
@@ -25,6 +27,20 @@ const LogoWrapper = styled('div')`
   width: 80%;
 `;
 
+const InputRow = styled('div')`
+  display: flex;
+`;
+
+const Swatch = styled('div')`
+  height: 40px;
+  min-width: 40px;
+  margin-left: ${spacing.double}px;
+  border-radius: ${spacing.regular}px;
+  border: 1px solid black;
+  cursor: pointer;
+  background-color: ${p => p.bg};
+`;
+
 export const LogoBuilder = () => {
   const defaultColorMap = {
     leftEnd: pallet.peach,
@@ -33,11 +49,25 @@ export const LogoBuilder = () => {
     rightBar: pallet.peach,
     rightEnd: pallet.peach,
     peach: pallet.peach,
+    all: pallet.peach,
   };
   const [colorMap, setColorMap] = useState(defaultColorMap);
 
-  const handleChange = (name) => (value) => {
-    setColorMap({ ...colorMap, [name]: value });
+  const updateAll = (event) => {
+    const { value } = event.target;
+    const newMap = Object.keys(colorMap).reduce((acc, curr) => {
+      acc[curr] = value;
+      return acc;
+    }, {});
+    setColorMap(newMap);
+  };
+
+  const handleChange = (name) => (event) => {
+    if (name === 'all') {
+      updateAll(event);
+    } else {
+      setColorMap({ ...colorMap, [name]: event.target.value });
+    }
   };
 
   return (
@@ -45,35 +75,15 @@ export const LogoBuilder = () => {
       <Header1>Build a new Logo!</Header1>
       <Grid>
         <LeftCol>
-          <Fieldset>
-            <Label>Left End</Label>
-            <Input onChange={handleChange('leftEnd')} />
-          </Fieldset>
-
-          <Fieldset>
-            <Label>Left Bar</Label>
-            <Input onChange={handleChange('leftBar')} />
-          </Fieldset>
-
-          <Fieldset>
-            <Label>Right End</Label>
-            <Input onChange={handleChange('rightEnd')} />
-          </Fieldset>
-
-          <Fieldset>
-            <Label>Right Bar</Label>
-            <Input onChange={handleChange('rightBar')} />
-          </Fieldset>
-
-          <Fieldset>
-            <Label>Headband</Label>
-            <Input onChange={handleChange('headband')} />
-          </Fieldset>
-
-          <Fieldset>
-            <Label>Peach</Label>
-            <Input onChange={handleChange('peach')} />
-          </Fieldset>
+          {Object.keys(colorMap).map((colorKey) => (
+            <Fieldset>
+              <Label>{startCase(colorKey)}</Label>
+              <InputRow>
+                <Input onChange={handleChange(colorKey)} />
+                <Swatch bg={colorMap[colorKey]} />
+              </InputRow>
+            </Fieldset>
+          ))}
 
           <Button onClick={() => console.log('colors', colorMap)}>Export Logo</Button>
         </LeftCol>
