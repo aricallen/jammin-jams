@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import Color from 'color';
 import axios from 'axios';
 import styled from '@emotion/styled';
 import { Input, Button, Fieldset, Label, FormError } from '../common/Forms';
 import { spacing, ScreenSizes, pallet } from '../../constants/style-guide';
 import { media } from '../../utils/media';
+import { loginUser } from '../../redux/session/actions';
 
 const Wrapper = styled('div')`
   width: 100%;
@@ -34,6 +36,7 @@ const ButtonWrapper = styled('div')`
 export const Login = ({ history }) => {
   const [values, setValues] = useState({});
   const [error, setError] = useState();
+  const dispatch = useDispatch();
 
   const handleChange = name => event => {
     setValues({ ...values, [name]: event.target.value });
@@ -41,12 +44,8 @@ export const Login = ({ history }) => {
 
   const handleSubmit = async () => {
     try {
-      const response = await axios.post('/api/login', values);
-      if (!response || !response.data) {
-        setError('Invalid credentials');
-      } else {
-        history.push('/logo-builder');
-      }
+      await dispatch(loginUser(values));
+      history.push('/logo-builder');
     } catch (err) {
       if (err.response.status === 401) {
         setError('Invalid credentials');
@@ -54,6 +53,15 @@ export const Login = ({ history }) => {
         setError('Unable to login: unknown error');
       }
     }
+    // try {
+    //   const response = await axios.post('/api/login', values);
+    //   if (!response || !response.data) {
+    //     setError('Invalid credentials');
+    //   } else {
+    //     history.push('/logo-builder');
+    //   }
+    // } catch (err) {
+    // }
   };
 
   return (
