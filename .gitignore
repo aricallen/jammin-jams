@@ -1,12 +1,12 @@
+# dev artificats
 dist/
 build/
 dev-scripts/
 node_modules/
-private/
 *.log
 .vscode/
-yarn.lock
-data/
+
+# sensitive stuffs
 .env
 .env*
-tmp/
+api/controllers/login.js

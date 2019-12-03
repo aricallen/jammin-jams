@@ -59,10 +59,14 @@ const navItems = [
   //   text: 'Store',
   //   path: '/store',
   // },
+  // {
+  //   text: 'Logo Builder',
+  //   path: '/logo-builder',
+  // }
   {
-    text: 'Logo Builder',
-    path: '/logo-builder',
-  }
+    text: 'Login',
+    path: '/login',
+  },
 ];
 
 export const NavBar = () => {
@@ -75,11 +79,16 @@ export const NavBar = () => {
         </NavLink>
       </Brand>
       <NavList>
-        {navItems.map((item) => (
+        {navItems.map(item => (
           <NavItem key={item.path}>
-            <NavLink to={item.path} activeStyle={{
-              color: pallet.charcoal,
-            }}>{item.text}</NavLink>
+            <NavLink
+              to={item.path}
+              activeStyle={{
+                color: pallet.charcoal,
+              }}
+            >
+              {item.text}
+            </NavLink>
           </NavItem>
         ))}
       </NavList>

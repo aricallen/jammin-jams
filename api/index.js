@@ -2,7 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
-const { router } = require('./routers');
+const { router } = require('./routers/main');
 const { notify } = require('./middleware/notify');
 
 const app = express();

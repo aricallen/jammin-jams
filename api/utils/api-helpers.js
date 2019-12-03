@@ -13,7 +13,7 @@ const checkReadonly = (req, res, next) => {
   if (readonlyRoutes.includes(tableName) && method !== 'GET') {
     return res.send({
       error: 'unauthorized',
-      message: 'attempted to edit a readonly resource',
+      message: `attempted to ${method} a readonly resource`,
     });
   }
   next();

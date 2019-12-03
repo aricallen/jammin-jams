@@ -7,6 +7,7 @@ import { Store } from './pages/Store';
 import { Waitlist } from './pages/Waitlist';
 import { ThankYou } from './pages/ThankYou';
 import { LogoBuilder } from './pages/LogoBuilder';
+import { Login } from './pages/Login';
 
 import { NavBar } from './common/NavBar';
 import { Footer } from './common/Footer';
@@ -26,6 +27,7 @@ export function App() {
         <NavBar />
         <Content>
           <Switch>
+            <Route exact path="/login" component={Login} />
             <Route exact path="/store" component={Store} />
             <Route exact path="/about" component={About} />
             <Route exact path="/waitlist" component={Waitlist} />
