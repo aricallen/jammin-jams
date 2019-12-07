@@ -8,7 +8,7 @@ const meta = (state = initialMeta, action) => {
     case Type.LOGIN_REQUEST:
       return { ...state, isFetching: true };
     case Type.LOGIN_FAILURE:
-      return { ...state, error: action.error };
+      return { ...state, error: action.error, isFetching: false };
     default:
       return { ...state, isFetching: false };
   }

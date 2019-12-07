@@ -1,6 +1,10 @@
 import React from 'react';
+import { omit } from 'lodash';
 
 export const Spinner = (props = {}) => {
+  const fill = props.fill || '#FFFFFF';
+  const otherProps = omit(props, 'fill');
+
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -15,7 +19,7 @@ export const Spinner = (props = {}) => {
       height="1em"
       viewBox="0 0 100 100"
       preserveAspectRatio="xMidYMid"
-      {...props}
+      {...otherProps}
     >
       <defs>
         <filter
@@ -43,7 +47,7 @@ export const Spinner = (props = {}) => {
         />
         <g transform="rotate(260.688 50 50)">
           <g transform="translate(50 20)">
-            <circle cx="0" cy="0" r="0" fill="#FFFFFF" transform="scale(0.5)" />
+            <circle cx="0" cy="0" r="0" fill={fill} transform="scale(0.5)" />
           </g>
           <animateTransform
             attributeName="transform"
@@ -58,7 +62,7 @@ export const Spinner = (props = {}) => {
         </g>
         <g transform="rotate(278.538 50 50)">
           <g transform="translate(50 20)">
-            <circle cx="0" cy="0" r="1" fill="#FFFFFF" transform="scale(0.5)" />
+            <circle cx="0" cy="0" r="1" fill={fill} transform="scale(0.5)" />
           </g>
           <animateTransform
             attributeName="transform"
@@ -73,7 +77,7 @@ export const Spinner = (props = {}) => {
         </g>
         <g transform="rotate(293.018 50 50)">
           <g transform="translate(50 20)">
-            <circle cx="0" cy="0" r="2" fill="#FFFFFF" transform="scale(0.5)" />
+            <circle cx="0" cy="0" r="2" fill={fill} transform="scale(0.5)" />
           </g>
           <animateTransform
             attributeName="transform"
@@ -88,7 +92,7 @@ export const Spinner = (props = {}) => {
         </g>
         <g transform="rotate(304.443 50 50)">
           <g transform="translate(50 20)">
-            <circle cx="0" cy="0" r="3" fill="#FFFFFF" transform="scale(0.5)" />
+            <circle cx="0" cy="0" r="3" fill={fill} transform="scale(0.5)" />
           </g>
           <animateTransform
             attributeName="transform"
@@ -103,7 +107,7 @@ export const Spinner = (props = {}) => {
         </g>
         <g transform="rotate(313.395 50 50)">
           <g transform="translate(50 20)">
-            <circle cx="0" cy="0" r="4" fill="#FFFFFF" transform="scale(0.5)" />
+            <circle cx="0" cy="0" r="4" fill={fill} transform="scale(0.5)" />
           </g>
           <animateTransform
             attributeName="transform"
@@ -118,7 +122,7 @@ export const Spinner = (props = {}) => {
         </g>
         <g transform="rotate(320.442 50 50)">
           <g transform="translate(50 20)">
-            <circle cx="0" cy="0" r="5" fill="#FFFFFF" transform="scale(0.5)" />
+            <circle cx="0" cy="0" r="5" fill={fill} transform="scale(0.5)" />
           </g>
           <animateTransform
             attributeName="transform"
@@ -133,7 +137,7 @@ export const Spinner = (props = {}) => {
         </g>
         <g transform="rotate(326.046 50 50)">
           <g transform="translate(50 20)">
-            <circle cx="0" cy="0" r="6" fill="#FFFFFF" transform="scale(0.5)" />
+            <circle cx="0" cy="0" r="6" fill={fill} transform="scale(0.5)" />
           </g>
           <animateTransform
             attributeName="transform"
@@ -148,7 +152,7 @@ export const Spinner = (props = {}) => {
         </g>
         <g transform="rotate(330.555 50.0001 50)">
           <g transform="translate(50 20)">
-            <circle cx="0" cy="0" r="7" fill="#FFFFFF" transform="scale(0.5)" />
+            <circle cx="0" cy="0" r="7" fill={fill} transform="scale(0.5)" />
           </g>
           <animateTransform
             attributeName="transform"
@@ -163,7 +167,7 @@ export const Spinner = (props = {}) => {
         </g>
         <g transform="rotate(334.23 50 50)">
           <g transform="translate(50 20)">
-            <circle cx="0" cy="0" r="8" fill="#FFFFFF" transform="scale(0.5)" />
+            <circle cx="0" cy="0" r="8" fill={fill} transform="scale(0.5)" />
           </g>
           <animateTransform
             attributeName="transform"
@@ -178,7 +182,7 @@ export const Spinner = (props = {}) => {
         </g>
         <g transform="rotate(337.259 50.0001 50)">
           <g transform="translate(50 20)">
-            <circle cx="0" cy="0" r="9" fill="#FFFFFF" transform="scale(0.5)" />
+            <circle cx="0" cy="0" r="9" fill={fill} transform="scale(0.5)" />
           </g>
           <animateTransform
             attributeName="transform"
@@ -193,7 +197,7 @@ export const Spinner = (props = {}) => {
         </g>
         <g transform="rotate(339.784 50.0001 50)">
           <g transform="translate(50 20)">
-            <circle cx="0" cy="0" r="10" fill="#FFFFFF" transform="scale(0.5)" />
+            <circle cx="0" cy="0" r="10" fill={fill} transform="scale(0.5)" />
           </g>
           <animateTransform
             attributeName="transform"
@@ -208,7 +212,7 @@ export const Spinner = (props = {}) => {
         </g>
         <g transform="rotate(341.91 50.0001 50.0001)">
           <g transform="translate(50 20)">
-            <circle cx="0" cy="0" r="11" fill="#FFFFFF" transform="scale(0.5)" />
+            <circle cx="0" cy="0" r="11" fill={fill} transform="scale(0.5)" />
           </g>
           <animateTransform
             attributeName="transform"
@@ -223,7 +227,7 @@ export const Spinner = (props = {}) => {
         </g>
         <g transform="rotate(343.716 50 50)">
           <g transform="translate(50 20)">
-            <circle cx="0" cy="0" r="12" fill="#FFFFFF" transform="scale(0.5)" />
+            <circle cx="0" cy="0" r="12" fill={fill} transform="scale(0.5)" />
           </g>
           <animateTransform
             attributeName="transform"
@@ -238,7 +242,7 @@ export const Spinner = (props = {}) => {
         </g>
         <g transform="rotate(345.263 49.9999 50)">
           <g transform="translate(50 20)">
-            <circle cx="0" cy="0" r="13" fill="#FFFFFF" transform="scale(0.5)" />
+            <circle cx="0" cy="0" r="13" fill={fill} transform="scale(0.5)" />
           </g>
           <animateTransform
             attributeName="transform"
@@ -253,7 +257,7 @@ export const Spinner = (props = {}) => {
         </g>
         <g transform="rotate(346.599 50.0001 50)">
           <g transform="translate(50 20)">
-            <circle cx="0" cy="0" r="14" fill="#FFFFFF" transform="scale(0.5)" />
+            <circle cx="0" cy="0" r="14" fill={fill} transform="scale(0.5)" />
           </g>
           <animateTransform
             attributeName="transform"
@@ -268,7 +272,7 @@ export const Spinner = (props = {}) => {
         </g>
         <g transform="rotate(347.76 50 50)">
           <g transform="translate(50 20)">
-            <circle cx="0" cy="0" r="15" fill="#FFFFFF" transform="scale(0.5)" />
+            <circle cx="0" cy="0" r="15" fill={fill} transform="scale(0.5)" />
           </g>
           <animateTransform
             attributeName="transform"
@@ -283,7 +287,7 @@ export const Spinner = (props = {}) => {
         </g>
         <g transform="rotate(348.776 50 50)">
           <g transform="translate(50 20)">
-            <circle cx="0" cy="0" r="16" fill="#FFFFFF" transform="scale(0.5)" />
+            <circle cx="0" cy="0" r="16" fill={fill} transform="scale(0.5)" />
           </g>
           <animateTransform
             attributeName="transform"
@@ -298,7 +302,7 @@ export const Spinner = (props = {}) => {
         </g>
         <g transform="rotate(349.67 50.0002 50.0001)">
           <g transform="translate(50 20)">
-            <circle cx="0" cy="0" r="17" fill="#FFFFFF" transform="scale(0.5)" />
+            <circle cx="0" cy="0" r="17" fill={fill} transform="scale(0.5)" />
           </g>
           <animateTransform
             attributeName="transform"
@@ -313,7 +317,7 @@ export const Spinner = (props = {}) => {
         </g>
         <g transform="rotate(350.46 50 50)">
           <g transform="translate(50 20)">
-            <circle cx="0" cy="0" r="18" fill="#FFFFFF" transform="scale(0.5)" />
+            <circle cx="0" cy="0" r="18" fill={fill} transform="scale(0.5)" />
           </g>
           <animateTransform
             attributeName="transform"
@@ -328,7 +332,7 @@ export const Spinner = (props = {}) => {
         </g>
         <g transform="rotate(351.163 50 50)">
           <g transform="translate(50 20)">
-            <circle cx="0" cy="0" r="19" fill="#FFFFFF" transform="scale(0.5)" />
+            <circle cx="0" cy="0" r="19" fill={fill} transform="scale(0.5)" />
           </g>
           <animateTransform
             attributeName="transform"
