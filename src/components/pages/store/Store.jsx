@@ -28,7 +28,7 @@ const products = [
   },
 ];
 
-const ProductWrapper = styled('div')`
+const Wrapper = styled('div')`
   width: 50%;
   ${media.max(ScreenSizes.TABLET)} {
     width: 80%;
@@ -50,15 +50,17 @@ export const Store = () => {
       <Section>Choose a frequency and quantity by selecting a square below.</Section>
 
       <Section>
-        <ProductWrapper>
+        <Wrapper>
           <ProductPicker products={normalized} onSelect={setSelectedProduct} />
-        </ProductWrapper>
+        </Wrapper>
       </Section>
 
       {selectedProduct.id ? (
         <Section>
-          <Header2>Delivery</Header2>
-          <AddressForm />
+          <Wrapper>
+            <Header2>Delivery</Header2>
+            <AddressForm />
+          </Wrapper>
         </Section>
       ) : null}
     </Content>

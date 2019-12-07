@@ -2,43 +2,75 @@ const schema = {
   name: 'addresses',
   fields: [
     {
-      name: 'address',
-      type: 'text',
-      required: true,
-      placeholder: '123 Jam Dr.',
-      value: '',
+      attrs: {
+        name: 'address',
+        required: true,
+        placeholder: '123 Jam Dr.',
+      },
+      props: {
+        label: 'Address',
+        type: 'text',
+      },
     },
     {
-      name: 'address2',
-      type: 'text',
-      required: false,
-      placeholder: 'Unit B',
+      attrs: {
+        name: 'address2',
+        required: false,
+        placeholder: 'Unit B',
+      },
+      props: {
+        type: 'text',
+        label: 'Address 2',
+      },
     },
     {
-      name: 'zipCode',
-      type: 'text',
-      required: true,
-      placeholder: '98765',
+      attrs: {
+        name: 'zipCode',
+        required: true,
+        placeholder: '98765',
+      },
+      props: {
+        type: 'text',
+        label: 'Zip Code',
+      },
     },
     {
-      name: 'city',
-      type: 'text',
-      required: true,
-      placeholder: 'Awesomeville',
+      attrs: {
+        name: 'city',
+        required: true,
+        placeholder: 'Awesomeville',
+      },
+      props: {
+        type: 'text',
+        label: 'City',
+      },
     },
     {
-      name: 'state',
-      type: 'text',
-      required: true,
-      placeholder: 'CA',
+      attrs: {
+        name: 'state',
+        required: true,
+        placeholder: 'CA',
+      },
+      props: {
+        type: 'text',
+        label: 'State',
+      },
     },
-    {
-      name: 'country',
-      type: 'text',
-      required: true,
-      placeholder: 'USA',
-      value: 'USA',
-    },
+    // {
+    //   attrs: {
+    //     name: 'country',
+    //     required: true,
+    //   },
+    //   props: {
+    //     type: 'select',
+    //     label: 'Country',
+    //     options: [{
+    //       label: 'USA',
+    //       value: 'USA',
+    //     }],
+    //     value: {},
+    //   }
+    // },
   ],
 };
 

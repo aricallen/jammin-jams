@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import { omit } from 'lodash';
 import ReactSelect from 'react-select';
 import { spacing, pallet, font } from '../../constants/style-guide';
 
@@ -73,6 +74,7 @@ export const SelectElem = styled(ReactSelect)`
   }
 `;
 
-export const Select = props => {
-  return <SelectElem {...props} classNamePrefix="react-select" />;
+export const Select = (props) => {
+  const otherProps = omit(props, ['innerRef']);
+  return <SelectElem {...otherProps} ref={props.innerRef} classNamePrefix="react-select" />;
 };

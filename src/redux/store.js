@@ -11,7 +11,9 @@ if (process.env.TARGET_ENV !== 'production') {
 }
 
 function configureStore(initialState = {}) {
-  const devEnhancer = window.devToolsExtension ? window.devToolsExtension() : f => f;
+  const devEnhancer = window.__REDUX_DEVTOOLS_EXTENSION__
+    ? window.__REDUX_DEVTOOLS_EXTENSION__()
+    : (f) => f;
   const store = createStore(
     rootReducer,
     initialState,

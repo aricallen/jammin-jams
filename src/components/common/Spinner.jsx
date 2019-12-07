@@ -3,7 +3,8 @@ import { omit } from 'lodash';
 
 export const Spinner = (props = {}) => {
   const fill = props.fill || '#FFFFFF';
-  const otherProps = omit(props, 'fill');
+  const backgroundColor = props.backgroundColor || 'transparent';
+  const otherProps = omit(props, ['fill', 'background']);
 
   return (
     <svg
@@ -11,7 +12,7 @@ export const Spinner = (props = {}) => {
       xmlnsXlink="http://www.w3.org/1999/xlink"
       style={{
         margin: 'auto',
-        background: 'transparent',
+        background: backgroundColor,
         display: 'block',
         shapeRendering: 'auto',
       }}
