@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import useForm from 'react-hook-form';
 import { Input, FormError, Fieldset, Label, Form, Select } from './Forms';
 import { Button } from './Button';
@@ -11,32 +11,37 @@ const FieldType = {
 };
 
 const renderSelect = (props) => {
-  const { field, register, onChange, values } = props;
-  const value = values[field.attrs.name];
+  const { field, hookForm } = props;
+  const { setValue, getValues, register } = hookForm;
+  const { name } = field.attrs;
+  // custom register
+  register({ name, type: 'custom' }, { required: 'This field is required' });
+  const values = getValues();
+  const value = values[name];
   const valueOption = field.props.options.find((o) => o.value === value);
+
+  const onSelect = (selectedOption) => {
+    setValue(name, selectedOption.value);
+  };
+
   return (
     <Select
       {...field.attrs}
-      name={field.attrs.name}
+      name={name}
       options={field.props.options}
-      onChange={onChange}
+      onChange={onSelect}
       value={valueOption}
-      innerRef={register({
-        required: field.attrs.required,
-      })}
     />
   );
 };
 
 const renderInput = (props) => {
-  const { field, register, onChange, values } = props;
-  const value = values[field.attrs.name];
+  const { field, hookForm } = props;
+  const { register } = hookForm;
   return (
     <Input
       {...props.field.attrs}
-      ref={register({ required: field.attrs.required })}
-      onChange={onChange}
-      value={value || ''}
+      ref={register({ required: field.attrs.required ? 'This field is required' : false })}
     />
   );
 };
@@ -51,36 +56,26 @@ const renderFieldComp = (props) => {
   }
 };
 
-const SchemaField = ({ field, errors, register, onChange, values }) => {
+const SchemaField = (props) => {
+  const { field, hookForm } = props;
+  const { errors } = hookForm;
   return (
     <Fieldset className={field.attrs.required ? 'required' : null}>
       <Label>{field.props.label}</Label>
-      {renderFieldComp({ field, register, onChange, values })}
+      {renderFieldComp(props)}
       {errors[field.attrs.name] && <FormError>This field is required.</FormError>}
     </Fieldset>
   );
 };
 
 export const SchemaForm = ({ schema, onSubmit }) => {
-  const { handleSubmit, errors, register } = useForm();
-  const [values, setValues] = useState({});
-
-  const handleChange = (name) => (event) => {
-    const { value } = event.target;
-    setValues({ ...values, [name]: value });
-  };
+  const hookForm = useForm();
+  const { handleSubmit } = hookForm;
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
       {schema.fields.map((field) => (
-        <SchemaField
-          key={field.attrs.name}
-          field={field}
-          errors={errors}
-          register={register}
-          onChange={handleChange(field.attrs.name)}
-          values={values}
-        />
+        <SchemaField key={field.attrs.name} hookForm={hookForm} field={field} />
       ))}
       <Button>Submit</Button>
     </Form>

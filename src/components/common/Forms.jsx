@@ -75,6 +75,6 @@ export const SelectElem = styled(ReactSelect)`
 `;
 
 export const Select = (props) => {
-  const otherProps = omit(props, ['innerRef']);
-  return <SelectElem {...otherProps} ref={props.innerRef} classNamePrefix="react-select" />;
+  const otherProps = omit(props, ['required']);
+  return <SelectElem {...otherProps} classNamePrefix="react-select" />;
 };

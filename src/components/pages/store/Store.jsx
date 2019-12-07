@@ -44,6 +44,10 @@ export const Store = () => {
     isSelected: product.label === selectedProduct.label,
   }));
 
+  const onSubmit = (values) => {
+    console.log('submitting', values);
+  };
+
   return (
     <Content>
       <Header1>Subscribe for a truly unique jam experience!</Header1>
@@ -59,7 +63,7 @@ export const Store = () => {
         <Section>
           <Wrapper>
             <Header2>Delivery</Header2>
-            <AddressForm />
+            <AddressForm onSubmit={onSubmit} />
           </Wrapper>
         </Section>
       ) : null}

@@ -56,21 +56,23 @@ const schema = {
         label: 'State',
       },
     },
-    // {
-    //   attrs: {
-    //     name: 'country',
-    //     required: true,
-    //   },
-    //   props: {
-    //     type: 'select',
-    //     label: 'Country',
-    //     options: [{
-    //       label: 'USA',
-    //       value: 'USA',
-    //     }],
-    //     value: {},
-    //   }
-    // },
+    {
+      attrs: {
+        name: 'country',
+        required: true,
+      },
+      props: {
+        type: 'select',
+        label: 'Country',
+        options: [
+          {
+            label: 'USA',
+            value: 'USA',
+          },
+        ],
+        value: {},
+      },
+    },
   ],
 };
 

@@ -4,7 +4,8 @@ import { Spinner } from '../../common/Spinner';
 import { SchemaForm } from '../../common/SchemaForm';
 import { fetchSchema } from '../../../redux/schemas/actions';
 
-export const AddressForm = () => {
+export const AddressForm = (props) => {
+  const { onSubmit } = props;
   const dispatch = useDispatch();
 
   const schemaState = useSelector((state) => state.schemas);
@@ -14,7 +15,5 @@ export const AddressForm = () => {
   if (schemaState.meta.isFetching || !schemaState.data.addresses) {
     return <Spinner />;
   }
-  return (
-    <SchemaForm schema={schemaState.data.addresses} onSubmit={() => console.log('submitting')} />
-  );
+  return <SchemaForm schema={schemaState.data.addresses} onSubmit={onSubmit} />;
 };
