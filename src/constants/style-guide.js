@@ -3,8 +3,8 @@ export const pallet = {
   strawberry: '#FA5C66',
   peach: '#FFC0CB',
   apricot: '#F0941C',
-  plum: '#c41ec4',
-  lavender: '#c0c5ff',
+  plum: '#C41EC4',
+  babyBlue: '#D2EFF7',
   charcoal: '#323232',
 };
 

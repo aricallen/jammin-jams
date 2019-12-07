@@ -55,18 +55,18 @@ const navItems = [
   //   text: 'About',
   //   path: '/about',
   // },
-  // {
-  //   text: 'Store',
-  //   path: '/store',
-  // },
+  {
+    text: 'Store',
+    path: '/store',
+  },
   // {
   //   text: 'Logo Builder',
   //   path: '/logo-builder',
   // }
-  {
-    text: 'Login',
-    path: '/login',
-  },
+  // {
+  //   text: 'Login',
+  //   path: '/login',
+  // },
 ];
 
 export const NavBar = () => {
