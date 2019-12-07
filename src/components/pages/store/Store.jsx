@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { Content, Header1, Section } from '../../common/Structure';
+import { Content, Header1, Section, Header2 } from '../../common/Structure';
 import { ProductPicker } from './ProductPicker';
+import { AddressForm } from './AddressForm';
 import { media } from '../../../utils/media';
 import { ScreenSizes } from '../../../constants/style-guide';
 
 const products = [
   {
-    label: 'Quantity / Frequency',
+    label: 'Frequency / Quantity',
     text: '1 Jar',
   },
   {
@@ -27,7 +28,7 @@ const products = [
   },
 ];
 
-const Wrapper = styled('div')`
+const ProductWrapper = styled('div')`
   width: 50%;
   ${media.max(ScreenSizes.TABLET)} {
     width: 80%;
@@ -49,10 +50,17 @@ export const Store = () => {
       <Section>Choose a frequency and quantity by selecting a square below.</Section>
 
       <Section>
-        <Wrapper>
+        <ProductWrapper>
           <ProductPicker products={normalized} onSelect={setSelectedProduct} />
-        </Wrapper>
+        </ProductWrapper>
       </Section>
+
+      {selectedProduct.id ? (
+        <Section>
+          <Header2>Delivery</Header2>
+          <AddressForm />
+        </Section>
+      ) : null}
     </Content>
   );
 };
