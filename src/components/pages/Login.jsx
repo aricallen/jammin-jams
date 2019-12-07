@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import Color from 'color';
-import axios from 'axios';
 import styled from '@emotion/styled';
-import { Input, Button, Fieldset, Label, FormError } from '../common/Forms';
+import { Input, Fieldset, Label, FormError } from '../common/Forms';
+import { Button } from '../common/Button';
 import { spacing, ScreenSizes, pallet } from '../../constants/style-guide';
 import { media } from '../../utils/media';
 import { loginUser } from '../../redux/session/actions';
@@ -35,8 +35,10 @@ const ButtonWrapper = styled('div')`
 
 export const Login = ({ history }) => {
   const [values, setValues] = useState({});
-  const [error, setError] = useState();
+  const loginError = useSelector(state => state.session.meta.error);
+  const isFetching = useSelector(state => state.session.meta.isFetching);
   const dispatch = useDispatch();
+  const errorMessage = loginError && loginError.message;
 
   const handleChange = name => event => {
     setValues({ ...values, [name]: event.target.value });
@@ -47,21 +49,8 @@ export const Login = ({ history }) => {
       await dispatch(loginUser(values));
       history.push('/logo-builder');
     } catch (err) {
-      if (err.response.status === 401) {
-        setError('Invalid credentials');
-      } else {
-        setError('Unable to login: unknown error');
-      }
+      console.error(err);
     }
-    // try {
-    //   const response = await axios.post('/api/login', values);
-    //   if (!response || !response.data) {
-    //     setError('Invalid credentials');
-    //   } else {
-    //     history.push('/logo-builder');
-    //   }
-    // } catch (err) {
-    // }
   };
 
   return (
@@ -75,7 +64,7 @@ export const Login = ({ history }) => {
         >
           <Fieldset>
             <Label>Email</Label>
-            <Input onChange={handleChange('email')} />
+            <Input type="email" onChange={handleChange('email')} />
           </Fieldset>
 
           <Fieldset>
@@ -83,10 +72,10 @@ export const Login = ({ history }) => {
             <Input type="password" onChange={handleChange('password')} />
           </Fieldset>
 
-          {error && <FormError>{error}</FormError>}
+          {errorMessage && <FormError>{errorMessage}</FormError>}
 
           <ButtonWrapper>
-            <Button onClick={handleSubmit}>Log in</Button>
+            <Button isBusy={isFetching}>Log in</Button>
           </ButtonWrapper>
         </LoginForm>
       </LoginWrapper>

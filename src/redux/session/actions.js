@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { parseAxiosError } from '../utils/error';
 
 export const Type = {
   LOGIN_REQUEST: 'session/LOGIN_REQUEST',
@@ -15,7 +16,7 @@ export const loginUser = ({ email, password }) => {
       dispatch({ type: Type.LOGIN_SUCCESS, user });
       return user;
     } catch (err) {
-      dispatch({ type: Type.LOGIN_FAILURE, error: err });
+      dispatch({ type: Type.LOGIN_FAILURE, error: parseAxiosError(err) });
       throw err;
     }
   };

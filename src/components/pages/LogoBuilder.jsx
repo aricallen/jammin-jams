@@ -5,7 +5,8 @@ import Popover, { ArrowContainer } from 'react-tiny-popover';
 import { ChromePicker } from 'react-color';
 import { pallet, spacing } from '../../constants/style-guide';
 import { Content, Header1 } from '../common/Structure';
-import { Input, Button, Fieldset, Label } from '../common/Forms';
+import { Input, Fieldset, Label } from '../common/Forms';
+import { Button } from '../common/Button';
 import { LogoFilled } from '../common/LogoFilled';
 
 const Grid = styled('div')`

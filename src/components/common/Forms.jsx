@@ -14,7 +14,7 @@ export const Input = styled('input')`
   &:focus-within,
   &:hover {
     outline: none;
-    box-shadow: 0 0 4px ${pallet.strawberry}
+    box-shadow: 0 0 4px ${pallet.strawberry};
   }
 `;
 
@@ -23,7 +23,7 @@ export const Fieldset = styled('fieldset')`
   &.required {
     label::after {
       color: red;
-      content: " *";
+      content: ' *';
     }
   }
 `;
@@ -31,23 +31,6 @@ export const Fieldset = styled('fieldset')`
 export const Label = styled('label')`
   display: block;
   margin-bottom: ${spacing.regular}px;
-`;
-
-export const Button = styled('button')`
-  cursor: pointer;
-  padding: ${spacing.regular}px;
-  background-color: ${pallet.strawberry};
-  border-radius: ${spacing.regular}px;
-  font-size: ${font.size.regular}px;
-  font-weight: ${font.weight.bold};
-
-  &:active,
-  &:focus,
-  &:focus-within,
-  &:hover {
-    outline: none;
-    box-shadow: 0 0 4px ${pallet.strawberry}
-  }
 `;
 
 export const Form = styled('form')``;
@@ -67,7 +50,7 @@ export const SelectElem = styled(ReactSelect)`
   &:focus-within,
   &:hover {
     outline: none;
-    box-shadow: 0 0 4px ${pallet.strawberry}
+    box-shadow: 0 0 4px ${pallet.strawberry};
   }
   .react-select__control,
   .react-select__control:active,
@@ -90,11 +73,6 @@ export const SelectElem = styled(ReactSelect)`
   }
 `;
 
-export const Select = (props) => {
-  return (
-    <SelectElem
-      {...props}
-      classNamePrefix="react-select"
-    />
-  );
+export const Select = props => {
+  return <SelectElem {...props} classNamePrefix="react-select" />;
 };

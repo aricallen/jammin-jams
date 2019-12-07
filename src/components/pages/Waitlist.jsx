@@ -3,9 +3,11 @@ import qs from 'query-string';
 import styled from '@emotion/styled';
 import useForm from 'react-hook-form';
 import { Content, Header1, Section, Paragraph, Emphasis, Emoji } from '../common/Structure';
-import { Input, FormError, Fieldset, Label, Form, Select, Button as BaseButton } from '../common/Forms';
-import { animation, spacing } from '../../constants/style-guide';
+import { Input, FormError, Fieldset, Label, Form, Select } from '../common/Forms';
+import { Button as BaseButton } from '../common/Button';
+import { animation, spacing, ScreenSizes } from '../../constants/style-guide';
 import { addToWaitlist } from '../../services/adapter';
+import { media } from '../../utils/media';
 
 const ContentWrapper = styled(Content)`
   margin: 0 auto;
@@ -14,7 +16,7 @@ const ContentWrapper = styled(Content)`
 `;
 
 const FormWrapper = styled('div')`
-  @media (min-width: 1024px) {
+  ${media.min(ScreenSizes.TABLET)} {
     width: 50%;
   }
   &.is-hidden {
@@ -36,11 +38,7 @@ const SubmitButton = styled(BaseButton)`
   margin-top: ${spacing.double}px;
 `;
 
-const FREQUENCIES = [
-  'Once a month',
-  'Once a quarter',
-  'Not sure / It depends',
-];
+const FREQUENCIES = ['Once a month', 'Once a quarter', 'Not sure / It depends'];
 
 const PAIRED_WITH = [
   'Cheeses',
@@ -57,9 +55,9 @@ export const Waitlist = ({ history, location }) => {
   const [selectValues, setSelectValues] = useState({});
   const { handleSubmit, errors, register } = useForm();
 
-  const handleChange = (name) => (value) => {
+  const handleChange = name => value => {
     if (Array.isArray(value)) {
-      const serialized = value.map((option) => option.value).join(', ');
+      const serialized = value.map(option => option.value).join(', ');
       setSelectValues({
         ...selectValues,
         [name]: serialized,
@@ -72,7 +70,7 @@ export const Waitlist = ({ history, location }) => {
     }
   };
 
-  const onSubmit = async (values) => {
+  const onSubmit = async values => {
     console.log(values);
     try {
       await addToWaitlist({
@@ -85,30 +83,36 @@ export const Waitlist = ({ history, location }) => {
     }
   };
 
-  const frequencyOptions = FREQUENCIES.map((value) => ({
+  const frequencyOptions = FREQUENCIES.map(value => ({
     label: value,
     value,
   }));
 
-  const pairedOptions = PAIRED_WITH.map((value) => ({
+  const pairedOptions = PAIRED_WITH.map(value => ({
     label: value,
     value,
   }));
 
   return (
     <ContentWrapper>
-      <Header1>Welcome to Jammin&apos; Jams! We are <Emphasis>so stoked</Emphasis> that you are here.</Header1>
+      <Header1>
+        Welcome to Jammin&apos; Jams! We are <Emphasis>so stoked</Emphasis> that you are here.
+      </Header1>
       <Section>
         <Paragraph>
-          We created Jammin&apos; Jams with the intent of celebrating all that is happy in life by doing what we love.
-          Jam invites us to live in the present moment. We aim to transform the best seasonal fruits into sweet-tart-oh-so-tasty jam through the power of high heat and bass.
-          At Jammin&apos; Jams, we firmly believe that fun and passion can be tasted. This is why we will always play a live DJ set while making jam in our home kitchen.
-          We keep our hearts pumping and our jams jammin&apos; with funky techno beats, and we hope you’ll do the same!
+          We created Jammin&apos; Jams with the intent of celebrating all that is happy in life by
+          doing what we love. Jam invites us to live in the present moment. We aim to transform the
+          best seasonal fruits into sweet-tart-oh-so-tasty jam through the power of high heat and
+          bass. At Jammin&apos; Jams, we firmly believe that fun and passion can be tasted. This is
+          why we will always play a live DJ set while making jam in our home kitchen. We keep our
+          hearts pumping and our jams jammin&apos; with funky techno beats, and we hope you’ll do
+          the same!
         </Paragraph>
         <Paragraph>
-          We&apos;re just getting started with this thrilling adventure and would love for you to join us on this crazy ride.
-          Please fill out the brief survey below and sign up for our waiting list so you can be notified as soon as we open up our subscription service.
-          Space will be limited so sign up now to be first in line <Emoji label="please">🙏🏽</Emoji>
+          We&apos;re just getting started with this thrilling adventure and would love for you to
+          join us on this crazy ride. Please fill out the brief survey below and sign up for our
+          waiting list so you can be notified as soon as we open up our subscription service. Space
+          will be limited so sign up now to be first in line <Emoji label="please">🙏🏽</Emoji>
         </Paragraph>
       </Section>
 
@@ -127,36 +131,51 @@ export const Waitlist = ({ history, location }) => {
       <Section>
         <FormWrapper className={isViewingForm ? 'is-visible' : 'is-hidden'}>
           <Form onSubmit={handleSubmit(onSubmit)}>
-
             <Fieldset className="required">
               <Label>First Name</Label>
-              <Input placeholder="Jane" name="firstName" ref={register({
-                required: true,
-              })} />
+              <Input
+                placeholder="Jane"
+                name="firstName"
+                ref={register({
+                  required: true,
+                })}
+              />
               {errors.firstName && <FormError>This field is required.</FormError>}
             </Fieldset>
 
             <Fieldset className="required">
               <Label>Last Name</Label>
-              <Input placeholder="Awesome" name="lastName" ref={register({
-                required: true,
-              })} />
+              <Input
+                placeholder="Awesome"
+                name="lastName"
+                ref={register({
+                  required: true,
+                })}
+              />
               {errors.lastName && <FormError>This field is required.</FormError>}
             </Fieldset>
 
             <Fieldset className="required">
               <Label>Email</Label>
-              <Input placeholder="jane.awesome@somemail.com" name="email" ref={register({
-                required: true,
-              })} />
+              <Input
+                placeholder="jane.awesome@somemail.com"
+                name="email"
+                ref={register({
+                  required: true,
+                })}
+              />
               {errors.email && <FormError>This field is required.</FormError>}
             </Fieldset>
 
             <Fieldset className="required">
               <Label>Zip Code</Label>
-              <Input placeholder="12345" name="zipCode" ref={register({
-                required: true,
-              })} />
+              <Input
+                placeholder="12345"
+                name="zipCode"
+                ref={register({
+                  required: true,
+                })}
+              />
               {errors.zipCode && <FormError>This field is required.</FormError>}
             </Fieldset>
 
@@ -194,11 +213,7 @@ export const Waitlist = ({ history, location }) => {
               <Label>Favorite Genre of Music</Label>
               <Input placeholder="techno" name="favoriteGenre" ref={register} />
             </Fieldset>
-            <SubmitButton
-              type="submit"
-            >
-              Sign me up!
-            </SubmitButton>
+            <SubmitButton type="submit">Sign me up!</SubmitButton>
           </Form>
         </FormWrapper>
       </Section>
