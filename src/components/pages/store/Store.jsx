@@ -11,14 +11,17 @@ const products = [
     text: '1 Jar',
   },
   {
+    id: 1,
     label: 'Every month',
     text: '$11.99',
   },
   {
+    id: 2,
     label: 'Every 2 months',
     text: '$12.99',
   },
   {
+    id: 3,
     label: 'Every 3 months',
     text: '$12.99',
   },
@@ -35,7 +38,7 @@ const Wrapper = styled('div')`
 export const Store = () => {
   const [selectedProduct, setSelectedProduct] = useState({});
 
-  const normalized = products.map(product => ({
+  const normalized = products.map((product) => ({
     ...product,
     isSelected: product.label === selectedProduct.label,
   }));

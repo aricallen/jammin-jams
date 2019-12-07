@@ -6,7 +6,7 @@ const Grid = styled('div')`
   display: grid;
   height: 100%;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: repeat(${p => p.numRows}, 1fr);
+  grid-template-rows: repeat(${(p) => p.numRows}, 1fr);
 `;
 
 const Cell = styled('div')``;
@@ -15,14 +15,13 @@ const SelectableCell = styled('div')``;
 
 const Row = styled('div')`
   &:hover {
-    cursor: ${p => (p.isSelectable ? 'pointer' : 'initial')};
+    cursor: ${(p) => (p.isSelectable ? 'pointer' : 'initial')};
     div {
-      background-color: ${p => (p.isSelectable ? pallet.babyBlue : 'initial')};
+      background-color: ${(p) => (p.isSelectable ? pallet.babyBlue : 'initial')};
     }
   }
 
   display: contents;
-  background-color: ${p => (p.isSelected ? pallet.babyBlue : 'initial')};
   &:last-child {
     & > div {
       border-bottom: 1px solid ${pallet.charcoal};
@@ -35,6 +34,7 @@ const Row = styled('div')`
     border: 1px solid ${pallet.charcoal};
     border-right: none;
     border-bottom: none;
+    background-color: ${(p) => (p.isSelected ? pallet.babyBlue : 'initial')};
     &:last-child {
       border-right: 1px solid ${pallet.charcoal};
     }
@@ -58,7 +58,7 @@ const renderCell = ({ product, onSelect }) => {
   );
 };
 
-export const ProductPicker = props => {
+export const ProductPicker = (props) => {
   const { products, onSelect } = props;
 
   return (
