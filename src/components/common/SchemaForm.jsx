@@ -1,7 +1,9 @@
 import React from 'react';
 import useForm from 'react-hook-form';
+import styled from '@emotion/styled';
 import { Input, FormError, Fieldset, Label, Form, Select } from './Forms';
 import { Button } from './Button';
+import { spacing } from '../../constants/style-guide';
 
 const FieldType = {
   Select: 'select',
@@ -9,6 +11,10 @@ const FieldType = {
   Checkbox: 'checkbox',
   Toggle: 'toggle',
 };
+
+const ButtonWrapper = styled('div')`
+  margin-top: ${spacing.double}px;
+`;
 
 const renderSelect = (props) => {
   const { field, hookForm } = props;
@@ -77,7 +83,9 @@ export const SchemaForm = ({ schema, onSubmit }) => {
       {schema.fields.map((field) => (
         <SchemaField key={field.attrs.name} hookForm={hookForm} field={field} />
       ))}
-      <Button>Submit</Button>
+      <ButtonWrapper>
+        <Button>Submit</Button>
+      </ButtonWrapper>
     </Form>
   );
 };

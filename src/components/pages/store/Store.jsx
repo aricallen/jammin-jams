@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
+import { stringify } from 'query-string';
 import styled from '@emotion/styled';
 import { Content, Header1, Section, Header2 } from '../../common/Structure';
 import { ProductPicker } from './ProductPicker';
-import { AddressForm } from './AddressForm';
+import { AddressForm } from './UserInfoForm';
 import { media } from '../../../utils/media';
-import { ScreenSizes } from '../../../constants/style-guide';
+import { ScreenSizes, spacing } from '../../../constants/style-guide';
 
 const products = [
   {
@@ -28,7 +29,7 @@ const products = [
   },
 ];
 
-const Wrapper = styled('div')`
+const ProductWrapper = styled('div')`
   width: 50%;
   ${media.max(ScreenSizes.TABLET)} {
     width: 80%;
@@ -36,7 +37,15 @@ const Wrapper = styled('div')`
   height: 400px;
 `;
 
-export const Store = () => {
+const FormWrapper = styled(ProductWrapper)`
+  height: auto;
+`;
+
+const SectionHeader = styled(Header2)`
+  margin-bottom: ${spacing.double}px;
+`;
+
+export const Store = ({ history }) => {
   const [selectedProduct, setSelectedProduct] = useState({});
 
   const normalized = products.map((product) => ({
@@ -45,7 +54,8 @@ export const Store = () => {
   }));
 
   const onSubmit = (values) => {
-    console.log('submitting', values);
+    const queryString = stringify({ ...values, productId: selectedProduct.id });
+    history.push({ pathname: '/payment', search: queryString });
   };
 
   return (
@@ -54,17 +64,17 @@ export const Store = () => {
       <Section>Choose a frequency and quantity by selecting a square below.</Section>
 
       <Section>
-        <Wrapper>
+        <ProductWrapper>
           <ProductPicker products={normalized} onSelect={setSelectedProduct} />
-        </Wrapper>
+        </ProductWrapper>
       </Section>
 
       {selectedProduct.id ? (
         <Section>
-          <Wrapper>
-            <Header2>Delivery</Header2>
+          <SectionHeader>Delivery</SectionHeader>
+          <FormWrapper>
             <AddressForm onSubmit={onSubmit} />
-          </Wrapper>
+          </FormWrapper>
         </Section>
       ) : null}
     </Content>

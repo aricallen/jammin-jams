@@ -10,6 +10,7 @@ export const Input = styled('input')`
   border-width: 1px;
   border-color: ${pallet.strawberry};
   width: 100%;
+  font-size: ${font.size.regular}px;
   &:active,
   &:focus,
   &:focus-within,
