@@ -55,7 +55,7 @@ export const Store = ({ history }) => {
 
   const onSubmit = (values) => {
     const queryString = stringify({ ...values, productId: selectedProduct.id });
-    history.push({ pathname: '/payment', search: queryString });
+    history.push({ pathname: '/store/payment', search: queryString });
   };
 
   return (
