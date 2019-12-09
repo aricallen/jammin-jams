@@ -6,9 +6,14 @@ const initialMeta = { isFetching: false, error: null };
 const meta = (state = initialMeta, action) => {
   switch (action.type) {
     case Type.LOGIN_REQUEST:
+    case Type.CREATE_SESSION_REQUEST:
+    case Type.FETCH_SESSION_REQUEST:
       return { ...state, isFetching: true };
     case Type.LOGIN_FAILURE:
+    case Type.FETCH_SESSION_FAILURE:
+    case Type.CREATE_SESSION_FAILURE:
       return { ...state, error: action.error, isFetching: false };
+
     default:
       return { ...state, isFetching: false };
   }
@@ -20,6 +25,8 @@ const data = (state = initialData, action) => {
   switch (action.type) {
     case Type.LOGIN_SUCCESS:
       return { ...state, user: action.user };
+    case Type.CREATE_SESSION_SUCCESS:
+      return { ...state, [action.key]: action.data };
     default:
       return { ...state };
   }

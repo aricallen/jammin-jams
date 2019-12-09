@@ -55,10 +55,10 @@ const navItems = [
   //   text: 'About',
   //   path: '/about',
   // },
-  {
-    text: 'Store',
-    path: '/store',
-  },
+  // {
+  //   text: 'Store',
+  //   path: '/store',
+  // },
   // {
   //   text: 'Logo Builder',
   //   path: '/logo-builder',
@@ -79,7 +79,7 @@ export const NavBar = () => {
         </NavLink>
       </Brand>
       <NavList>
-        {navItems.map(item => (
+        {navItems.map((item) => (
           <NavItem key={item.path}>
             <NavLink
               to={item.path}

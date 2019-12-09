@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { stringify } from 'query-string';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import { Content, Header1, Section, Header2 } from '../../common/Structure';
 import { ProductPicker } from './ProductPicker';
-import { AddressForm } from './UserInfoForm';
+import { SubscriptionForm } from './SubscriptionForm';
 import { media } from '../../../utils/media';
 import { ScreenSizes, spacing } from '../../../constants/style-guide';
+import { createSession, fetchSession } from '../../../redux/session/actions';
 
 const products = [
   {
@@ -47,15 +49,21 @@ const SectionHeader = styled(Header2)`
 
 export const Store = ({ history }) => {
   const [selectedProduct, setSelectedProduct] = useState({});
+  const sessionState = useSelector((state) => state.session);
+  const dispatch = useDispatch();
 
   const normalized = products.map((product) => ({
     ...product,
     isSelected: product.label === selectedProduct.label,
   }));
 
-  const onSubmit = (values) => {
-    const queryString = stringify({ ...values, productId: selectedProduct.id });
-    history.push({ pathname: '/store/payment', search: queryString });
+  const onSubmit = async (values) => {
+    const data = { ...values, productId: selectedProduct.id };
+    const sessionId = await dispatch(createSession({ data, key: 'subscriptionForm' }));
+    const queryString = stringify({ sessionId });
+    if (sessionId) {
+      history.push({ pathname: '/store/payment', search: queryString });
+    }
   };
 
   return (
@@ -73,7 +81,7 @@ export const Store = ({ history }) => {
         <Section>
           <SectionHeader>Delivery</SectionHeader>
           <FormWrapper>
-            <AddressForm onSubmit={onSubmit} />
+            <SubscriptionForm onSubmit={onSubmit} />
           </FormWrapper>
         </Section>
       ) : null}

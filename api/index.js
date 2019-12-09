@@ -1,5 +1,7 @@
 require('dotenv').config();
 const express = require('express');
+const session = require('express-session');
+const helmet = require('helmet');
 const path = require('path');
 const bodyParser = require('body-parser');
 const { router } = require('./routers/main');
@@ -7,8 +9,20 @@ const { notify } = require('./middleware/notify');
 
 const app = express();
 
+app.use(helmet());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+      maxAge: 1000 * 60 * 10, // 10 mins
+      httpOnly: true,
+    },
+  })
+);
 app.use(notify);
 app.use('/api', router);
 app.use('/api*', (req, res) => {

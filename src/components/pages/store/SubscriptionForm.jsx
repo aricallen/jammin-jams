@@ -4,7 +4,7 @@ import { Spinner } from '../../common/Spinner';
 import { SchemaForm } from '../../common/SchemaForm';
 import { fetchSchema } from '../../../redux/schemas/actions';
 
-export const AddressForm = (props) => {
+export const SubscriptionForm = (props) => {
   const { onSubmit } = props;
   const dispatch = useDispatch();
 
