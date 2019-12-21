@@ -20,9 +20,11 @@ const FormWrapper = styled('div')`
     width: 50%;
   }
   &.is-hidden {
+    display: none;
     opacity: 0;
   }
   &.is-visible {
+    display: initial;
     animation: fade-in 0.5s;
   }
 `;
@@ -55,9 +57,9 @@ export const Waitlist = ({ history, location }) => {
   const [selectValues, setSelectValues] = useState({});
   const { handleSubmit, errors, register } = useForm();
 
-  const handleChange = name => value => {
+  const handleChange = (name) => (value) => {
     if (Array.isArray(value)) {
-      const serialized = value.map(option => option.value).join(', ');
+      const serialized = value.map((option) => option.value).join(', ');
       setSelectValues({
         ...selectValues,
         [name]: serialized,
@@ -70,7 +72,7 @@ export const Waitlist = ({ history, location }) => {
     }
   };
 
-  const onSubmit = async values => {
+  const onSubmit = async (values) => {
     console.log(values);
     try {
       await addToWaitlist({
@@ -83,12 +85,12 @@ export const Waitlist = ({ history, location }) => {
     }
   };
 
-  const frequencyOptions = FREQUENCIES.map(value => ({
+  const frequencyOptions = FREQUENCIES.map((value) => ({
     label: value,
     value,
   }));
 
-  const pairedOptions = PAIRED_WITH.map(value => ({
+  const pairedOptions = PAIRED_WITH.map((value) => ({
     label: value,
     value,
   }));
