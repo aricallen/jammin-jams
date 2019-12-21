@@ -34,6 +34,7 @@ const Row = styled('div')`
     border: 1px solid ${pallet.charcoal};
     border-right: none;
     border-bottom: none;
+    transition: background-color 0.3s ease-in-out;
     background-color: ${(p) => (p.isSelected ? pallet.babyBlue : 'initial')};
     &:last-child {
       border-right: 1px solid ${pallet.charcoal};

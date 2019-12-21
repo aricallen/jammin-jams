@@ -36,9 +36,9 @@ export const createSession = ({ data, key }) => {
     dispatch({ type: Type.CREATE_SESSION_REQUEST });
     try {
       const response = await axios.post('/api/session', { data, key });
-      const user = response.data.data;
-      dispatch({ type: Type.CREATE_SESSION_SUCCESS, data, key });
-      return user;
+      const session = response.data.data;
+      dispatch({ type: Type.CREATE_SESSION_SUCCESS, data: session, key });
+      return session;
     } catch (err) {
       dispatch({ type: Type.CREATE_SESSION_FAILURE, error: parseAxiosError(err) });
       throw err;
@@ -52,9 +52,9 @@ export const fetchSession = ({ sessionId }) => {
     try {
       const queryString = stringify({ sessionId });
       const response = await axios.get(`/api/session?${queryString}`);
-      const user = response.data.data;
-      dispatch({ type: Type.FETCH_SESSION_SUCCESS, user });
-      return user;
+      const session = response.data.data;
+      dispatch({ type: Type.FETCH_SESSION_SUCCESS, data: session });
+      return session;
     } catch (err) {
       dispatch({ type: Type.FETCH_SESSION_FAILURE, error: parseAxiosError(err) });
       throw err;

@@ -35,12 +35,12 @@ const ButtonWrapper = styled('div')`
 
 export const Login = ({ history }) => {
   const [values, setValues] = useState({});
-  const loginError = useSelector(state => state.session.meta.error);
-  const isFetching = useSelector(state => state.session.meta.isFetching);
+  const loginError = useSelector((state) => state.session.meta.error);
+  const isCreating = useSelector((state) => state.session.meta.isCreating);
   const dispatch = useDispatch();
   const errorMessage = loginError && loginError.message;
 
-  const handleChange = name => event => {
+  const handleChange = (name) => (event) => {
     setValues({ ...values, [name]: event.target.value });
   };
 
@@ -57,7 +57,7 @@ export const Login = ({ history }) => {
     <Wrapper>
       <LoginWrapper>
         <LoginForm
-          onSubmit={e => {
+          onSubmit={(e) => {
             e.preventDefault();
             handleSubmit();
           }}
@@ -75,7 +75,7 @@ export const Login = ({ history }) => {
           {errorMessage && <FormError>{errorMessage}</FormError>}
 
           <ButtonWrapper>
-            <Button isBusy={isFetching}>Log in</Button>
+            <Button isBusy={isCreating}>Log in</Button>
           </ButtonWrapper>
         </LoginForm>
       </LoginWrapper>
