@@ -74,8 +74,8 @@ const SchemaField = (props) => {
   );
 };
 
-export const SchemaForm = ({ schema, onSubmit }) => {
-  const hookForm = useForm();
+export const SchemaForm = ({ schema, onSubmit, isBusy, defaultValues = {} }) => {
+  const hookForm = useForm({ defaultValues });
   const { handleSubmit } = hookForm;
 
   return (
@@ -84,7 +84,7 @@ export const SchemaForm = ({ schema, onSubmit }) => {
         <SchemaField key={field.attrs.name} hookForm={hookForm} field={field} />
       ))}
       <ButtonWrapper>
-        <Button>Submit</Button>
+        <Button isBusy={isBusy}>Submit</Button>
       </ButtonWrapper>
     </Form>
   );

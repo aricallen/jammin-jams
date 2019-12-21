@@ -4,8 +4,19 @@ import { Spinner } from '../../common/Spinner';
 import { SchemaForm } from '../../common/SchemaForm';
 import { fetchSchema } from '../../../redux/schemas/actions';
 
+const testValues = {
+  firstName: 'jane',
+  lastName: 'awesome',
+  email: 'jane.awesome@gmail.com',
+  address: '123 Jam dr',
+  zipCode: '12345',
+  city: 'awesome',
+  state: 'CA',
+  country: 'USA',
+};
+
 export const SubscriptionForm = (props) => {
-  const { onSubmit } = props;
+  const { onSubmit, isBusy } = props;
   const dispatch = useDispatch();
 
   const schemaState = useSelector((state) => state.schemas);
@@ -24,5 +35,12 @@ export const SubscriptionForm = (props) => {
 
   const { users, addresses } = schemaState.data;
   const fields = [...users.fields, ...addresses.fields];
-  return <SchemaForm schema={{ name: 'userInfo', fields }} onSubmit={onSubmit} />;
+  return (
+    <SchemaForm
+      schema={{ name: 'userInfo', fields }}
+      onSubmit={onSubmit}
+      isBusy={isBusy}
+      defaultValues={testValues}
+    />
+  );
 };
