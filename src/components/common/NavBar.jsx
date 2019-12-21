@@ -20,10 +20,15 @@ const Brand = styled('div')`
   cursor: pointer;
 `;
 
+const BrandLinkWrapper = styled('div')`
+  display: flex;
+  align-items: center;
+`;
+
 const NavLogo = styled(Logo)`
-  width: ${spacing.quadruple}px;
-  height: ${spacing.quadruple}px;
-  margin-right: ${spacing.regular}px;
+  width: ${spacing.triple * 2}px;
+  height: ${spacing.triple * 2}px;
+  margin-right: ${spacing.double}px;
 `;
 
 const NavList = styled('ul')`
@@ -74,8 +79,10 @@ export const NavBar = () => {
     <Wrapper>
       <Brand>
         <NavLink to="/">
-          <NavLogo />
-          Jammin&apos; Jams
+          <BrandLinkWrapper>
+            <NavLogo />
+            JmnJams
+          </BrandLinkWrapper>
         </NavLink>
       </Brand>
       <NavList>
