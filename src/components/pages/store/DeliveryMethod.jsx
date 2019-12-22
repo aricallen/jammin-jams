@@ -9,7 +9,10 @@ const SectionHeader = styled(Header2)`
   margin-bottom: ${spacing.double}px;
 `;
 
-const PROMO_METHOD = 'promo';
+const Method = {
+  PROMO: 'promo',
+  BICYCLE: 'bicycle',
+};
 
 const isInvalidZip = (val) => {
   return val && val.length >= 5 && VALID_ZIPCODES.includes(val) === false;
@@ -18,22 +21,33 @@ const isInvalidZip = (val) => {
 const OPTIONS = [
   {
     label: 'Bicycle',
-    value: 'bicycle',
+    value: Method.BICYCLE,
   },
   {
     label: 'Special (requires promo code)',
-    value: PROMO_METHOD,
+    value: Method.PROMO,
   },
 ];
 
-export const DeliveryMethod = (props) => {
-  const { formValues, formErrors, onUpdate } = props;
+const isValid = (values) => {};
 
-  const zipError = isInvalidZip(formValues.zipCode)
+export const DeliveryMethod = (props) => {
+  const { values, onUpdate } = props;
+
+  const { zipCode, deliveryMethod, deliveryPromoCode } = values;
+
+  const zipError = isInvalidZip(zipCode)
     ? 'Unfortunately, we currently do not service this zip code. If you have a promo code for free delivery enter that now.'
     : null;
 
-  const showPromo = formValues.method === PROMO_METHOD;
+  const showPromo = deliveryMethod && deliveryMethod === Method.PROMO;
+  const showZip = deliveryMethod && deliveryMethod === Method.BICYCLE;
+
+  const handleChange = (name, getValue) => (event) => {
+    const newVal = getValue(event);
+    const fieldVal = { [name]: newVal };
+    onUpdate(fieldVal, isValid({ ...values, ...fieldVal }));
+  };
 
   return (
     <Section>
@@ -43,28 +57,29 @@ export const DeliveryMethod = (props) => {
         <Select
           name="deliveryMethod"
           options={OPTIONS}
-          onChange={(option) => onUpdate({ deliveryMethod: option.value })}
-          value={OPTIONS.find((o) => o.value === formValues.deliveryMethod)}
+          onChange={handleChange('deliveryMethod', (option) => option.value)}
+          value={OPTIONS.find((o) => o.value === deliveryMethod)}
         />
       </Fieldset>
       {showPromo && (
         <FormInput
           name="deliveryPromoCode"
-          value={formValues.zipCode}
-          onChange={(e) => onUpdate({ deliveryPromoCode: e.target.value })}
+          value={deliveryPromoCode}
+          onChange={handleChange('deliveryPromoCode', (e) => e.target.value)}
           label="Promo Code"
           isRequired={true}
-          error={formErrors.deliveryPromoCode}
         />
       )}
-      <FormInput
-        name="zipCode"
-        value={formValues.zipCode}
-        onChange={(e) => onUpdate({ zipCode: e.target.value })}
-        label="Zip Code"
-        isRequired={true}
-        error={formErrors.zipCode && zipError}
-      />
+      {showZip && (
+        <FormInput
+          name="zipCode"
+          value={zipCode}
+          onChange={handleChange('zipCode', (e) => e.target.value)}
+          label="Zip Code"
+          isRequired={true}
+          error={zipCode && zipError}
+        />
+      )}
     </Section>
   );
 };

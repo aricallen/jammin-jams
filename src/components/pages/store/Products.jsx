@@ -15,13 +15,14 @@ const Value = styled('span')`
 `;
 
 export const Products = (props) => {
-  const { onUpdate, formValues } = props;
+  const { onUpdate, values } = props;
+  const { productId } = values;
   const [selectedProduct, setSelectedProduct] = useState(
-    formValues.productId ? PRODUCTS.find((p) => p.id === formValues.productId) : {}
+    productId ? PRODUCTS.find((p) => p.id === productId) : {}
   );
 
   const onSelect = (product) => {
-    onUpdate({ productId: product.id });
+    onUpdate({ productId: product.id }, true);
     setSelectedProduct(product);
   };
 

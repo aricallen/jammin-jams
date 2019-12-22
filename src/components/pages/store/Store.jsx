@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
+import useForm from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Session } from '../../../constants/session';
 // import { CSSTransition } from 'react-transition-group';
@@ -90,9 +91,10 @@ export const Store = ({ history, match }) => {
   const stepLevel = stepComponents.findIndex((config) => config.path === step);
   const sessionState = useSelector((state) => state.session);
   const dispatch = useDispatch();
-  const [values, setValues] = useState({});
 
-  const { isUpdating } = sessionState;
+  const sessionValues = sessionState.data[Session.SUBSCRIPTION_FORM] || {};
+  const [values, setValues] = useState(sessionValues || {});
+  const [isValid, setIsValid] = useState(false);
 
   const load = () => {
     dispatch(fetchSession());
@@ -103,16 +105,20 @@ export const Store = ({ history, match }) => {
     const nextStepLevel = type === 'prev' ? stepLevel - 1 : stepLevel + 1;
     const nextConfig = stepComponents[nextStepLevel];
     await dispatch(createSession({ data: values, key: Session.SUBSCRIPTION_FORM }));
+    if (type === 'next') {
+      setIsValid(false);
+    }
     history.push(`/store/${nextConfig.path}`);
   };
 
-  const onUpdate = (newValues) => {
+  const onUpdate = (fieldValues, validVal) => {
+    const newValues = { ...values, ...fieldValues };
     setValues(newValues);
+    setIsValid(validVal);
   };
 
-  const formValues = sessionState.data[Session.SUBSCRIPTION_FORM] || {};
-
-  if (stepLevel > 0 && Object.keys(formValues).length === 0) {
+  // no session, redirect back to beginning
+  if (stepLevel > 0 && Object.keys(values).length === 0) {
     history.push(`/store/${stepComponents[0].path}`);
   }
 
@@ -123,7 +129,7 @@ export const Store = ({ history, match }) => {
     return null;
   }
 
-  const { isFetching } = sessionState.meta;
+  const { isFetching, isUpdating } = sessionState.meta;
 
   return (
     <Wrapper>
@@ -131,14 +137,18 @@ export const Store = ({ history, match }) => {
         <StatusBar />
       </StatusWrapper>
       <StepComponentWrapper>
-        {isFetching ? <Spinner /> : <Component formValues={formValues} onUpdate={onUpdate} />}
+        {isFetching ? <Spinner /> : <Component values={values} onUpdate={onUpdate} />}
       </StepComponentWrapper>
       <Footer>
         <ControlsWrapper>
           <Button onClick={handleNavClick('prev')} disabled={stepLevel <= 0} isBusy={isUpdating}>
             Prev
           </Button>
-          <Button onClick={handleNavClick('next')} disabled={stepLevel >= 4} isBusy={isUpdating}>
+          <Button
+            onClick={handleNavClick('next')}
+            disabled={stepLevel >= 4 || !isValid}
+            isBusy={isUpdating}
+          >
             Next
           </Button>
         </ControlsWrapper>
