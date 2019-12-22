@@ -1,46 +1,41 @@
-import React, { useState, useEffect, Fragment } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState, Fragment } from 'react';
 import styled from '@emotion/styled';
-import { Header1, Section, Header2 } from '../../common/Structure';
+import { Section, Header2 } from '../../common/Structure';
 import { ProductPicker } from './ProductPicker';
-import { media } from '../../../utils/media';
-import { ScreenSizes, spacing } from '../../../constants/style-guide';
-import { createSession, fetchSession } from '../../../redux/session/actions';
-import { Session } from '../../../constants/session';
 import { PRODUCTS } from './constants';
+import { spacing } from '../../../constants/style-guide';
 
 const SectionHeader = styled(Header2)`
   margin-bottom: ${spacing.double}px;
 `;
 
-export const Products = ({ history }) => {
-  const [selectedProduct, setSelectedProduct] = useState({});
-  const sessionState = useSelector((state) => state.session);
-  const dispatch = useDispatch();
+const Value = styled('span')`
+  font-style: italic;
+`;
 
-  const load = () => {
-    dispatch(fetchSession());
+export const Products = (props) => {
+  const { onUpdate, sessionState } = props;
+  const [selectedProduct, setSelectedProduct] = useState(
+    sessionState ? PRODUCTS.find((p) => p.id === sessionState.productId) : {}
+  );
+
+  const onSelect = (product) => {
+    onUpdate({ productId: product.id });
+    setSelectedProduct(product);
   };
-  useEffect(load, []);
 
   const normalized = PRODUCTS.map((product) => ({
     ...product,
     isSelected: product.label === selectedProduct.label,
   }));
 
-  const onSubmit = async (values) => {
-    const data = { ...values, productId: selectedProduct.id };
-    await dispatch(createSession({ data, key: Session.SUBSCRIPTION_FORM }));
-    history.push({ pathname: '/store/payment' });
-  };
-
   return (
     <Fragment>
-      <Header1>Subscribe for a truly unique jam experience!</Header1>
-      <SectionHeader>Frequency</SectionHeader>
-
-      <Section>
-        <ProductPicker products={normalized} onSelect={setSelectedProduct} />
+      <SectionHeader>
+        Frequency {selectedProduct.id && <Value>: {selectedProduct.label}</Value>}
+      </SectionHeader>
+      <Section style={{ flexGrow: 1 }}>
+        <ProductPicker products={normalized} onSelect={onSelect} />
       </Section>
     </Fragment>
   );

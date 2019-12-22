@@ -1,21 +1,21 @@
 import { combineReducers } from 'redux';
 import { Type } from './actions';
 
-const initialMeta = { isFetching: false, isCreating: false, error: null };
+const initialMeta = { isFetching: false, isUpdating: false, error: null };
 
 const meta = (state = initialMeta, action) => {
   switch (action.type) {
     case Type.LOGIN_REQUEST:
     case Type.CREATE_SESSION_REQUEST:
-      return { ...state, isCreating: true };
+      return { ...state, isUpdating: true };
     case Type.FETCH_SESSION_REQUEST:
       return { ...state, isFetching: true };
     case Type.LOGIN_FAILURE:
     case Type.FETCH_SESSION_FAILURE:
     case Type.CREATE_SESSION_FAILURE:
-      return { ...state, error: action.error, isFetching: false, isCreating: false };
+      return { ...state, error: action.error, isFetching: false, isUpdating: false };
     default:
-      return { ...state, isFetching: false, isCreating: false };
+      return { ...state, isFetching: false, isUpdating: false };
   }
 };
 

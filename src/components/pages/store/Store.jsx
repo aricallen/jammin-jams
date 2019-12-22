@@ -12,20 +12,40 @@ import { StoreStep } from './constants';
 import { Button } from '../../common/Button';
 import { createSession, fetchSession } from '../../../redux/session/actions';
 import { media } from '../../../utils/media';
-import { ScreenSizes } from '../../../constants/style-guide';
+import { ScreenSizes, spacing, sizes } from '../../../constants/style-guide';
+import { Spinner } from '../../common/Spinner';
 
 const Wrapper = styled('div')`
+  display: grid;
+  grid-template-rows: ${sizes.rowHeight}px auto ${sizes.rowHeight}px;
   width: 50%;
   ${media.max(ScreenSizes.TABLET)} {
-    width: 80%;
+    width: 100%;
   }
-  height: 400px;
+  height: 100%;
 `;
 
 const StatusWrapper = styled('div')``;
 const StatusBar = styled('div')``;
-const ControlsWrapper = styled('div')``;
-const StepComponentWrapper = styled('div')``;
+const ControlsWrapper = styled('div')`
+  display: flex;
+  align-items: center;
+  width: 20%;
+  justify-content: space-between;
+`;
+
+const Footer = styled('div')`
+  display: flex:
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: ${spacing.double}px;
+`;
+
+const StepComponentWrapper = styled('div')`
+  display: flex;
+  flex-direction: column;
+`;
 
 const getComponent = (step) => {
   switch (step) {
@@ -70,16 +90,24 @@ export const Store = ({ history, match }) => {
   const stepLevel = stepComponents.findIndex((config) => config.path === step);
   const sessionState = useSelector((state) => state.session);
   const dispatch = useDispatch();
+  const [values, setValues] = useState({});
+
+  const { isUpdating } = sessionState;
 
   const load = () => {
     dispatch(fetchSession());
   };
   useEffect(load, []);
 
-  const handleNavClick = (type) => () => {
+  const handleNavClick = (type) => async () => {
     const nextStepLevel = type === 'prev' ? stepLevel - 1 : stepLevel + 1;
     const nextConfig = stepComponents[nextStepLevel];
+    await dispatch(createSession({ data: values, key: Session.SUBSCRIPTION_FORM }));
     history.push(`/store/${nextConfig.path}`);
+  };
+
+  const onUpdate = (newValues) => {
+    setValues(newValues);
   };
 
   const Component = getComponent(step);
@@ -89,23 +117,33 @@ export const Store = ({ history, match }) => {
     return null;
   }
 
+  const { isFetching } = sessionState.meta;
+
   return (
     <Wrapper>
       <StatusWrapper>
         <StatusBar />
       </StatusWrapper>
       <StepComponentWrapper>
-        <Component sessionState={sessionState} />
+        {isFetching ? (
+          <Spinner />
+        ) : (
+          <Component
+            sessionState={sessionState.data[Session.SUBSCRIPTION_FORM]}
+            onUpdate={onUpdate}
+          />
+        )}
       </StepComponentWrapper>
-      {/* {stepComponents.map((config) => <config.Component key={config.id} />)} */}
-      <ControlsWrapper>
-        <Button onClick={handleNavClick('prev')} disabled={stepLevel <= 0}>
-          Prev
-        </Button>
-        <Button onClick={handleNavClick('next')} disabled={stepLevel >= 4}>
-          Next
-        </Button>
-      </ControlsWrapper>
+      <Footer>
+        <ControlsWrapper>
+          <Button onClick={handleNavClick('prev')} disabled={stepLevel <= 0} isBusy={isUpdating}>
+            Prev
+          </Button>
+          <Button onClick={handleNavClick('next')} disabled={stepLevel >= 4} isBusy={isUpdating}>
+            Next
+          </Button>
+        </ControlsWrapper>
+      </Footer>
     </Wrapper>
   );
 };

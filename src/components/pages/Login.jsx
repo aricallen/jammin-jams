@@ -36,7 +36,7 @@ const ButtonWrapper = styled('div')`
 export const Login = ({ history }) => {
   const [values, setValues] = useState({});
   const loginError = useSelector((state) => state.session.meta.error);
-  const isCreating = useSelector((state) => state.session.meta.isCreating);
+  const isUpdating = useSelector((state) => state.session.meta.isUpdating);
   const dispatch = useDispatch();
   const errorMessage = loginError && loginError.message;
 
@@ -75,7 +75,7 @@ export const Login = ({ history }) => {
           {errorMessage && <FormError>{errorMessage}</FormError>}
 
           <ButtonWrapper>
-            <Button isBusy={isCreating}>Log in</Button>
+            <Button isBusy={isUpdating}>Log in</Button>
           </ButtonWrapper>
         </LoginForm>
       </LoginWrapper>
