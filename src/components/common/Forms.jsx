@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { omit } from 'lodash';
+import { omit, startCase } from 'lodash';
 import ReactSelect from 'react-select';
 import { spacing, pallet, font } from '../../constants/style-guide';
 
@@ -78,4 +78,14 @@ export const SelectElem = styled(ReactSelect)`
 export const Select = (props) => {
   const otherProps = omit(props, ['required']);
   return <SelectElem {...otherProps} classNamePrefix="react-select" />;
+};
+
+export const FormInput = ({ name, label, error, value, onChange, isRequired = false }) => {
+  return (
+    <Fieldset className={isRequired ? 'required' : null}>
+      <Label>{label || startCase(name)}</Label>
+      <Input type="text" value={value} onChange={onChange} />
+      {error && <FormError>{error}</FormError>}
+    </Fieldset>
+  );
 };

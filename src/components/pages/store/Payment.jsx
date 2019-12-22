@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Content, Header1, Section, Header2 } from '../../common/Structure';
 import { fetchSession } from '../../../redux/session/actions';
 import { Spinner } from '../../common/Spinner';
+import { SubscriptionForm } from './SubscriptionForm';
 
 export const Payment = () => {
   const sessionState = useSelector((state) => state.session);

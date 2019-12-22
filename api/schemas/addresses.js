@@ -25,18 +25,18 @@ const schema = {
         label: 'Address 2',
       },
     },
-    {
-      attrs: {
-        type: 'text',
-        name: 'zipCode',
-        required: true,
-        placeholder: '98765',
-      },
-      props: {
-        type: 'input',
-        label: 'Zip Code',
-      },
-    },
+    // {
+    //   attrs: {
+    //     type: 'text',
+    //     name: 'zipCode',
+    //     required: true,
+    //     placeholder: '98765',
+    //   },
+    //   props: {
+    //     type: 'input',
+    //     label: 'Zip Code',
+    //   },
+    // },
     {
       attrs: {
         type: 'text',
