@@ -1,5 +1,6 @@
 export const PRODUCTS = [
   {
+    id: null,
     label: 'Frequency / Quantity',
     text: '1 Jar',
   },

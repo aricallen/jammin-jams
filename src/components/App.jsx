@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Home } from './pages/Home';
 import { About } from './pages/About';
@@ -36,6 +36,7 @@ export function App() {
             <Route exact path="/thank-you" component={ThankYou} />
             <Route exact path="/logo-builder" component={LogoBuilder} />
             <Route exact path="/store/:step" component={Store} />
+            <Route exact path="/store" render={() => <Redirect to="/store/products" />} />
             <Route exact path="/" component={Home} />
             <Route component={NotFound} />
           </Switch>

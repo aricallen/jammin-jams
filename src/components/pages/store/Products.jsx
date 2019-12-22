@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { Section, Header2 } from '../../common/Structure';
 import { ProductPicker } from './ProductPicker';
 import { PRODUCTS } from './constants';
-import { spacing } from '../../../constants/style-guide';
+import { spacing, font } from '../../../constants/style-guide';
 
 const SectionHeader = styled(Header2)`
   margin-bottom: ${spacing.double}px;
@@ -11,12 +11,13 @@ const SectionHeader = styled(Header2)`
 
 const Value = styled('span')`
   font-style: italic;
+  font-weight: ${font.weight.bold};
 `;
 
 export const Products = (props) => {
-  const { onUpdate, sessionState } = props;
+  const { onUpdate, formValues } = props;
   const [selectedProduct, setSelectedProduct] = useState(
-    sessionState ? PRODUCTS.find((p) => p.id === sessionState.productId) : {}
+    formValues.productId ? PRODUCTS.find((p) => p.id === formValues.productId) : {}
   );
 
   const onSelect = (product) => {

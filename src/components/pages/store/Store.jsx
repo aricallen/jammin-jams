@@ -110,6 +110,12 @@ export const Store = ({ history, match }) => {
     setValues(newValues);
   };
 
+  const formValues = sessionState.data[Session.SUBSCRIPTION_FORM] || {};
+
+  if (stepLevel > 0 && Object.keys(formValues).length === 0) {
+    history.push(`/store/${stepComponents[0].path}`);
+  }
+
   const Component = getComponent(step);
 
   if (!Component) {
@@ -125,14 +131,7 @@ export const Store = ({ history, match }) => {
         <StatusBar />
       </StatusWrapper>
       <StepComponentWrapper>
-        {isFetching ? (
-          <Spinner />
-        ) : (
-          <Component
-            sessionState={sessionState.data[Session.SUBSCRIPTION_FORM]}
-            onUpdate={onUpdate}
-          />
-        )}
+        {isFetching ? <Spinner /> : <Component formValues={formValues} onUpdate={onUpdate} />}
       </StepComponentWrapper>
       <Footer>
         <ControlsWrapper>

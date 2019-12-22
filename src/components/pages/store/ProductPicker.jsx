@@ -9,7 +9,9 @@ const Grid = styled('div')`
   grid-template-rows: repeat(${(p) => p.numRows}, 1fr);
 `;
 
-const Cell = styled('div')``;
+const Cell = styled('div')`
+  background-color: white;
+`;
 
 const SelectableCell = styled('div')``;
 
