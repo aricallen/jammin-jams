@@ -20,4 +20,11 @@ export const PRODUCTS = [
   },
 ];
 
+export const StoreStep = {
+  PRODUCTS: 'products',
+  DELIVERY_METHOD: 'delivery-method',
+  SHIPPING: 'shipping',
+  PAYMENT: 'payment',
+};
+
 export const VALID_ZIPCODES = ['94607'];

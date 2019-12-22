@@ -17,9 +17,9 @@ const isInvalidZip = (val) => {
   return val && val.length === 5 && VALID_ZIPCODES.includes(val) === false;
 };
 
-export const DeliveryMethod = () => {
+export const DeliveryMethod = (props) => {
   const { sessionState, values } = props;
-  const isBusy = sessionState.isUpdating;
+  // const isBusy = sessionState.isUpdating;
   const [zipCode, setZipCode] = useState(values ? values.zipCode : '');
 
   const zipError = isInvalidZip(zipCode)

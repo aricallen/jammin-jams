@@ -9,7 +9,6 @@ import { LogoBuilder } from './pages/LogoBuilder';
 import { Login } from './pages/Login';
 
 import { Store } from './pages/store/Store';
-import { Payment } from './pages/store/Payment';
 
 import { NotFound } from './pages/NotFound';
 
@@ -32,12 +31,11 @@ export function App() {
         <Content>
           <Switch>
             <Route exact path="/login" component={Login} />
-            <Route exact path="/store/payment" component={Payment} />
             <Route exact path="/about" component={About} />
             <Route exact path="/waitlist" component={Waitlist} />
             <Route exact path="/thank-you" component={ThankYou} />
             <Route exact path="/logo-builder" component={LogoBuilder} />
-            <Route path="/store" component={Store} />
+            <Route exact path="/store/:step" component={Store} />
             <Route exact path="/" component={Home} />
             <Route component={NotFound} />
           </Switch>
