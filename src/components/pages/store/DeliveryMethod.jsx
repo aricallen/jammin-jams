@@ -29,7 +29,16 @@ const OPTIONS = [
   },
 ];
 
-const isValid = (values) => {};
+const isValid = (values = {}) => {
+  const { zipCode, deliveryMethod, deliveryPromoCode } = values;
+  if (deliveryMethod === Method.PROMO) {
+    return deliveryPromoCode && deliveryPromoCode.length > 0;
+  }
+  if (deliveryMethod === Method.BICYCLE) {
+    return zipCode && zipCode.length > 0 && !isInvalidZip(zipCode);
+  }
+  return true;
+};
 
 export const DeliveryMethod = (props) => {
   const { values, onUpdate } = props;

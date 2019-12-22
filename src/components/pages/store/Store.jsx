@@ -105,9 +105,7 @@ export const Store = ({ history, match }) => {
     const nextStepLevel = type === 'prev' ? stepLevel - 1 : stepLevel + 1;
     const nextConfig = stepComponents[nextStepLevel];
     await dispatch(createSession({ data: values, key: Session.SUBSCRIPTION_FORM }));
-    if (type === 'next') {
-      setIsValid(false);
-    }
+    setIsValid(type === 'prev');
     history.push(`/store/${nextConfig.path}`);
   };
 
