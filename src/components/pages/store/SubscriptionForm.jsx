@@ -16,7 +16,7 @@ const testValues = {
 };
 
 export const SubscriptionForm = (props) => {
-  const { onSubmit, isBusy } = props;
+  const { onSubmit, isBusy, values } = props;
   const dispatch = useDispatch();
 
   const schemaState = useSelector((state) => state.schemas);
@@ -40,7 +40,7 @@ export const SubscriptionForm = (props) => {
       schema={{ name: 'userInfo', fields }}
       onSubmit={onSubmit}
       isBusy={isBusy}
-      defaultValues={testValues}
+      defaultValues={values || testValues}
     />
   );
 };

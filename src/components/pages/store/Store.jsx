@@ -52,10 +52,10 @@ export const Store = ({ history }) => {
   const sessionState = useSelector((state) => state.session);
   const dispatch = useDispatch();
 
-  const fetch = () => {
+  const load = () => {
     dispatch(fetchSession());
   };
-  useEffect(fetch, []);
+  useEffect(load, []);
 
   const normalized = products.map((product) => ({
     ...product,
@@ -64,11 +64,11 @@ export const Store = ({ history }) => {
 
   const onSubmit = async (values) => {
     const data = { ...values, productId: selectedProduct.id };
-    const sessionId = await dispatch(createSession({ data, key: Session.SUBSCRIPTION_FORM }));
-    if (sessionId) {
-      history.push({ pathname: '/store/payment' });
-    }
+    await dispatch(createSession({ data, key: Session.SUBSCRIPTION_FORM }));
+    history.push({ pathname: '/store/payment' });
   };
+
+  const values = sessionState.data[Session.SUBSCRIPTION_FORM];
 
   return (
     <Content>
@@ -85,7 +85,11 @@ export const Store = ({ history }) => {
         <Section>
           <SectionHeader>Delivery</SectionHeader>
           <FormWrapper>
-            <SubscriptionForm onSubmit={onSubmit} isBusy={sessionState.isUpdating} />
+            <SubscriptionForm
+              onSubmit={onSubmit}
+              isBusy={sessionState.isUpdating}
+              values={values}
+            />
           </FormWrapper>
         </Section>
       ) : null}

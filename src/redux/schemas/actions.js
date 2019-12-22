@@ -8,7 +8,11 @@ export const Type = {
 };
 
 export const fetchSchema = (schemaName) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
+    const cached = getState().schemas[schemaName];
+    if (cached) {
+      return cached;
+    }
     dispatch({ type: Type.FETCH_SCHEMA_REQUEST });
     try {
       const response = await axios.get(`/api/schemas/${schemaName}`);

@@ -14,8 +14,6 @@ const meta = (state = initialMeta, action) => {
     case Type.FETCH_SESSION_FAILURE:
     case Type.CREATE_SESSION_FAILURE:
       return { ...state, error: action.error, isFetching: false, isCreating: false };
-    case Type.CREATE_SESSION_SUCCESS:
-      return { ...state, isCreating: false, sessionId: action.meta.sessionId };
     default:
       return { ...state, isFetching: false, isCreating: false };
   }
@@ -27,6 +25,8 @@ const data = (state = initialData, action) => {
   switch (action.type) {
     case Type.LOGIN_SUCCESS:
       return { ...state, user: action.user };
+    case Type.FETCH_SESSION_SUCCESS:
+      return { ...state, ...action.data };
     case Type.CREATE_SESSION_SUCCESS:
       return { ...state, [action.key]: action.data };
     default:

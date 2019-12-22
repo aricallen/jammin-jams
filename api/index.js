@@ -17,10 +17,6 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    cookie: {
-      maxAge: 1000 * 60 * 10, // 10 mins
-      httpOnly: true,
-    },
   })
 );
 app.use(notify);
