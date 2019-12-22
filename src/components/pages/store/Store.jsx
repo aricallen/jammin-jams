@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { stringify, parse } from 'query-string';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import { Content, Header1, Section, Header2 } from '../../common/Structure';
@@ -48,14 +47,13 @@ const SectionHeader = styled(Header2)`
   margin-bottom: ${spacing.double}px;
 `;
 
-export const Store = ({ history, location }) => {
+export const Store = ({ history }) => {
   const [selectedProduct, setSelectedProduct] = useState({});
   const sessionState = useSelector((state) => state.session);
   const dispatch = useDispatch();
-  const { sessionId } = parse(location.search);
 
   const fetch = () => {
-    dispatch(fetchSession({ sessionId }));
+    dispatch(fetchSession());
   };
   useEffect(fetch, []);
 
@@ -66,10 +64,9 @@ export const Store = ({ history, location }) => {
 
   const onSubmit = async (values) => {
     const data = { ...values, productId: selectedProduct.id };
-    const newSessionId = await dispatch(createSession({ data, key: Session.SUBSCRIPTION_FORM }));
-    const queryString = stringify({ sessionId: newSessionId });
-    if (newSessionId) {
-      history.push({ pathname: '/store/payment', search: queryString });
+    const sessionId = await dispatch(createSession({ data, key: Session.SUBSCRIPTION_FORM }));
+    if (sessionId) {
+      history.push({ pathname: '/store/payment' });
     }
   };
 
