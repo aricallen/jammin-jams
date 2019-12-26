@@ -1,6 +1,6 @@
 const { sendEmail, serializeForEmail } = require('../utils/email-helpers');
 
-const recipients = ['aric.allen2@gmail.com', 'celestetretto@gmail.com'];
+const recipients = ['jam@jmnjams.com', 'aric.allen2@gmail.com', 'celestetretto@gmail.com'];
 
 const notify = (req, res, next) => {
   if (
