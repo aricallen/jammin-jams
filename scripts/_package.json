@@ -7,7 +7,7 @@
   "license": "MIT",
   "scripts": {
     "start": "yarn serve",
-    "serve": "nodemon ./api/index.js"
+    "serve": "nodemon ./server/index.js"
   },
   "devDependencies": {},
   "dependencies": {
