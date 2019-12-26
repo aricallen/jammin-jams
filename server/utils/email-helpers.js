@@ -23,11 +23,13 @@ const sendEmail = ({ message, to, subject }) => {
 };
 
 const serializeForEmail = (row) => {
-  return Object.entries(row).reduce((acc, curr) => {
-    const [field, value] = curr;
-    acc.push(`${field}: ${value}`);
-    return acc;
-  }, []).join('\n');
+  return Object.entries(row)
+    .reduce((acc, curr) => {
+      const [field, value] = curr;
+      acc.push(`${field}: ${value}`);
+      return acc;
+    }, [])
+    .join('\n');
 };
 
 module.exports = { sendEmail, serializeForEmail };

@@ -2,6 +2,7 @@ const express = require('express');
 const { router: crudRouter } = require('./crud');
 const { router: sessionRouter } = require('./session');
 const { controller: loginController } = require('../controllers/login');
+const { controller: waitlistController } = require('../controllers/waitlist');
 const schemas = require('../schemas');
 
 // /api
@@ -20,5 +21,7 @@ router.get('/schemas/:tableName', (req, res) => {
     data: schemas[req.params.tableName].schema,
   });
 });
+
+router.post('/waitlist', waitlistController);
 
 module.exports = { router };

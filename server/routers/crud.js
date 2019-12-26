@@ -48,7 +48,11 @@ router.put('/:tableName/:resourceId', checkReadonly, async (req, res) => {
   const { tableName, resourceId } = req.params;
   const conn = await getConnection();
   try {
-    const results = await conn.query(`UPDATE ${tableName} SET ? WHERE id = ?`, req.body, resourceId);
+    const results = await conn.query(
+      `UPDATE ${tableName} SET ? WHERE id = ?`,
+      req.body,
+      resourceId
+    );
     res.send({
       data: results[0],
     });
@@ -66,9 +70,10 @@ router.post('/:tableName', checkReadonly, async (req, res) => {
   const { tableName } = req.params;
   const conn = await getConnection();
   try {
-    const results = await conn.query(`INSERT INTO ${tableName} VALUES ?`, req.body);
+    const result = await conn.query(`INSERT INTO ${tableName} SET ?`, req.body);
+    const inserted = await conn.query(`SELECT * from ${tableName} WHERE id = ${result.insertId}`);
     res.send({
-      data: results,
+      data: inserted,
     });
   } catch (err) {
     res.status(400).send(parseError(err, req));

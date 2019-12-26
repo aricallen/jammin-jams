@@ -14,7 +14,7 @@
     "deploy:production": "yarn clean && yarn build:production && yarn prepare-deploy && yarn deploy",
     "prepare-deploy": "sh scripts/prepare-deploy.sh",
     "run:local": "yarn build:local && yarn prepare-deploy && yarn serve",
-    "serve": "nodemon ./api/index.js",
+    "serve": "nodemon ./server/index.js",
     "prettify": "pretty-quick",
     "prettify:staged": "pretty-quick --staged",
     "clean": "rm -rf dist/ tmp/ build/"

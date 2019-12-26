@@ -4,7 +4,7 @@ const session = require('express-session');
 const helmet = require('helmet');
 const path = require('path');
 const bodyParser = require('body-parser');
-const { router } = require('./routers/main');
+const { router } = require('./routers/api');
 const { notify } = require('./middleware/notify');
 
 const app = express();
