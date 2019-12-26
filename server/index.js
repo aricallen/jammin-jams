@@ -29,7 +29,9 @@ app.use('/api*', (req, res) => {
   });
 });
 
-if (process.env.TARGET_ENV === 'production') {
+const { TARGET_ENV } = process.env;
+
+if (TARGET_ENV === 'production' || TARGET_ENV === 'local') {
   const staticDirPath = path.resolve(__dirname, '..', 'dist');
   const staticServer = express.static(staticDirPath);
   app.use('/', staticServer);
