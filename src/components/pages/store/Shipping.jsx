@@ -1,8 +1,54 @@
-import React from 'react';
-import { SubscriptionForm } from './SubscriptionForm';
+import React, { useState, Fragment } from 'react';
+import { startCase } from 'lodash';
+import { FormInput } from '../../common/Forms';
 
-export const isValid = () => false;
+const testValues = {
+  firstName: 'jane',
+  lastName: 'awesome',
+  email: 'jane.awesome@gmail.com',
+  address: '123 Jam dr',
+  zipCode: '12345',
+  city: 'awesome',
+  state: 'CA',
+  country: 'USA',
+};
 
-export const Shipping = () => {
-  return <div>shipping ...</div>;
+const FORM_FIELDS = ['firstName', 'lastName', 'email', 'address', 'address2', 'city', 'state'];
+
+export const isValid = (sessionData) => {
+  return FORM_FIELDS.every((field) => sessionData[field] && sessionData[field].length > 0);
+};
+
+export const Shipping = (props) => {
+  const { values, onUpdate } = props;
+
+  const [internalValues, setInternalValues] = useState({});
+  const [touched, setTouched] = useState({});
+  const [errors, setErrors] = useState({});
+
+  const handleChange = (name) => (event) => {
+    setTouched({ ...touched, [name]: true });
+    if (touched[name] && internalValues[name] && internalValues[name].length === 0) {
+      setErrors({ ...errors, [name]: 'This is a required field' });
+    }
+    const { value } = event.target;
+    setInternalValues({ ...values, [name]: value });
+    onUpdate({ [name]: value });
+  };
+
+  return (
+    <Fragment>
+      {FORM_FIELDS.map((field) => (
+        <FormInput
+          key={field}
+          name={field}
+          label={startCase(field)}
+          value={values[field] || ''}
+          error={errors[field]}
+          onChange={handleChange(field)}
+          isRequired={true}
+        />
+      ))}
+    </Fragment>
+  );
 };
