@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { omit } from 'lodash';
 import { Spinner } from '../../common/Spinner';
 import { SchemaForm } from '../../common/SchemaForm';
 import { fetchSchema } from '../../../redux/schemas/actions';
@@ -34,7 +35,7 @@ export const SubscriptionForm = (props) => {
   }
 
   const { users, addresses } = schemaState.data;
-  const fields = [...users.fields, ...addresses.fields];
+  const fields = [...users.fields, ...omit(addresses.fields, ['zipCode'])];
   return (
     <SchemaForm
       schema={{ name: 'userInfo', fields }}

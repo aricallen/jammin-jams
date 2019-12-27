@@ -14,6 +14,10 @@ const Value = styled('span')`
   font-weight: ${font.weight.bold};
 `;
 
+export const isValid = (sessionData = {}) => {
+  return !!sessionData.productId;
+};
+
 export const Products = (props) => {
   const { onUpdate, values } = props;
   const { productId } = values;
@@ -22,7 +26,7 @@ export const Products = (props) => {
   );
 
   const onSelect = (product) => {
-    onUpdate({ productId: product.id }, true);
+    onUpdate({ productId: product.id });
     setSelectedProduct(product);
   };
 

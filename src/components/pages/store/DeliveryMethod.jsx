@@ -29,13 +29,18 @@ const OPTIONS = [
   },
 ];
 
-const isValid = (values = {}) => {
+export const isValid = (values = {}) => {
   const { zipCode, deliveryMethod, deliveryPromoCode } = values;
+  if (!deliveryMethod) {
+    return false;
+  }
+
   if (deliveryMethod === Method.PROMO) {
     return deliveryPromoCode && deliveryPromoCode.length > 0;
   }
+
   if (deliveryMethod === Method.BICYCLE) {
-    return zipCode && zipCode.length > 0 && !isInvalidZip(zipCode);
+    return zipCode && zipCode.length === 5 && !isInvalidZip(zipCode);
   }
   return true;
 };
@@ -73,7 +78,7 @@ export const DeliveryMethod = (props) => {
       {showPromo && (
         <FormInput
           name="deliveryPromoCode"
-          value={deliveryPromoCode}
+          value={deliveryPromoCode || ''}
           onChange={handleChange('deliveryPromoCode', (e) => e.target.value)}
           label="Promo Code"
           isRequired={true}
@@ -82,7 +87,7 @@ export const DeliveryMethod = (props) => {
       {showZip && (
         <FormInput
           name="zipCode"
-          value={zipCode}
+          value={zipCode || ''}
           onChange={handleChange('zipCode', (e) => e.target.value)}
           label="Zip Code"
           isRequired={true}

@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
-import useForm from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
 import { Session } from '../../../constants/session';
 // import { CSSTransition } from 'react-transition-group';
 // import { Redirect } from 'react-router-dom';
-import { Products } from './Products';
-import { DeliveryMethod } from './DeliveryMethod';
-import { Payment } from './Payment';
-import { Shipping } from './Shipping';
-import { StoreStep } from './constants';
+import { Products, isValid as isValidProducts } from './Products';
+import { DeliveryMethod, isValid as isValidDeliveryMethod } from './DeliveryMethod';
+import { Payment, isValid as isValidPayment } from './Payment';
+import { Shipping, isValid as isValidShipping } from './Shipping';
 import { Button } from '../../common/Button';
 import { createSession, fetchSession } from '../../../redux/session/actions';
 import { media } from '../../../utils/media';
@@ -48,41 +46,30 @@ const StepComponentWrapper = styled('div')`
   flex-direction: column;
 `;
 
-const getComponent = (step) => {
-  switch (step) {
-    case StoreStep.PRODUCTS:
-      return Products;
-    case StoreStep.DELIVERY_METHOD:
-      return DeliveryMethod;
-    case StoreStep.SHIPPING:
-      return Shipping;
-    case StoreStep.PAYMENT:
-      return Payment;
-    default:
-      return null;
-  }
-};
-
-const stepComponents = [
+export const stepComponents = [
   {
     id: 0,
     path: 'products',
     Component: Products,
+    isValid: isValidProducts,
   },
   {
     id: 1,
     path: 'delivery-method',
     Component: DeliveryMethod,
+    isValid: isValidDeliveryMethod,
   },
   {
     id: 2,
     path: 'shipping',
     Component: Shipping,
+    isValid: isValidShipping,
   },
   {
     id: 3,
     path: 'payment',
     Component: Payment,
+    isValid: isValidPayment,
   },
 ];
 
@@ -94,7 +81,6 @@ export const Store = ({ history, match }) => {
 
   const sessionValues = sessionState.data[Session.SUBSCRIPTION_FORM] || {};
   const [values, setValues] = useState(sessionValues || {});
-  const [isValid, setIsValid] = useState(false);
 
   const load = () => {
     dispatch(fetchSession());
@@ -105,14 +91,12 @@ export const Store = ({ history, match }) => {
     const nextStepLevel = type === 'prev' ? stepLevel - 1 : stepLevel + 1;
     const nextConfig = stepComponents[nextStepLevel];
     await dispatch(createSession({ data: values, key: Session.SUBSCRIPTION_FORM }));
-    setIsValid(type === 'prev');
     history.push(`/store/${nextConfig.path}`);
   };
 
-  const onUpdate = (fieldValues, validVal) => {
+  const onUpdate = (fieldValues) => {
     const newValues = { ...values, ...fieldValues };
     setValues(newValues);
-    setIsValid(validVal);
   };
 
   // no session, redirect back to beginning
@@ -120,7 +104,7 @@ export const Store = ({ history, match }) => {
     history.push(`/store/${stepComponents[0].path}`);
   }
 
-  const Component = getComponent(step);
+  const { Component } = stepComponents[stepLevel];
 
   if (!Component) {
     console.error(`unknown step: "${step}"`);
@@ -144,7 +128,7 @@ export const Store = ({ history, match }) => {
           </Button>
           <Button
             onClick={handleNavClick('next')}
-            disabled={stepLevel >= 4 || !isValid}
+            disabled={stepLevel >= 4 || !stepComponents[stepLevel].isValid(values)}
             isBusy={isUpdating}
           >
             Next
