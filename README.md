@@ -44,5 +44,11 @@ yarn dev
 ```
 
 View that app in browser at http://localhost:4242
+If everything was setup correctly you'll see the following in the browser's console
+
+```sh
+api server status -> OK!
+db status -> OK!
+```
 
 ## Project Structure

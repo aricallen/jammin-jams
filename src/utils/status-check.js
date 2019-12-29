@@ -10,7 +10,7 @@ export const statusCheck = () => {
     .then((json) => {
       console.log('api server status -> OK!');
       if (json.db === 'ok') {
-        console.ok('db status -> OK!');
+        console.log('db status -> OK!');
       } else {
         console.error('db not connected!');
         console.error(json.error);
