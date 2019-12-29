@@ -52,3 +52,31 @@ db status -> OK!
 ```
 
 ## Project Structure
+
+```sh
+├── config # setup files
+├── scripts # shell scripts to help with deploying to server
+├── server # backend api routes/controllers
+│   ├── controllers
+│   ├── middleware
+│   ├── routers
+│   ├── schemas
+│   └── utils
+└── src # frontend app
+    ├── assets # static assets
+    │   ├── favicons
+    │   ├── fonts
+    │   └── logos
+    ├── components
+    │   ├── common # shared components
+    │   └── pages # components related to specific pages
+    │       └── store
+    ├── constants
+    ├── redux
+    │   ├── schemas
+    │   ├── session
+    │   └── utils
+    ├── services
+    ├── styles
+    └── utils
+```
