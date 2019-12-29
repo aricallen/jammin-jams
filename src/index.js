@@ -2,11 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
-import { appCheck } from './utils/app-check';
+import { statusCheck } from './utils/status-check';
 import { App } from './components/App';
 import './styles/index.scss';
 
-appCheck();
+statusCheck();
 
 ReactDOM.render(
   <Provider store={store}>

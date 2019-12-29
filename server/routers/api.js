@@ -3,6 +3,7 @@ const { router: crudRouter } = require('./crud');
 const { router: sessionRouter } = require('./session');
 const { controller: loginController } = require('../controllers/login');
 const { controller: waitlistController } = require('../controllers/waitlist');
+const { getConnection } = require('../utils/db-helpers');
 const schemas = require('../schemas');
 
 // /api
@@ -12,7 +13,22 @@ router.use('/admin', crudRouter);
 router.use('/session', sessionRouter);
 
 // general api
-router.get('/status', (req, res) => res.send({ status: 'ok' }));
+router.get('/status', async (req, res) => {
+  try {
+    const conn = await getConnection();
+    conn.end();
+  } catch (err) {
+    return res.send({
+      api: 'ok',
+      db: 'not connected',
+      error: err,
+    });
+  }
+  return res.send({
+    api: 'ok',
+    db: 'ok',
+  });
+});
 
 router.post('/login', loginController);
 

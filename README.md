@@ -2,9 +2,16 @@
 
 ## Requirements
 
-- [yarn](https://yarnpkg.com/lang/en/docs/install/#mac-stable)
-- [node](https://nodejs.org/en/download/)
-- [mysql](https://dev.mysql.com/doc/mysql-osx-excerpt/5.7/en/osx-installation-pkg.html)
+- [homebrew](https://brew.sh/)
+
+```sh
+# node
+brew install node
+# yarn
+brew install yarn
+# mysql
+brew install mysql
+```
 
 ## Installation
 
@@ -13,14 +20,12 @@
 git clone git@github.com:aricallen/jmnjams.git && cd jmnjams
 # start mysql
 mysqld
-# connect to mysql
-mysql -u root
+# setup user with password => 'password'
+mysqladmin -u root password password
 # create db
-create database jmnjams;
-# exit connection
-exit
-# import db schema from project config/
-mysql -u root jmnjams < ./config/db.sql
+mysqladmin -u root -p create jmnjams;
+# import base sql file
+mysql -u root -p jmnjams < ./config/db.sql
 # install node dependencies
 yarn install
 # cp env file to project root
