@@ -46,6 +46,10 @@ const StepComponentWrapper = styled('div')`
   flex-direction: column;
 `;
 
+const Form = styled('form')`
+  height: 100%;
+`;
+
 export const stepComponents = [
   {
     id: 0,
@@ -87,16 +91,24 @@ export const Store = ({ history, match }) => {
   };
   useEffect(load, []);
 
-  const handleNavClick = (type) => async () => {
-    const nextStepLevel = type === 'prev' ? stepLevel - 1 : stepLevel + 1;
+  const handlePrevClick = (event) => {
+    event.preventDefault();
+    const nextStepLevel = stepLevel - 1;
     const nextConfig = stepComponents[nextStepLevel];
-    await dispatch(createSession({ data: values, key: Session.SUBSCRIPTION_FORM }));
     history.push(`/store/${nextConfig.path}`);
   };
 
   const onUpdate = (fieldValues) => {
     const newValues = { ...values, ...fieldValues };
     setValues(newValues);
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const nextStepLevel = stepLevel + 1;
+    const nextConfig = stepComponents[nextStepLevel];
+    await dispatch(createSession({ data: values, key: Session.SUBSCRIPTION_FORM }));
+    history.push(`/store/${nextConfig.path}`);
   };
 
   // no session, redirect back to beginning
@@ -114,27 +126,29 @@ export const Store = ({ history, match }) => {
   const { isFetching, isUpdating } = sessionState.meta;
 
   return (
-    <Wrapper>
-      <StatusWrapper>
-        <StatusBar />
-      </StatusWrapper>
-      <StepComponentWrapper>
-        {isFetching ? <Spinner /> : <Component values={values} onUpdate={onUpdate} />}
-      </StepComponentWrapper>
-      <Footer>
-        <ControlsWrapper>
-          <Button onClick={handleNavClick('prev')} disabled={stepLevel <= 0} isBusy={isUpdating}>
-            Prev
-          </Button>
-          <Button
-            onClick={handleNavClick('next')}
-            disabled={stepLevel >= 4 || !stepComponents[stepLevel].isValid(values)}
-            isBusy={isUpdating}
-          >
-            Next
-          </Button>
-        </ControlsWrapper>
-      </Footer>
-    </Wrapper>
+    <Form onSubmit={handleSubmit}>
+      <Wrapper>
+        <StatusWrapper>
+          <StatusBar />
+        </StatusWrapper>
+        <StepComponentWrapper>
+          {isFetching ? <Spinner /> : <Component values={values} onUpdate={onUpdate} />}
+        </StepComponentWrapper>
+        <Footer>
+          <ControlsWrapper>
+            <Button onClick={handlePrevClick} disabled={stepLevel <= 0} isBusy={isUpdating}>
+              Prev
+            </Button>
+            <Button
+              type="submit"
+              disabled={stepLevel >= 4 || !stepComponents[stepLevel].isValid(values)}
+              isBusy={isUpdating}
+            >
+              Next
+            </Button>
+          </ControlsWrapper>
+        </Footer>
+      </Wrapper>
+    </Form>
   );
 };

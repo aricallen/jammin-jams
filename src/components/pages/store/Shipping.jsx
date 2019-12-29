@@ -14,6 +14,7 @@ const testValues = {
 };
 
 const FORM_FIELDS = ['firstName', 'lastName', 'email', 'address', 'address2', 'city', 'state'];
+const REQUIRED_FIELDS = FORM_FIELDS.filter((field) => field !== 'address2');
 
 export const isValid = (sessionData) => {
   return FORM_FIELDS.every((field) => sessionData[field] && sessionData[field].length > 0);
@@ -46,7 +47,8 @@ export const Shipping = (props) => {
           value={values[field] || ''}
           error={errors[field]}
           onChange={handleChange(field)}
-          isRequired={true}
+          type={field === 'email' ? 'email' : 'text'}
+          isRequired={REQUIRED_FIELDS.includes(field)}
         />
       ))}
     </Fragment>
