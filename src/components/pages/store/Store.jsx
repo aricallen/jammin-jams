@@ -86,6 +86,7 @@ export const Store = ({ history, match }) => {
 
   const sessionValues = sessionState.data[Session.SUBSCRIPTION_FORM] || {};
   const [values, setValues] = useState(sessionValues || {});
+  const [backendErrors, setBackendErrors] = useState({});
 
   const load = () => {
     dispatch(fetchSession());
@@ -112,7 +113,9 @@ export const Store = ({ history, match }) => {
     if (nextConfig) {
       history.push(`/store/${nextConfig.path}`);
     } else {
-      submitForm(values);
+      submitForm(values, (errors) => {
+        setBackendErrors(errors);
+      });
     }
   };
 
@@ -137,7 +140,11 @@ export const Store = ({ history, match }) => {
           <StatusBar />
         </StatusWrapper>
         <StepComponentWrapper>
-          {isFetching ? <Spinner /> : <Component values={values} onUpdate={onUpdate} />}
+          {isFetching ? (
+            <Spinner />
+          ) : (
+            <Component values={values} onUpdate={onUpdate} backendErrors={backendErrors} />
+          )}
         </StepComponentWrapper>
         <Footer>
           <ControlsWrapper>

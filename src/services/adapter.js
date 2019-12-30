@@ -10,7 +10,7 @@ export const addToWaitlist = async (values) => {
   }
 };
 
-export const createSubscription = async (values) => {
+export const processSubscription = async (values) => {
   try {
     const result = await axios.post('/api/process-subscription', values);
     return result;

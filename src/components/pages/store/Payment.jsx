@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { camelCase, startCase } from 'lodash';
+import { startCase } from 'lodash';
 import styled from '@emotion/styled';
 import {
   Content,
@@ -10,7 +10,7 @@ import {
   Link,
 } from '../../common/Structure';
 import { initForm } from '../../../services/square';
-import { FormInput, Label, Fieldset } from '../../common/Forms';
+import { FormInput, Label, Fieldset, FormError } from '../../common/Forms';
 import { spacing, pallet } from '../../../constants/style-guide';
 
 const FormContainer = styled('div')``;
@@ -25,10 +25,33 @@ const FormSection = styled(Section)`
   border-top: 1px solid ${pallet.charcoal};
 `;
 
-const requiredFields = ['cardholderName', 'password', 'confirmPassword', 'billingAddress'];
+const ADDRESS_FIELDS = [
+  'billingFirstName',
+  'billingLastName',
+  'billingAddress',
+  'billingAddress2',
+  'billingCity',
+  'billingState',
+];
+const PLACHOLDERS = {
+  billingFirstName: 'Jane',
+  billingLastName: 'Awesome',
+  billingAddress: '123 Jam Dr.',
+  billingAddress2: 'Unit 42',
+  billingCity: 'Awesomeville',
+  billingState: 'CA',
+};
+const OPTIONAL_FIELDS = ['billingAddress2'];
+const REQUIRED_FIELDS = [
+  'cardholderName',
+  'password',
+  'confirmPassword',
+  ...ADDRESS_FIELDS.filter((f) => !OPTIONAL_FIELDS.includes(f)),
+];
 
 export const isValid = (values) => {
-  return requiredFields.every((field) => !!values[field]);
+  return true;
+  // return REQUIRED_FIELDS.every((field) => !!values[field]);
 };
 
 const getErrors = (values) => {
@@ -42,11 +65,8 @@ const getErrors = (values) => {
   return {};
 };
 
-const ADDRESS_FIELDS = ['firstName', 'lastName', 'address', 'address2', 'city', 'state'];
-const REQUIRED_FIELDS = ADDRESS_FIELDS.filter((field) => field !== 'address2');
-
 export const Payment = (props) => {
-  const { values, onUpdate } = props;
+  const { values, onUpdate, backendErrors } = props;
   const [errors, setErrors] = useState({});
 
   const init = () => {
@@ -61,7 +81,7 @@ export const Payment = (props) => {
     setErrors(getErrors(newValues));
   };
 
-  const cardholderName = values.firstName ? `${values.firstName} ${values.lastName}` : '';
+  const cardholderName = values.firstName ? `${values.firstName} ${values.lastName}` : null;
 
   return (
     <Content>
@@ -105,17 +125,21 @@ export const Payment = (props) => {
           </Section>
           <FormSection>
             <Header2>Billing Address</Header2>
-            {ADDRESS_FIELDS.map((field) => (
-              <FormInput
-                key={field}
-                label={startCase(field)}
-                name={camelCase(`billing_${field}`)}
-                value={values[field] || ''}
-                error={errors[field]}
-                onChange={handleChange(camelCase(`billing_${field}`))}
-                isRequired={REQUIRED_FIELDS.includes(field)}
-              />
-            ))}
+            {ADDRESS_FIELDS.map((field) => {
+              const label = startCase(field.replace('billing', ''));
+              return (
+                <FormInput
+                  key={field}
+                  label={label}
+                  name={field}
+                  value={values[field] || ''}
+                  error={errors[field]}
+                  onChange={handleChange(field)}
+                  isRequired={REQUIRED_FIELDS.includes(field)}
+                  placeholder={PLACHOLDERS[field]}
+                />
+              );
+            })}
           </FormSection>
           <FormSection>
             <Header2>Credit Card</Header2>
@@ -128,7 +152,7 @@ export const Payment = (props) => {
 
             <FormInput
               name="cardholderName"
-              value={cardholderName}
+              value={cardholderName || values.cardholderName || ''}
               onChange={handleChange('cardholderName')}
               placeholder="Card Holder Full Name (e.g. Jane Awesome)"
               isRequired={true}
@@ -136,18 +160,26 @@ export const Payment = (props) => {
             <Fieldset className="required">
               <Label>Card Number</Label>
               <div id="sq-card-number" />
+              {backendErrors.cardNumber && <FormError>{backendErrors.cardNumber}</FormError>}
             </Fieldset>
             <Fieldset className="required">
               <Label>Expiration Date</Label>
               <div id="sq-expiration-date" />
+              {backendErrors.expirationDate && (
+                <FormError>{backendErrors.expirationDate}</FormError>
+              )}
             </Fieldset>
             <Fieldset className="required">
               <Label>CVV</Label>
               <div id="sq-cvv" />
+              {backendErrors.cvv && <FormError>{backendErrors.cvv}</FormError>}
             </Fieldset>
             <Fieldset className="required">
               <Label>Zip Code</Label>
               <div id="sq-zip-code" />
+              {backendErrors.billingZipCode && (
+                <FormError>{backendErrors.billingZipCode}</FormError>
+              )}
             </Fieldset>
           </FormSection>
         </FormContainer>

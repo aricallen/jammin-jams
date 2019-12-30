@@ -59,7 +59,7 @@ export const initForm = () => {
 };
 
 export const submitForm = async (values) => {
-  _paymentForm.clientController.callbacks.cardNonceResponseReceived = (errors, nonce) => {
+  _paymentForm.clientController.callbacks.cardNonceResponseReceived = (errors, nonce, cardData) => {
     if (errors) {
       console.error('Encountered errors:');
       errors.forEach((error) => {
@@ -68,7 +68,7 @@ export const submitForm = async (values) => {
     } else {
       console.log('received nonce', nonce);
       console.log('form values = ', values);
-      processSubscription({ nonce, ...values });
+      processSubscription({ nonce, cardData, ...values });
     }
   };
   _paymentForm.requestCardNonce();

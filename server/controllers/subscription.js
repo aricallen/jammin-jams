@@ -25,33 +25,38 @@ const controller = async (req, res) => {
   const values = req.body;
   const conn = await getConnection();
   const api = new SquareConnect.CustomersApi(getClient());
-  const customer = await api.createCustomer({
-    given_name: values.firstName,
-    family_name: values.lastName,
-    email_address: values.email,
-    phone_number: null,
-    address: {
-      address_line_1: values.address,
-      address_line_2: values.address2,
-      locality: values.city,
-      postal_code: values.zipCode,
-      administrative_district_level_1: values.state,
-      country: 'US',
-    },
-  });
-
-  const card = await api.createCustomerCard(customer.id, {
-    card_nonce: values.card_nonce,
-    billing_address: values.billingAddress,
-    cardholder_name: values.cardholderName,
-  });
 
   try {
+    const { customer } = await api.createCustomer({
+      given_name: values.firstName,
+      family_name: values.lastName,
+      email_address: values.email,
+      phone_number: null,
+      address: {
+        address_line_1: values.address,
+        address_line_2: values.address2,
+        locality: values.city,
+        postal_code: values.cardDetails.postal_code,
+        administrative_district_level_1: values.state,
+        country: 'US',
+      },
+    });
+
+    const cardRequest = {
+      card_nonce: values.card_nonce,
+      billing_address: customer.address,
+      cardholder_name: values.cardholderName,
+    };
+
+    const { card } = await api.createCustomerCard(customer.id, cardRequest);
+
     res.send({
       data: req.body,
     });
   } catch (err) {
-    res.status(400).send(parseError(err, req));
+    res.status(400).send({
+      error: 'some error',
+    });
   }
   conn.end();
 };

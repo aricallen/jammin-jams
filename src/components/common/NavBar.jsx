@@ -81,7 +81,7 @@ export const NavBar = () => {
         <NavLink to="/">
           <BrandLinkWrapper>
             <NavLogo />
-            Jammin Jams
+            Jammin&apos; Jams
           </BrandLinkWrapper>
         </NavLink>
       </Brand>

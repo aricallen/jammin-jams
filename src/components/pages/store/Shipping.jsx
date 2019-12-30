@@ -3,18 +3,7 @@ import { startCase } from 'lodash';
 import { FormInput } from '../../common/Forms';
 import { Section, Header2 } from '../../common/Structure';
 
-const testValues = {
-  firstName: 'jane',
-  lastName: 'awesome',
-  email: 'jane.awesome@gmail.com',
-  address: '123 Jam dr',
-  zipCode: '12345',
-  city: 'awesome',
-  state: 'CA',
-  country: 'USA',
-};
-
-const FORM_FIELDS = ['firstName', 'lastName', 'address', 'address2', 'city', 'state'];
+const FORM_FIELDS = ['firstName', 'lastName', 'address', 'address2', 'city', 'state', 'zipCode'];
 const REQUIRED_FIELDS = FORM_FIELDS.filter((field) => field !== 'address2');
 
 export const isValid = (sessionData) => {
