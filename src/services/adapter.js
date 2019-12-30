@@ -9,3 +9,13 @@ export const addToWaitlist = async (values) => {
     throw err;
   }
 };
+
+export const createSubscription = async (values) => {
+  try {
+    const result = await axios.post('/api/process-subscription', values);
+    return result;
+  } catch (err) {
+    console.log('error creating subscription');
+    throw err;
+  }
+};

@@ -1,4 +1,5 @@
-import { spacing, pallet, font } from '../constants/style-guide';
+import { spacing, font } from '../constants/style-guide';
+import { processSubscription } from './adapter';
 
 let _paymentForm = null;
 
@@ -10,12 +11,7 @@ const buildForm = (callbacks = {}) => {
     inputStyles: [
       {
         fontSize: `${font.size.regular}px`,
-        // marginTop: `${spacing.double}px`,
         padding: `${spacing.regular}px`,
-        // borderRadius: `${spacing.regular}px`,
-        // borderColor: pallet.strawberry,
-        placeholderColor: '#a0a0a0',
-        // backgroundColor: 'transparent',
       },
     ],
     cardNumber: {
@@ -72,6 +68,7 @@ export const submitForm = async (values) => {
     } else {
       console.log('received nonce', nonce);
       console.log('form values = ', values);
+      processSubscription({ nonce, ...values });
     }
   };
   _paymentForm.requestCardNonce();

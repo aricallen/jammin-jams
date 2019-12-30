@@ -1,6 +1,7 @@
 import React, { useState, Fragment } from 'react';
 import { startCase } from 'lodash';
 import { FormInput } from '../../common/Forms';
+import { Section, Header2 } from '../../common/Structure';
 
 const testValues = {
   firstName: 'jane',
@@ -13,7 +14,7 @@ const testValues = {
   country: 'USA',
 };
 
-const FORM_FIELDS = ['firstName', 'lastName', 'email', 'address', 'address2', 'city', 'state'];
+const FORM_FIELDS = ['firstName', 'lastName', 'address', 'address2', 'city', 'state'];
 const REQUIRED_FIELDS = FORM_FIELDS.filter((field) => field !== 'address2');
 
 export const isValid = (sessionData) => {
@@ -39,6 +40,9 @@ export const Shipping = (props) => {
 
   return (
     <Fragment>
+      <Section>
+        <Header2>Shipping Address</Header2>
+      </Section>
       {FORM_FIELDS.map((field) => (
         <FormInput
           key={field}

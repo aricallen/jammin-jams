@@ -3,6 +3,7 @@ const { router: crudRouter } = require('./crud');
 const { router: sessionRouter } = require('./session');
 const { controller: loginController } = require('../controllers/login');
 const { controller: waitlistController } = require('../controllers/waitlist');
+const { controller: subscriptionController } = require('../controllers/subscription');
 const { getConnection } = require('../utils/db-helpers');
 const schemas = require('../schemas');
 
@@ -39,5 +40,7 @@ router.get('/schemas/:tableName', (req, res) => {
 });
 
 router.post('/waitlist', waitlistController);
+
+router.post('/process-subscription', subscriptionController);
 
 module.exports = { router };

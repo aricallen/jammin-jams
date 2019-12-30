@@ -80,19 +80,13 @@ export const Select = (props) => {
   return <SelectElem {...otherProps} classNamePrefix="react-select" />;
 };
 
-export const FormInput = ({
-  name,
-  label,
-  error,
-  value,
-  onChange,
-  isRequired = false,
-  type = 'text',
-}) => {
+export const FormInput = (props) => {
+  const { name, label, error, isRequired = false } = props;
+  const inputProps = omit(props, ['isRequired', 'label', 'error']);
   return (
     <Fieldset className={isRequired ? 'required' : null}>
       <Label>{label || startCase(name)}</Label>
-      <Input type={type} value={value} onChange={onChange} />
+      <Input {...inputProps} required={isRequired} />
       {error && <FormError>{error}</FormError>}
     </Fieldset>
   );
