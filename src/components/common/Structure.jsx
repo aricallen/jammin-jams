@@ -1,6 +1,7 @@
 import React from 'react';
+import Color from 'color';
 import styled from '@emotion/styled';
-import { spacing } from '../../constants/style-guide';
+import { spacing, animation, pallet } from '../../constants/style-guide';
 
 export const Content = styled('div')`
   width: 100%;
@@ -27,6 +28,25 @@ export const Paragraph = styled('p')`
 export const Emphasis = styled('span')`
   font-style: italic;
   font-weight: bold;
+`;
+
+export const Link = styled('a')`
+  text-decoration: none;
+  transition: color ${animation};
+  color: ${pallet.strawberry};
+
+  &:active,
+  &:visited {
+    color: ${Color(pallet.strawberry)
+      .darken(0.2)
+      .toString()};
+  }
+
+  &:hover {
+    color: ${Color(pallet.strawberry)
+      .lighten(0.2)
+      .toString()};
+  }
 `;
 
 export const Emoji = ({ label, children }) => {
