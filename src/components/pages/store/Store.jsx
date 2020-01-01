@@ -78,6 +78,26 @@ export const stepComponents = [
   },
 ];
 
+const testData = {
+  productId: 1,
+  deliveryMethod: 'bicycle',
+  zipCode: '94607',
+  firstName: 'Bootsy',
+  lastName: 'Collins',
+  address: '123 Jam dr.',
+  city: 'Awesomeville',
+  state: 'CA',
+  email: 'jane.awesome@gmail.com',
+  password: '123412345',
+  confirmPassword: '123412345',
+  billingFirstName: 'George',
+  billingLastName: 'Clinton',
+  billingAddress: '432 Jammin Way',
+  billingAddress2: '42',
+  billingCity: 'Coolio',
+  billingState: 'CA',
+};
+
 export const Store = ({ history, match }) => {
   const { step } = match.params;
   const stepLevel = stepComponents.findIndex((config) => config.path === step);
@@ -85,7 +105,7 @@ export const Store = ({ history, match }) => {
   const dispatch = useDispatch();
 
   const sessionValues = sessionState.data[Session.SUBSCRIPTION_FORM] || {};
-  const [values, setValues] = useState(sessionValues || {});
+  const [values, setValues] = useState(testData);
   const [backendErrors, setBackendErrors] = useState({});
 
   const load = () => {

@@ -25,17 +25,8 @@ const FormSection = styled(Section)`
   border-top: 1px solid ${pallet.charcoal};
 `;
 
-const ADDRESS_FIELDS = [
-  'billingFirstName',
-  'billingLastName',
-  'billingAddress',
-  'billingAddress2',
-  'billingCity',
-  'billingState',
-];
+const ADDRESS_FIELDS = ['billingAddress', 'billingAddress2', 'billingCity', 'billingState'];
 const PLACHOLDERS = {
-  billingFirstName: 'Jane',
-  billingLastName: 'Awesome',
   billingAddress: '123 Jam Dr.',
   billingAddress2: 'Unit 42',
   billingCity: 'Awesomeville',
@@ -50,8 +41,7 @@ const REQUIRED_FIELDS = [
 ];
 
 export const isValid = (values) => {
-  return true;
-  // return REQUIRED_FIELDS.every((field) => !!values[field]);
+  return REQUIRED_FIELDS.every((field) => !!values[field]);
 };
 
 const getErrors = (values) => {

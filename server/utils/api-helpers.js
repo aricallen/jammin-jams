@@ -1,4 +1,4 @@
-const crypto = require('crypto');
+const { getConnection, getAllRows } = require('./db-helpers');
 
 const parseError = (err, req) => {
   return {
@@ -21,11 +21,22 @@ const checkReadonly = (req, res, next) => {
   next();
 };
 
-const { SECRET_KEY, SECRET_KEY_LENGTH } = process.env;
-const hashIt = (str) => {
-  return crypto
-    .pbkdf2Sync(str, SECRET_KEY, 1000, parseInt(SECRET_KEY_LENGTH, 10), 'sha512')
-    .toString('hex');
+const createGetController = (tableName) => {
+  return async (req, res) => {
+    const conn = await getConnection();
+    try {
+      const records = await getAllRows(conn, tableName);
+      res.send({
+        data: records,
+      });
+    } catch (err) {
+      res.status(400).send({
+        error: err,
+        message: `Unable to fetch rows for ${tableName}`,
+      });
+    }
+    conn.end();
+  };
 };
 
-module.exports = { parseError, checkReadonly, hashIt };
+module.exports = { parseError, checkReadonly, createGetController };

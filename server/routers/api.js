@@ -5,6 +5,7 @@ const { controller: loginController } = require('../controllers/login');
 const { controller: waitlistController } = require('../controllers/waitlist');
 const { controller: subscriptionController } = require('../controllers/subscription');
 const { getConnection } = require('../utils/db-helpers');
+const { createGetController } = require('../utils/api-helpers');
 const schemas = require('../schemas');
 
 // /api
@@ -42,5 +43,7 @@ router.get('/schemas/:tableName', (req, res) => {
 router.post('/waitlist', waitlistController);
 
 router.post('/process-subscription', subscriptionController);
+
+router.get('/inventory-items', createGetController('inventoryItems'));
 
 module.exports = { router };

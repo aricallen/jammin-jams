@@ -44,31 +44,35 @@ const Row = styled('div')`
   }
 `;
 
-const renderCell = ({ product, onSelect }) => {
-  if (!product.id) {
-    return (
-      <Fragment>
-        <Cell>{product.label}</Cell>
-        <Cell>{product.text}</Cell>
-      </Fragment>
-    );
-  }
+const formatName = (name) => {
+  return name.split(' -- ').pop();
+};
+
+const renderCell = ({ inventoryItem, onSelect }) => {
   return (
     <Fragment>
-      <SelectableCell onClick={() => onSelect(product)}>{product.label}</SelectableCell>
-      <SelectableCell onClick={() => onSelect(product)}>{product.text}</SelectableCell>
+      <SelectableCell onClick={() => onSelect(inventoryItem)}>
+        {formatName(inventoryItem.name)}
+      </SelectableCell>
+      <SelectableCell onClick={() => onSelect(inventoryItem)}>
+        ${inventoryItem.price}
+      </SelectableCell>
     </Fragment>
   );
 };
 
 export const ProductPicker = (props) => {
-  const { products, onSelect } = props;
+  const { inventoryItems, onSelect } = props;
 
   return (
-    <Grid numRows={products.length}>
-      {products.map((product, i) => (
-        <Row key={product.label} isSelected={product.isSelected} isSelectable={i > 0}>
-          {renderCell({ product, onSelect })}
+    <Grid numRows={inventoryItems.length + 1}>
+      <Row key="header-row" isSelectable={false}>
+        <Cell>Frequency</Cell>
+        <Cell>Price</Cell>
+      </Row>
+      {inventoryItems.map((ii) => (
+        <Row key={ii.name} isSelected={ii.isSelected} isSelectable={true}>
+          {renderCell({ inventoryItem: ii, onSelect })}
         </Row>
       ))}
     </Grid>

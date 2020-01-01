@@ -7,7 +7,7 @@ const FORM_FIELDS = ['firstName', 'lastName', 'address', 'address2', 'city', 'st
 const REQUIRED_FIELDS = FORM_FIELDS.filter((field) => field !== 'address2');
 
 export const isValid = (sessionData) => {
-  return FORM_FIELDS.every((field) => sessionData[field] && sessionData[field].length > 0);
+  return REQUIRED_FIELDS.every((field) => sessionData[field] && sessionData[field].length > 0);
 };
 
 export const Shipping = (props) => {
