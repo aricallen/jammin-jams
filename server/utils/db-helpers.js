@@ -36,7 +36,7 @@ const getColumnNames = async (conn, tableName) => {
 const OMITTED_INSERT_COLUMNS = ['id', 'dateModified', 'dateCreated'];
 
 const parseInsertValues = async (conn, tableName, values) => {
-  const columnNames = await getColumnNames(conn, tableName);
+  const columnNames = (await getColumnNames(conn, tableName)).map((packet) => packet.COLUMN_NAME);
   const validColumns = columnNames.filter(
     (column) => OMITTED_INSERT_COLUMNS.includes(column) === false
   );
@@ -45,10 +45,10 @@ const parseInsertValues = async (conn, tableName, values) => {
 };
 
 const insertIntoTable = async (conn, tableName, values) => {
-  const row = parseInsertValues(conn, tableName, values);
-  const result = conn.query(`INSERT INTO ${tableName} SET ?`, row);
+  const row = await parseInsertValues(conn, tableName, values);
+  const result = await conn.query(`INSERT INTO ${tableName} SET ?`, row);
   const inserted = await conn.query(`SELECT * from ${tableName} WHERE id = ${result.insertId}`);
-  return inserted;
+  return inserted[0];
 };
 
 const getAllRows = async (conn, tableName) => {

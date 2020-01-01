@@ -1,5 +1,10 @@
 const SquareConnect = require('square-connect');
-const { getConnection, parseInsertValues, insertIntoTable } = require('../utils/db-helpers');
+const {
+  getConnection,
+  parseInsertValues,
+  insertIntoTable,
+  createTransaction,
+} = require('../utils/db-helpers');
 const { hashIt } = require('../utils/hash-it');
 
 const { SQUARE_ACCESS_TOKEN, SQUARE_HOST } = process.env;
@@ -17,11 +22,8 @@ const addToAddresses = async (conn, values) => {
 
 const addToUsers = async (conn, values) => {
   const existingUser = await conn.query(`SELECT * FROM users WHERE email=?`, values.email);
-  if (existingUser) {
-    return {
-      error: 'Unable to add to users table',
-      message: `User already exists with email ${values.email}`,
-    };
+  if (existingUser.length > 0) {
+    throw new Error(`User already exists with email ${values.email}`);
   }
   const insertValues = await parseInsertValues(conn, 'users', { ...values, userRolesId: 2 });
   const row = {
@@ -55,6 +57,7 @@ const controller = async (req, res) => {
   const api = new SquareConnect.CustomersApi(getClient());
 
   try {
+    await conn.beginTransaction();
     const { customer } = await api.createCustomer({
       given_name: values.firstName,
       family_name: values.lastName,
@@ -78,12 +81,12 @@ const controller = async (req, res) => {
 
     const { card } = await api.createCustomerCard(customer.id, cardRequest);
 
-    const insertedAddress = await addToAddresses(conn, values);
     const insertedUser = await addToUsers(conn, {
       ...values,
-      addressesId: insertedAddress.id,
+      userRolesId: 2,
       paymentCustomerId: customer.id,
     });
+    const insertedAddress = await addToAddresses(conn, { ...values, usersId: insertedUser.id });
     const insertedSubscription = await addToSubscriptions(conn, {
       ...values,
       usersId: insertedUser.id,
@@ -91,8 +94,14 @@ const controller = async (req, res) => {
     });
     const insertedOrder = await addToOrders(conn, {
       ...values,
+      details: JSON.stringify({
+        ordered: [{ inventoryItemsId: values.inventoryItemsId, quantity: 0 }],
+        sent: [{ inventoryItemsId: values.inventoryItemsId, quantity: 0 }],
+      }),
+      orderStatusesId: 1,
       subscriptionsId: insertedSubscription.id,
     });
+    await conn.commit();
 
     res.send({
       data: {
@@ -104,7 +113,8 @@ const controller = async (req, res) => {
       },
     });
   } catch (err) {
-    conn.rollback();
+    console.log(err.sqlMessage);
+    await conn.rollback();
     res.status(400).send({
       error: err,
       message: 'Unable to process subscription',

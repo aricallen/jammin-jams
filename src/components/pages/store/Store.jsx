@@ -79,7 +79,7 @@ export const stepComponents = [
 ];
 
 const testData = {
-  productId: 1,
+  inventoryItemsId: 1,
   deliveryMethod: 'bicycle',
   zipCode: '94607',
   firstName: 'Bootsy',
