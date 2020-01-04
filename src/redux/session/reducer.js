@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import { Type } from './actions';
 
-const initialMeta = { isFetching: false, isUpdating: false, error: null };
+const initialMeta = { isFetching: null, isUpdating: false, error: null };
 
 const meta = (state = initialMeta, action) => {
   switch (action.type) {

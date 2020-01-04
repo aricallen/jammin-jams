@@ -1,4 +1,6 @@
-export const pallet = {
+import Color from 'color';
+
+const basePallet = {
   blueberry: '#7A7DB5',
   strawberry: '#FA5C66',
   peach: '#FFC0CB',
@@ -6,6 +8,28 @@ export const pallet = {
   plum: '#C41EC4',
   babyBlue: '#D2EFF7',
   charcoal: '#323232',
+};
+
+const palletLight = Object.entries(basePallet).reduce((acc, curr) => {
+  const [key, val] = curr;
+  acc[key] = Color(val)
+    .lighten(0.2)
+    .toString();
+  return acc;
+}, {});
+
+const palletDark = Object.entries(basePallet).reduce((acc, curr) => {
+  const [key, val] = curr;
+  acc[key] = Color(val)
+    .darken(0.2)
+    .toString();
+  return acc;
+}, {});
+
+export const pallet = {
+  ...basePallet,
+  light: palletLight,
+  dark: palletDark,
 };
 
 export const spacing = {

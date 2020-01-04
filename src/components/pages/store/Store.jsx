@@ -11,7 +11,7 @@ import { Shipping, isValid as isValidShipping } from './Shipping';
 import { Button } from '../../common/Button';
 import { createSession, fetchSession } from '../../../redux/session/actions';
 import { media } from '../../../utils/media';
-import { ScreenSizes, spacing, sizes } from '../../../constants/style-guide';
+import { spacing, sizes } from '../../../constants/style-guide';
 import { Spinner } from '../../common/Spinner';
 import { submitForm } from '../../../services/square';
 
@@ -19,7 +19,7 @@ const Wrapper = styled('div')`
   display: grid;
   grid-template-rows: 0px auto ${sizes.rowHeight}px;
   width: 50%;
-  ${media.max(ScreenSizes.TABLET)} {
+  ${media.mobile()} {
     width: 100%;
   }
   height: 100%;
@@ -139,8 +139,12 @@ export const Store = ({ history, match }) => {
     }
   };
 
+  if (sessionState.meta.isFetching === null) {
+    return <Spinner />;
+  }
+
   // no session, redirect back to beginning
-  if (!sessionState.isFetching && stepLevel > 0 && Object.keys(values).length === 0) {
+  if (stepLevel > 0 && Object.keys(values).length === 0) {
     history.push(`/store/${stepComponents[0].path}`);
   }
 

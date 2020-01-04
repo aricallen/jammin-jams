@@ -1,5 +1,4 @@
 import React from 'react';
-import Color from 'color';
 import styled from '@emotion/styled';
 import { spacing, animation, pallet } from '../../constants/style-guide';
 import { fontSizes } from '../../utils/style-helpers';
@@ -12,20 +11,16 @@ export const Content = styled('div')`
 `;
 
 export const Header1 = styled('h1')`
-  margin-top: ${spacing.regular}px;
   margin-bottom: ${spacing.regular}px;
   ${media.mobile()} {
-    margin-top: ${spacing.triple}px;
     margin-bottom: ${spacing.triple}px;
   }
   ${fontSizes('header1')}
 `;
 
 export const Header2 = styled('h2')`
-  margin-top: ${spacing.regular}px;
   margin-bottom: ${spacing.regular}px;
   ${media.mobile()} {
-    margin-top: ${spacing.triple}px;
     margin-bottom: ${spacing.triple}px;
   }
   ${fontSizes('header2')}
@@ -53,15 +48,11 @@ export const Link = styled('a')`
 
   &:active,
   &:visited {
-    color: ${Color(pallet.strawberry)
-      .darken(0.2)
-      .toString()};
+    color: ${pallet.dark.strawberry};
   }
 
   &:hover {
-    color: ${Color(pallet.strawberry)
-      .lighten(0.2)
-      .toString()};
+    color: ${pallet.light.strawberry};
   }
 `;
 
