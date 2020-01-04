@@ -5,7 +5,7 @@ import useForm from 'react-hook-form';
 import { Content, Header1, Section, Paragraph, Emphasis, Emoji } from '../common/Structure';
 import { Input, FormError, Fieldset, Label, Form, Select } from '../common/Forms';
 import { Button as BaseButton } from '../common/Button';
-import { animation, spacing, ScreenSizes, font } from '../../constants/style-guide';
+import { animation, spacing } from '../../constants/style-guide';
 import { addToWaitlist } from '../../services/adapter';
 import { media } from '../../utils/media';
 
@@ -16,15 +16,16 @@ const ContentWrapper = styled(Content)`
 `;
 
 const FormWrapper = styled('div')`
-  ${media.min(ScreenSizes.TABLET)} {
-    width: 50%;
+  width: 50%;
+  ${media.mobile()} {
+    width: 100%;
   }
   &.is-hidden {
     display: none;
     opacity: 0;
   }
   &.is-visible {
-    display: initial;
+    display: block;
     animation: fade-in 0.5s;
   }
 `;

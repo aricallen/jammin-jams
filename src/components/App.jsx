@@ -14,7 +14,7 @@ import { Store } from './pages/store/Store';
 import { NotFound } from './pages/NotFound';
 
 import { NavBar } from './common/NavBar';
-import { Footer } from './common/Footer';
+// import { Footer } from './common/Footer';
 import { Content } from './common/Structure';
 import { sizes } from '../constants/style-guide';
 import { globalStyles } from '../constants/global-styles';
@@ -23,9 +23,9 @@ import { media } from '../utils/media';
 const Wrapper = styled('div')`
   height: 100%;
   display: grid;
-  grid-template-rows: ${sizes.rowHeight}px auto ${sizes.rowHeight}px;
-  ${media.maxTablet()} {
-    grid-template-rows: ${sizes.rowHeight * 1.5}px auto ${sizes.rowHeight * 1.5}px;
+  grid-template-rows: ${sizes.rowHeight}px auto;
+  ${media.mobile()} {
+    grid-template-rows: ${sizes.rowHeight * 1.5}px auto;
   }
 `;
 
@@ -48,7 +48,7 @@ export function App() {
             <Route component={NotFound} />
           </Switch>
         </Content>
-        <Footer />
+        {/* <Footer /> */}
       </Router>
     </Wrapper>
   );

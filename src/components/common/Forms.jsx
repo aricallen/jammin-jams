@@ -1,8 +1,11 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import Color from 'color';
 import { omit, startCase } from 'lodash';
 import ReactSelect from 'react-select';
-import { spacing, pallet, font } from '../../constants/style-guide';
+import { spacing, pallet } from '../../constants/style-guide';
+import { fontSizes } from '../../utils/style-helpers';
+import { media } from '../../utils/media';
 
 export const Input = styled('input')`
   padding: ${spacing.regular}px;
@@ -10,7 +13,7 @@ export const Input = styled('input')`
   border-width: 1px;
   border-color: ${pallet.strawberry};
   width: 100%;
-  font-size: ${font.size.regular}px;
+  ${fontSizes('regular')}
   &:active,
   &:focus,
   &:focus-within,
@@ -22,6 +25,9 @@ export const Input = styled('input')`
 
 export const Fieldset = styled('fieldset')`
   margin-bottom: ${spacing.regular}px;
+  ${media.mobile()} {
+    margin-bottom: ${spacing.quadruple}px;
+  }
   &.required {
     label::after {
       color: red;
@@ -39,8 +45,8 @@ export const Form = styled('form')``;
 
 export const FormError = styled('span')`
   color: red;
-  font-size: ${font.size.small}px;
   font-family: sans-serif;
+  ${fontSizes('small')}
 `;
 
 export const SelectElem = styled(ReactSelect)`
@@ -68,10 +74,23 @@ export const SelectElem = styled(ReactSelect)`
   .react-select__control:focus-within {
     box-shadow: 0 0 4px ${pallet.strawberry};
   }
+  .react-select__option--is-selected {
+    background-color: ${Color(pallet.strawberry)
+      .lighten(0.2)
+      .toString()};
+  }
+  .react-select__option--is-selected:hover {
+    background-color: ${Color(pallet.strawberry)
+      .lighten(0.4)
+      .toString()};
+  }
   .react-select__option:hover,
-  .react-select__option--is-selected,
   .react-select__option--is-focused {
     background-color: ${pallet.strawberry};
+  }
+
+  .react-select__single-value {
+    overflow: visible;
   }
 `;
 

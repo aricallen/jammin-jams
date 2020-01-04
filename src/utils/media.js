@@ -23,7 +23,7 @@ const max = (size) => {
   return `@media (max-width: ${defaultToPixels(screenSize[size])})`;
 };
 
-const minTablet = () => min(ScreenSizes.TABLET);
-const maxTablet = () => max(ScreenSizes.TABLET);
+const desktop = () => min(ScreenSizes.TABLET);
+const mobile = () => max(ScreenSizes.TABLET);
 
-export const media = { max, min, include, minTablet, maxTablet };
+export const media = { max, min, include, desktop, mobile };

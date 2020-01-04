@@ -3,6 +3,7 @@ import Color from 'color';
 import styled from '@emotion/styled';
 import { spacing, animation, pallet } from '../../constants/style-guide';
 import { fontSizes } from '../../utils/style-helpers';
+import { media } from '../../utils/media';
 
 export const Content = styled('div')`
   width: 100%;
@@ -13,12 +14,20 @@ export const Content = styled('div')`
 export const Header1 = styled('h1')`
   margin-top: ${spacing.regular}px;
   margin-bottom: ${spacing.regular}px;
+  ${media.mobile()} {
+    margin-top: ${spacing.triple}px;
+    margin-bottom: ${spacing.triple}px;
+  }
   ${fontSizes('header1')}
 `;
 
 export const Header2 = styled('h2')`
   margin-top: ${spacing.regular}px;
   margin-bottom: ${spacing.regular}px;
+  ${media.mobile()} {
+    margin-top: ${spacing.triple}px;
+    margin-bottom: ${spacing.triple}px;
+  }
   ${fontSizes('header2')}
 `;
 

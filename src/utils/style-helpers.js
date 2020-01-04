@@ -3,7 +3,7 @@ import { media } from './media';
 
 export const fontSizes = (key) => `
   font-size: ${font.size[key]}px;
-  ${media.maxTablet()} {
+  ${media.mobile()} {
     font-size: ${font.mobileSize[key]}px;
   }
 `;
