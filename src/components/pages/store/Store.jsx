@@ -78,25 +78,25 @@ export const stepComponents = [
   },
 ];
 
-const testData = {
-  inventoryItemsId: 1,
-  deliveryMethod: 'bicycle',
-  zipCode: '94607',
-  firstName: 'Bootsy',
-  lastName: 'Collins',
-  address: '123 Jam dr.',
-  city: 'Awesomeville',
-  state: 'CA',
-  email: 'jane.awesome@gmail.com',
-  password: '123412345',
-  confirmPassword: '123412345',
-  billingFirstName: 'George',
-  billingLastName: 'Clinton',
-  billingAddress: '432 Jammin Way',
-  billingAddress2: '42',
-  billingCity: 'Coolio',
-  billingState: 'CA',
-};
+// const testData = {
+//   inventoryItemsId: 1,
+//   deliveryMethod: 'bicycle',
+//   zipCode: '94607',
+//   firstName: 'Bootsy',
+//   lastName: 'Collins',
+//   address: '123 Jam dr.',
+//   city: 'Awesomeville',
+//   state: 'CA',
+//   email: 'jane.awesome@gmail.com',
+//   password: '123412345',
+//   confirmPassword: '123412345',
+//   billingFirstName: 'George',
+//   billingLastName: 'Clinton',
+//   billingAddress: '432 Jammin Way',
+//   billingAddress2: '42',
+//   billingCity: 'Coolio',
+//   billingState: 'CA',
+// };
 
 export const Store = ({ history, match }) => {
   const { step } = match.params;
@@ -105,7 +105,7 @@ export const Store = ({ history, match }) => {
   const dispatch = useDispatch();
 
   const sessionValues = sessionState.data[Session.SUBSCRIPTION_FORM] || {};
-  const [values, setValues] = useState(testData);
+  const [values, setValues] = useState(sessionValues);
   const [backendErrors, setBackendErrors] = useState({});
 
   const load = () => {
@@ -140,8 +140,8 @@ export const Store = ({ history, match }) => {
   };
 
   // no session, redirect back to beginning
-  if (stepLevel > 0 && Object.keys(values).length === 0) {
-    // history.push(`/store/${stepComponents[0].path}`);
+  if (!sessionState.isFetching && stepLevel > 0 && Object.keys(values).length === 0) {
+    history.push(`/store/${stepComponents[0].path}`);
   }
 
   const { Component } = stepComponents[stepLevel];

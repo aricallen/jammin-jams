@@ -1,10 +1,11 @@
-const { snakeCase, camelCase, omit, pick } = require('lodash');
+const { snakeCase, camelCase, pick } = require('lodash');
 const pmysql = require('promise-mysql');
 
 const { DATABASE_URL } = process.env;
 
 const getConnection = async (dbUrl = DATABASE_URL) => {
-  const [user, password, host, _dbPort, database] = dbUrl.replace('mysql://', '').split(/\/|:|@/g);
+  // eslint-disable-next-line
+  const [user, password, host, _, database] = dbUrl.replace('mysql://', '').split(/\/|:|@/g);
   const connection = await pmysql.createConnection({ host, user, password, database });
   return connection;
 };

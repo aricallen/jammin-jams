@@ -9,7 +9,7 @@ const ButtonElem = styled('button')`
   padding: ${spacing.regular}px;
   background-color: ${pallet.strawberry};
   border-radius: ${spacing.regular}px;
-  font-size: ${font.size.regular}px;
+  font-size: 1em;
   font-weight: ${font.weight.bold};
   position: relative;
   display: flex;
@@ -35,10 +35,10 @@ const SpinnerWrapper = styled('div')`
 `;
 
 const TextWrapper = styled('span')`
-  opacity: ${p => (p.isHidden ? 0 : 1)};
+  opacity: ${(p) => (p.isHidden ? 0 : 1)};
 `;
 
-export const Button = props => {
+export const Button = (props) => {
   const { children, isBusy } = props;
   const buttonProps = omit(props, ['children', 'isBusy']);
   const buttonRef = useRef();

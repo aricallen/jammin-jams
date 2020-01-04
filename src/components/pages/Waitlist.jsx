@@ -5,13 +5,13 @@ import useForm from 'react-hook-form';
 import { Content, Header1, Section, Paragraph, Emphasis, Emoji } from '../common/Structure';
 import { Input, FormError, Fieldset, Label, Form, Select } from '../common/Forms';
 import { Button as BaseButton } from '../common/Button';
-import { animation, spacing, ScreenSizes } from '../../constants/style-guide';
+import { animation, spacing, ScreenSizes, font } from '../../constants/style-guide';
 import { addToWaitlist } from '../../services/adapter';
 import { media } from '../../utils/media';
 
 const ContentWrapper = styled(Content)`
   margin: 0 auto;
-  width: 80%;
+  width: 100%;
   animation: fade-in 0.5s 1;
 `;
 

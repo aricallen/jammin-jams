@@ -1,6 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import styled from '@emotion/styled';
+import { Global } from '@emotion/core';
 import { Home } from './pages/Home';
 import { About } from './pages/About';
 import { Waitlist } from './pages/Waitlist';
@@ -16,16 +17,22 @@ import { NavBar } from './common/NavBar';
 import { Footer } from './common/Footer';
 import { Content } from './common/Structure';
 import { sizes } from '../constants/style-guide';
+import { globalStyles } from '../constants/global-styles';
+import { media } from '../utils/media';
 
 const Wrapper = styled('div')`
   height: 100%;
   display: grid;
   grid-template-rows: ${sizes.rowHeight}px auto ${sizes.rowHeight}px;
+  ${media.maxTablet()} {
+    grid-template-rows: ${sizes.rowHeight * 1.5}px auto ${sizes.rowHeight * 1.5}px;
+  }
 `;
 
 export function App() {
   return (
     <Wrapper>
+      <Global styles={globalStyles} />
       <Router basename="/">
         <NavBar />
         <Content>

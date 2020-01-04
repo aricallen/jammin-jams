@@ -31,6 +31,23 @@ export const sizes = {
   rowHeight: 64,
 };
 
+const baseFontSizes = {
+  small: 12,
+  regular: 16,
+  large: 24,
+  largest: 32,
+  header1: 24,
+  header2: 20,
+  header3: 18,
+  header4: 16,
+};
+
+const mobileFontSizes = Object.entries(baseFontSizes).reduce((acc, curr) => {
+  const [key, val] = curr;
+  acc[key] = val * 2;
+  return acc;
+}, {});
+
 export const font = {
   family: 'Libre Franklin, sans-serif',
   weight: {
@@ -44,11 +61,8 @@ export const font = {
     extraBold: 800,
     black: 900,
   },
-  size: {
-    small: 12,
-    regular: 16,
-    large: 24,
-  },
+  size: baseFontSizes,
+  mobileSize: mobileFontSizes,
 };
 
 export const animation = '0.3s ease-in-out';

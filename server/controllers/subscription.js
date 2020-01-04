@@ -1,10 +1,5 @@
 const SquareConnect = require('square-connect');
-const {
-  getConnection,
-  parseInsertValues,
-  insertIntoTable,
-  createTransaction,
-} = require('../utils/db-helpers');
+const { getConnection, parseInsertValues, insertIntoTable } = require('../utils/db-helpers');
 const { hashIt } = require('../utils/hash-it');
 
 const { SQUARE_ACCESS_TOKEN, SQUARE_HOST } = process.env;

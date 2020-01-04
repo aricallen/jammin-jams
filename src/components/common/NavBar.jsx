@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { NavLink as BaseNavLink } from 'react-router-dom';
 import { Logo } from './Logo';
 import { sizes, pallet, spacing, animation, font } from '../../constants/style-guide';
+import { fontSizes } from '../../utils/style-helpers';
 
 const Wrapper = styled('nav')`
   display: flex;
@@ -15,7 +16,7 @@ const Wrapper = styled('nav')`
 
 const Brand = styled('div')`
   flex-grow: 1;
-  font-size: ${spacing.quadruple}px;
+  ${fontSizes('largest')}
   font-weight: ${font.weight.black};
   cursor: pointer;
 `;
@@ -38,7 +39,7 @@ const NavList = styled('ul')`
 const NavItem = styled('li')`
   margin-left: ${spacing.double}px;
   display: inline-block;
-  font-size: ${spacing.triple}px;
+  ${fontSizes('large')}
 `;
 
 const NavLink = styled(BaseNavLink)`
@@ -60,14 +61,14 @@ const navItems = [
   //   text: 'About',
   //   path: '/about',
   // },
-  // {
-  //   text: 'Store',
-  //   path: '/store',
-  // },
+  {
+    text: 'Store',
+    path: '/store',
+  },
   // {
   //   text: 'Logo Builder',
   //   path: '/logo-builder',
-  // }
+  // },
   // {
   //   text: 'Login',
   //   path: '/login',
