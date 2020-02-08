@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Color from 'color';
 import styled from '@emotion/styled';
-import { Input, Fieldset, Label, FormError } from '../common/Forms';
-import { Button } from '../common/Button';
-import { spacing, ScreenSizes, pallet } from '../../constants/style-guide';
-import { media } from '../../utils/media';
-import { loginUser } from '../../redux/session/actions';
+import { Input, Fieldset, Label, FormError } from '../../common/Forms';
+import { Button } from '../../common/Button';
+import { spacing, ScreenSizes, pallet } from '../../../constants/style-guide';
+import { media } from '../../../utils/media';
+import { loginUser } from '../../../redux/session/actions';
 
 const Wrapper = styled('div')`
   width: 100%;
@@ -15,7 +15,7 @@ const Wrapper = styled('div')`
   padding-top: 6%;
 `;
 
-const LoginWrapper = styled('div')`
+const LogInWrapper = styled('div')`
   ${media.min(ScreenSizes.TABLET)} {
     width: 50%;
   }
@@ -27,13 +27,13 @@ const LoginWrapper = styled('div')`
     .string()};
 `;
 
-const LoginForm = styled('form')``;
+const LogInForm = styled('form')``;
 
 const ButtonWrapper = styled('div')`
   margin-top: ${spacing.double}px;
 `;
 
-export const Login = ({ history }) => {
+export const LogIn = ({ history }) => {
   const [values, setValues] = useState({});
   const loginError = useSelector((state) => state.session.meta.error);
   const isUpdating = useSelector((state) => state.session.meta.isUpdating);
@@ -55,8 +55,8 @@ export const Login = ({ history }) => {
 
   return (
     <Wrapper>
-      <LoginWrapper>
-        <LoginForm
+      <LogInWrapper>
+        <LogInForm
           onSubmit={(e) => {
             e.preventDefault();
             handleSubmit();
@@ -77,8 +77,8 @@ export const Login = ({ history }) => {
           <ButtonWrapper>
             <Button isBusy={isUpdating}>Log in</Button>
           </ButtonWrapper>
-        </LoginForm>
-      </LoginWrapper>
+        </LogInForm>
+      </LogInWrapper>
     </Wrapper>
   );
 };

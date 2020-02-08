@@ -1,190 +1,46 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { Session } from '../../../constants/session';
 // import { CSSTransition } from 'react-transition-group';
 // import { Redirect } from 'react-router-dom';
-import { Products, isValid as isValidProducts } from './Products';
-import { DeliveryMethod, isValid as isValidDeliveryMethod } from './DeliveryMethod';
-import { Payment, isValid as isValidPayment } from './Payment';
-import { Shipping, isValid as isValidShipping } from './Shipping';
-import { Button } from '../../common/Button';
-import { createSession, fetchSession } from '../../../redux/session/actions';
 import { media } from '../../../utils/media';
 import { spacing, sizes } from '../../../constants/style-guide';
+import { fetchInventoryItems } from '../../../redux/inventory-items/actions';
 import { Spinner } from '../../common/Spinner';
-import { submitForm } from '../../../services/square';
+import { InventoryItem } from './InventoryItem';
+import { fetchSession } from '../../../redux/session/actions';
 
 const Wrapper = styled('div')`
-  display: grid;
-  grid-template-rows: 0px auto ${sizes.rowHeight}px;
-  width: 50%;
-  ${media.mobile()} {
-    width: 100%;
-  }
-  height: 100%;
-`;
-
-const StatusWrapper = styled('div')``;
-const StatusBar = styled('div')``;
-const ControlsWrapper = styled('div')`
   display: flex;
   align-items: center;
-  width: 20%;
-  justify-content: space-between;
+  flex-wrap: wrap;
 `;
 
-const Footer = styled('div')`
-  display: flex:
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  margin-top: ${spacing.double}px;
-`;
-
-const StepComponentWrapper = styled('div')`
-  display: flex;
-  flex-direction: column;
-`;
-
-const Form = styled('form')`
-  height: 100%;
-`;
-
-export const stepComponents = [
-  {
-    id: 0,
-    path: 'products',
-    Component: Products,
-    isValid: isValidProducts,
-  },
-  {
-    id: 1,
-    path: 'delivery-method',
-    Component: DeliveryMethod,
-    isValid: isValidDeliveryMethod,
-  },
-  {
-    id: 2,
-    path: 'shipping',
-    Component: Shipping,
-    isValid: isValidShipping,
-  },
-  {
-    id: 3,
-    path: 'payment',
-    Component: Payment,
-    isValid: isValidPayment,
-  },
-];
-
-// const testData = {
-//   inventoryItemsId: 1,
-//   deliveryMethod: 'bicycle',
-//   zipCode: '94607',
-//   firstName: 'Bootsy',
-//   lastName: 'Collins',
-//   address: '123 Jam dr.',
-//   city: 'Awesomeville',
-//   state: 'CA',
-//   email: 'jane.awesome@gmail.com',
-//   password: '123412345',
-//   confirmPassword: '123412345',
-//   billingFirstName: 'George',
-//   billingLastName: 'Clinton',
-//   billingAddress: '432 Jammin Way',
-//   billingAddress2: '42',
-//   billingCity: 'Coolio',
-//   billingState: 'CA',
-// };
-
-export const Store = ({ history, match }) => {
-  const { step } = match.params;
-  const stepLevel = stepComponents.findIndex((config) => config.path === step);
-  const sessionState = useSelector((state) => state.session);
+export const Store = ({ history }) => {
   const dispatch = useDispatch();
-
-  const sessionValues = sessionState.data[Session.SUBSCRIPTION_FORM] || {};
-  const [values, setValues] = useState(sessionValues);
-  const [backendErrors, setBackendErrors] = useState({});
-
-  const load = () => {
+  const inventoryState = useSelector((state) => state.inventoryItems);
+  const fetch = () => {
+    dispatch(fetchInventoryItems());
     dispatch(fetchSession());
   };
-  useEffect(load, []);
+  useEffect(fetch, []);
 
-  const handlePrevClick = (event) => {
-    event.preventDefault();
-    const nextStepLevel = stepLevel - 1;
-    const nextConfig = stepComponents[nextStepLevel];
-    history.push(`/store/${nextConfig.path}`);
-  };
-
-  const onUpdate = (fieldValues) => {
-    const newValues = { ...values, ...fieldValues };
-    setValues(newValues);
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const nextStepLevel = stepLevel + 1;
-    const nextConfig = stepComponents[nextStepLevel];
-    await dispatch(createSession({ data: values, key: Session.SUBSCRIPTION_FORM }));
-    if (nextConfig) {
-      history.push(`/store/${nextConfig.path}`);
-    } else {
-      submitForm(values, (errors) => {
-        setBackendErrors(errors);
-      });
+  const onSelect = (item) => {
+    const sessionState = useSelector((state) => state.sessionState);
+    if (!sessionState.data.user) {
+      history.push({ pathname: '/account/log-in', search: `inventoryItemsId=${item.id}` });
     }
   };
 
-  if (sessionState.meta.isFetching === null) {
+  if (!inventoryState.data || inventoryState.meta.isFetching) {
     return <Spinner />;
   }
 
-  // no session, redirect back to beginning
-  if (stepLevel > 0 && Object.keys(values).length === 0) {
-    history.push(`/store/${stepComponents[0].path}`);
-  }
-
-  const { Component } = stepComponents[stepLevel];
-
-  if (!Component) {
-    console.error(`unknown step: "${step}"`);
-    return null;
-  }
-
-  const { isFetching, isUpdating } = sessionState.meta;
-
   return (
-    <Form onSubmit={handleSubmit}>
-      <Wrapper>
-        <StatusWrapper>
-          <StatusBar />
-        </StatusWrapper>
-        <StepComponentWrapper>
-          {isFetching ? (
-            <Spinner />
-          ) : (
-            <Component values={values} onUpdate={onUpdate} backendErrors={backendErrors} />
-          )}
-        </StepComponentWrapper>
-        <Footer>
-          <ControlsWrapper>
-            <Button onClick={handlePrevClick} disabled={stepLevel <= 0} isBusy={isUpdating}>
-              Prev
-            </Button>
-            <Button
-              type="submit"
-              disabled={stepLevel >= 4 || !stepComponents[stepLevel].isValid(values)}
-              isBusy={isUpdating}
-            >
-              Next
-            </Button>
-          </ControlsWrapper>
-        </Footer>
-      </Wrapper>
-    </Form>
+    <Wrapper>
+      {inventoryState.data.map((inventoryItem) => (
+        <InventoryItem key={inventoryItem.id} inventoryItem={inventoryItem} onSelect={onSelect} />
+      ))}
+    </Wrapper>
   );
 };

@@ -1,21 +1,21 @@
 import { combineReducers } from 'redux';
 import { Type } from './actions';
+import { MetaStatus } from '../../constants/meta-status';
 
-const initialMeta = { isFetching: null, isUpdating: false, error: null };
+const initialMeta = { status: MetaStatus.INITIAL, error: null };
 
 const meta = (state = initialMeta, action) => {
   switch (action.type) {
     case Type.LOGIN_REQUEST:
     case Type.CREATE_SESSION_REQUEST:
-      return { ...state, isUpdating: true };
     case Type.FETCH_SESSION_REQUEST:
-      return { ...state, isFetching: true };
+      return { ...state, status: MetaStatus.BUSY };
     case Type.LOGIN_FAILURE:
     case Type.FETCH_SESSION_FAILURE:
     case Type.CREATE_SESSION_FAILURE:
-      return { ...state, error: action.error, isFetching: false, isUpdating: false };
+      return { ...state, error: action.error, status: MetaStatus.ERRORED };
     default:
-      return { ...state, isFetching: false, isUpdating: false };
+      return { ...state, status: MetaStatus.RESOLVED };
   }
 };
 
