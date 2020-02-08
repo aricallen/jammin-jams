@@ -4,6 +4,7 @@ import { Route, Redirect } from 'react-router-dom';
 import { fetchSession } from '../../redux/session/actions';
 import { MetaStatus } from '../../constants/meta-status';
 import { Spinner } from './Spinner';
+import { Page } from '../pages/admin/Page';
 
 const renderRouteComp = (routeProps, Component, sessionState) => {
   if (sessionState.meta.status === MetaStatus.RESOLVED && !sessionState.data.user) {
@@ -18,7 +19,11 @@ const renderRouteComp = (routeProps, Component, sessionState) => {
   }
 
   if (sessionState.data.user.isAdmin) {
-    return <Component {...routeProps} />;
+    return (
+      <Page {...routeProps}>
+        <Component {...routeProps} />
+      </Page>
+    );
   }
   return (
     <Redirect

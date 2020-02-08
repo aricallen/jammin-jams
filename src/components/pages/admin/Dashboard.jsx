@@ -1,5 +1,8 @@
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
 export const Dashboard = () => {
-  return <div>Dashboard!!</div>;
+  const user = useSelector((state) => state.session.data.user);
+
+  return <div>Welcome to the dashboard {user.firstName}</div>;
 };

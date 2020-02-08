@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Color from 'color';
 import styled from '@emotion/styled';
 import { Input, Fieldset, Label, FormError } from '../../common/Forms';
 import { Button } from '../../common/Button';
-import { spacing, ScreenSizes, pallet } from '../../../constants/style-guide';
+import { spacing, ScreenSizes } from '../../../constants/style-guide';
 import { media } from '../../../utils/media';
 import { loginUser } from '../../../redux/session/actions';
+import { MetaStatus } from '../../../constants/meta-status';
 
 const Wrapper = styled('div')`
   width: 100%;
@@ -22,9 +22,6 @@ const LogInWrapper = styled('div')`
   width: 80%;
   padding: ${spacing.quadruple}px;
   max-width: 480px;
-  background-color: ${Color(pallet.blueberry)
-    .alpha(0.2)
-    .string()};
 `;
 
 const LogInForm = styled('form')``;
@@ -36,7 +33,7 @@ const ButtonWrapper = styled('div')`
 export const LogIn = ({ history }) => {
   const [values, setValues] = useState({});
   const loginError = useSelector((state) => state.session.meta.error);
-  const isUpdating = useSelector((state) => state.session.meta.isUpdating);
+  const metaStatus = useSelector((state) => state.session.meta.status);
   const dispatch = useDispatch();
   const errorMessage = loginError && loginError.message;
 
@@ -79,7 +76,7 @@ export const LogIn = ({ history }) => {
           {errorMessage && <FormError>{errorMessage}</FormError>}
 
           <ButtonWrapper>
-            <Button isBusy={isUpdating}>Log in</Button>
+            <Button isBusy={metaStatus === MetaStatus.BUSY}>Log in</Button>
           </ButtonWrapper>
         </LogInForm>
       </LogInWrapper>

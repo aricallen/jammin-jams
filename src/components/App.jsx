@@ -41,20 +41,20 @@ export const App = () => {
       <Global styles={globalStyles} />
       <Router basename="/">
         <NavBar />
-        <Content>
-          <Switch>
-            <Route exact path="/about" component={About} />
-            <Route exact path="/waitlist" component={Waitlist} />
-            <Route exact path="/thank-you" component={ThankYou} />
-            <Route exact path="/logo-builder" component={LogoBuilder} />
-            <Route exact path="/store" component={Store} />
-            <Route exact path="/account/log-in" component={LogIn} />
-            <AdminRoute exact path="/admin/dashboard" component={Dashboard} />
-            <Route exact path="/" component={Home} />
-            <Route exact path="/oh-noes" component={NotFound} />
-            <Route component={NotFound} />
-          </Switch>
-        </Content>
+        <Switch>
+          <Route exact path="/about" component={About} />
+          <Route exact path="/waitlist" component={Waitlist} />
+          <Route exact path="/thank-you" component={ThankYou} />
+          <Route exact path="/store" component={Store} />
+          <Route exact path="/account/log-in" component={LogIn} />
+          <Route exact path="/oh-noes" component={NotFound} />
+
+          <AdminRoute exact path="/admin/dashboard" component={Dashboard} />
+          <AdminRoute exact path="/admin/logo-builder" component={LogoBuilder} />
+
+          <Route exact path="/" component={Home} />
+          <Route component={NotFound} />
+        </Switch>
         {/* <Footer /> */}
       </Router>
     </Wrapper>
