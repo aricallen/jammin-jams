@@ -20,7 +20,7 @@ export const loginUser = ({ email, password }) => {
   return async (dispatch) => {
     dispatch({ type: Type.LOGIN_REQUEST });
     try {
-      const response = await axios.post('/api/login', { email, password });
+      const response = await axios.post('/api/login', { email, password, key: 'user' });
       const user = response.data.data;
       dispatch({ type: Type.LOGIN_SUCCESS, user });
       return user;

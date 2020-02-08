@@ -1,13 +1,12 @@
 const express = require('express');
 const { omit } = require('lodash');
+const { updateSession } = require('../utils/session');
 
 const router = express.Router();
 
 router.post('/', (req, res) => {
-  if (req.session === undefined) {
-    req.session = {};
-  }
-  req.session[req.body.key] = req.body.data;
+  const { key, data } = req.body;
+  updateSession(req, key, data);
   return res.send({
     data: omit(req.body.data, ['cookie']),
   });

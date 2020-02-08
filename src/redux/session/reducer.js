@@ -14,8 +14,12 @@ const meta = (state = initialMeta, action) => {
     case Type.FETCH_SESSION_FAILURE:
     case Type.CREATE_SESSION_FAILURE:
       return { ...state, error: action.error, status: MetaStatus.ERRORED };
-    default:
+    case Type.LOGIN_SUCCESS:
+    case Type.FETCH_SESSION_SUCCESS:
+    case Type.CREATE_SESSION_SUCCESS:
       return { ...state, status: MetaStatus.RESOLVED };
+    default:
+      return { ...state, status: MetaStatus.INITIAL };
   }
 };
 

@@ -47,7 +47,7 @@ export const LogIn = ({ history }) => {
   const handleSubmit = async () => {
     try {
       await dispatch(loginUser(values));
-      history.push('/logo-builder');
+      history.push('/admin/dashboard');
     } catch (err) {
       console.error(err);
     }
@@ -64,12 +64,16 @@ export const LogIn = ({ history }) => {
         >
           <Fieldset>
             <Label>Email</Label>
-            <Input type="email" onChange={handleChange('email')} />
+            <Input type="email" onChange={handleChange('email')} autoComplete="email" />
           </Fieldset>
 
           <Fieldset>
             <Label>Password</Label>
-            <Input type="password" onChange={handleChange('password')} />
+            <Input
+              type="password"
+              onChange={handleChange('password')}
+              autoComplete="current-password"
+            />
           </Fieldset>
 
           {errorMessage && <FormError>{errorMessage}</FormError>}
