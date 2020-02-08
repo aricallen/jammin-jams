@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Global } from '@emotion/core';
 import { AdminRoute } from './common/AdminRoute';
@@ -54,6 +54,7 @@ export const App = () => {
           <AdminRoute exact path="/admin/logo-builder" component={LogoBuilder} />
           <AdminRoute exact path="/admin/posts" component={AdminPosts} />
           <AdminRoute exact path="/admin/qr-codes" component={QrCodes} />
+          <AdminRoute exact path="/admin" component={() => <Redirect to="/admin/dashboard" />} />
 
           <Route exact path="/" component={Home} />
           <Route component={NotFound} />

@@ -2,12 +2,12 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 import { fetchSession } from '../../redux/session/actions';
-import { MetaStatus } from '../../constants/meta-status';
+import { isResolved } from '../../redux/utils/meta-status';
 import { Spinner } from './Spinner';
 import { Page } from '../pages/admin/Page';
 
 const renderRouteComp = (routeProps, Component, sessionState) => {
-  if (sessionState.meta.status === MetaStatus.RESOLVED && !sessionState.data.user) {
+  if (isResolved(sessionState.meta) && !sessionState.data.user) {
     return (
       <Redirect
         to={{
@@ -46,10 +46,7 @@ export const AdminRoute = ({ component: Component, ...rest }) => {
   };
   useEffect(fetch, []);
 
-  if (
-    sessionState.meta.status === MetaStatus.BUSY ||
-    sessionState.meta.status === MetaStatus.INITIAL
-  ) {
+  if (!isResolved(sessionState.meta)) {
     return <Spinner />;
   }
 

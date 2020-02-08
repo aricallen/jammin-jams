@@ -48,7 +48,7 @@ export const Button = (props) => {
     <ButtonElem ref={buttonRef} {...buttonProps}>
       {isBusy ? (
         <SpinnerWrapper width={width} height={height}>
-          <Spinner />
+          <Spinner fill="white" variant="small" />
         </SpinnerWrapper>
       ) : null}
       <TextWrapper isHidden={isBusy}>{children}</TextWrapper>
