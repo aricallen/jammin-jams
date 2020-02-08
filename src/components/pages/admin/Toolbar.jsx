@@ -4,12 +4,14 @@ import { pallet, animation, spacing, font } from '../../../constants/style-guide
 import DashboardIcon from '../../../assets/icons/dashboard.svg';
 import PostsIcon from '../../../assets/icons/web.svg';
 import BuildIcon from '../../../assets/icons/build.svg';
+import QrCode from '../../../assets/icons/memory.svg';
 
 const Wrapper = styled('div')`
   height: 100%;
   width: 100%;
   background-color: ${pallet.charcoal};
   color: white;
+  padding-top: ${spacing.regular}px;
 `;
 
 const ItemBlock = styled('div')`
@@ -58,6 +60,11 @@ const TOOLBAR_ITEMS = [
     text: 'Posts',
     Icon: PostsIcon,
     path: '/admin/posts',
+  },
+  {
+    text: 'Qr Codes',
+    Icon: QrCode,
+    path: '/admin/qr-codes',
   },
 ];
 

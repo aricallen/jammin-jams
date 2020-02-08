@@ -3,11 +3,11 @@ import styled from '@emotion/styled';
 import { startCase } from 'lodash';
 import Popover, { ArrowContainer } from 'react-tiny-popover';
 import { ChromePicker } from 'react-color';
-import { pallet, spacing } from '../../constants/style-guide';
-import { Content, Header1 } from '../common/Structure';
-import { Input, Fieldset, Label } from '../common/Forms';
-import { Button } from '../common/Button';
-import { LogoFilled } from '../common/LogoFilled';
+import { pallet, spacing } from '../../../constants/style-guide';
+import { Content, Header1 } from '../../common/Structure';
+import { Input, Fieldset, Label } from '../../common/Forms';
+import { Button } from '../../common/Button';
+import { LogoFilled } from '../../common/LogoFilled';
 
 const Grid = styled('div')`
   display: grid;
@@ -40,7 +40,7 @@ const SwatchButton = styled('div')`
   border-radius: ${spacing.regular}px;
   border: 1px solid black;
   cursor: pointer;
-  background-color: ${p => p.bg};
+  background-color: ${(p) => p.bg};
 `;
 
 const PopoverContent = ({ contentProps, colorValue, onChangeComplete }) => {
@@ -57,7 +57,7 @@ const PopoverContent = ({ contentProps, colorValue, onChangeComplete }) => {
   );
 };
 
-const Swatch = props => {
+const Swatch = (props) => {
   const { colorMap, colorKey, handleChange } = props;
   const [isShowingPopover, setIsShowingPopover] = useState(false);
   return (
@@ -66,7 +66,7 @@ const Swatch = props => {
       position={['left', 'top']}
       padding={10}
       onClickOutside={() => setIsShowingPopover(false)}
-      content={contentProps => (
+      content={(contentProps) => (
         <PopoverContent
           contentProps={contentProps}
           onChangeComplete={handleChange}
@@ -91,7 +91,7 @@ export const LogoBuilder = () => {
   };
   const [colorMap, setColorMap] = useState(defaultColorMap);
 
-  const updateAll = value => {
+  const updateAll = (value) => {
     const newMap = Object.keys(colorMap).reduce((acc, curr) => {
       acc[curr] = value;
       return acc;
@@ -99,7 +99,7 @@ export const LogoBuilder = () => {
     setColorMap(newMap);
   };
 
-  const handleChange = name => event => {
+  const handleChange = (name) => (event) => {
     if (name === 'all') {
       updateAll(event.target.value);
     } else {
@@ -107,7 +107,7 @@ export const LogoBuilder = () => {
     }
   };
 
-  const handlePickerChange = colorKey => color => {
+  const handlePickerChange = (colorKey) => (color) => {
     const { hex } = color;
     if (colorKey === 'all') {
       updateAll(hex);
@@ -133,7 +133,7 @@ export const LogoBuilder = () => {
       <Header1>Build a new Logo!</Header1>
       <Grid>
         <LeftCol>
-          {Object.keys(colorMap).map(colorKey => (
+          {Object.keys(colorMap).map((colorKey) => (
             <Fieldset key={colorKey}>
               <Label>{startCase(colorKey)}</Label>
               <InputRow>

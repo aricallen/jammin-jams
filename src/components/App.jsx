@@ -7,7 +7,6 @@ import { Home } from './pages/Home';
 import { About } from './pages/About';
 import { Waitlist } from './pages/Waitlist';
 import { ThankYou } from './pages/ThankYou';
-import { LogoBuilder } from './pages/LogoBuilder';
 import { NotFound } from './pages/NotFound';
 
 // store
@@ -18,10 +17,12 @@ import { LogIn } from './pages/account/LogIn';
 
 // admin
 import { Dashboard } from './pages/admin/Dashboard';
+import { Posts as AdminPosts } from './pages/admin/Posts';
+import { LogoBuilder } from './pages/admin/LogoBuilder';
+import { QrCodes } from './pages/admin/QrCodes';
 
 // import { Footer } from './common/Footer';
 import { NavBar } from './common/NavBar';
-import { Content } from './common/Structure';
 import { sizes } from '../constants/style-guide';
 import { globalStyles } from '../constants/global-styles';
 import { media } from '../utils/media';
@@ -51,6 +52,8 @@ export const App = () => {
 
           <AdminRoute exact path="/admin/dashboard" component={Dashboard} />
           <AdminRoute exact path="/admin/logo-builder" component={LogoBuilder} />
+          <AdminRoute exact path="/admin/posts" component={AdminPosts} />
+          <AdminRoute exact path="/admin/qr-codes" component={QrCodes} />
 
           <Route exact path="/" component={Home} />
           <Route component={NotFound} />
