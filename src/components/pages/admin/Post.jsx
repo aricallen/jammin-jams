@@ -37,8 +37,9 @@ export const Post = ({ history, match }) => {
     history.push('/admin/posts');
   };
 
-  const onSavePost = () => {
-    dispatch(savePost(post));
+  const onSavePost = async () => {
+    await dispatch(savePost(post));
+    history.push('/admin/posts');
   };
 
   return (

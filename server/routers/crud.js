@@ -1,4 +1,5 @@
 const express = require('express');
+const { omit } = require('lodash');
 const { getConnection } = require('../utils/db-helpers');
 const { parseError, checkReadonly } = require('../utils/api-helpers');
 
@@ -48,13 +49,10 @@ router.put('/:tableName/:resourceId', checkReadonly, async (req, res) => {
   const { tableName, resourceId } = req.params;
   const conn = await getConnection();
   try {
-    const results = await conn.query(
-      `UPDATE ${tableName} SET ? WHERE id = ?`,
-      req.body,
-      resourceId
-    );
+    await conn.query(`UPDATE ${tableName} SET ? WHERE id = ${resourceId}`, omit(req.body, ['id']));
+    const updated = await conn.query(`SELECT * from ${tableName} WHERE id = ${resourceId}`);
     res.send({
-      data: results[0],
+      data: updated[0],
     });
   } catch (err) {
     res.status(400).send(parseError(err, req));

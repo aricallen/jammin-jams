@@ -1,12 +1,17 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useState } from 'react';
+import ReactMarkdown from 'react-markdown';
+import styled from '@emotion/styled';
 import { Input, TextArea } from '../../common/Forms';
 import { Section, Header2 } from '../../common/Structure';
-import { font } from '../../../constants/style-guide';
+import { Button } from '../../common/Button';
+import { spacing, font } from '../../../constants/style-guide';
 
-// this.editor = CodeMirror.fromTextArea(this.editorRef.current, this.props);
-// this.editor.on('change', this.handleChange);
+const ContentWrapper = styled('div')`
+  margin-top: ${spacing.double}px;
+`;
 
 export const PostEditor = ({ post, onChange }) => {
+  const [isPreview, setIsPreview] = useState(false);
   return (
     <Fragment>
       <Section>
@@ -15,14 +20,26 @@ export const PostEditor = ({ post, onChange }) => {
       </Section>
       <Section>
         <Header2>Content</Header2>
-        <TextArea
-          style={{
-            fontSize: font.size.regular,
-          }}
-          rows={30}
-          onChange={(e) => onChange({ ...post, content: e.target.value })}
-          value={post.content}
-        />
+        <Button
+          onClick={() => setIsPreview(!isPreview)}
+          variant={isPreview ? 'primary' : 'secondary'}
+        >
+          Preview
+        </Button>
+        <ContentWrapper>
+          {isPreview ? (
+            <ReactMarkdown source={post.content} />
+          ) : (
+            <TextArea
+              style={{
+                fontSize: font.size.regular,
+              }}
+              rows={30}
+              onChange={(e) => onChange({ ...post, content: e.target.value })}
+              value={post.content}
+            />
+          )}
+        </ContentWrapper>
       </Section>
     </Fragment>
   );
