@@ -16,9 +16,11 @@ export const Posts = () => {
   };
   useEffect(fetch, []);
 
+  if (isResolved(postsState.meta)) {
+    return <Content>{JSON.stringify(postsState.data)}</Content>;
+  }
+
   if (!isResolved(postsState.meta)) {
     return <Spinner variant="large" />;
   }
-
-  return <Content>{JSON.stringify(postsState.data)}</Content>;
 };

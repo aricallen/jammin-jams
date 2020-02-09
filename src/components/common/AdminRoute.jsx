@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 import { fetchSession } from '../../redux/session/actions';
 import { isResolved } from '../../redux/utils/meta-status';
-import { Spinner } from './Spinner';
 import { Page } from '../pages/admin/Page';
 
 const renderRouteComp = (routeProps, Component, sessionState) => {
@@ -18,20 +17,21 @@ const renderRouteComp = (routeProps, Component, sessionState) => {
     );
   }
 
-  if (sessionState.data.user.isAdmin) {
+  if (isResolved(sessionState.meta) && !sessionState.data.user.isAdmin) {
     return (
-      <Page {...routeProps}>
-        <Component {...routeProps} />
-      </Page>
+      <Redirect
+        to={{
+          pathname: '/oh-noes',
+          state: { from: routeProps.location },
+        }}
+      />
     );
   }
+
   return (
-    <Redirect
-      to={{
-        pathname: '/oh-noes',
-        state: { from: routeProps.location },
-      }}
-    />
+    <Page {...routeProps}>
+      <Component {...routeProps} />
+    </Page>
   );
 };
 
@@ -45,10 +45,6 @@ export const AdminRoute = ({ component: Component, ...rest }) => {
     }
   };
   useEffect(fetch, []);
-
-  if (!isResolved(sessionState.meta)) {
-    return <Spinner />;
-  }
 
   return (
     <Route

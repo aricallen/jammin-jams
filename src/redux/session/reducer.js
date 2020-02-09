@@ -19,7 +19,7 @@ const meta = (state = initialMeta, action) => {
     case Type.CREATE_SESSION_SUCCESS:
       return { ...state, status: MetaStatus.RESOLVED };
     default:
-      return { ...state, status: MetaStatus.INITIAL };
+      return { ...state };
   }
 };
 

@@ -7,7 +7,7 @@ export const Spinner = (props = {}) => {
   const backgroundColor = props.backgroundColor || 'transparent';
   const otherProps = omit(props, ['fill', 'background']);
   const { variant = 'small' } = props;
-  const size = variant === 'small' ? '1em' : `${spacing.quadruple}px`;
+  const size = variant === 'small' ? '1em' : `${spacing.quadruple * 2}px`;
 
   return (
     <svg

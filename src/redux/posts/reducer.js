@@ -13,11 +13,11 @@ const meta = (state = initialMeta, action) => {
     case Type.FETCH_POSTS_SUCCESS:
       return { ...state, status: MetaStatus.RESOLVED };
     default:
-      return { ...state, status: MetaStatus.INITIAL };
+      return { ...state };
   }
 };
 
-const initialData = null;
+const initialData = [];
 
 const data = (state = initialData, action) => {
   switch (action.type) {
