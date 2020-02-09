@@ -7,7 +7,7 @@ import { Spinner } from './Spinner';
 const ButtonElem = styled('button')`
   cursor: pointer;
   padding: ${spacing.regular}px;
-  background-color: ${pallet.strawberry};
+  background-color: ${(p) => (p.variant === 'secondary' ? 'white' : pallet.strawberry)};
   border-radius: ${spacing.regular}px;
   font-size: 1em;
   font-weight: ${font.weight.bold};

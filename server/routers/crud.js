@@ -5,7 +5,7 @@ const { parseError, checkReadonly } = require('../utils/api-helpers');
 const router = express.Router();
 
 /**
- * READ MANY
+ * READ ONE
  */
 
 router.get('/:tableName/:resourceId', async (req, res) => {
@@ -23,7 +23,7 @@ router.get('/:tableName/:resourceId', async (req, res) => {
 });
 
 /**
- * READ ONE
+ * READ MANY
  */
 
 router.get('/:tableName', async (req, res) => {
@@ -73,7 +73,7 @@ router.post('/:tableName', checkReadonly, async (req, res) => {
     const result = await conn.query(`INSERT INTO ${tableName} SET ?`, req.body);
     const inserted = await conn.query(`SELECT * from ${tableName} WHERE id = ${result.insertId}`);
     res.send({
-      data: inserted,
+      data: inserted[0],
     });
   } catch (err) {
     res.status(400).send(parseError(err, req));

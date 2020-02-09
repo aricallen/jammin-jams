@@ -23,6 +23,13 @@ export const Input = styled('input')`
   }
 `;
 
+export const TextArea = styled('textarea')`
+  border-radius: ${spacing.regular}px;
+  border-width: 1px;
+  border-color: ${pallet.strawberry};
+  width: 100%;
+`;
+
 export const Fieldset = styled('fieldset')`
   margin-bottom: ${spacing.regular}px;
   ${media.mobile()} {

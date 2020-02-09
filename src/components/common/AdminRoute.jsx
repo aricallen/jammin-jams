@@ -5,7 +5,22 @@ import { fetchSession } from '../../redux/session/actions';
 import { isResolved } from '../../redux/utils/meta-status';
 import { Page } from '../pages/admin/Page';
 
-const renderRouteComp = (routeProps, Component, sessionState) => {
+const { TARGET_ENV } = process.env;
+const IS_PRODUCTION = TARGET_ENV === 'production';
+
+const renderRouteComponent = (routeProps, Component) => {
+  return (
+    <Page {...routeProps}>
+      <Component {...routeProps} />
+    </Page>
+  );
+};
+
+const handleRouting = (routeProps, Component, sessionState) => {
+  if (isResolved(sessionState.meta) && !IS_PRODUCTION) {
+    return renderRouteComponent(routeProps, Component);
+  }
+
   if (isResolved(sessionState.meta) && !sessionState.data.user) {
     return (
       <Redirect
@@ -28,11 +43,7 @@ const renderRouteComp = (routeProps, Component, sessionState) => {
     );
   }
 
-  return (
-    <Page {...routeProps}>
-      <Component {...routeProps} />
-    </Page>
-  );
+  return renderRouteComponent(routeProps, Component);
 };
 
 export const AdminRoute = ({ component: Component, ...rest }) => {
@@ -47,9 +58,6 @@ export const AdminRoute = ({ component: Component, ...rest }) => {
   useEffect(fetch, []);
 
   return (
-    <Route
-      {...rest}
-      render={(routeProps) => renderRouteComp(routeProps, Component, sessionState)}
-    />
+    <Route {...rest} render={(routeProps) => handleRouting(routeProps, Component, sessionState)} />
   );
 };
