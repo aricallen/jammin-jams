@@ -48,11 +48,9 @@ router.post('/', uploader, async (req, res) => {
   }
 });
 
-router.put('/:id', createUpdateController('media'));
-
-router.get('/', createGetController('media'));
-
 router.get('/:id', createGetOneController('media'));
+router.get('/', createGetController('media'));
+router.put('/:id', createUpdateController('media'));
 
 router.delete('/', (req, res) => {
   // ... remove file
