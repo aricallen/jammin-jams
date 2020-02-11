@@ -1,4 +1,4 @@
-const { snakeCase, camelCase, pick } = require('lodash');
+const { snakeCase, camelCase, pick, omit } = require('lodash');
 const pmysql = require('promise-mysql');
 
 const { DATABASE_URL } = process.env;
@@ -45,16 +45,35 @@ const parseInsertValues = async (conn, tableName, values) => {
   return validValues;
 };
 
-const insertIntoTable = async (conn, tableName, values) => {
+const createRecord = async (conn, tableName, values) => {
   const row = await parseInsertValues(conn, tableName, values);
   const result = await conn.query(`INSERT INTO ${tableName} SET ?`, row);
   const inserted = await conn.query(`SELECT * from ${tableName} WHERE id = ${result.insertId}`);
   return inserted[0];
 };
 
-const getAllRows = async (conn, tableName) => {
+const getRecords = async (conn, tableName) => {
   const results = await conn.query(`SELECT * from ${tableName}`);
   return results;
+};
+
+const getRecord = async (conn, tableName, resourceId) => {
+  try {
+    const results = await conn.query(`SELECT * FROM ${tableName} WHERE id = ?`, resourceId);
+    return results[0];
+  } catch (err) {
+    return err;
+  }
+};
+
+const updateRecord = async (conn, tableName, resourceId, values) => {
+  try {
+    await conn.query(`UPDATE ${tableName} SET ? WHERE id = ${resourceId}`, omit(values, ['id']));
+    const updated = await conn.query(`SELECT * from ${tableName} WHERE id = ${resourceId}`);
+    return updated;
+  } catch (err) {
+    return err;
+  }
 };
 
 module.exports = {
@@ -63,6 +82,8 @@ module.exports = {
   getConnection,
   getColumnNames,
   parseInsertValues,
-  insertIntoTable,
-  getAllRows,
+  createRecord,
+  getRecords,
+  getRecord,
+  updateRecord,
 };

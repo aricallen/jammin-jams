@@ -1,5 +1,5 @@
 const SquareConnect = require('square-connect');
-const { getConnection, parseInsertValues, insertIntoTable } = require('../utils/db-helpers');
+const { getConnection, parseInsertValues, createRecord } = require('../utils/db-helpers');
 const { hashIt } = require('../utils/hash-it');
 
 const { SQUARE_ACCESS_TOKEN, SQUARE_HOST } = process.env;
@@ -12,7 +12,7 @@ const getClient = () => {
 };
 
 const addToAddresses = async (conn, values) => {
-  return insertIntoTable(conn, 'addresses', values);
+  return createRecord(conn, 'addresses', values);
 };
 
 const addToUsers = async (conn, values) => {
@@ -25,15 +25,15 @@ const addToUsers = async (conn, values) => {
     ...insertValues,
     password: hashIt(insertValues.password),
   };
-  return insertIntoTable(conn, 'users', row);
+  return createRecord(conn, 'users', row);
 };
 
 const addToSubscriptions = async (conn, values) => {
-  return insertIntoTable(conn, 'subscriptions', values);
+  return createRecord(conn, 'subscriptions', values);
 };
 
 const addToOrders = async (conn, values) => {
-  return insertIntoTable(conn, 'orders', values);
+  return createRecord(conn, 'orders', values);
 };
 
 /**

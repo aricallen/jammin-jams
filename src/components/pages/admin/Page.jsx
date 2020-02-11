@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { useSelector } from 'react-redux';
-import { Toolbar } from './Toolbar';
+import { Sidebar } from './Sidebar';
 import { spacing } from '../../../constants/style-guide';
 import { Content } from '../../common/Structure';
 import { isResolved } from '../../../redux/utils/meta-status';
@@ -20,7 +20,7 @@ export const Page = (props) => {
   const { children, ...routeProps } = props;
   return (
     <Wrapper>
-      <Toolbar {...routeProps} />
+      <Sidebar {...routeProps} />
       {isResolved(sessionState.meta) ? <Content>{children}</Content> : <Spinner variant="large" />}
     </Wrapper>
   );

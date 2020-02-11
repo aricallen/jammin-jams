@@ -6,11 +6,13 @@ const { controller: waitlistController } = require('../controllers/waitlist');
 const { controller: subscriptionController } = require('../controllers/subscription');
 const { getConnection } = require('../utils/db-helpers');
 const { createGetController } = require('../utils/api-helpers');
+const { router: mediaRouter } = require('./media');
 const schemas = require('../schemas');
 
 // /api
 const router = express.Router();
 
+router.use('/admin/media', mediaRouter);
 router.use('/admin', crudRouter);
 router.use('/session', sessionRouter);
 

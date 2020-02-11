@@ -5,6 +5,7 @@ import DashboardIcon from '../../../assets/icons/dashboard.svg';
 import PostsIcon from '../../../assets/icons/web.svg';
 import BuildIcon from '../../../assets/icons/build.svg';
 import QrCode from '../../../assets/icons/memory.svg';
+import WallpaperIcon from '../../../assets/icons/wallpaper.svg';
 
 const Wrapper = styled('div')`
   height: 100%;
@@ -52,14 +53,19 @@ const TOOLBAR_ITEMS = [
     path: '/admin/dashboard',
   },
   {
-    text: 'Logo Builder',
-    Icon: BuildIcon,
-    path: '/admin/logo-builder',
-  },
-  {
     text: 'Posts',
     Icon: PostsIcon,
     path: '/admin/posts',
+  },
+  {
+    text: 'Media',
+    Icon: WallpaperIcon,
+    path: '/admin/media',
+  },
+  {
+    text: 'Logo Builder',
+    Icon: BuildIcon,
+    path: '/admin/logo-builder',
   },
   {
     text: 'Qr Codes',
@@ -68,7 +74,7 @@ const TOOLBAR_ITEMS = [
   },
 ];
 
-const ToolbarItem = ({ item }) => {
+const SidebarItem = ({ item }) => {
   const { Icon, onSelect, isActive } = item;
   return (
     <ItemBlock onClick={onSelect} isActive={isActive}>
@@ -80,7 +86,7 @@ const ToolbarItem = ({ item }) => {
   );
 };
 
-export const Toolbar = ({ history, location }) => {
+export const Sidebar = ({ history, location }) => {
   const onSelect = (item) => {
     history.push(item.path);
   };
@@ -94,7 +100,7 @@ export const Toolbar = ({ history, location }) => {
   return (
     <Wrapper>
       {items.map((item) => (
-        <ToolbarItem key={item.path} item={item} />
+        <SidebarItem key={item.path} item={item} />
       ))}
     </Wrapper>
   );

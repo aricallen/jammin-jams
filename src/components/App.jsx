@@ -21,6 +21,7 @@ import { Posts as AdminPosts } from './pages/admin/Posts';
 import { Post } from './pages/admin/Post';
 import { LogoBuilder } from './pages/admin/LogoBuilder';
 import { QrCodes } from './pages/admin/QrCodes';
+import { MediaPage } from './pages/admin/MediaPage';
 
 // import { Footer } from './common/Footer';
 import { NavBar } from './common/NavBar';
@@ -57,6 +58,7 @@ export const App = () => {
           <AdminRoute exact path="/admin/posts/:postId" component={Post} />
           <AdminRoute exact path="/admin/posts/new" component={Post} />
           <AdminRoute exact path="/admin/qr-codes" component={QrCodes} />
+          <AdminRoute exact path="/admin/media" component={MediaPage} />
           <AdminRoute exact path="/admin" component={() => <Redirect to="/admin/dashboard" />} />
 
           <Route exact path="/" component={Home} />

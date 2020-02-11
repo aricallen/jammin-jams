@@ -1,4 +1,5 @@
-const { getConnection, getAllRows } = require('./db-helpers');
+const { omit } = require('lodash');
+const { getConnection, getRecords, getRecord } = require('./db-helpers');
 
 const parseError = (err, req) => {
   return {
@@ -25,7 +26,7 @@ const createGetController = (tableName) => {
   return async (req, res) => {
     const conn = await getConnection();
     try {
-      const records = await getAllRows(conn, tableName);
+      const records = await getRecords(conn, tableName);
       res.send({
         data: records,
       });
@@ -39,4 +40,48 @@ const createGetController = (tableName) => {
   };
 };
 
-module.exports = { parseError, checkReadonly, createGetController };
+const createGetOneController = (tableName) => {
+  return async (req, res) => {
+    const conn = await getConnection();
+    try {
+      const records = await getRecord(conn, tableName, req.params.resourceId);
+      res.send({
+        data: records,
+      });
+    } catch (err) {
+      res.status(400).send({
+        error: err,
+        message: `Unable to fetch rows for ${tableName}`,
+      });
+    }
+    conn.end();
+  };
+};
+
+const createUpdateController = (tableName) => {
+  return async (req, res) => {
+    const { resourceId } = req.params;
+    const conn = await getConnection();
+    try {
+      await conn.query(
+        `UPDATE ${tableName} SET ? WHERE id = ${resourceId}`,
+        omit(req.body, ['id'])
+      );
+      const updated = await conn.query(`SELECT * from ${tableName} WHERE id = ${resourceId}`);
+      res.send({
+        data: updated[0],
+      });
+    } catch (err) {
+      res.status(400).send(parseError(err, req));
+    }
+    conn.end();
+  };
+};
+
+module.exports = {
+  parseError,
+  checkReadonly,
+  createGetController,
+  createGetOneController,
+  createUpdateController,
+};
