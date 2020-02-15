@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { media } from '../../../utils/media';
 import { spacing, sizes } from '../../../constants/style-guide';
 import { fetchProducts } from '../../../redux/products/actions';
+import { fetchPlans } from '../../../redux/plans/actions';
 import { Spinner } from '../../common/Spinner';
 import { ProductItem } from './ProductItem';
 
@@ -19,6 +20,7 @@ export const Store = ({ history }) => {
 
   const fetch = () => {
     dispatch(fetchProducts());
+    dispatch(fetchPlans());
   };
   useEffect(fetch, []);
 
