@@ -4,9 +4,8 @@ const { router: sessionRouter } = require('./session');
 const { router: stripeRouter } = require('./stripe');
 const { controller: loginController } = require('../controllers/login');
 const { controller: waitlistController } = require('../controllers/waitlist');
-const { controller: subscriptionController } = require('../controllers/subscription');
 const { getConnection } = require('../utils/db-helpers');
-const { createGetController } = require('../utils/api-helpers');
+// const { createGetController } = require('../utils/api-helpers');
 const { router: mediaRouter } = require('./media');
 const schemas = require('../schemas');
 
@@ -15,7 +14,7 @@ const router = express.Router();
 
 router.use('/admin/media', mediaRouter);
 router.use('/admin', crudRouter);
-router.user('/stripe', stripeRouter);
+router.use('/stripe', stripeRouter);
 router.use('/session', sessionRouter);
 
 // general api
@@ -45,7 +44,5 @@ router.get('/schemas/:tableName', (req, res) => {
 });
 
 router.post('/waitlist', waitlistController);
-
-router.post('/process-subscription', subscriptionController);
 
 module.exports = { router };

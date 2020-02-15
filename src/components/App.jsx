@@ -48,9 +48,10 @@ export const App = () => {
           <Route exact path="/about" component={About} />
           <Route exact path="/waitlist" component={Waitlist} />
           <Route exact path="/thank-you" component={ThankYou} />
-          <Route exact path="/store" component={Store} />
           <Route exact path="/account/log-in" component={LogIn} />
           <Route exact path="/oh-noes" component={NotFound} />
+
+          <Route exact path="/store" component={Store} />
 
           <AdminRoute exact path="/admin/dashboard" component={Dashboard} />
           <AdminRoute exact path="/admin/logo-builder" component={LogoBuilder} />
