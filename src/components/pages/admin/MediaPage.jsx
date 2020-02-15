@@ -44,6 +44,7 @@ export const MediaPage = () => {
         <Header>
           <Header1>Media</Header1>
           <Button onClick={() => {}}>Upload</Button>
+          <input type="file" name="media" style={{ display: 'none' }} />
         </Header>
         <Section>
           {mediaItems.map((mediaItem) => (

@@ -3,7 +3,6 @@ import styled from '@emotion/styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { Section, Header2 } from '../../common/Structure';
 import { ProductPicker } from './ProductPicker';
-import { INVENTORY_ITEMS_ID } from './constants';
 import { spacing, font } from '../../../constants/style-guide';
 import { fetchInventoryItems } from '../../../redux/inventory-items/actions';
 import { Spinner } from '../../common/Spinner';

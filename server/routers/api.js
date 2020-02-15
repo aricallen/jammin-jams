@@ -1,6 +1,7 @@
 const express = require('express');
 const { router: crudRouter } = require('./crud');
 const { router: sessionRouter } = require('./session');
+const { router: stripeRouter } = require('./stripe');
 const { controller: loginController } = require('../controllers/login');
 const { controller: waitlistController } = require('../controllers/waitlist');
 const { controller: subscriptionController } = require('../controllers/subscription');
@@ -14,6 +15,7 @@ const router = express.Router();
 
 router.use('/admin/media', mediaRouter);
 router.use('/admin', crudRouter);
+router.user('/stripe', stripeRouter);
 router.use('/session', sessionRouter);
 
 // general api
