@@ -88,7 +88,7 @@ export const NavBar = () => {
             <NavLink
               to={item.path}
               activeStyle={{
-                color: pallet.charcoal,
+                color: pallet.light.strawberry,
               }}
             >
               {item.text}

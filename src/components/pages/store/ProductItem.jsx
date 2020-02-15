@@ -35,18 +35,21 @@ const Button = styled(BaseButton)`
 `;
 
 export const ProductItem = (props) => {
-  const [interval, setInterval] = useState(null);
+  const [selectedPlanOption, setSelectedPlanOption] = useState(null);
   const plansState = useSelector((state) => state.plans);
-  const { onSelect, product, isInCart } = props;
+  const cart = useSelector((state) => state.cart.data);
+  const { onAddItem, onRemoveItem, product } = props;
 
   const planOptions = plansState.data
     .filter((plan) => plan.product === product.id)
     .map((plan) => ({
       label: plan.nickname,
       value: plan.id,
+      plan,
     }));
 
   const isSubscription = isResolved(plansState.meta) && planOptions.length > 0;
+  const isInCart = cart.find((item) => item.product.id === product.id);
 
   return (
     <Wrapper>
@@ -55,15 +58,24 @@ export const ProductItem = (props) => {
         <Name>{product.name}</Name>
       </ItemContent>
       {isSubscription ? (
-        <Select onChange={setInterval} options={planOptions} value={interval} />
+        <Select
+          onChange={setSelectedPlanOption}
+          options={planOptions}
+          value={selectedPlanOption}
+          placeholder="Subscription Interval..."
+        />
       ) : (
         isBusy(plansState.meta) && <Spinner />
       )}
-      {interval && (
+      {selectedPlanOption && (
         <SubscribeWrapper>
-          <Button disabled={isInCart} onClick={() => onSelect(product)}>
-            Subscribe
-          </Button>
+          {isInCart ? (
+            <Button onClick={() => onRemoveItem(product, selectedPlanOption.plan)}>
+              Remove from cart
+            </Button>
+          ) : (
+            <Button onClick={() => onAddItem(product, selectedPlanOption.plan)}>Add to cart</Button>
+          )}
         </SubscribeWrapper>
       )}
     </Wrapper>

@@ -5,6 +5,7 @@ import { products } from './products/reducer';
 import { posts } from './posts/reducer';
 import { media } from './media/reducer';
 import { plans } from './plans/reducer';
+import { cart } from './cart/reducer';
 
 export const rootReducer = combineReducers({
   session,
@@ -13,4 +14,5 @@ export const rootReducer = combineReducers({
   plans,
   posts,
   media,
+  cart,
 });
