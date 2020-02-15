@@ -11,6 +11,7 @@ import { NotFound } from './pages/NotFound';
 
 // store
 import { Store } from './pages/store/Store';
+import { Checkout } from './pages/store/Checkout';
 
 // account
 import { LogIn } from './pages/account/LogIn';
@@ -52,6 +53,7 @@ export const App = () => {
           <Route exact path="/oh-noes" component={NotFound} />
 
           <Route exact path="/store" component={Store} />
+          <Route exact path="/store/checkout" component={Checkout} />
 
           <AdminRoute exact path="/admin/dashboard" component={Dashboard} />
           <AdminRoute exact path="/admin/logo-builder" component={LogoBuilder} />

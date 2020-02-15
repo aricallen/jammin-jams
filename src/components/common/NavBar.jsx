@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
-import { NavLink as BaseNavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { NavLink as BaseNavLink, withRouter } from 'react-router-dom';
 import { Logo } from './Logo';
 import { sizes, pallet, spacing, animation, font } from '../../constants/style-guide';
 import { fontSizes } from '../../utils/style-helpers';
+import { isInitial } from '../../redux/utils/meta-status';
+import { fetchSession } from '../../redux/session/actions';
+import CartIcon from '../../assets/icons/shopping_cart.svg';
 
 const Wrapper = styled('nav')`
   display: flex;
@@ -56,7 +60,24 @@ const NavLink = styled(BaseNavLink)`
   }
 `;
 
-const navItems = [
+const IconWrapper = styled('div')`
+  display: flex;
+  align-items: center;
+  margin-left: ${spacing.double}px;
+  cursor: pointer;
+
+  svg {
+    transition: fill ${animation};
+  }
+
+  &:hover {
+    svg {
+      fill: ${pallet.strawberry};
+    }
+  }
+`;
+
+const NAV_ITEMS = [
   // {
   //   text: 'About',
   //   path: '/about',
@@ -65,13 +86,43 @@ const navItems = [
     text: 'Store',
     path: '/store',
   },
+];
+
+const LOGGED_IN_ITEMS = [
+  {
+    text: 'Log out',
+    path: '/log-out',
+  },
+];
+
+const LOGGED_OUT_ITEMS = [
   {
     text: 'Sign In',
     path: '/log-in',
   },
 ];
 
-export const NavBar = () => {
+const getNavItems = (navItems, sessionState) => {
+  if (sessionState.data.user) {
+    return [...navItems, ...LOGGED_IN_ITEMS];
+  }
+  return [...navItems, ...LOGGED_OUT_ITEMS];
+};
+
+export const NavBar = withRouter(({ history }) => {
+  const sessionState = useSelector((state) => state.session);
+  const cart = useSelector((state) => state.cart.data);
+  const dispatch = useDispatch();
+
+  const fetch = () => {
+    if (isInitial(sessionState.meta)) {
+      dispatch(fetchSession());
+    }
+  };
+  useEffect(fetch, []);
+
+  const navItems = getNavItems(NAV_ITEMS, sessionState);
+
   return (
     <Wrapper>
       <Brand>
@@ -96,6 +147,11 @@ export const NavBar = () => {
           </NavItem>
         ))}
       </NavList>
+      {cart.length > 0 && (
+        <IconWrapper onClick={() => history.push('/store/checkout')}>
+          <CartIcon />
+        </IconWrapper>
+      )}
     </Wrapper>
   );
-};
+});

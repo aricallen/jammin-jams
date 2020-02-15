@@ -63,6 +63,7 @@ export const ProductItem = (props) => {
           options={planOptions}
           value={selectedPlanOption}
           placeholder="Subscription Interval..."
+          isSearchable={false}
         />
       ) : (
         isBusy(plansState.meta) && <Spinner />
