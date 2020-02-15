@@ -1,4 +1,4 @@
-export const INVENTORY_ITEMS_ID = [
+export const PRODUCTS_ID = [
   {
     id: null,
     label: 'Frequency / Quantity',
@@ -22,7 +22,7 @@ export const INVENTORY_ITEMS_ID = [
 ];
 
 export const StoreStep = {
-  INVENTORY_ITEMS_ID: 'products',
+  PRODUCTS_ID: 'products',
   DELIVERY_METHOD: 'delivery-method',
   SHIPPING: 'shipping',
   PAYMENT: 'payment',

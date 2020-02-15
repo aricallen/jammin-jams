@@ -62,15 +62,15 @@ const renderCell = ({ inventoryItem, onSelect }) => {
 };
 
 export const ProductPicker = (props) => {
-  const { inventoryItems, onSelect } = props;
+  const { products, onSelect } = props;
 
   return (
-    <Grid numRows={inventoryItems.length + 1}>
+    <Grid numRows={products.length + 1}>
       <Row key="header-row" isSelectable={false}>
         <Cell>Frequency</Cell>
         <Cell>Price</Cell>
       </Row>
-      {inventoryItems.map((ii) => (
+      {products.map((ii) => (
         <Row key={ii.name} isSelected={ii.isSelected} isSelectable={true}>
           {renderCell({ inventoryItem: ii, onSelect })}
         </Row>

@@ -48,6 +48,4 @@ router.post('/waitlist', waitlistController);
 
 router.post('/process-subscription', subscriptionController);
 
-router.get('/inventory-items', createGetController('inventoryItems'));
-
 module.exports = { router };

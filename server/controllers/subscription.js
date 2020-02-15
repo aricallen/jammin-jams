@@ -90,8 +90,8 @@ const controller = async (req, res) => {
     const insertedOrder = await addToOrders(conn, {
       ...values,
       details: JSON.stringify({
-        ordered: [{ inventoryItemsId: values.inventoryItemsId, quantity: 0 }],
-        sent: [{ inventoryItemsId: values.inventoryItemsId, quantity: 0 }],
+        ordered: [{ productsId: values.productsId, quantity: 0 }],
+        sent: [{ productsId: values.productsId, quantity: 0 }],
       }),
       orderStatusesId: 1,
       subscriptionsId: insertedSubscription.id,

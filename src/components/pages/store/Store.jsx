@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 // import { Redirect } from 'react-router-dom';
 import { media } from '../../../utils/media';
 import { spacing, sizes } from '../../../constants/style-guide';
-import { fetchInventoryItems } from '../../../redux/inventory-items/actions';
+import { fetchProducts } from '../../../redux/products/actions';
 import { Spinner } from '../../common/Spinner';
 import { InventoryItem } from './InventoryItem';
 import { fetchSession } from '../../../redux/session/actions';
@@ -18,9 +18,9 @@ const Wrapper = styled('div')`
 
 export const Store = ({ history }) => {
   const dispatch = useDispatch();
-  const inventoryState = useSelector((state) => state.inventoryItems);
+  const inventoryState = useSelector((state) => state.products);
   const fetch = () => {
-    dispatch(fetchInventoryItems());
+    dispatch(fetchProducts());
     dispatch(fetchSession());
   };
   useEffect(fetch, []);
@@ -28,7 +28,7 @@ export const Store = ({ history }) => {
   const onSelect = (item) => {
     const sessionState = useSelector((state) => state.sessionState);
     if (!sessionState.data.user) {
-      history.push({ pathname: '/account/log-in', search: `inventoryItemsId=${item.id}` });
+      history.push({ pathname: '/account/log-in', search: `productsId=${item.id}` });
     }
   };
 

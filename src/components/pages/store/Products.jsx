@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Section, Header2 } from '../../common/Structure';
 import { ProductPicker } from './ProductPicker';
 import { spacing, font } from '../../../constants/style-guide';
-import { fetchInventoryItems } from '../../../redux/inventory-items/actions';
+import { fetchProducts } from '../../../redux/products/actions';
 import { Spinner } from '../../common/Spinner';
 
 const SectionHeader = styled(Header2)`
@@ -17,24 +17,24 @@ const Value = styled('span')`
 `;
 
 export const isValid = (sessionData = {}) => {
-  return !!sessionData.inventoryItemsId;
+  return !!sessionData.productsId;
 };
 
 export const Products = (props) => {
   const { onUpdate, values } = props;
   const dispatch = useDispatch();
-  const { data, meta } = useSelector((state) => state.inventoryItems);
+  const { data, meta } = useSelector((state) => state.products);
   const fetch = () => {
-    dispatch(fetchInventoryItems());
+    dispatch(fetchProducts());
   };
   useEffect(fetch, []);
 
   const [selectedProduct, setSelectedProduct] = useState(
-    values.inventoryItemsId ? data.find((p) => p.id === values.inventoryItemsId) : {}
+    values.productsId ? data.find((p) => p.id === values.productsId) : {}
   );
 
   const onSelect = (product) => {
-    onUpdate({ inventoryItemsId: product.id });
+    onUpdate({ productsId: product.id });
     setSelectedProduct(product);
   };
 
@@ -55,7 +55,7 @@ export const Products = (props) => {
         Frequency {selectedProduct.id && <Value>: {selectedProduct.label}</Value>}
       </SectionHeader>
       <Section style={{ flexGrow: 1 }}>
-        <ProductPicker inventoryItems={normalized} onSelect={onSelect} />
+        <ProductPicker products={normalized} onSelect={onSelect} />
       </Section>
     </Fragment>
   );
