@@ -1,16 +1,18 @@
 import { combineReducers } from 'redux';
 import { Type } from './actions';
+import { MetaStatus } from '../../constants/meta-status';
+import { deserialize } from '../utils/deserialize';
 
-const initialMeta = { isFetching: false, error: null };
+const initialMeta = { status: MetaStatus.INITIAL, error: null };
 
 const meta = (state = initialMeta, action) => {
   switch (action.type) {
     case Type.FETCH_PRODUCTS_REQUEST:
-      return { ...state, isFetching: true };
+      return { ...state, status: MetaStatus.BUSY };
     case Type.FETCH_PRODUCTS_FAILURE:
-      return { ...state, error: action.error, isFetching: false };
+      return { ...state, error: action.error, status: MetaStatus.ERRORED };
     default:
-      return { ...state, isFetching: false };
+      return state;
   }
 };
 
@@ -19,7 +21,7 @@ const initialData = [];
 const data = (state = initialData, action) => {
   switch (action.type) {
     case Type.FETCH_PRODUCTS_SUCCESS:
-      return action.products;
+      return action.products.map(deserialize);
     default:
       return state;
   }

@@ -48,15 +48,11 @@ const formatName = (name) => {
   return name.split(' -- ').pop();
 };
 
-const renderCell = ({ inventoryItem, onSelect }) => {
+const renderCell = ({ product, onSelect }) => {
   return (
     <Fragment>
-      <SelectableCell onClick={() => onSelect(inventoryItem)}>
-        {formatName(inventoryItem.name)}
-      </SelectableCell>
-      <SelectableCell onClick={() => onSelect(inventoryItem)}>
-        ${inventoryItem.price}
-      </SelectableCell>
+      <SelectableCell onClick={() => onSelect(product)}>{formatName(product.name)}</SelectableCell>
+      <SelectableCell onClick={() => onSelect(product)}>${product.price}</SelectableCell>
     </Fragment>
   );
 };
@@ -72,7 +68,7 @@ export const ProductPicker = (props) => {
       </Row>
       {products.map((ii) => (
         <Row key={ii.name} isSelected={ii.isSelected} isSelectable={true}>
-          {renderCell({ inventoryItem: ii, onSelect })}
+          {renderCell({ product: ii, onSelect })}
         </Row>
       ))}
     </Grid>

@@ -19,30 +19,21 @@ const ItemContent = styled('div')``;
 
 const Name = styled('div')``;
 
-const Price = styled('div')``;
-
-const Amount = styled('span')`
-  font-weight: ${font.weight.semiBold};
-`;
-
 const Button = styled(BaseButton)`
   width: 100%;
 `;
 
-export const InventoryItem = (props) => {
-  const { onSelect, inventoryItem, isInCart } = props;
+export const ProductItem = (props) => {
+  const { onSelect, product, isInCart } = props;
 
   return (
     <Wrapper>
-      <Picture src="https://via.placeholder.com/200" />
+      <Picture src="https://via.placeholder.com/400" />
       <ItemContent>
-        <Name>{inventoryItem.name}</Name>
-        <Price>
-          Price: <Amount>${inventoryItem.price}</Amount>
-        </Price>
+        <Name>{product.name}</Name>
       </ItemContent>
-      <Button disabled={isInCart} onClick={() => onSelect(inventoryItem)}>
-        Add to Cart
+      <Button disabled={isInCart} onClick={() => onSelect(product)}>
+        Subscribe
       </Button>
     </Wrapper>
   );
