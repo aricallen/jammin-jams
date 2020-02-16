@@ -2,27 +2,36 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { useSelector, useDispatch } from 'react-redux';
 import { Content } from '../../common/Structure';
-import { Button } from '../../common/Button';
-import { boxShadow, spacing } from '../../../constants/style-guide';
+import { Button as BaseButton } from '../../common/Button';
+import { boxShadow, spacing, border } from '../../../constants/style-guide';
+import { media } from '../../../utils/media';
 import { removeFromCart } from '../../../redux/cart/actions';
 
 const Wrapper = styled('div')`
+  ${media.mobile()} {
+    display: none;
+  }
   box-shadow: ${boxShadow};
   width: 100%;
 `;
 
 const Footer = styled(Content)`
   display: flex;
-  justify-content: flex-end;
-  margin-top: ${spacing.double}px;
 `;
 
 const Row = styled('div')`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: ${spacing.double}px;
+  border-bottom: ${border};
 `;
 
+const Button = styled(BaseButton)`
+  width: 100%;
+`;
+
+const Rows = styled('div')``;
 const Title = styled('div')``;
 const Action = styled('div')``;
 
@@ -55,11 +64,11 @@ export const CartPreview = ({ onCheckout }) => {
 
   return (
     <Wrapper>
-      <Content>
+      <Rows>
         {cart.map((item) => (
           <CartItem item={item} key={item.product.id} />
         ))}
-      </Content>
+      </Rows>
       <Footer>
         <Button onClick={onCheckout}>Checkout</Button>
       </Footer>

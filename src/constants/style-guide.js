@@ -92,3 +92,7 @@ export const font = {
 export const animation = '0.3s ease-in-out';
 
 export const boxShadow = `1px 1px 3px 0 ${pallet.light.charcoal}`;
+
+export const border = `1px solid ${Color(pallet.charcoal)
+  .alpha(0.2)
+  .toString()}`;
