@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
+const morgan = require('morgan');
 const helmet = require('helmet');
 const path = require('path');
 const bodyParser = require('body-parser');
@@ -10,6 +11,7 @@ const { notify } = require('./middleware/notify');
 const app = express();
 
 app.use(helmet());
+app.use(morgan('tiny'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(

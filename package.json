@@ -76,6 +76,7 @@
     "express-session": "^1.17.0",
     "helmet": "^3.21.2",
     "lodash": "^4.17.15",
+    "morgan": "^1.9.1",
     "nodemon": "^2.0.1",
     "promise-mysql": "^4.1.1",
     "query-string": "^6.9.0",
