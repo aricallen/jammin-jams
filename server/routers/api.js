@@ -35,7 +35,12 @@ router.get('/status', async (req, res) => {
   });
 });
 
-router.post('/login', loginController);
+router.post('/log-in', loginController);
+
+router.post('/log-out', (req, res) => {
+  req.session.destroy();
+  res.status(200).send({});
+});
 
 router.get('/schemas/:tableName', (req, res) => {
   res.send({

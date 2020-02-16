@@ -5,7 +5,7 @@ import { Input, Fieldset, Label, FormError } from '../../common/Forms';
 import { Button } from '../../common/Button';
 import { spacing, ScreenSizes } from '../../../constants/style-guide';
 import { media } from '../../../utils/media';
-import { loginUser } from '../../../redux/session/actions';
+import { logInUser } from '../../../redux/session/actions';
 import { MetaStatus } from '../../../constants/meta-status';
 
 const Wrapper = styled('div')`
@@ -43,7 +43,7 @@ export const LogIn = ({ history }) => {
 
   const handleSubmit = async () => {
     try {
-      await dispatch(loginUser(values));
+      await dispatch(logInUser(values));
       history.push('/admin/dashboard');
     } catch (err) {
       console.error(err);

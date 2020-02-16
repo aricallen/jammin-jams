@@ -15,6 +15,7 @@ import { Checkout } from './pages/store/Checkout';
 
 // account
 import { LogIn } from './pages/account/LogIn';
+import { LogOut } from './pages/account/LogOut';
 
 // admin
 import { Dashboard } from './pages/admin/Dashboard';
@@ -49,8 +50,10 @@ export const App = () => {
           <Route exact path="/about" component={About} />
           <Route exact path="/waitlist" component={Waitlist} />
           <Route exact path="/thank-you" component={ThankYou} />
-          <Route exact path="/account/log-in" component={LogIn} />
           <Route exact path="/oh-noes" component={NotFound} />
+
+          <Route exact path="/account/log-in" component={LogIn} />
+          <Route exact path="/account/log-out" component={LogOut} />
 
           <Route exact path="/store" component={Store} />
           <Route exact path="/store/checkout" component={Checkout} />

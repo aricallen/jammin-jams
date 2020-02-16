@@ -6,23 +6,23 @@ const initialMeta = { status: MetaStatus.INITIAL, error: null };
 
 const meta = (state = initialMeta, action) => {
   switch (action.type) {
-    case Type.FETCH_ALL_MEDIA_REQUEST:
-    case Type.UPLOAD_ALL_MEDIA_REQUEST:
-    case Type.FETCH_MEDIA_REQUEST:
-    case Type.UPDATE_MEDIA_REQUEST:
-    case Type.DELETE_MEDIA_REQUEST:
+    case Type.FETCH_ALL_MEDIA_REQUESTED:
+    case Type.UPLOAD_ALL_MEDIA_REQUESTED:
+    case Type.FETCH_MEDIA_REQUESTED:
+    case Type.UPDATE_MEDIA_REQUESTED:
+    case Type.DELETE_MEDIA_REQUESTED:
       return { ...state, status: MetaStatus.BUSY };
-    case Type.FETCH_ALL_MEDIA_FAILURE:
-    case Type.UPLOAD_ALL_MEDIA_FAILURE:
-    case Type.FETCH_MEDIA_FAILURE:
-    case Type.UPDATE_MEDIA_FAILURE:
-    case Type.DELETE_MEDIA_FAILURE:
+    case Type.FETCH_ALL_MEDIA_FAILED:
+    case Type.UPLOAD_ALL_MEDIA_FAILED:
+    case Type.FETCH_MEDIA_FAILED:
+    case Type.UPDATE_MEDIA_FAILED:
+    case Type.DELETE_MEDIA_FAILED:
       return { ...state, error: action.error, status: MetaStatus.ERRORED };
-    case Type.FETCH_ALL_MEDIA_SUCCESS:
-    case Type.UPLOAD_ALL_MEDIA_SUCCESS:
-    case Type.FETCH_MEDIA_SUCCESS:
-    case Type.UPDATE_MEDIA_SUCCESS:
-    case Type.DELETE_MEDIA_SUCCESS:
+    case Type.FETCH_ALL_MEDIA_SUCCEEDED:
+    case Type.UPLOAD_ALL_MEDIA_SUCCEEDED:
+    case Type.FETCH_MEDIA_SUCCEEDED:
+    case Type.UPDATE_MEDIA_SUCCEEDED:
+    case Type.DELETE_MEDIA_SUCCEEDED:
       return { ...state, status: MetaStatus.RESOLVED };
     default:
       return { ...state };
@@ -40,14 +40,14 @@ const replacePost = (allMedia, newMedia) => {
 
 const data = (state = initialData, action) => {
   switch (action.type) {
-    case Type.FETCH_ALL_MEDIA_SUCCESS:
+    case Type.FETCH_ALL_MEDIA_SUCCEEDED:
       return action.media;
-    case Type.FETCH_MEDIA_SUCCESS:
-    case Type.UPDATE_MEDIA_SUCCESS:
+    case Type.FETCH_MEDIA_SUCCEEDED:
+    case Type.UPDATE_MEDIA_SUCCEEDED:
       return replacePost(state, action.media);
-    case Type.DELETE_MEDIA_SUCCESS:
+    case Type.DELETE_MEDIA_SUCCEEDED:
       return state.filter((item) => item.id !== action.id);
-    case Type.UPLOAD_ALL_MEDIA_SUCCESS:
+    case Type.UPLOAD_ALL_MEDIA_SUCCEEDED:
       return [state, ...action.media];
     default:
       return state;

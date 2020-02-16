@@ -96,14 +96,14 @@ const NAV_ITEMS = [
 const LOGGED_IN_ITEMS = [
   {
     text: 'Log out',
-    path: '/log-out',
+    path: '/account/log-out',
   },
 ];
 
 const LOGGED_OUT_ITEMS = [
   {
     text: 'Sign In',
-    path: '/log-in',
+    path: '/account/log-in',
   },
 ];
 

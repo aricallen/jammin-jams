@@ -2,28 +2,28 @@ import axios from 'axios';
 import { parseAxiosError } from '../utils/error';
 
 export const Type = {
-  FETCH_POSTS_REQUEST: 'posts/FETCH_POSTS_REQUEST',
-  FETCH_POSTS_SUCCESS: 'posts/FETCH_POSTS_SUCCESS',
-  FETCH_POSTS_FAILURE: 'posts/FETCH_POSTS_FAILURE',
+  FETCH_POSTS_REQUESTED: 'posts/FETCH_POSTS_REQUESTED',
+  FETCH_POSTS_SUCCEEDED: 'posts/FETCH_POSTS_SUCCEEDED',
+  FETCH_POSTS_FAILED: 'posts/FETCH_POSTS_FAILED',
 
-  FETCH_POST_REQUEST: 'posts/FETCH_POST_REQUEST',
-  FETCH_POST_SUCCESS: 'posts/FETCH_POST_SUCCESS',
-  FETCH_POST_FAILURE: 'posts/FETCH_POST_FAILURE',
+  FETCH_POST_REQUESTED: 'posts/FETCH_POST_REQUESTED',
+  FETCH_POST_SUCCEEDED: 'posts/FETCH_POST_SUCCEEDED',
+  FETCH_POST_FAILED: 'posts/FETCH_POST_FAILED',
 
-  SAVE_POST_REQUEST: 'posts/SAVE_POST_REQUEST',
-  SAVE_POST_SUCCESS: 'posts/SAVE_POST_SUCCESS',
-  SAVE_POST_FAILURE: 'posts/SAVE_POST_FAILURE',
+  SAVE_POST_REQUESTED: 'posts/SAVE_POST_REQUESTED',
+  SAVE_POST_SUCCEEDED: 'posts/SAVE_POST_SUCCEEDED',
+  SAVE_POST_FAILED: 'posts/SAVE_POST_FAILED',
 };
 
 export const fetchPosts = () => {
   return async (dispatch) => {
-    dispatch({ type: Type.FETCH_POSTS_REQUEST });
+    dispatch({ type: Type.FETCH_POSTS_REQUESTED });
     try {
       const response = await axios.get(`/api/admin/posts`);
-      dispatch({ type: Type.FETCH_POSTS_SUCCESS, posts: response.data.data });
+      dispatch({ type: Type.FETCH_POSTS_SUCCEEDED, posts: response.data.data });
       return response.data.data;
     } catch (err) {
-      dispatch({ type: Type.FETCH_POSTS_FAILURE, error: parseAxiosError(err) });
+      dispatch({ type: Type.FETCH_POSTS_FAILED, error: parseAxiosError(err) });
       throw err;
     }
   };
@@ -31,13 +31,13 @@ export const fetchPosts = () => {
 
 export const fetchPost = (id) => {
   return async (dispatch) => {
-    dispatch({ type: Type.FETCH_POST_REQUEST });
+    dispatch({ type: Type.FETCH_POST_REQUESTED });
     try {
       const response = await axios.get(`/api/admin/posts/${id}`);
-      dispatch({ type: Type.FETCH_POST_SUCCESS, post: response.data.data });
+      dispatch({ type: Type.FETCH_POST_SUCCEEDED, post: response.data.data });
       return response.data.data;
     } catch (err) {
-      dispatch({ type: Type.FETCH_POST_FAILURE, error: parseAxiosError(err) });
+      dispatch({ type: Type.FETCH_POST_FAILED, error: parseAxiosError(err) });
       throw err;
     }
   };
@@ -45,7 +45,7 @@ export const fetchPost = (id) => {
 
 export const savePost = (post) => {
   return async (dispatch) => {
-    dispatch({ type: Type.SAVE_POST_REQUEST });
+    dispatch({ type: Type.SAVE_POST_REQUESTED });
     try {
       const isNew = post.id === undefined;
       const save = () => {
@@ -55,10 +55,10 @@ export const savePost = (post) => {
         return axios.put(`/api/admin/posts/${post.id}`, post);
       };
       const response = await save();
-      dispatch({ type: Type.SAVE_POST_SUCCESS, post: response.data.data });
+      dispatch({ type: Type.SAVE_POST_SUCCEEDED, post: response.data.data });
       return response.data.data;
     } catch (err) {
-      dispatch({ type: Type.SAVE_POST_FAILURE, error: parseAxiosError(err) });
+      dispatch({ type: Type.SAVE_POST_FAILED, error: parseAxiosError(err) });
       throw err;
     }
   };
