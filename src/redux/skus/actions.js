@@ -9,14 +9,14 @@ export const Type = {
 
 export const fetchSkus = () => {
   return async (dispatch) => {
-    dispatch({ type: Type.FETCH_REQUESTED });
+    dispatch({ type: Type.FETCH_MANY_REQUESTED });
     try {
       const response = await axios.get(`/api/stripe/skus`);
       const skus = response.data.data;
-      dispatch({ type: Type.FETCH_SUCCEEDED, skus });
+      dispatch({ type: Type.FETCH_MANY_SUCCEEDED, skus });
       return skus;
     } catch (err) {
-      dispatch({ type: Type.FETCH_FAILED, error: parseAxiosError(err) });
+      dispatch({ type: Type.FETCH_MANY_FAILED, error: parseAxiosError(err) });
       throw err;
     }
   };

@@ -23,12 +23,12 @@ export const Store = ({ history }) => {
   };
   useEffect(fetch, []);
 
-  const onAddItem = (product, plan) => {
-    dispatch(addToCart(product, plan));
+  const onAddItem = (product, sku) => {
+    dispatch(addToCart(product, sku));
   };
 
-  const onRemoveItem = (product, plan) => {
-    dispatch(removeFromCart({ product, plan }));
+  const onRemoveItem = (product, sku) => {
+    dispatch(removeFromCart({ product, sku }));
   };
 
   const onCheckout = () => {

@@ -35,20 +35,20 @@ const Button = styled(BaseButton)`
 `;
 
 export const ProductItem = (props) => {
-  const [selectedPlanOption, setSelectedPlanOption] = useState(null);
-  const plansState = useSelector((state) => state.plans);
+  const [selectedSkuOption, setSelectedSkuOption] = useState(null);
+  const skusState = useSelector((state) => state.skus);
   const cart = useSelector((state) => state.cart.data);
   const { onAddItem, onRemoveItem, product } = props;
 
-  const planOptions = plansState.data
-    .filter((plan) => plan.product === product.id)
-    .map((plan) => ({
-      label: plan.nickname,
-      value: plan.id,
-      plan,
+  const skusOptions = skusState.data
+    .filter((sku) => sku.product === product.id)
+    .map((sku) => ({
+      label: sku.attributes.interval,
+      value: sku.id,
+      sku,
     }));
 
-  const isSubscription = isResolved(plansState.meta) && planOptions.length > 0;
+  const isSubscription = isResolved(skusState.meta) && skusOptions.length > 0;
   const isInCart = cart.find((item) => item.product.id === product.id);
 
   return (
@@ -59,23 +59,23 @@ export const ProductItem = (props) => {
       </ItemContent>
       {isSubscription ? (
         <Select
-          onChange={setSelectedPlanOption}
-          options={planOptions}
-          value={selectedPlanOption}
+          onChange={setSelectedSkuOption}
+          options={skusOptions}
+          value={selectedSkuOption}
           placeholder="Subscription Interval..."
           isSearchable={false}
         />
       ) : (
-        isBusy(plansState.meta) && <Spinner />
+        isBusy(skusState.meta) && <Spinner />
       )}
-      {selectedPlanOption && (
+      {selectedSkuOption && (
         <SubscribeWrapper>
           {isInCart ? (
-            <Button onClick={() => onRemoveItem(product, selectedPlanOption.plan)}>
+            <Button onClick={() => onRemoveItem(product, selectedSkuOption.sku)}>
               Remove from cart
             </Button>
           ) : (
-            <Button onClick={() => onAddItem(product, selectedPlanOption.plan)}>Add to cart</Button>
+            <Button onClick={() => onAddItem(product, selectedSkuOption.sku)}>Add to cart</Button>
           )}
         </SubscribeWrapper>
       )}

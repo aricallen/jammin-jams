@@ -12,7 +12,7 @@ export const removeFromCart = (item) => {
   return { type: Type.REMOVE_FROM_CART, cartItem: item };
 };
 
-export const addToCart = (product, plan) => {
-  const cartItem = { product, plan };
+export const addToCart = (product, sku) => {
+  const cartItem = { product, sku };
   return { type: Type.ADD_TO_CART, cartItem };
 };

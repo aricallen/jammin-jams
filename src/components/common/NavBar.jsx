@@ -19,8 +19,10 @@ const Wrapper = styled('nav')`
   padding-right: ${spacing.quadruple}px;
 `;
 
-const Left = styled('div')``;
-const Right = styled('div')``;
+const BarSection = styled('div')`
+  display: flex;
+  align-items: center;
+`;
 
 const Brand = styled('span')`
   ${fontSizes('largest')}
@@ -128,7 +130,7 @@ export const NavBar = withRouter(({ history }) => {
 
   return (
     <Wrapper>
-      <Left>
+      <BarSection>
         <Brand>
           <NavLink to="/">
             <BrandLinkWrapper>
@@ -137,8 +139,8 @@ export const NavBar = withRouter(({ history }) => {
             </BrandLinkWrapper>
           </NavLink>
         </Brand>
-      </Left>
-      <Right>
+      </BarSection>
+      <BarSection>
         <NavList>
           {navItems.map((item) => (
             <NavItem key={item.path}>
@@ -158,7 +160,7 @@ export const NavBar = withRouter(({ history }) => {
             <CartIcon />
           </IconWrapper>
         )}
-      </Right>
+      </BarSection>
     </Wrapper>
   );
 });
