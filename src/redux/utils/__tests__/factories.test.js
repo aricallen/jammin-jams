@@ -10,7 +10,7 @@ describe('createTypeConstants', () => {
       FETCH_ONE_SUCCEEDED: 'products/FETCH_ONE_SUCCEEDED',
       FETCH_ONE_FAILED: 'products/FETCH_ONE_FAILED',
     };
-    const actual = createTypeConstants(resourceName, verbs, variations);
+    const actual = createTypeConstants(resourceName, { verbs, variations });
     expect(actual).toEqual(expected);
   });
 

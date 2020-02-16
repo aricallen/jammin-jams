@@ -13,9 +13,7 @@ const DEFAULT_INITIAL_DATA = [];
 
 export const createTypeConstants = (
   resourceName,
-  verbs = DEFAULT_VERBS,
-  variations = DEFAULT_VARIATIONS,
-  events = DEFAULT_EVENTS
+  { verbs = DEFAULT_VERBS, variations = DEFAULT_VARIATIONS, events = DEFAULT_EVENTS } = {}
 ) => {
   const typeCombos = verbs.flatMap((verb) => {
     return variations.flatMap((variation) => {
@@ -34,14 +32,14 @@ export const createDefaultActions = (resourceName, endpoint, overrides = {}) => 
 
   const fetchMany = () => {
     return async (dispatch) => {
-      dispatch({ type: Type.FETCH_REQUEST });
+      dispatch({ type: Type.FETCH_MANY_REQUESTED });
       try {
         const response = await axios.get(endpoint);
         const resources = response.data.data;
-        dispatch({ type: Type.FETCH_SUCCESS, [resourceName]: resources });
+        dispatch({ type: Type.FETCH_MANY_SUCCEEDED, [resourceName]: resources });
         return resources;
       } catch (err) {
-        dispatch({ type: Type.FETCH_FAILURE, error: parseAxiosError(err) });
+        dispatch({ type: Type.FETCH_MANY_FAILED, error: parseAxiosError(err) });
         throw err;
       }
     };
@@ -49,14 +47,14 @@ export const createDefaultActions = (resourceName, endpoint, overrides = {}) => 
 
   const fetchOne = (resourceId) => {
     return async (dispatch) => {
-      dispatch({ type: Type.FETCH_ONE_REQUEST });
+      dispatch({ type: Type.FETCH_ONE_REQUESTED });
       try {
         const response = await axios.get(`${endpoint}/${resourceId}`);
         const resources = response.data.data;
-        dispatch({ type: Type.FETCH_ONE_SUCCESS, [resourceName]: resources });
+        dispatch({ type: Type.FETCH_ONE_SUCCEEDED, [resourceName]: resources });
         return resources;
       } catch (err) {
-        dispatch({ type: Type.FETCH_ONE_FAILURE, error: parseAxiosError(err) });
+        dispatch({ type: Type.FETCH_ONE_FAILED, error: parseAxiosError(err) });
         throw err;
       }
     };
