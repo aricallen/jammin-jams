@@ -4,15 +4,22 @@ import { FormInput } from '../../common/Forms';
 
 const FIELDS = ['firstName', 'lastName', 'address', 'address2', 'zipCode'];
 
+const REQUIRED_FIELDS = FIELDS.filter((field) => field !== 'address2');
+
+const isValid = (values) => {
+  const filledFields = FIELDS.filter((field) => values[field] && values[field].length > 0);
+  return REQUIRED_FIELDS.every((field) => filledFields.includes(field));
+};
+
 export const Shipping = (props) => {
-  const { values, onUpdate } = props;
+  const { values, onUpdate, setIsValid } = props;
 
   const handleChange = (name, getValue) => (event) => {
     const newVal = getValue(event);
-    const newValues = { ...values, [name]: newVal };
-    const isValid = FIELDS.every((field) => newValues[field] && newValues[field].length > 0);
-    onUpdate(name, newVal, isValid);
+    onUpdate(name, newVal);
   };
+
+  setIsValid(isValid(values));
 
   return (
     <Fragment>
@@ -23,7 +30,7 @@ export const Shipping = (props) => {
           value={values[field] || ''}
           onChange={handleChange(field, (e) => e.target.value)}
           label={field === 'address2' ? 'Address 2' : startCase(field)}
-          isRequired={true}
+          isRequired={field !== 'address2'}
         />
       ))}
     </Fragment>

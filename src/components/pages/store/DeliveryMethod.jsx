@@ -40,7 +40,7 @@ export const isValid = (values = {}) => {
 };
 
 export const DeliveryMethod = (props) => {
-  const { values, onUpdate } = props;
+  const { values, onUpdate, setIsValid } = props;
 
   const { zipCode, deliveryMethod, deliveryPromoCode } = values;
 
@@ -53,9 +53,10 @@ export const DeliveryMethod = (props) => {
 
   const handleChange = (name, getValue) => (event) => {
     const newVal = getValue(event);
-    const newValues = { ...values, [name]: newVal };
-    onUpdate(name, newVal, isValid(newValues));
+    onUpdate(name, newVal);
   };
+
+  setIsValid(isValid(values));
 
   return (
     <Fragment>

@@ -25,6 +25,7 @@ const Row = styled('div')`
   justify-content: space-between;
   padding: ${spacing.double}px;
   border-bottom: ${border};
+  text-break: space;
 `;
 
 const Button = styled(BaseButton)`
@@ -38,7 +39,7 @@ const Action = styled('div')``;
 const CartItem = ({ item }) => {
   const dispatch = useDispatch();
   const { product, sku } = item;
-  const title = `${product.name} - ${sku.attributes.interval}`;
+  const title = `${product.name} - ${sku.attributes.interval.replace(/-/g, '')}`;
 
   const onClick = () => {
     dispatch(removeFromCart(item));
@@ -69,9 +70,11 @@ export const CartPreview = ({ onCheckout }) => {
           <CartItem item={item} key={item.product.id} />
         ))}
       </Rows>
-      <Footer>
-        <Button onClick={onCheckout}>Checkout</Button>
-      </Footer>
+      {onCheckout && (
+        <Footer>
+          <Button onClick={onCheckout}>Checkout</Button>
+        </Footer>
+      )}
     </Wrapper>
   );
 };

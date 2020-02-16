@@ -8,17 +8,34 @@ import { Spinner } from '../../common/Spinner';
 import { DeliveryMethod } from './DeliveryMethod';
 import { Shipping } from './Shipping';
 import { Payment } from './Payment';
+import { CartPreview } from './CartPreview';
 
 const STRIPE_SCRIPT_ID = 'STRIPE_SCRIPT_ID';
 const STRIPE_SRC = 'https://js.stripe.com/v3/';
 
-const SectionWrapper = styled('div')`
-  margin-left: auto;
-  margin-right: auto;
-  width: 50%;
+const Grid = styled('div')`
+  display: grid;
+  grid-template-columns: 3fr 1fr;
   ${media.mobile()} {
-    width: 80%;
+    grid-template-columns: auto;
   }
+`;
+
+const FormCol = styled('div')`
+  margin: 0 auto;
+  width: 80%;
+  padding-right: ${spacing.quadruple}px;
+`;
+
+const CartCol = styled('div')`
+  margin: 0 auto;
+  width: 80%;
+  ${media.mobile()} {
+    display: none;
+  }
+`;
+
+const SectionWrapper = styled('div')`
   margin-bottom: ${spacing.double}px;
   box-shadow: ${boxShadow};
 `;
@@ -108,43 +125,48 @@ export const Checkout = () => {
       document.head.appendChild(scriptTag);
     }
   };
-
   useEffect(loadStripe, []);
 
   if (!isStripeLoaded) {
     return <Spinner variant="large" />;
   }
 
-  const onUpdate = (name, value, isValid = false) => {
+  const onUpdate = (name, value) => {
     setValues({ ...values, [name]: value });
-    setIsValid(isValid);
   };
 
   return (
     <Content>
-      {SECTIONS.map((section, i) => {
-        const { header, Component } = section;
-        return (
-          <SectionWrapper key={section.header}>
-            <SectionHeader>
-              <StepCircle>{i + 1}</StepCircle>
-              <HeaderText>{header}</HeaderText>
-            </SectionHeader>
-            {section === activeSection && (
-              <Fragment>
-                <ContentWrapper>
-                  <Component onUpdate={onUpdate} values={values} />
-                </ContentWrapper>
-                <SectionFooter
-                  activeSection={activeSection}
-                  setActiveSection={setActiveSection}
-                  isValid={_isValid}
-                />
-              </Fragment>
-            )}
-          </SectionWrapper>
-        );
-      })}
+      <Grid>
+        <FormCol>
+          {SECTIONS.map((section, i) => {
+            const { header, Component } = section;
+            return (
+              <SectionWrapper key={section.header}>
+                <SectionHeader>
+                  <StepCircle>{i + 1}</StepCircle>
+                  <HeaderText>{header}</HeaderText>
+                </SectionHeader>
+                {section === activeSection && (
+                  <Fragment>
+                    <ContentWrapper>
+                      <Component onUpdate={onUpdate} values={values} setIsValid={setIsValid} />
+                    </ContentWrapper>
+                    <SectionFooter
+                      activeSection={activeSection}
+                      setActiveSection={setActiveSection}
+                      isValid={_isValid}
+                    />
+                  </Fragment>
+                )}
+              </SectionWrapper>
+            );
+          })}
+        </FormCol>
+        <CartCol>
+          <CartPreview />
+        </CartCol>
+      </Grid>
     </Content>
   );
 };
