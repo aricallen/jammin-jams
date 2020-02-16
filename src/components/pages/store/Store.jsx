@@ -18,7 +18,6 @@ const Wrapper = styled('div')`
 export const Store = ({ history }) => {
   const dispatch = useDispatch();
   const productsState = useSelector((state) => state.products);
-  const cart = useSelector((state) => state.cart.data);
 
   const fetch = () => {
     dispatch(fetchProducts());
