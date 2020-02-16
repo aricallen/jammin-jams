@@ -6,6 +6,7 @@ import { posts } from './posts/reducer';
 import { media } from './media/reducer';
 import { plans } from './plans/reducer';
 import { cart } from './cart/reducer';
+import { checkoutSession } from './checkout-session/reducer';
 
 export const rootReducer = combineReducers({
   session,
@@ -15,4 +16,5 @@ export const rootReducer = combineReducers({
   posts,
   media,
   cart,
+  checkoutSession,
 });

@@ -6,6 +6,7 @@ import { media } from '../../../utils/media';
 import { Button } from '../../common/Button';
 import { DeliveryMethod } from './DeliveryMethod';
 import { Shipping } from './Shipping';
+import { Payment } from './Payment';
 
 const SectionWrapper = styled('div')`
   margin-left: auto;
@@ -57,6 +58,10 @@ const SECTIONS = [
   {
     header: 'Shipping',
     Component: Shipping,
+  },
+  {
+    header: 'Payment',
+    Component: Payment,
   },
 ];
 
