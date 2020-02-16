@@ -2,9 +2,9 @@ import axios from 'axios';
 import { parseAxiosError } from '../utils/error';
 
 export const Type = {
-  CREATE_SESSION_REQUEST: 'checkout/CREATE_SESSION_REQUEST',
-  CREATE_SESSION_SUCCESS: 'checkout/CREATE_SESSION_SUCCESS',
-  CREATE_SESSION_FAILURE: 'checkout/CREATE_SESSION_FAILURE',
+  CREATE_SESSION_REQUEST: 'checkout-session/CREATE_SESSION_REQUEST',
+  CREATE_SESSION_SUCCESS: 'checkout-session/CREATE_SESSION_SUCCESS',
+  CREATE_SESSION_FAILURE: 'checkout-session/CREATE_SESSION_FAILURE',
 };
 
 export const submitCheckout = (formValues) => {

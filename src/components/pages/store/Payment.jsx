@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
-import { submitCheckout } from '../../../redux/checkout/actions';
+import { submitCheckout } from '../../../redux/checkout-session/actions';
 import { isResolved } from '../../../redux/utils/meta-status';
 import { Spinner } from '../../common/Spinner';
 import { spacing } from '../../../constants/style-guide';

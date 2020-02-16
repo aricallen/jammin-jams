@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { media } from '../../../utils/media';
-import { spacing, sizes } from '../../../constants/style-guide';
 import { fetchProducts } from '../../../redux/products/actions';
-import { fetchPlans } from '../../../redux/plans/actions';
+import { fetchSkus } from '../../../redux/skus/actions';
 import { addToCart, removeFromCart } from '../../../redux/cart/actions';
 import { Spinner } from '../../common/Spinner';
 import { ProductItem } from './ProductItem';
@@ -21,7 +19,7 @@ export const Store = ({ history }) => {
 
   const fetch = () => {
     dispatch(fetchProducts());
-    dispatch(fetchPlans());
+    dispatch(fetchSkus());
   };
   useEffect(fetch, []);
 
@@ -45,7 +43,7 @@ export const Store = ({ history }) => {
     <Wrapper>
       {productsState.data.map((product) => (
         <ProductItem
-          key={`${product.id}_${product.nickname}`}
+          key={product.id}
           product={product}
           onAddItem={onAddItem}
           onRemoveItem={onRemoveItem}

@@ -2,21 +2,21 @@ import axios from 'axios';
 import { parseAxiosError } from '../utils/error';
 
 export const Type = {
-  FETCH_REQUEST: 'skus/FETCH_REQUEST',
-  FETCH_SUCCESS: 'skus/FETCH_SUCCESS',
-  FETCH_FAILURE: 'skus/FETCH_FAILURE',
+  FETCH_MANY_REQUESTED: 'skus/FETCH_REQUESTED',
+  FETCH_MANY_SUCCEEDED: 'skus/FETCH_SUCCEEDED',
+  FETCH_MANY_FAILED: 'skus/FETCH_FAILED',
 };
 
-export const fetchPlans = () => {
+export const fetchSkus = () => {
   return async (dispatch) => {
-    dispatch({ type: Type.FETCH_REQUEST });
+    dispatch({ type: Type.FETCH_REQUESTED });
     try {
       const response = await axios.get(`/api/stripe/skus`);
       const skus = response.data.data;
-      dispatch({ type: Type.FETCH_SUCCESS, skus });
+      dispatch({ type: Type.FETCH_SUCCEEDED, skus });
       return skus;
     } catch (err) {
-      dispatch({ type: Type.FETCH_FAILURE, error: parseAxiosError(err) });
+      dispatch({ type: Type.FETCH_FAILED, error: parseAxiosError(err) });
       throw err;
     }
   };

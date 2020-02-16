@@ -12,14 +12,17 @@ import CartIcon from '../../assets/icons/shopping_cart.svg';
 const Wrapper = styled('nav')`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   min-height: ${sizes.rowHeight}px;
   background-color: ${pallet.blueberry};
   padding-left: ${spacing.quadruple}px;
   padding-right: ${spacing.quadruple}px;
 `;
 
-const Brand = styled('div')`
-  flex-grow: 1;
+const Left = styled('div')``;
+const Right = styled('div')``;
+
+const Brand = styled('span')`
   ${fontSizes('largest')}
   font-weight: ${font.weight.black};
   cursor: pointer;
@@ -125,33 +128,37 @@ export const NavBar = withRouter(({ history }) => {
 
   return (
     <Wrapper>
-      <Brand>
-        <NavLink to="/">
-          <BrandLinkWrapper>
-            <NavLogo />
-            Jammin&apos; Jams
-          </BrandLinkWrapper>
-        </NavLink>
-      </Brand>
-      <NavList>
-        {navItems.map((item) => (
-          <NavItem key={item.path}>
-            <NavLink
-              to={item.path}
-              activeStyle={{
-                color: pallet.light.strawberry,
-              }}
-            >
-              {item.text}
-            </NavLink>
-          </NavItem>
-        ))}
-      </NavList>
-      {cart.length > 0 && (
-        <IconWrapper onClick={() => history.push('/store/checkout')}>
-          <CartIcon />
-        </IconWrapper>
-      )}
+      <Left>
+        <Brand>
+          <NavLink to="/">
+            <BrandLinkWrapper>
+              <NavLogo />
+              Jammin&apos; Jams
+            </BrandLinkWrapper>
+          </NavLink>
+        </Brand>
+      </Left>
+      <Right>
+        <NavList>
+          {navItems.map((item) => (
+            <NavItem key={item.path}>
+              <NavLink
+                to={item.path}
+                activeStyle={{
+                  color: pallet.light.strawberry,
+                }}
+              >
+                {item.text}
+              </NavLink>
+            </NavItem>
+          ))}
+        </NavList>
+        {cart.length > 0 && (
+          <IconWrapper onClick={() => history.push('/store/checkout')}>
+            <CartIcon />
+          </IconWrapper>
+        )}
+      </Right>
     </Wrapper>
   );
 });
