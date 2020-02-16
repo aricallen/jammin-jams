@@ -1,12 +1,16 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, Fragment, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { spacing, pallet, font, boxShadow } from '../../../constants/style-guide';
 import { Content } from '../../common/Structure';
 import { media } from '../../../utils/media';
 import { Button } from '../../common/Button';
+import { Spinner } from '../../common/Spinner';
 import { DeliveryMethod } from './DeliveryMethod';
 import { Shipping } from './Shipping';
 import { Payment } from './Payment';
+
+const STRIPE_SCRIPT_ID = 'STRIPE_SCRIPT_ID';
+const STRIPE_SRC = 'https://js.stripe.com/v3/';
 
 const SectionWrapper = styled('div')`
   margin-left: auto;
@@ -89,8 +93,27 @@ const SectionFooter = ({ activeSection, setActiveSection, isValid }) => {
 
 export const Checkout = () => {
   const [values, setValues] = useState({});
+  const [isStripeLoaded, setIsStripeLoaded] = useState(!!document.getElementById(STRIPE_SCRIPT_ID));
   const [activeSection, setActiveSection] = useState(SECTIONS[0]);
   const [_isValid, setIsValid] = useState(false);
+
+  const loadStripe = () => {
+    if (!isStripeLoaded) {
+      const scriptTag = document.createElement('script');
+      scriptTag.src = STRIPE_SRC;
+      scriptTag.id = STRIPE_SCRIPT_ID;
+      scriptTag.addEventListener('load', () => {
+        setIsStripeLoaded(true);
+      });
+      document.head.appendChild(scriptTag);
+    }
+  };
+
+  useEffect(loadStripe, []);
+
+  if (!isStripeLoaded) {
+    return <Spinner variant="large" />;
+  }
 
   const onUpdate = (name, value, isValid = false) => {
     setValues({ ...values, [name]: value });
