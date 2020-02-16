@@ -1,4 +1,5 @@
-import { createTypeConstants } from '../factories';
+import { createTypeConstants, createDefaultReducers } from '../factories';
+import { MetaStatus } from '../../../constants/meta-status';
 
 describe('createTypeConstants', () => {
   it('creates map of types based on resource name', () => {
@@ -50,6 +51,21 @@ describe('createTypeConstants', () => {
       DELETE_MANY_FAILED: 'products/DELETE_MANY_FAILED',
     };
     const actual = createTypeConstants(resourceName);
+    expect(actual).toEqual(expected);
+  });
+});
+
+describe.only('createDefaultReducers', () => {
+  const Type = createTypeConstants('products');
+  it('creates fetch one reducers', () => {
+    const reducers = createDefaultReducers('products');
+    const expected = {
+      meta: {
+        fetchOne: MetaStatus.BUSY,
+      },
+      data: [],
+    };
+    const actual = reducers(expected, { type: Type.FETCH_ONE_REQUESTED });
     expect(actual).toEqual(expected);
   });
 });

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { toUpper } from 'lodash';
+import { toUpper, camelCase } from 'lodash';
 import { combineReducers } from 'redux';
 import { parseAxiosError } from './error';
 import { MetaStatus } from '../../constants/meta-status';
@@ -72,25 +72,68 @@ export const createDefaultReducers = (
 
   const meta = (state = initialMeta, action) => {
     switch (action.type) {
-      case Type.FETCH_REQUEST:
-        return { ...state, status: MetaStatus.BUSY };
-      case Type.FETCH_SUCCESS:
-        return { ...state, status: MetaStatus.RESOLVED };
-      case Type.FETCH_FAILURE:
-        return { ...state, error: action.error, status: MetaStatus.ERRORED };
+      case `${toUpper(action.type)}_REQUESTED`:
+        return { ...state, status: { ...state.status, [camelCase(action.type)]: MetaStatus.BUSY } };
+      case `${toUpper(action.type)}_SUCCEEDED`:
+        return {
+          ...state,
+          status: { ...state.status, [camelCase(action.type)]: MetaStatus.RESOLVED },
+        };
+      case `${toUpper(action.type)}_FAILED`:
+        return {
+          ...state,
+          error: action.error,
+          status: { ...state.status, [camelCase(action.type)]: MetaStatus.ERRORED },
+        };
       default:
         return state;
     }
   };
+
+  const replaceOne = (newResource, state) => {
+    return state.map((oldResource) =>
+      newResource.id === oldResource.id ? newResource : oldResource
+    );
+  };
+
+  const replaceMany = (newResources, state) => {
+    return state.map((oldResource) => {
+      const toReplace = newResources.find((resource) => resource.id === oldResource.id);
+      return toReplace || oldResource;
+    });
+  };
+
+  const removeOne = (deleted, state) => state.filter((resource) => resource.id !== deleted.id);
+
+  const removeMany = (deleted, state) =>
+    state.filter(
+      (resource) => !deleted.some((deletedResource) => deletedResource.id === resource.id)
+    );
 
   const data = (state = initialData, action) => {
     switch (action.type) {
-      case Type.FETCH_SUCCESS:
+      case Type.FETCH_ONE_SUCCEEDED:
+      case Type.UPDATE_ONE_SUCCEEDED:
+        return replaceOne(deserialize(action[resourceName], state));
+      case Type.FETCH_MANY_SUCCEEDED:
         return action[resourceName].map(deserialize);
+      case Type.UPDATE_MANY_SUCCEEDED:
+        return replaceMany(action[resourceName].map(deserialize), state);
+      case Type.CREATE_ONE_SUCCEEDED:
+        return [...state, action[resourceName]];
+      case Type.CREATE_MANY_SUCCEEDED:
+        return [...state, ...action[resourceName]];
+      case Type.DELETE_ONE_SUCCEEDED:
+        return removeOne(action[resourceName], state);
+      case Type.DELETE_MANY_SUCCEEDED:
+        return removeMany(action[resourceName], state);
       default:
         return state;
     }
   };
 
-  return { ...combineReducers({ meta, data }), ...overrides };
+  return combineReducers({
+    meta: { ...meta, ...overrides.meta },
+    data: { ...data, ...overrides.data },
+  });
 };
