@@ -1,6 +1,6 @@
 import React, { useState, Fragment } from 'react';
 import styled from '@emotion/styled';
-import { spacing, pallet, font } from '../../../constants/style-guide';
+import { spacing, pallet, font, boxShadow } from '../../../constants/style-guide';
 import { Content } from '../../common/Structure';
 import { media } from '../../../utils/media';
 import { Button } from '../../common/Button';
@@ -16,7 +16,7 @@ const SectionWrapper = styled('div')`
     width: 80%;
   }
   margin-bottom: ${spacing.double}px;
-  box-shadow: 1px 1px 3px 0 ${pallet.light.charcoal};
+  box-shadow: ${boxShadow};
 `;
 
 const SectionHeader = styled('div')`

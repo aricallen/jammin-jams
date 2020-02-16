@@ -9,12 +9,11 @@ import { media } from '../../../utils/media';
 import { isResolved, isBusy } from '../../../redux/utils/meta-status';
 
 const Wrapper = styled('div')`
-  max-width: 25%;
+  max-width: 33%;
   ${media.mobile()} {
     max-width: 50%;
   }
   padding: ${spacing.quadruple}px;
-  text-align: center;
 `;
 
 const Picture = styled('img')``;
@@ -22,6 +21,7 @@ const Picture = styled('img')``;
 const ItemContent = styled('div')``;
 
 const Name = styled('div')`
+  text-align: center;
   font-size: ${font.size.large}px;
   padding: ${spacing.regular}px;
 `;
@@ -71,11 +71,13 @@ export const ProductItem = (props) => {
       {selectedSkuOption && (
         <SubscribeWrapper>
           {isInCart ? (
-            <Button onClick={() => onRemoveItem(product, selectedSkuOption.sku)}>
+            <Button onClick={() => onRemoveItem({ product, sku: selectedSkuOption.sku })}>
               Remove from cart
             </Button>
           ) : (
-            <Button onClick={() => onAddItem(product, selectedSkuOption.sku)}>Add to cart</Button>
+            <Button onClick={() => onAddItem({ product, sku: selectedSkuOption.sku })}>
+              Add to cart
+            </Button>
           )}
         </SubscribeWrapper>
       )}

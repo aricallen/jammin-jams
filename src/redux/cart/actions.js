@@ -8,11 +8,10 @@ export const updateCart = (cartItems) => {
   return { type: Type.UPDATE_CART, cartItems };
 };
 
-export const removeFromCart = (item) => {
-  return { type: Type.REMOVE_FROM_CART, cartItem: item };
+export const removeFromCart = (cartItem) => {
+  return { type: Type.REMOVE_FROM_CART, cartItem };
 };
 
-export const addToCart = (product, sku) => {
-  const cartItem = { product, sku };
+export const addToCart = (cartItem) => {
   return { type: Type.ADD_TO_CART, cartItem };
 };
