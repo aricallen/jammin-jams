@@ -1,4 +1,4 @@
-const { omit } = require('lodash');
+const { omit, snakeCase } = require('lodash');
 const { getConnection, getRecords, getRecord } = require('./db-helpers');
 
 const parseError = (err, req) => {
@@ -78,10 +78,19 @@ const createUpdateController = (tableName) => {
   };
 };
 
+const serialize = (payload) => {
+  return Object.entries(payload).reduce((acc, curr) => {
+    const [key, val] = curr;
+    acc[snakeCase(key)] = val;
+    return acc;
+  }, {});
+};
+
 module.exports = {
   parseError,
   checkReadonly,
   createGetController,
   createGetOneController,
   createUpdateController,
+  serialize,
 };

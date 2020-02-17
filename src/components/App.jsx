@@ -11,6 +11,7 @@ import { NotFound } from './pages/NotFound';
 
 // store
 import { Store } from './pages/store/Store';
+import { Success } from './pages/store/Success';
 import { Checkout } from './pages/store/Checkout';
 
 // account
@@ -57,6 +58,7 @@ export const App = () => {
 
           <Route exact path="/store" component={Store} />
           <Route exact path="/store/checkout" component={Checkout} />
+          <Route exact path="/store/success" component={Success} />
 
           <AdminRoute exact path="/admin/dashboard" component={Dashboard} />
           <AdminRoute exact path="/admin/logo-builder" component={LogoBuilder} />

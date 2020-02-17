@@ -54,13 +54,30 @@ export const FormError = styled('span')`
   ${fontSizes('small')}
 `;
 
+/**
+ * best guess as to type
+ */
+const getType = (name) => {
+  if (name.includes('email')) {
+    return 'email';
+  }
+  if (name.includes('password')) {
+    return 'password';
+  }
+  if (name.includes('phone')) {
+    return 'tel';
+  }
+  return 'text';
+};
+
 export const FormInput = (props) => {
   const { name, label, error, isRequired = false } = props;
   const inputProps = omit(props, ['isRequired', 'label', 'error']);
+  const type = inputProps.type || getType(inputProps.name);
   return (
     <Fieldset className={isRequired ? 'required' : null}>
       <Label>{label || startCase(name)}</Label>
-      <Input {...inputProps} required={isRequired} />
+      <Input {...inputProps} type={type} required={isRequired} />
       {error && <FormError>{error}</FormError>}
     </Fieldset>
   );

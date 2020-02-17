@@ -1,5 +1,7 @@
 const express = require('express');
 const Stripe = require('stripe');
+const { pick } = require('lodash');
+const { serialize } = require('../utils/api-helpers');
 
 const { STRIPE_PUBLISHABLE_KEY, STRIPE_SECRET_KEY } = process.env;
 
@@ -20,6 +22,19 @@ router.get('/plans', async (req, res) => {
   res.send(plans);
 });
 
+const serializeLineItems = (cartItems) => {
+  return cartItems.map((item) => {
+    const { product, sku } = item;
+    return {
+      ...pick(product, ['name', 'description']),
+      ...pick(sku, ['currency']),
+      quantity: 1,
+      amount: sku.price,
+      description: sku.attributes.interval,
+    };
+  });
+};
+
 /**
  * check for existing customer
  * create one if doesn't exist
@@ -27,27 +42,41 @@ router.get('/plans', async (req, res) => {
  * on completion of checkout session, attach payment intent to customer
  */
 router.post('/checkout', async (req, res) => {
-  const { products } = req.body;
+  const { formValues, cartItems } = req.body;
   try {
     const session = await stripe.checkout.sessions.create({
+      customer_email: formValues.email,
       payment_method_types: ['card'],
       payment_intent_data: {
         setup_future_usage: 'off_session',
       },
-      line_items: products,
-      submit_type: 'subscribe',
+      line_items: serializeLineItems(cartItems),
+      submit_type: 'auto',
       billing_address_collection: 'auto',
       success_url: 'http://localhost:4242/store/success?session_id={CHECKOUT_SESSION_ID}',
       cancel_url: 'http://localhost:4242/store',
     });
+
+    const createdCustomer = await stripe.checkout.sessions.retrieve(session.id);
+
+    const responseData = {
+      ...session,
+      sessionKey: STRIPE_PUBLISHABLE_KEY,
+      customerId: createdCustomer.id,
+      formValues,
+      cartItems,
+    };
+
+    req.session[session.id] = responseData;
+
     res.send({
-      data: {
-        ...session,
-        sessionKey: STRIPE_PUBLISHABLE_KEY,
-      },
+      data: responseData,
     });
   } catch (err) {
-    console.error(err);
+    res.status(400).send({
+      error: err,
+      ...err,
+    });
   }
 });
 

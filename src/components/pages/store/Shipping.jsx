@@ -2,7 +2,7 @@ import React, { Fragment } from 'react';
 import { startCase } from 'lodash';
 import { FormInput } from '../../common/Forms';
 
-const FIELDS = ['firstName', 'lastName', 'address', 'address2', 'zipCode'];
+const FIELDS = ['firstName', 'lastName', 'address', 'address2'];
 
 const REQUIRED_FIELDS = FIELDS.filter((field) => field !== 'address2');
 
