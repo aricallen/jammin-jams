@@ -48,12 +48,12 @@ const parseInsertValues = async (conn, tableName, values) => {
 const createRecord = async (conn, tableName, values) => {
   const row = await parseInsertValues(conn, tableName, values);
   const result = await conn.query(`INSERT INTO ${tableName} SET ?`, row);
-  const inserted = await conn.query(`SELECT * from ${tableName} WHERE id = ${result.insertId}`);
+  const inserted = await conn.query(`SELECT * FROM ${tableName} WHERE id = ${result.insertId}`);
   return inserted[0];
 };
 
 const getRecords = async (conn, tableName) => {
-  const results = await conn.query(`SELECT * from ${tableName}`);
+  const results = await conn.query(`SELECT * FROM ${tableName}`);
   return results;
 };
 
@@ -62,18 +62,42 @@ const getRecord = async (conn, tableName, resourceId) => {
     const results = await conn.query(`SELECT * FROM ${tableName} WHERE id = ?`, resourceId);
     return results[0];
   } catch (err) {
-    return err;
+    console.log(err);
+    throw err;
   }
 };
 
 const updateRecord = async (conn, tableName, resourceId, values) => {
   try {
     await conn.query(`UPDATE ${tableName} SET ? WHERE id = ${resourceId}`, omit(values, ['id']));
-    const updated = await conn.query(`SELECT * from ${tableName} WHERE id = ${resourceId}`);
+    const updated = await conn.query(`SELECT * FROM ${tableName} WHERE id = ${resourceId}`);
     return updated;
   } catch (err) {
-    return err;
+    console.log(err);
+    throw err;
   }
+};
+
+const insertRecord = async (conn, tableName, values) => {
+  try {
+    const result = await conn.query(`INSERT INTO ${tableName} SET ?`, values);
+    const inserted = await conn.query(`SELECT * FROM ${tableName} WHERE id = ${result.insertId}`);
+    return inserted;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
+const upsertRecord = async (conn, tableName, values, uniqueBy = 'id') => {
+  // check for existance first
+  const existing = await conn.query(
+    `SELECT * FROM ${tableName} WHERE ${uniqueBy} = ${values[uniqueBy]}`
+  );
+  if (existing.length > 0) {
+    return updateRecord(conn, tableName, existing[0].id, values);
+  }
+  return insertRecord(conn, tableName, values);
 };
 
 module.exports = {
@@ -86,4 +110,6 @@ module.exports = {
   getRecords,
   getRecord,
   updateRecord,
+  insertRecord,
+  upsertRecord,
 };

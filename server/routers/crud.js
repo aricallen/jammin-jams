@@ -1,5 +1,11 @@
 const express = require('express');
-const { getConnection, getRecord, getRecords } = require('../utils/db-helpers');
+const {
+  getConnection,
+  getRecord,
+  getRecords,
+  upsertRecord,
+  insertRecord,
+} = require('../utils/db-helpers');
 const { parseError, checkReadonly, createUpdateController } = require('../utils/api-helpers');
 
 const router = express.Router();
@@ -54,11 +60,17 @@ router.put('/:tableName/:resourceId', checkReadonly, (req) => {
 
 router.post('/:tableName', checkReadonly, async (req, res) => {
   const { tableName } = req.params;
+  const { upsert, uniqueBy } = req.query;
   const conn = await getConnection();
   try {
-    const result = await conn.query(`INSERT INTO ${tableName} SET ?`, req.body);
-    const inserted = await conn.query(`SELECT * from ${tableName} WHERE id = ${result.insertId}`);
-    res.send({
+    if (upsert) {
+      const updated = await upsertRecord(conn, tableName, req.body, uniqueBy);
+      return res.send({
+        data: updated[0],
+      });
+    }
+    const inserted = await insertRecord(conn, tableName, req.body);
+    return res.send({
       data: inserted[0],
     });
   } catch (err) {

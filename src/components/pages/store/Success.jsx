@@ -128,9 +128,7 @@ export const Success = ({ location }) => {
 
   const isAnyBusy = allStates.some((state) => isBusy(state.meta));
 
-  /**
-   * still processing
-   */
+  // still processing
   if (isAnyBusy) {
     return <Spinner variant="large" />;
   }
@@ -142,9 +140,7 @@ export const Success = ({ location }) => {
     return <ErrorPage errors={errors} />;
   }
 
-  /**
-   * landed on page without session data returned from checkout
-   */
+  // landed on page without session data returned from checkout
   if (isResolved(sessionState.meta) && !checkoutData) {
     return <Redirect to="/store" />;
   }

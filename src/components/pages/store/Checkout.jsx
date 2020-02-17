@@ -18,8 +18,11 @@ const STRIPE_SRC = 'https://js.stripe.com/v3/';
 
 const Grid = styled('div')`
   display: grid;
-  grid-template-columns: 3fr 1fr;
+  grid-template-columns: 2fr 1fr;
+  width: 80%;
+  margin: 0 auto;
   ${media.mobile()} {
+    width: 100%;
     grid-template-columns: auto;
   }
 `;
@@ -28,11 +31,15 @@ const Form = styled('form')``;
 
 const FormCol = styled('div')`
   margin: 0 auto;
-  width: 80%;
+  width: 100%;
   padding-right: ${spacing.quadruple}px;
+  ${media.mobile()} {
+    padding-right: 0;
+  }
 `;
 
 const CartCol = styled('div')`
+  padding-left: ${spacing.quadruple}px;
   ${media.mobile()} {
     display: none;
   }
@@ -121,6 +128,15 @@ export const Checkout = () => {
   const [activeSection, setActiveSection] = useState(SECTIONS[0]);
   const [_isValid, setIsValid] = useState(false);
   const cart = useSelector((state) => state.cart.data);
+
+  // fake add an item to cart
+  if (process.env.TARGET_ENV !== 'production' && cart.length === 0) {
+    const fakeItem = {
+      product: { name: 'developer product', id: 'temp' },
+      sku: { attributes: { interval: 'Bimonthly' } },
+    };
+    cart.push(fakeItem);
+  }
 
   const loadStripe = () => {
     if (!isStripeLoaded && cart.length > 0) {

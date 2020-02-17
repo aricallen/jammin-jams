@@ -1,5 +1,16 @@
 import React, { Fragment } from 'react';
+import styled from '@emotion/styled';
 import { FormInput } from '../../common/Forms';
+import { Checkbox } from '../../common/Checkbox';
+import { spacing } from '../../../constants/style-guide';
+
+const SignupWrapper = styled('div')`
+  padding-top: ${spacing.double}px;
+`;
+const SignupMessage = styled('label')`
+  cursor: pointer;
+  margin-right: ${spacing.double}px;
+`;
 
 const FIELDS = ['email', 'password', 'confirmPassword'];
 
@@ -49,6 +60,14 @@ export const CreateAccount = (props) => {
           isRequired={true}
         />
       ))}
+      <SignupWrapper>
+        <SignupMessage htmlFor="newsletterSignup">Sign up for our newletter?</SignupMessage>
+        <Checkbox
+          checked={values.newsletterSignup}
+          name="newsletterSignup"
+          onClick={(e) => onUpdate('newsletterSignup', e.target.checked)}
+        />
+      </SignupWrapper>
     </Fragment>
   );
 };
