@@ -1,20 +1,26 @@
 const express = require('express');
-const { getConnection } = require('../utils/db-helpers');
-const { parseError, checkReadonly } = require('../utils/api-helpers');
+const {
+  getConnection,
+  getRecord,
+  getRecords,
+  upsertRecord,
+  insertRecord,
+} = require('../utils/db-helpers');
+const { parseError, checkReadonly, createUpdateController } = require('../utils/api-helpers');
 
 const router = express.Router();
 
 /**
- * READ MANY
+ * READ ONE
  */
 
 router.get('/:tableName/:resourceId', async (req, res) => {
   const { tableName, resourceId } = req.params;
   const conn = await getConnection();
   try {
-    const results = await conn.query(`SELECT * FROM ${tableName} WHERE id = ?`, resourceId);
+    const row = await getRecord(conn, tableName, resourceId);
     res.send({
-      data: results[0],
+      data: row,
     });
   } catch (err) {
     res.status(400).send(parseError(err, req));
@@ -23,14 +29,14 @@ router.get('/:tableName/:resourceId', async (req, res) => {
 });
 
 /**
- * READ ONE
+ * READ MANY
  */
 
 router.get('/:tableName', async (req, res) => {
   const { tableName } = req.params;
   const conn = await getConnection();
   try {
-    const results = await conn.query(`SELECT * FROM ${tableName}`);
+    const results = await getRecords(conn, tableName);
     res.send({
       data: results,
     });
@@ -44,22 +50,8 @@ router.get('/:tableName', async (req, res) => {
  * UPDATE
  */
 
-router.put('/:tableName/:resourceId', checkReadonly, async (req, res) => {
-  const { tableName, resourceId } = req.params;
-  const conn = await getConnection();
-  try {
-    const results = await conn.query(
-      `UPDATE ${tableName} SET ? WHERE id = ?`,
-      req.body,
-      resourceId
-    );
-    res.send({
-      data: results[0],
-    });
-  } catch (err) {
-    res.status(400).send(parseError(err, req));
-  }
-  conn.end();
+router.put('/:tableName/:resourceId', checkReadonly, (req) => {
+  return createUpdateController(req.params.tableName);
 });
 
 /**
@@ -68,12 +60,18 @@ router.put('/:tableName/:resourceId', checkReadonly, async (req, res) => {
 
 router.post('/:tableName', checkReadonly, async (req, res) => {
   const { tableName } = req.params;
+  const { upsert, uniqueBy } = req.query;
   const conn = await getConnection();
   try {
-    const result = await conn.query(`INSERT INTO ${tableName} SET ?`, req.body);
-    const inserted = await conn.query(`SELECT * from ${tableName} WHERE id = ${result.insertId}`);
-    res.send({
-      data: inserted,
+    if (upsert) {
+      const updated = await upsertRecord(conn, tableName, req.body, uniqueBy);
+      return res.send({
+        data: updated[0],
+      });
+    }
+    const inserted = await insertRecord(conn, tableName, req.body);
+    return res.send({
+      data: inserted[0],
     });
   } catch (err) {
     res.status(400).send(parseError(err, req));

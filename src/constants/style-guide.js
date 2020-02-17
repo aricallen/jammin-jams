@@ -1,4 +1,6 @@
-export const pallet = {
+import Color from 'color';
+
+const basePallet = {
   blueberry: '#7A7DB5',
   strawberry: '#FA5C66',
   peach: '#FFC0CB',
@@ -6,6 +8,28 @@ export const pallet = {
   plum: '#C41EC4',
   babyBlue: '#D2EFF7',
   charcoal: '#323232',
+};
+
+const palletLight = Object.entries(basePallet).reduce((acc, curr) => {
+  const [key, val] = curr;
+  acc[key] = Color(val)
+    .lighten(0.2)
+    .toString();
+  return acc;
+}, {});
+
+const palletDark = Object.entries(basePallet).reduce((acc, curr) => {
+  const [key, val] = curr;
+  acc[key] = Color(val)
+    .darken(0.2)
+    .toString();
+  return acc;
+}, {});
+
+export const pallet = {
+  ...basePallet,
+  light: palletLight,
+  dark: palletDark,
 };
 
 export const spacing = {
@@ -31,6 +55,23 @@ export const sizes = {
   rowHeight: 64,
 };
 
+const baseFontSizes = {
+  small: 12,
+  regular: 16,
+  large: 24,
+  largest: 32,
+  header1: 24,
+  header2: 20,
+  header3: 18,
+  header4: 16,
+};
+
+const mobileFontSizes = Object.entries(baseFontSizes).reduce((acc, curr) => {
+  const [key, val] = curr;
+  acc[key] = val * 2;
+  return acc;
+}, {});
+
 export const font = {
   family: 'Libre Franklin, sans-serif',
   weight: {
@@ -44,11 +85,14 @@ export const font = {
     extraBold: 800,
     black: 900,
   },
-  size: {
-    small: 12,
-    regular: 16,
-    large: 24,
-  },
+  size: baseFontSizes,
+  mobileSize: mobileFontSizes,
 };
 
 export const animation = '0.3s ease-in-out';
+
+export const boxShadow = `1px 1px 3px 0 ${pallet.light.charcoal}`;
+
+export const border = `1px solid ${Color(pallet.charcoal)
+  .alpha(0.2)
+  .toString()}`;

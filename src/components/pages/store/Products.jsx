@@ -1,9 +1,11 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import styled from '@emotion/styled';
+import { useDispatch, useSelector } from 'react-redux';
 import { Section, Header2 } from '../../common/Structure';
 import { ProductPicker } from './ProductPicker';
-import { PRODUCTS } from './constants';
 import { spacing, font } from '../../../constants/style-guide';
+import { fetchProducts } from '../../../redux/products/actions';
+import { Spinner } from '../../common/Spinner';
 
 const SectionHeader = styled(Header2)`
   margin-bottom: ${spacing.double}px;
@@ -15,25 +17,37 @@ const Value = styled('span')`
 `;
 
 export const isValid = (sessionData = {}) => {
-  return !!sessionData.productId;
+  return !!sessionData.productsId;
 };
 
 export const Products = (props) => {
   const { onUpdate, values } = props;
-  const { productId } = values;
+  const dispatch = useDispatch();
+  const { data, meta } = useSelector((state) => state.products);
+  const fetch = () => {
+    dispatch(fetchProducts());
+  };
+  useEffect(fetch, []);
+
   const [selectedProduct, setSelectedProduct] = useState(
-    productId ? PRODUCTS.find((p) => p.id === productId) : {}
+    values.productsId ? data.find((p) => p.id === values.productsId) : {}
   );
 
   const onSelect = (product) => {
-    onUpdate({ productId: product.id });
+    onUpdate({ productsId: product.id });
     setSelectedProduct(product);
   };
 
-  const normalized = PRODUCTS.map((product) => ({
-    ...product,
-    isSelected: product.label === selectedProduct.label,
-  }));
+  if (!data || meta.isFetching) {
+    return <Spinner />;
+  }
+
+  const normalized = data
+    .filter((ii) => ii.productCategoriesId === 1)
+    .map((item) => ({
+      ...item,
+      isSelected: item.id === selectedProduct.id,
+    }));
 
   return (
     <Fragment>

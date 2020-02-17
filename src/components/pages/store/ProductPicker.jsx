@@ -44,19 +44,15 @@ const Row = styled('div')`
   }
 `;
 
+const formatName = (name) => {
+  return name.split(' -- ').pop();
+};
+
 const renderCell = ({ product, onSelect }) => {
-  if (!product.id) {
-    return (
-      <Fragment>
-        <Cell>{product.label}</Cell>
-        <Cell>{product.text}</Cell>
-      </Fragment>
-    );
-  }
   return (
     <Fragment>
-      <SelectableCell onClick={() => onSelect(product)}>{product.label}</SelectableCell>
-      <SelectableCell onClick={() => onSelect(product)}>{product.text}</SelectableCell>
+      <SelectableCell onClick={() => onSelect(product)}>{formatName(product.name)}</SelectableCell>
+      <SelectableCell onClick={() => onSelect(product)}>${product.price}</SelectableCell>
     </Fragment>
   );
 };
@@ -65,10 +61,14 @@ export const ProductPicker = (props) => {
   const { products, onSelect } = props;
 
   return (
-    <Grid numRows={products.length}>
-      {products.map((product, i) => (
-        <Row key={product.label} isSelected={product.isSelected} isSelectable={i > 0}>
-          {renderCell({ product, onSelect })}
+    <Grid numRows={products.length + 1}>
+      <Row key="header-row" isSelectable={false}>
+        <Cell>Frequency</Cell>
+        <Cell>Price</Cell>
+      </Row>
+      {products.map((ii) => (
+        <Row key={ii.name} isSelected={ii.isSelected} isSelectable={true}>
+          {renderCell({ product: ii, onSelect })}
         </Row>
       ))}
     </Grid>

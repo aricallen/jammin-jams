@@ -24,7 +24,7 @@ module.exports = {
     port: process.env.PORT,
     proxy: {
       '/api': apiProxyPath,
-    }
+    },
   },
 
   // Enable sourcemaps for debugging webpack's output.
@@ -42,7 +42,7 @@ module.exports = {
     'worker-farm': 'worker-farm',
     'loader-runner': 'loader-runner',
     fsevents: 'fsevents',
-    'terser-webpack-plugin': 'terser-webpack-plugin'
+    'terser-webpack-plugin': 'terser-webpack-plugin',
   },
 
   module: {
@@ -54,16 +54,21 @@ module.exports = {
       },
 
       {
-        test: /\.(woff(2)?|ttf|eot|svg)(\?v=\d+\.\d+\.\d+)?$/,
+        test: /\.svg$/,
+        use: ['@svgr/webpack'],
+      },
+
+      {
+        test: /\.(woff(2)?|ttf|eot)(\?v=\d+\.\d+\.\d+)?$/,
         use: [
           {
             loader: 'file-loader',
             options: {
               name: '[name].[ext]',
-              outputPath: 'assets/fonts/'
-            }
-          }
-        ]
+              outputPath: 'assets/fonts/',
+            },
+          },
+        ],
       },
 
       // css and styles
@@ -94,7 +99,7 @@ module.exports = {
 
       // other misc files
       {
-        test: /\.(jpg|jpeg|png|gif|mp3|svg)$/,
+        test: /\.(jpg|jpeg|png|gif|mp3)$/,
         loaders: ['file-loader'],
       },
     ],

@@ -1,18 +1,7 @@
-import React from 'react';
-import styled from '@emotion/styled';
-import { Fieldset, Label, FormInput, Select } from '../../common/Forms';
-import { VALID_ZIPCODES } from './constants';
-import { Section, Header2 } from '../../common/Structure';
-import { spacing } from '../../../constants/style-guide';
-
-const SectionHeader = styled(Header2)`
-  margin-bottom: ${spacing.double}px;
-`;
-
-const Method = {
-  PROMO: 'promo',
-  BICYCLE: 'bicycle',
-};
+import React, { Fragment } from 'react';
+import { Fieldset, Label, FormInput } from '../../common/Forms';
+import { VALID_ZIPCODES, Method } from './constants';
+import { Select } from '../../common/Select';
 
 const isInvalidZip = (val) => {
   return val && val.length >= 5 && VALID_ZIPCODES.includes(val) === false;
@@ -46,12 +35,12 @@ export const isValid = (values = {}) => {
 };
 
 export const DeliveryMethod = (props) => {
-  const { values, onUpdate } = props;
+  const { values, onUpdate, setIsValid } = props;
 
   const { zipCode, deliveryMethod, deliveryPromoCode } = values;
 
   const zipError = isInvalidZip(zipCode)
-    ? 'Unfortunately, we currently do not service this zip code. If you have a promo code for free delivery enter that now.'
+    ? 'Unfortunately, we currently do not service this zip code. If you have a promo code for bicycle delivery enter that now.'
     : null;
 
   const showPromo = deliveryMethod && deliveryMethod === Method.PROMO;
@@ -59,13 +48,13 @@ export const DeliveryMethod = (props) => {
 
   const handleChange = (name, getValue) => (event) => {
     const newVal = getValue(event);
-    const fieldVal = { [name]: newVal };
-    onUpdate(fieldVal, isValid({ ...values, ...fieldVal }));
+    onUpdate(name, newVal);
   };
 
+  setIsValid(isValid(values));
+
   return (
-    <Section>
-      <SectionHeader>Delivery</SectionHeader>
+    <Fragment>
       <Fieldset className="required">
         <Label>Method</Label>
         <Select
@@ -94,6 +83,6 @@ export const DeliveryMethod = (props) => {
           error={zipCode && zipError}
         />
       )}
-    </Section>
+    </Fragment>
   );
 };

@@ -1,16 +1,38 @@
-import React from 'react';
-import { Content, Header1, Section, Header2 } from '../../common/Structure';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import styled from '@emotion/styled';
+import { createOne } from '../../../redux/checkout-session/actions';
+import { isResolved, isErrored } from '../../../redux/utils/meta-status';
+import { Spinner } from '../../common/Spinner';
+import { spacing } from '../../../constants/style-guide';
 
-export const isValid = () => true;
+const Message = styled('div')`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: ${spacing.double}px;
+`;
 
-export const Payment = () => {
-  return (
-    <Content>
-      <Header1>Payment</Header1>
-      <Section>
-        <Header2>Payment Info</Header2>
-        <div>form for square or paypal or whatevs</div>
-      </Section>
-    </Content>
-  );
+export const Payment = (props) => {
+  const dispatch = useDispatch();
+  const checkoutSessionState = useSelector((state) => state.checkoutSession);
+
+  const { values } = props;
+
+  useEffect(() => {
+    dispatch(createOne(values));
+  }, []);
+
+  if (isResolved(checkoutSessionState.meta)) {
+    const { sessionKey, id: sessionId } = checkoutSessionState.data;
+    const stripe = window.Stripe(sessionKey);
+    window.setTimeout(() => {
+      stripe.redirectToCheckout({ sessionId });
+    }, 1000);
+    return <Message>Redirecting you to payment service...</Message>;
+  }
+  if (isErrored(checkoutSessionState.meta)) {
+    return <Message>{checkoutSessionState.meta.error}</Message>;
+  }
+  return <Spinner />;
 };

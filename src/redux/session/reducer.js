@@ -1,21 +1,28 @@
 import { combineReducers } from 'redux';
 import { Type } from './actions';
+import { MetaStatus } from '../../constants/meta-status';
 
-const initialMeta = { isFetching: false, isUpdating: false, error: null };
+const initialMeta = { status: MetaStatus.INITIAL, error: null };
 
 const meta = (state = initialMeta, action) => {
   switch (action.type) {
-    case Type.LOGIN_REQUEST:
-    case Type.CREATE_SESSION_REQUEST:
-      return { ...state, isUpdating: true };
-    case Type.FETCH_SESSION_REQUEST:
-      return { ...state, isFetching: true };
-    case Type.LOGIN_FAILURE:
-    case Type.FETCH_SESSION_FAILURE:
-    case Type.CREATE_SESSION_FAILURE:
-      return { ...state, error: action.error, isFetching: false, isUpdating: false };
+    case Type.LOG_IN_REQUESTED:
+    case Type.LOG_OUT_REQUESTED:
+    case Type.CREATE_SESSION_REQUESTED:
+    case Type.FETCH_SESSION_REQUESTED:
+      return { ...state, status: MetaStatus.BUSY };
+    case Type.LOG_IN_FAILED:
+    case Type.LOG_OUT_FAILED:
+    case Type.FETCH_SESSION_FAILED:
+    case Type.CREATE_SESSION_FAILED:
+      return { ...state, error: action.error, status: MetaStatus.ERRORED };
+    case Type.LOG_IN_SUCCEEDED:
+    case Type.LOG_OUT_SUCCEEDED:
+    case Type.FETCH_SESSION_SUCCEEDED:
+    case Type.CREATE_SESSION_SUCCEEDED:
+      return { ...state, status: MetaStatus.RESOLVED };
     default:
-      return { ...state, isFetching: false, isUpdating: false };
+      return { ...state };
   }
 };
 
@@ -23,11 +30,13 @@ const initialData = { user: null };
 
 const data = (state = initialData, action) => {
   switch (action.type) {
-    case Type.LOGIN_SUCCESS:
+    case Type.LOG_IN_SUCCEEDED:
       return { ...state, user: action.user };
-    case Type.FETCH_SESSION_SUCCESS:
+    case Type.LOG_OUT_SUCCEEDED:
+      return { ...state, user: action.user };
+    case Type.FETCH_SESSION_SUCCEEDED:
       return { ...state, ...action.data };
-    case Type.CREATE_SESSION_SUCCESS:
+    case Type.CREATE_SESSION_SUCCEEDED:
       return { ...state, [action.key]: action.data };
     default:
       return { ...state };

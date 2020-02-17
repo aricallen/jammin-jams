@@ -1,10 +1,13 @@
 import React from 'react';
 import { omit } from 'lodash';
+import { pallet, spacing } from '../../constants/style-guide';
 
 export const Spinner = (props = {}) => {
-  const fill = props.fill || '#FFFFFF';
+  const fill = props.fill || pallet.strawberry;
   const backgroundColor = props.backgroundColor || 'transparent';
   const otherProps = omit(props, ['fill', 'background']);
+  const { variant = 'small' } = props;
+  const size = variant === 'small' ? '1em' : `${spacing.quadruple * 2}px`;
 
   return (
     <svg
@@ -16,8 +19,8 @@ export const Spinner = (props = {}) => {
         display: 'block',
         shapeRendering: 'auto',
       }}
-      width="1em"
-      height="1em"
+      width={size}
+      height={size}
       viewBox="0 0 100 100"
       preserveAspectRatio="xMidYMid"
       {...otherProps}

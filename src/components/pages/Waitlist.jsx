@@ -3,28 +3,30 @@ import qs from 'query-string';
 import styled from '@emotion/styled';
 import useForm from 'react-hook-form';
 import { Content, Header1, Section, Paragraph, Emphasis, Emoji } from '../common/Structure';
-import { Input, FormError, Fieldset, Label, Form, Select } from '../common/Forms';
+import { Input, FormError, Fieldset, Label, Form } from '../common/Forms';
+import { Select } from '../common/Select';
 import { Button as BaseButton } from '../common/Button';
-import { animation, spacing, ScreenSizes } from '../../constants/style-guide';
+import { animation, spacing } from '../../constants/style-guide';
 import { addToWaitlist } from '../../services/adapter';
 import { media } from '../../utils/media';
 
 const ContentWrapper = styled(Content)`
   margin: 0 auto;
-  width: 80%;
+  width: 100%;
   animation: fade-in 0.5s 1;
 `;
 
 const FormWrapper = styled('div')`
-  ${media.min(ScreenSizes.TABLET)} {
-    width: 50%;
+  width: 50%;
+  ${media.mobile()} {
+    width: 100%;
   }
   &.is-hidden {
     display: none;
     opacity: 0;
   }
   &.is-visible {
-    display: initial;
+    display: block;
     animation: fade-in 0.5s;
   }
 `;
@@ -98,16 +100,17 @@ export const Waitlist = ({ history, location }) => {
   return (
     <ContentWrapper>
       <Header1>
-        Welcome to JamminJams! We are <Emphasis>so stoked</Emphasis> that you are here.
+        Welcome to Jammin&apos; Jams! We are <Emphasis>so stoked</Emphasis> that you are here.
       </Header1>
       <Section>
         <Paragraph>
-          We created JamminJams with the intent of celebrating all that is happy in life by doing
-          what we love. Jam invites us to live in the present moment. We aim to transform the best
-          seasonal fruits into sweet-tart-oh-so-tasty jam through the power of high heat and bass.
-          At JamminJams, we firmly believe that fun and passion can be tasted. This is why we will
-          always play a live DJ set while making jam in our home kitchen. We keep our hearts pumping
-          and our jams jammin with funky techno beats, and we hope you’ll do the same!
+          We created Jammin&apos; Jams with the intent of celebrating all that is happy in life by
+          doing what we love. Jam invites us to live in the present moment. We aim to transform the
+          best seasonal fruits into sweet-tart-oh-so-tasty jam through the power of high heat and
+          bass. At Jammin&apos; Jams, we firmly believe that fun and passion can be tasted. This is
+          why we will always play a live DJ set while making jam in our home kitchen. We keep our
+          hearts pumping and our jams jammin with funky techno beats, and we hope you’ll do the
+          same!
         </Paragraph>
         <Paragraph>
           We&apos;re just getting started with this thrilling adventure and would love for you to

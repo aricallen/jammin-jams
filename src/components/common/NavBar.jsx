@@ -1,21 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
-import { NavLink as BaseNavLink } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { NavLink as BaseNavLink, withRouter } from 'react-router-dom';
 import { Logo } from './Logo';
 import { sizes, pallet, spacing, animation, font } from '../../constants/style-guide';
+import { fontSizes } from '../../utils/style-helpers';
+import { isInitial } from '../../redux/utils/meta-status';
+import { fetchSession } from '../../redux/session/actions';
+import CartIcon from '../../assets/icons/shopping_cart.svg';
 
 const Wrapper = styled('nav')`
   display: flex;
   align-items: center;
+  justify-content: space-between;
   min-height: ${sizes.rowHeight}px;
   background-color: ${pallet.blueberry};
   padding-left: ${spacing.quadruple}px;
   padding-right: ${spacing.quadruple}px;
 `;
 
-const Brand = styled('div')`
-  flex-grow: 1;
-  font-size: ${spacing.quadruple}px;
+const BarSection = styled('div')`
+  display: flex;
+  align-items: center;
+`;
+
+const Brand = styled('span')`
+  ${fontSizes('largest')}
   font-weight: ${font.weight.black};
   cursor: pointer;
 `;
@@ -38,7 +48,7 @@ const NavList = styled('ul')`
 const NavItem = styled('li')`
   margin-left: ${spacing.double}px;
   display: inline-block;
-  font-size: ${spacing.triple}px;
+  ${fontSizes('large')}
 `;
 
 const NavLink = styled(BaseNavLink)`
@@ -55,50 +65,102 @@ const NavLink = styled(BaseNavLink)`
   }
 `;
 
-const navItems = [
+const IconWrapper = styled('div')`
+  display: flex;
+  align-items: center;
+  margin-left: ${spacing.double}px;
+  cursor: pointer;
+
+  svg {
+    transition: fill ${animation};
+  }
+
+  &:hover {
+    svg {
+      fill: ${pallet.strawberry};
+    }
+  }
+`;
+
+const NAV_ITEMS = [
   // {
   //   text: 'About',
   //   path: '/about',
   // },
-  // {
-  //   text: 'Store',
-  //   path: '/store',
-  // },
-  // {
-  //   text: 'Logo Builder',
-  //   path: '/logo-builder',
-  // }
-  // {
-  //   text: 'Login',
-  //   path: '/login',
-  // },
+  {
+    text: 'Store',
+    path: '/store',
+  },
 ];
 
-export const NavBar = () => {
+const LOGGED_IN_ITEMS = [
+  {
+    text: 'Log out',
+    path: '/account/log-out',
+  },
+];
+
+const LOGGED_OUT_ITEMS = [
+  {
+    text: 'Sign In',
+    path: '/account/log-in',
+  },
+];
+
+const getNavItems = (navItems, sessionState) => {
+  if (sessionState.data.user) {
+    return [...navItems, ...LOGGED_IN_ITEMS];
+  }
+  return [...navItems, ...LOGGED_OUT_ITEMS];
+};
+
+export const NavBar = withRouter(({ history }) => {
+  const sessionState = useSelector((state) => state.session);
+  const cart = useSelector((state) => state.cart.data);
+  const dispatch = useDispatch();
+
+  const fetch = () => {
+    if (isInitial(sessionState.meta)) {
+      dispatch(fetchSession());
+    }
+  };
+  useEffect(fetch, []);
+
+  const navItems = getNavItems(NAV_ITEMS, sessionState);
+
   return (
     <Wrapper>
-      <Brand>
-        <NavLink to="/">
-          <BrandLinkWrapper>
-            <NavLogo />
-            Jammin Jams
-          </BrandLinkWrapper>
-        </NavLink>
-      </Brand>
-      <NavList>
-        {navItems.map((item) => (
-          <NavItem key={item.path}>
-            <NavLink
-              to={item.path}
-              activeStyle={{
-                color: pallet.charcoal,
-              }}
-            >
-              {item.text}
-            </NavLink>
-          </NavItem>
-        ))}
-      </NavList>
+      <BarSection>
+        <Brand>
+          <NavLink to="/">
+            <BrandLinkWrapper>
+              <NavLogo />
+              Jammin&apos; Jams
+            </BrandLinkWrapper>
+          </NavLink>
+        </Brand>
+      </BarSection>
+      <BarSection>
+        <NavList>
+          {navItems.map((item) => (
+            <NavItem key={item.path}>
+              <NavLink
+                to={item.path}
+                activeStyle={{
+                  color: pallet.light.strawberry,
+                }}
+              >
+                {item.text}
+              </NavLink>
+            </NavItem>
+          ))}
+        </NavList>
+        {cart.length > 0 && (
+          <IconWrapper onClick={() => history.push('/store/checkout')}>
+            <CartIcon />
+          </IconWrapper>
+        )}
+      </BarSection>
     </Wrapper>
   );
-};
+});

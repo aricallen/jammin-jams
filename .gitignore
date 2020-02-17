@@ -9,4 +9,3 @@ node_modules/
 # sensitive stuffs
 .env
 .env*
-api/controllers/login.js

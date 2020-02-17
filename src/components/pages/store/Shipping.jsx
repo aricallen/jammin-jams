@@ -1,54 +1,38 @@
-import React, { useState, Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { startCase } from 'lodash';
 import { FormInput } from '../../common/Forms';
+import { Method } from './constants';
 
-const testValues = {
-  firstName: 'jane',
-  lastName: 'awesome',
-  email: 'jane.awesome@gmail.com',
-  address: '123 Jam dr',
-  zipCode: '12345',
-  city: 'awesome',
-  state: 'CA',
-  country: 'USA',
-};
+const FIELDS = ['firstName', 'lastName', 'address', 'address2', 'zipCode'];
 
-const FORM_FIELDS = ['firstName', 'lastName', 'email', 'address', 'address2', 'city', 'state'];
-const REQUIRED_FIELDS = FORM_FIELDS.filter((field) => field !== 'address2');
+const REQUIRED_FIELDS = FIELDS.filter((field) => field !== 'address2');
 
-export const isValid = (sessionData) => {
-  return FORM_FIELDS.every((field) => sessionData[field] && sessionData[field].length > 0);
+const isValid = (values) => {
+  const filledFields = FIELDS.filter((field) => values[field] && values[field].length > 0);
+  return REQUIRED_FIELDS.every((field) => filledFields.includes(field));
 };
 
 export const Shipping = (props) => {
-  const { values, onUpdate } = props;
+  const { values, onUpdate, setIsValid } = props;
 
-  const [internalValues, setInternalValues] = useState({});
-  const [touched, setTouched] = useState({});
-  const [errors, setErrors] = useState({});
-
-  const handleChange = (name) => (event) => {
-    setTouched({ ...touched, [name]: true });
-    if (touched[name] && internalValues[name] && internalValues[name].length === 0) {
-      setErrors({ ...errors, [name]: 'This is a required field' });
-    }
-    const { value } = event.target;
-    setInternalValues({ ...values, [name]: value });
-    onUpdate({ [name]: value });
+  const handleChange = (name, getValue) => (event) => {
+    const newVal = getValue(event);
+    onUpdate(name, newVal);
   };
+
+  setIsValid(isValid(values));
 
   return (
     <Fragment>
-      {FORM_FIELDS.map((field) => (
+      {FIELDS.map((field) => (
         <FormInput
           key={field}
           name={field}
-          label={startCase(field)}
           value={values[field] || ''}
-          error={errors[field]}
-          onChange={handleChange(field)}
-          type={field === 'email' ? 'email' : 'text'}
-          isRequired={REQUIRED_FIELDS.includes(field)}
+          disabled={field === 'zipCode' && values.deliveryMethod === Method.BICYCLE}
+          onChange={handleChange(field, (e) => e.target.value)}
+          label={field === 'address2' ? 'Address 2' : startCase(field)}
+          isRequired={field !== 'address2'}
         />
       ))}
     </Fragment>
