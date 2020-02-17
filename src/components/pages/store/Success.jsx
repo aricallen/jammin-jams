@@ -9,6 +9,8 @@ import { Spinner } from '../../common/Spinner';
 import { boxShadow, spacing } from '../../../constants/style-guide';
 import { fetchSession } from '../../../redux/session/actions';
 import { updateOne } from '../../../redux/checkout-session/actions';
+import { addMember } from '../../../redux/email/actions';
+import { ErrorPage } from '../ErrorPage';
 
 const Wrapper = styled('div')`
   box-shadow: ${boxShadow};
@@ -64,6 +66,7 @@ export const Success = ({ location }) => {
   const sessionState = useSelector((state) => state.session);
   const usersState = useSelector((state) => state.users);
   const checkoutSessionState = useSelector((state) => state.checkoutSession);
+  const emailState = useSelector((state) => state.email);
   const dispatch = useDispatch();
   const sessionId = new URLSearchParams(location.search).get('session_id');
   const checkoutData = sessionState.data[sessionId];
@@ -91,34 +94,58 @@ export const Success = ({ location }) => {
     }
   };
 
+  // add member to subscribers list and optionally to newsletter list
+  const _addMember = () => {
+    if (isResolved(usersState.meta)) {
+      const { email, firstName, lastName, newsletterSignup } = checkoutData.formValues;
+      const tags = ['Subscriber', ...[newsletterSignup && 'Newsletter']];
+      dispatch(addMember({ email, firstName, lastName, tags }));
+    }
+  };
+
   useEffect(_fetchSession, []);
   useEffect(_updateSession, [checkoutData]);
   useEffect(_createUser, [isResolved(checkoutSessionState.meta)]);
+  useEffect(_addMember, [isResolved(usersState.meta)]);
 
-  const _isBusy =
-    !isResolved(sessionState.meta) || isBusy(usersState.meta) || isBusy(checkoutSessionState.meta);
+  const allStates = [sessionState, usersState, checkoutSessionState, emailState];
 
-  if (_isBusy) {
+  const isAllResolved = allStates.every((state) => isResolved(state.meta));
+
+  if (isAllResolved) {
+    // show receipt
+    return (
+      <Wrapper>
+        <Content>
+          <Header2>Your order has been processed successfully.</Header2>
+          {checkoutData.display_items.map((item) => (
+            <ReceiptItem item={item} key={item.custom.description} />
+          ))}
+        </Content>
+      </Wrapper>
+    );
+  }
+
+  const isAnyBusy = allStates.some((state) => isBusy(state.meta));
+
+  /**
+   * still processing
+   */
+  if (isAnyBusy) {
     return <Spinner variant="large" />;
   }
 
+  const isAnyErrored = allStates.some((state) => isErrored(state.meta));
+  if (isAnyErrored) {
+    const errors = allStates.map((state) => state.meta.error).filter(Boolean);
+    console.error(errors);
+    return <ErrorPage errors={errors} />;
+  }
+
+  /**
+   * landed on page without session data returned from checkout
+   */
   if (isResolved(sessionState.meta) && !checkoutData) {
     return <Redirect to="/store" />;
   }
-
-  if (isErrored(sessionState.meta) || isErrored(usersState.meta)) {
-    console.error(sessionState.meta.error);
-  }
-
-  // show receipt
-  return (
-    <Wrapper>
-      <Content>
-        <Header2>Your order has been processed successfully.</Header2>
-        {checkoutData.display_items.map((item) => (
-          <ReceiptItem item={item} key={item.custom.description} />
-        ))}
-      </Content>
-    </Wrapper>
-  );
 };

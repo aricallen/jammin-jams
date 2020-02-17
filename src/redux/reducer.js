@@ -9,6 +9,7 @@ import { cart } from './cart/reducer';
 import { checkoutSession } from './checkout-session/reducer';
 import { skus } from './skus/reducer';
 import { users } from './users/reducer';
+import { email } from './email/reducer';
 
 export const rootReducer = combineReducers({
   session,
@@ -21,4 +22,5 @@ export const rootReducer = combineReducers({
   checkoutSession,
   skus,
   users,
+  email,
 });

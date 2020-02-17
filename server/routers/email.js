@@ -1,7 +1,8 @@
 const express = require('express');
 const axios = require('axios');
+const { sendEmail, serializeForEmail } = require('../utils/email-helpers');
 
-const { MAILCHIMP_API_HOST, MAILCHIMP_API_KEY, MAILCHIMP_LIST_ID } = process.env;
+const { MAILCHIMP_API_HOST, MAILCHIMP_API_KEY, MAILCHIMP_LIST_ID, DEBUG_EMAIL } = process.env;
 
 const router = express.Router();
 
@@ -48,6 +49,12 @@ router.post('/lists/add-member', async (req, res) => {
 router.get('/lists', async (req, res) => {
   const response = await adapter.get('lists');
   res.send({ data: response.data.lists });
+});
+
+router.post('/debug', (req, res) => {
+  const message = serializeForEmail(req.body);
+  sendEmail({ message, subject: 'JmnJams Error Debug', to: DEBUG_EMAIL });
+  res.status(200).send({ ack: true });
 });
 
 module.exports = { router };

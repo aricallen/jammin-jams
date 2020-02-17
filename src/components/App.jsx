@@ -8,6 +8,7 @@ import { About } from './pages/About';
 import { Waitlist } from './pages/Waitlist';
 import { ThankYou } from './pages/ThankYou';
 import { NotFound } from './pages/NotFound';
+import { ErrorPage } from './pages/ErrorPage';
 
 // store
 import { Store } from './pages/store/Store';
@@ -52,6 +53,7 @@ export const App = () => {
           <Route exact path="/waitlist" component={Waitlist} />
           <Route exact path="/thank-you" component={ThankYou} />
           <Route exact path="/oh-noes" component={NotFound} />
+          <Route exact path="/error" component={ErrorPage} />
 
           <Route exact path="/account/log-in" component={LogIn} />
           <Route exact path="/account/log-out" component={LogOut} />
