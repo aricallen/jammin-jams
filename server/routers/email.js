@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const express = require('express');
 const axios = require('axios');
 const { sendEmail, serializeForEmail } = require('../utils/email-helpers');
@@ -37,7 +38,8 @@ router.post('/lists/add-member', async (req, res) => {
       },
     ];
     const addResponse = await adapter.post(`lists/${listId}`, { members, update_existing: true });
-    return res.send({ data: addResponse });
+    const { new_members: newMembers = [], updated_members: updatedMembers = [] } = addResponse.data;
+    return res.send({ data: { newMembers, updatedMembers } });
   } catch (err) {
     return res.status(400).send({
       error: err,
@@ -53,7 +55,10 @@ router.get('/lists', async (req, res) => {
 
 router.post('/debug', (req, res) => {
   const message = serializeForEmail(req.body);
-  sendEmail({ message, subject: 'JmnJams Error Debug', to: DEBUG_EMAIL });
+  console.log(message);
+  if (process.env.TARGET_ENV === 'production') {
+    sendEmail({ message, subject: 'JmnJams Error Debug', to: DEBUG_EMAIL });
+  }
   res.status(200).send({ ack: true });
 });
 

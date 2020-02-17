@@ -27,7 +27,7 @@ const ActionWrapper = styled('div')`
 export const ErrorPage = ({ message = '', errors = [], debug = '' }) => {
   const dispatch = useDispatch();
   const send = () => {
-    dispatch(sendDebug({ message, errors, debug }));
+    dispatch(sendDebug({ message, errors: errors.join('\n\n'), debug }));
   };
   useEffect(send, []);
 

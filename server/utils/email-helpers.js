@@ -12,11 +12,11 @@ const server = email.server.connect({
 const sendEmail = ({ message, to, subject }) => {
   server.send(
     { text: message, from: 'solstice.sebastian@gmail.com', to, subject, attachment: [] },
-    (err, sentMessage) => {
+    (err) => {
       if (err) {
         console.error('unable to send email');
       } else {
-        console.log('message sent!', sentMessage);
+        console.log('message sent!');
       }
     }
   );

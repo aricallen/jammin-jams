@@ -89,8 +89,8 @@ export const Success = ({ location }) => {
   const _createUser = () => {
     if (isResolved(checkoutSessionState.meta)) {
       const { customer: customerId } = checkoutSessionState.data;
-      const { username, password } = checkoutData.formValues;
-      dispatch(createOne({ username, password, userRolesId: 2, paymentCustomerId: customerId }));
+      const { email, password } = checkoutData.formValues;
+      dispatch(createOne({ email, password, userRolesId: 2, paymentCustomerId: customerId }));
     }
   };
 
@@ -126,13 +126,6 @@ export const Success = ({ location }) => {
     );
   }
 
-  const isAnyBusy = allStates.some((state) => isBusy(state.meta));
-
-  // still processing
-  if (isAnyBusy) {
-    return <Spinner variant="large" />;
-  }
-
   const isAnyErrored = allStates.some((state) => isErrored(state.meta));
   if (isAnyErrored) {
     const errors = allStates.map((state) => state.meta.error).filter(Boolean);
@@ -144,4 +137,7 @@ export const Success = ({ location }) => {
   if (isResolved(sessionState.meta) && !checkoutData) {
     return <Redirect to="/store" />;
   }
+
+  // still processing
+  return <Spinner variant="large" />;
 };
