@@ -11,6 +11,7 @@ import { fetchSession } from '../../../redux/session/actions';
 import { updateOne } from '../../../redux/checkout-session/actions';
 import { addMember } from '../../../redux/email/actions';
 import { ErrorPage } from '../ErrorPage';
+import { formatAmount } from '../../../utils/format-helpers';
 
 const Wrapper = styled('div')`
   box-shadow: ${boxShadow};
@@ -30,11 +31,6 @@ const ConfNumber = styled('div')`
 const Name = styled('div')``;
 const Amount = styled('div')``;
 const Description = styled('div')``;
-
-const formatAmount = (amount) => {
-  const fractional = amount / 100;
-  return fractional.toFixed(2);
-};
 
 const ReceiptItem = ({ item }) => {
   return (
@@ -98,7 +94,10 @@ export const Success = ({ location }) => {
   const _addMember = () => {
     if (isResolved(usersState.meta)) {
       const { email, firstName, lastName, newsletterSignup } = checkoutData.formValues;
-      const tags = ['Subscriber', ...[newsletterSignup && 'Newsletter']];
+      const tags = ['Subscriber'];
+      if (newsletterSignup) {
+        tags.push('Newsletter');
+      }
       dispatch(addMember({ email, firstName, lastName, tags }));
     }
   };

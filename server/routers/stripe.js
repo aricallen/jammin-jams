@@ -70,7 +70,7 @@ router.post('/checkout', async (req, res) => {
   } catch (err) {
     res.status(400).send({
       error: err,
-      ...err,
+      message: 'Unable to create checkout session',
     });
   }
 });

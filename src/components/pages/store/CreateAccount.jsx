@@ -65,7 +65,7 @@ export const CreateAccount = (props) => {
         <Checkbox
           checked={values.newsletterSignup}
           name="newsletterSignup"
-          onClick={(e) => onUpdate('newsletterSignup', e.target.checked)}
+          onChange={(e) => onUpdate('newsletterSignup', e.target.checked)}
         />
       </SignupWrapper>
     </Fragment>

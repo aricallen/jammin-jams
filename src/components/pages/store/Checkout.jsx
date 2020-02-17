@@ -133,7 +133,12 @@ export const Checkout = () => {
   if (process.env.TARGET_ENV !== 'production' && cart.length === 0) {
     const fakeItem = {
       product: { name: 'developer product', id: 'temp' },
-      sku: { attributes: { interval: 'Bimonthly' } },
+      sku: {
+        id: '1234',
+        currency: 'usd',
+        price: 1299,
+        attributes: { interval: 'Bimonthly' },
+      },
     };
     cart.push(fakeItem);
   }

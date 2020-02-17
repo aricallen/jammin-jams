@@ -19,6 +19,8 @@ export const CheckboxInput = styled('input')`
   }
 `;
 
-export const Checkbox = ({ checked, name }) => {
-  return <CheckboxInput name={name} id={name} type="checkbox" checked={checked} />;
+export const Checkbox = ({ checked = false, name, onChange }) => {
+  return (
+    <CheckboxInput name={name} id={name} type="checkbox" checked={checked} onChange={onChange} />
+  );
 };

@@ -6,6 +6,7 @@ import { Button as BaseButton } from '../../common/Button';
 import { boxShadow, spacing, border } from '../../../constants/style-guide';
 import { media } from '../../../utils/media';
 import { removeFromCart } from '../../../redux/cart/actions';
+import { formatAmount } from '../../../utils/format-helpers';
 
 const Wrapper = styled('div')`
   ${media.mobile()} {
@@ -35,6 +36,8 @@ const Button = styled(BaseButton)`
 const Rows = styled('div')``;
 const Title = styled('div')``;
 const Action = styled('div')``;
+const ItemInfo = styled('div')``;
+const Price = styled('div')``;
 
 const CartItem = ({ item }) => {
   const dispatch = useDispatch();
@@ -47,7 +50,10 @@ const CartItem = ({ item }) => {
 
   return (
     <Row>
-      <Title>{title}</Title>
+      <ItemInfo>
+        <Title>{title}</Title>
+        <Price>{formatAmount(sku.price)}</Price>
+      </ItemInfo>
       <Action>
         <Button variant="secondary" onClick={onClick}>
           X
