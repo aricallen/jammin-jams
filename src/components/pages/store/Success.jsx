@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Content, Header2 } from '../../common/Structure';
-import { isResolved, isErrored, isBusy, isInitial } from '../../../redux/utils/meta-status';
+import { isResolved, isErrored, isInitial } from '../../../redux/utils/meta-status';
 import { createOne } from '../../../redux/users/actions';
 import { Spinner } from '../../common/Spinner';
 import { boxShadow, spacing } from '../../../constants/style-guide';
@@ -35,10 +35,6 @@ const Description = styled('div')``;
 const ReceiptItem = ({ item }) => {
   return (
     <Item>
-      <ConfNumber>
-        <Label>Confirmation #: </Label>
-        <Value>{item.id}</Value>
-      </ConfNumber>
       <Name>
         <Label>Product: </Label>
         <Value>{item.custom.name}</Value>
@@ -117,6 +113,10 @@ export const Success = ({ location }) => {
       <Wrapper>
         <Content>
           <Header2>Your order has been processed successfully.</Header2>
+          <ConfNumber>
+            <Label>Confirmation #: </Label>
+            <Value>{checkoutData.payment_intent}</Value>
+          </ConfNumber>
           {checkoutData.display_items.map((item) => (
             <ReceiptItem item={item} key={item.custom.description} />
           ))}
