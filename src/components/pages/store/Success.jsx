@@ -22,6 +22,9 @@ const Label = styled('span')`
 `;
 
 const Value = styled('span')``;
+const ConfNumber = styled('div')`
+  margin-bottom: ${spacing.regular}px;
+`;
 const Name = styled('div')``;
 const Amount = styled('div')``;
 const Description = styled('div')``;
@@ -34,6 +37,10 @@ const formatAmount = (amount) => {
 const ReceiptItem = ({ item }) => {
   return (
     <Item>
+      <ConfNumber>
+        <Label>Confirmation #: </Label>
+        <Value>{item.id}</Value>
+      </ConfNumber>
       <Name>
         <Label>Product: </Label>
         <Value>{item.custom.name}</Value>
@@ -61,23 +68,26 @@ export const Success = ({ location }) => {
   const sessionId = new URLSearchParams(location.search).get('session_id');
   const checkoutData = sessionState.data[sessionId];
 
+  // get session data from server
+  const _fetchSession = () => {
+    if (!isInitial(sessionState.meta)) {
+      dispatch(fetchSession());
+    }
+  };
+
+  // update new customer with shipping info
   const _updateSession = () => {
     if (checkoutData) {
       dispatch(updateOne(checkoutData.formValues, sessionId));
     }
   };
 
+  // create local user with payment id
   const _createUser = () => {
     if (isResolved(checkoutSessionState.meta)) {
       const { customer: customerId } = checkoutSessionState.data;
       const { username, password } = checkoutData.formValues;
       dispatch(createOne({ username, password, userRolesId: 2, paymentCustomerId: customerId }));
-    }
-  };
-
-  const _fetchSession = () => {
-    if (!isInitial(sessionState.meta)) {
-      dispatch(fetchSession());
     }
   };
 
