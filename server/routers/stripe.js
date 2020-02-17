@@ -57,14 +57,9 @@ router.post('/checkout', async (req, res) => {
       cancel_url: 'http://localhost:4242/store',
     });
 
-    const createdCustomer = await stripe.checkout.sessions.retrieve(session.id);
-
     const responseData = {
       ...session,
       sessionKey: STRIPE_PUBLISHABLE_KEY,
-      customerId: createdCustomer.id,
-      formValues,
-      cartItems,
     };
 
     req.session[session.id] = responseData;

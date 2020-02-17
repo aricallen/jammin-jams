@@ -37,7 +37,7 @@ export const Success = ({ location }) => {
   const sessionState = useSelector((state) => state.session);
   const checkoutData = sessionState.data[sessionId];
 
-  if (isBusy(sessionState.meta)) {
+  if (!isResolved(sessionState.meta)) {
     return <Spinner variant="large" />;
   }
 
