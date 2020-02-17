@@ -1,8 +1,9 @@
 import React, { Fragment } from 'react';
 import { startCase } from 'lodash';
 import { FormInput } from '../../common/Forms';
+import { Method } from './constants';
 
-const FIELDS = ['firstName', 'lastName', 'address', 'address2'];
+const FIELDS = ['firstName', 'lastName', 'address', 'address2', 'zipCode'];
 
 const REQUIRED_FIELDS = FIELDS.filter((field) => field !== 'address2');
 
@@ -28,6 +29,7 @@ export const Shipping = (props) => {
           key={field}
           name={field}
           value={values[field] || ''}
+          disabled={field === 'zipCode' && values.deliveryMethod === Method.BICYCLE}
           onChange={handleChange(field, (e) => e.target.value)}
           label={field === 'address2' ? 'Address 2' : startCase(field)}
           isRequired={field !== 'address2'}

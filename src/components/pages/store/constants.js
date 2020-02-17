@@ -46,3 +46,8 @@ const BERK = ['94702', '94703', '94704', '94705', '94706', '94707', '94708', '94
 const SF = ['94105'];
 
 export const VALID_ZIPCODES = [...OAK, ...BERK, ...SF];
+
+export const Method = {
+  PROMO: 'promo',
+  BICYCLE: 'bicycle',
+};

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
-import { submitCheckout } from '../../../redux/checkout-session/actions';
+import { createOne } from '../../../redux/checkout-session/actions';
 import { isResolved, isErrored } from '../../../redux/utils/meta-status';
 import { Spinner } from '../../common/Spinner';
 import { spacing } from '../../../constants/style-guide';
@@ -20,7 +20,7 @@ export const Payment = (props) => {
   const { values } = props;
 
   useEffect(() => {
-    dispatch(submitCheckout(values));
+    dispatch(createOne(values));
   }, []);
 
   if (isResolved(checkoutSessionState.meta)) {

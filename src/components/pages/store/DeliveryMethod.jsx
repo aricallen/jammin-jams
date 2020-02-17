@@ -1,12 +1,7 @@
 import React, { Fragment } from 'react';
 import { Fieldset, Label, FormInput } from '../../common/Forms';
-import { VALID_ZIPCODES } from './constants';
+import { VALID_ZIPCODES, Method } from './constants';
 import { Select } from '../../common/Select';
-
-const Method = {
-  PROMO: 'promo',
-  BICYCLE: 'bicycle',
-};
 
 const isInvalidZip = (val) => {
   return val && val.length >= 5 && VALID_ZIPCODES.includes(val) === false;
