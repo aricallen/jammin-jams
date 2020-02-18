@@ -33,4 +33,8 @@ export const globalStyles = css`
   .libre-franklin {
     font-family: 'Libre Franklin', sans-serif;
   }
+
+  a {
+    text-decoration: none;
+  }
 `;

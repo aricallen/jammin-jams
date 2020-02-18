@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Content, Header2 } from '../../common/Structure';
 import { isResolved, isErrored, isInitial } from '../../../redux/utils/meta-status';
 import { createOne } from '../../../redux/users/actions';
 import { Spinner } from '../../common/Spinner';
+import { Button } from '../../common/Button';
 import { boxShadow, spacing } from '../../../constants/style-guide';
 import { fetchSession } from '../../../redux/session/actions';
 import { updateOne } from '../../../redux/checkout-session/actions';
@@ -31,6 +32,11 @@ const ConfNumber = styled('div')`
 const Name = styled('div')``;
 const Amount = styled('div')``;
 const Description = styled('div')``;
+const FooterMessage = styled('div')``;
+
+const ReceiptFooter = styled('div')`
+  margin-top: ${spacing.double}px;
+`;
 
 const ReceiptItem = ({ item }) => {
   return (
@@ -120,6 +126,12 @@ export const Success = ({ location }) => {
           {checkoutData.display_items.map((item) => (
             <ReceiptItem item={item} key={item.custom.description} />
           ))}
+          <ReceiptFooter>
+            <FooterMessage>You should receive an email confirmation shortly.</FooterMessage>
+            <Link to="/account/orders">
+              <Button>View Orders</Button>
+            </Link>
+          </ReceiptFooter>
         </Content>
       </Wrapper>
     );

@@ -13,6 +13,7 @@ import { ErrorPage } from './pages/ErrorPage';
 // store
 import { Store } from './pages/store/Store';
 import { Success } from './pages/store/Success';
+import { Cancel } from './pages/store/Cancel';
 import { Checkout } from './pages/store/Checkout';
 
 // account
@@ -61,6 +62,7 @@ export const App = () => {
           <Route exact path="/store" component={Store} />
           <Route exact path="/store/checkout" component={Checkout} />
           <Route exact path="/store/success" component={Success} />
+          <Route exact path="/store/cancel" component={Cancel} />
 
           <AdminRoute exact path="/admin/dashboard" component={Dashboard} />
           <AdminRoute exact path="/admin/logo-builder" component={LogoBuilder} />

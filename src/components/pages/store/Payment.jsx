@@ -1,38 +1,56 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
-import { createOne } from '../../../redux/checkout-session/actions';
-import { isResolved, isErrored } from '../../../redux/utils/meta-status';
+import { sum } from 'lodash';
+import { isResolved, isErrored, isInitial } from '../../../redux/utils/meta-status';
 import { Spinner } from '../../common/Spinner';
 import { spacing } from '../../../constants/style-guide';
+import { formatAmount } from '../../../utils/format-helpers';
 
 const Message = styled('div')`
-  display: flex;
-  justify-content: center;
-  align-items: center;
   padding: ${spacing.double}px;
 `;
 
 export const Payment = (props) => {
-  const dispatch = useDispatch();
   const checkoutSessionState = useSelector((state) => state.checkoutSession);
+  const cart = useSelector((state) => state.cart.data);
 
-  const { values } = props;
+  const { setIsValid } = props;
 
-  useEffect(() => {
-    dispatch(createOne(values));
-  }, []);
+  const totalAmount = sum(cart.map((item) => item.sku.price));
+
+  setIsValid(true);
+
+  if (isInitial(checkoutSessionState.meta)) {
+    return (
+      <Message>
+        Jammin&apos; Jams{' '}
+        <em>
+          <b>never collects or stores any payment information directly</b>
+        </em>{' '}
+        . We use Stripe as our payment service. Visit{' '}
+        <a href="https://stripe.com/docs/security/stripe" target="_blank" rel="noopener noreferrer">
+          Stripe security
+        </a>{' '}
+        to learn more. You will be charged with a one time payment of{' '}
+        <b>${formatAmount(totalAmount)}</b> which also covers the cost of your first order. We will
+        then charge you for every subsequent order. Confirmation emails will be sent every step of
+        the way. 😊
+      </Message>
+    );
+  }
 
   if (isResolved(checkoutSessionState.meta)) {
     const { sessionKey, id: sessionId } = checkoutSessionState.data;
     const stripe = window.Stripe(sessionKey);
     window.setTimeout(() => {
       stripe.redirectToCheckout({ sessionId });
-    }, 1000);
-    return <Message>Redirecting you to payment service...</Message>;
+    }, 1500);
   }
+
   if (isErrored(checkoutSessionState.meta)) {
-    return <Message>{checkoutSessionState.meta.error}</Message>;
+    return <Message>{checkoutSessionState.meta.error.message}</Message>;
   }
-  return <Spinner />;
+
+  return <Message>Redirecting you to payment service...</Message>;
 };

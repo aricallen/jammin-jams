@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import { spacing, pallet, font, boxShadow } from '../../../constants/style-guide';
 import { Content } from '../../common/Structure';
@@ -12,6 +12,8 @@ import { Shipping } from './Shipping';
 import { Payment } from './Payment';
 import { CartPreview } from './CartPreview';
 import { CreateAccount } from './CreateAccount';
+import { createOne } from '../../../redux/checkout-session/actions';
+import { isBusy } from '../../../redux/utils/meta-status';
 
 const STRIPE_SCRIPT_ID = 'STRIPE_SCRIPT_ID';
 const STRIPE_SRC = 'https://js.stripe.com/v3/';
@@ -82,28 +84,29 @@ const StepCircle = styled('div')`
 const ContentWrapper = styled(Content)``;
 
 const SECTIONS = [
-  {
-    header: 'Create Account',
-    Component: CreateAccount,
-  },
-  {
-    header: 'Delivery',
-    Component: DeliveryMethod,
-  },
-  {
-    header: 'Shipping',
-    Component: Shipping,
-  },
+  // {
+  //   header: 'Create Account',
+  //   Component: CreateAccount,
+  // },
+  // {
+  //   header: 'Delivery',
+  //   Component: DeliveryMethod,
+  // },
+  // {
+  //   header: 'Shipping',
+  //   Component: Shipping,
+  // },
   {
     header: 'Payment',
     Component: Payment,
   },
 ];
 
-const SectionFooter = ({ activeSection, onEditPrev, isValid }) => {
+const SectionFooter = ({ activeSection, onEditPrev, isValid, isBusy: _isBusy }) => {
   const activeIndex = SECTIONS.findIndex((section) => section === activeSection);
   const prevSection = SECTIONS[activeIndex - 1];
   const nextSection = SECTIONS[activeIndex + 1];
+  const buttonText = nextSection ? 'Continue' : 'Submit';
   return (
     <SectionFooterWrapper>
       {prevSection ? (
@@ -113,11 +116,9 @@ const SectionFooter = ({ activeSection, onEditPrev, isValid }) => {
       ) : (
         <div />
       )}
-      {nextSection && (
-        <Button disabled={!isValid} type="submit">
-          Continue
-        </Button>
-      )}
+      <Button disabled={!isValid} isBusy={_isBusy} type="submit">
+        {buttonText}
+      </Button>
     </SectionFooterWrapper>
   );
 };
@@ -128,6 +129,8 @@ export const Checkout = () => {
   const [activeSection, setActiveSection] = useState(SECTIONS[0]);
   const [_isValid, setIsValid] = useState(false);
   const cart = useSelector((state) => state.cart.data);
+  const checkoutSessionState = useSelector((state) => state.checkoutSession);
+  const dispatch = useDispatch();
 
   // fake add an item to cart
   if (process.env.TARGET_ENV !== 'production' && cart.length === 0) {
@@ -178,8 +181,15 @@ export const Checkout = () => {
     event.preventDefault();
     const activeIndex = SECTIONS.findIndex((section) => section === activeSection);
     const nextSection = SECTIONS[activeIndex + 1];
-    setActiveSection(nextSection);
+    if (nextSection) {
+      setActiveSection(nextSection);
+    } else {
+      // create session and redirect
+      dispatch(createOne(values));
+    }
   };
+
+  const _isBusy = isBusy(checkoutSessionState.meta);
 
   return (
     <Content>
@@ -202,6 +212,7 @@ export const Checkout = () => {
                       activeSection={activeSection}
                       onEditPrev={onEditPrev}
                       isValid={_isValid}
+                      isBusy={_isBusy}
                     />
                   </Form>
                 )}
