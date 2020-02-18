@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { useSelector, useDispatch } from 'react-redux';
 import { Content } from '../../common/Structure';
 import { Button as BaseButton } from '../../common/Button';
-import { boxShadow, spacing, border } from '../../../constants/style-guide';
+import { boxShadow, spacing, border, font } from '../../../constants/style-guide';
 import { media } from '../../../utils/media';
 import { removeFromCart } from '../../../redux/cart/actions';
 import { formatAmount } from '../../../utils/format-helpers';
@@ -37,7 +37,9 @@ const Rows = styled('div')``;
 const Title = styled('div')``;
 const Action = styled('div')``;
 const ItemInfo = styled('div')``;
-const Price = styled('div')``;
+const Price = styled('div')`
+  font-weight: ${font.weight.bold};
+`;
 
 const CartItem = ({ item }) => {
   const dispatch = useDispatch();
@@ -52,7 +54,7 @@ const CartItem = ({ item }) => {
     <Row>
       <ItemInfo>
         <Title>{title}</Title>
-        <Price>{formatAmount(sku.price)}</Price>
+        <Price>${formatAmount(sku.price)}</Price>
       </ItemInfo>
       <Action>
         <Button variant="secondary" onClick={onClick}>

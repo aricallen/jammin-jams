@@ -11,8 +11,9 @@ const controller = async (req, res) => {
     const values = { ...req.body, password };
     const result = await upsertRecord(conn, 'users', values, 'email');
     // also "log in" user by updating session
-    updateSession(req, 'user', omit(result[0], ['password']));
-    return res.send({ data: result[0] });
+    const data = omit(result[0], ['password']);
+    updateSession(req, 'user');
+    return res.send({ data });
   } catch (err) {
     return res.status(400).send({
       error: err,

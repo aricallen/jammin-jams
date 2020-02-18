@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import { Type } from './actions';
+import { Type as UsersType } from '../users/actions';
 import { MetaStatus } from '../../constants/meta-status';
 
 const initialMeta = { status: MetaStatus.INITIAL, error: null };
@@ -31,13 +32,12 @@ const initialData = { user: null };
 const data = (state = initialData, action) => {
   switch (action.type) {
     case Type.LOG_IN_SUCCEEDED:
+    case UsersType.CREATE_ONE_SUCCEEDED:
       return { ...state, user: action.user };
     case Type.LOG_OUT_SUCCEEDED:
       return { ...state, user: action.user };
     case Type.FETCH_SESSION_SUCCEEDED:
       return { ...state, ...action.data };
-    case Type.CREATE_SESSION_SUCCEEDED:
-      return { ...state, [action.key]: action.data };
     default:
       return { ...state };
   }
