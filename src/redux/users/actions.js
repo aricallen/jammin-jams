@@ -11,7 +11,7 @@ export const createOne = (data) => {
   return async (dispatch) => {
     dispatch({ type: Type.CREATE_ONE_REQUESTED });
     try {
-      const response = await axios.post(`/api/admin/users?upsert=true&uniqueBy=email`, data);
+      const response = await axios.post(`/api/users?upsert=true&uniqueBy=email`, data);
       const user = response.data.data;
       dispatch({ type: Type.CREATE_ONE_SUCCEEDED, user });
       return user;

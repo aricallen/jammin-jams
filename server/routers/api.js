@@ -5,6 +5,7 @@ const { router: stripeRouter } = require('./stripe');
 const { router: emailRouter } = require('./email');
 const { controller: loginController } = require('../controllers/login');
 const { controller: waitlistController } = require('../controllers/waitlist');
+const { controller: createUserController } = require('../controllers/create-user');
 const { getConnection } = require('../utils/db-helpers');
 const { router: mediaRouter } = require('./media');
 const schemas = require('../schemas');
@@ -37,6 +38,8 @@ router.get('/status', async (req, res) => {
 });
 
 router.post('/log-in', loginController);
+
+router.post('/users', createUserController);
 
 router.post('/log-out', (req, res) => {
   req.session.destroy();

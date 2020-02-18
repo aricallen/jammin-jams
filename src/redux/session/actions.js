@@ -48,19 +48,6 @@ export const logOutUser = () => {
   };
 };
 
-export const createSession = ({ data, key }) => {
-  return async (dispatch) => {
-    dispatch({ type: Type.CREATE_SESSION_REQUESTED });
-    try {
-      const response = await axios.post('/api/session', { data, key });
-      dispatch({ type: Type.CREATE_SESSION_SUCCEEDED, data: response.data.data, key });
-    } catch (err) {
-      dispatch({ type: Type.CREATE_SESSION_FAILED, error: parseAxiosError(err) });
-      throw err;
-    }
-  };
-};
-
 export const fetchSession = () => {
   return async (dispatch) => {
     dispatch({ type: Type.FETCH_SESSION_REQUESTED });
