@@ -84,18 +84,18 @@ const StepCircle = styled('div')`
 const ContentWrapper = styled(Content)``;
 
 const SECTIONS = [
-  // {
-  //   header: 'Create Account',
-  //   Component: CreateAccount,
-  // },
-  // {
-  //   header: 'Delivery',
-  //   Component: DeliveryMethod,
-  // },
-  // {
-  //   header: 'Shipping',
-  //   Component: Shipping,
-  // },
+  {
+    header: 'Create Account',
+    Component: CreateAccount,
+  },
+  {
+    header: 'Delivery',
+    Component: DeliveryMethod,
+  },
+  {
+    header: 'Shipping',
+    Component: Shipping,
+  },
   {
     header: 'Payment',
     Component: Payment,

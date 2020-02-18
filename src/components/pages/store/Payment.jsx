@@ -3,7 +3,6 @@ import { useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import { sum } from 'lodash';
 import { isResolved, isErrored, isInitial } from '../../../redux/utils/meta-status';
-import { Spinner } from '../../common/Spinner';
 import { spacing } from '../../../constants/style-guide';
 import { formatAmount } from '../../../utils/format-helpers';
 
