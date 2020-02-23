@@ -56,10 +56,10 @@ export const sizes = {
 };
 
 const baseFontSizes = {
-  small: 12,
-  regular: 16,
+  small: 18,
+  regular: 20,
   large: 24,
-  largest: 32,
+  largest: 30,
   header1: 24,
   header2: 20,
   header3: 18,
@@ -68,7 +68,7 @@ const baseFontSizes = {
 
 const mobileFontSizes = Object.entries(baseFontSizes).reduce((acc, curr) => {
   const [key, val] = curr;
-  acc[key] = val * 2;
+  acc[key] = val + 6;
   return acc;
 }, {});
 

@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { Header2 } from './Structure';
-import { pallet, spacing, border } from '../../constants/style-guide';
+import { pallet, spacing, border, font } from '../../constants/style-guide';
 import { NewsletterForm } from './NewsletterForm';
 
 const Wrapper = styled('div')`
@@ -18,9 +17,10 @@ const Header = styled('div')`
   background-color: ${pallet.strawberry};
 `;
 
-const HeaderText = styled(Header2)`
+const HeaderText = styled('h2')`
   color: white;
   margin-bottom: 0;
+  font-size: ${font.size.header2}px;
 `;
 
 const ContentWrapper = styled('div')`
@@ -31,7 +31,9 @@ const FormWrapper = styled('div')`
   margin-top: ${spacing.double}px;
 `;
 
-const Message = styled('span')``;
+const Message = styled('span')`
+  font-size: ${font.size.small}px;
+`;
 
 export const NewsletterBlock = () => {
   return (

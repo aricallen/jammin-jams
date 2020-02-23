@@ -20,8 +20,7 @@ const IntroText = () => (
     Jammin&apos; Jams, we firmly believe that fun and passion can be tasted. This is why we will
     always play a live DJ set while making jam in our home kitchen. We keep our hearts pumping and
     our jams jammin with funky techno beats, and we hope you’ll do the same!{' '}
-    <Link to="/store">Sign up today</Link> to get your first jar delivered on {nextDeliveryDay()}
-    Follow us on Instagram!
+    <Link to="/store">Sign up today</Link> to get your first jar delivered on April 12th.
   </Text>
 );
 

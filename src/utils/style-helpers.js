@@ -3,8 +3,8 @@ import { media } from './media';
 
 export const fontSizes = (key) => `
   font-size: ${font.size[key]}px;
+  line-height: 1.5em;
   ${media.mobile()} {
     font-size: ${font.mobileSize[key]}px;
-    line-height: 1.20em;
   }
 `;

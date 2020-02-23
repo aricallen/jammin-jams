@@ -5,12 +5,16 @@ import InstagramIcon from '../../assets/icons/instagram.svg';
 import MailIcon from '../../assets/icons/mail.svg';
 import SoundcloudIcon from '../../assets/icons/soundcloud.svg';
 import GithubIcon from '../../assets/icons/github.svg';
+import { media } from '../../utils/media';
 
 const Wrapper = styled('div')`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  ${media.mobile()} {
+    justify-content: space-around;
+  }
 `;
 
 const IconLink = styled('a')`
