@@ -1,6 +1,8 @@
-import React, { useState, useRef, useLayoutEffect } from 'react';
+import React, { useState, useRef, useLayoutEffect, useEffect } from 'react';
 import styled from '@emotion/styled';
+import { useSelector, useDispatch } from 'react-redux';
 import { LogoFilled } from '../common/LogoFilled';
+import { fetchMany as fetchUsers } from '../../redux/users/actions';
 
 const Wrapper = styled('div')`
   height: 100%;
@@ -28,9 +30,13 @@ const LogoWrapper = styled('div')`
   animation: bumping 0.5s 4;
 `;
 
-export const Home = ({ history }) => {
-  const [isBumping, setIsBumping] = useState(true);
+const HomeContent = () => {
+  return <div>home content</div>;
+};
 
+export const Home = () => {
+  const [isBumping, setIsBumping] = useState(true);
+  const [isAnimating, setIsAnimating] = useState(true);
   const heroRef = useRef();
 
   const listenForAnimation = () => {
@@ -38,13 +44,13 @@ export const Home = ({ history }) => {
       setIsBumping(false);
     });
     heroRef.current.addEventListener('transitionend', () => {
-      history.push('/waitlist');
+      setIsAnimating(true);
     });
   };
 
   useLayoutEffect(listenForAnimation, []);
 
-  return (
+  return isAnimating ? (
     <Wrapper>
       <Hero ref={heroRef} className={isBumping ? 'is-bumping' : 'done-bumping'}>
         <LogoWrapper>
@@ -52,5 +58,7 @@ export const Home = ({ history }) => {
         </LogoWrapper>
       </Hero>
     </Wrapper>
+  ) : (
+    <HomeContent />
   );
 };

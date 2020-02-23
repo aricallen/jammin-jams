@@ -9,7 +9,7 @@ import { Spinner } from '../../common/Spinner';
 import { Button } from '../../common/Button';
 import { boxShadow, spacing } from '../../../constants/style-guide';
 import { fetchSession } from '../../../redux/session/actions';
-import { updateOne } from '../../../redux/checkout-session/actions';
+import { updateOne as updateCheckoutSession } from '../../../redux/checkout-session/actions';
 import { addMember } from '../../../redux/email/actions';
 import { ErrorPage } from '../ErrorPage';
 import { formatAmount } from '../../../utils/format-helpers';
@@ -77,18 +77,18 @@ export const Success = ({ location }) => {
   };
 
   // update new customer with shipping info
-  const _updateSession = () => {
+  const _updateCheckoutSession = () => {
     if (checkoutData) {
-      dispatch(updateOne(checkoutData.formValues, sessionId));
+      dispatch(updateCheckoutSession(checkoutData.formValues, sessionId));
     }
   };
 
-  // create local user with payment id
+  // create local user with payment customer id
   const _createUser = () => {
     if (isResolved(checkoutSessionState.meta)) {
-      const { customer: customerId } = checkoutSessionState.data;
+      const { customer } = checkoutSessionState.data;
       const { email, password } = checkoutData.formValues;
-      dispatch(createOne({ email, password, userRolesId: 2, paymentCustomerId: customerId }));
+      dispatch(createOne({ email, password, userRolesId: 2, paymentCustomerId: customer.id }));
     }
   };
 
@@ -105,7 +105,7 @@ export const Success = ({ location }) => {
   };
 
   useEffect(_fetchSession, []);
-  useEffect(_updateSession, [checkoutData]);
+  useEffect(_updateCheckoutSession, [checkoutData]);
   useEffect(_createUser, [isResolved(checkoutSessionState.meta)]);
   useEffect(_addMember, [isResolved(usersState.meta)]);
 

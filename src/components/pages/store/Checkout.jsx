@@ -13,7 +13,8 @@ import { Payment } from './Payment';
 import { CartPreview } from './CartPreview';
 import { CreateAccount } from './CreateAccount';
 import { createOne } from '../../../redux/checkout-session/actions';
-import { isBusy } from '../../../redux/utils/meta-status';
+import { isBusy, isResolved } from '../../../redux/utils/meta-status';
+import { fetchMany as fetchUsers } from '../../../redux/users/actions';
 
 const STRIPE_SCRIPT_ID = 'STRIPE_SCRIPT_ID';
 const STRIPE_SRC = 'https://js.stripe.com/v3/';
@@ -84,10 +85,10 @@ const StepCircle = styled('div')`
 const ContentWrapper = styled(Content)``;
 
 const SECTIONS = [
-  // {
-  //   header: 'Create Account',
-  //   Component: CreateAccount,
-  // },
+  {
+    header: 'Create Account',
+    Component: CreateAccount,
+  },
   {
     header: 'Delivery Method',
     Component: DeliveryMethod,
@@ -132,6 +133,12 @@ export const Checkout = () => {
   const checkoutSessionState = useSelector((state) => state.checkoutSession);
   const couponsState = useSelector((state) => state.coupons);
   const dispatch = useDispatch();
+  const users = useSelector((state) => state.users);
+
+  const _fetchUsers = () => {
+    dispatch(fetchUsers());
+  };
+  useEffect(_fetchUsers, []);
 
   // fake add an item to cart
   if (process.env.TARGET_ENV !== 'production' && cart.length === 0) {
@@ -160,11 +167,20 @@ export const Checkout = () => {
   };
   useEffect(loadStripe, []);
 
+  /**
+   * check for max subscribers
+   */
+  const subscribedUsers = users.data.filter((user) => user.isSubscriber);
+
   if (cart.length === 0) {
     return <Redirect to="/store" />;
   }
 
-  if (!isStripeLoaded) {
+  if (isResolved(users.meta) && subscribedUsers.length > +process.env.MAX_SUBSCRIBERS) {
+    return <Redirect to="/waitlist" />;
+  }
+
+  if (!isStripeLoaded || !isResolved(users.meta)) {
     return <Spinner variant="large" />;
   }
 
