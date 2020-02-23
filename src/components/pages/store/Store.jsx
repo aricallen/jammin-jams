@@ -8,6 +8,7 @@ import { Spinner } from '../../common/Spinner';
 import { ProductItem } from './ProductItem';
 import { CartPreview } from './CartPreview';
 import { Content } from '../../common/Structure';
+import { isResolved } from '../../../redux/utils/meta-status';
 
 const Wrapper = styled('div')`
   display: grid;
@@ -43,14 +44,16 @@ export const Store = ({ history }) => {
     history.push('/store/checkout');
   };
 
-  if (!productsState.data || productsState.meta.isFetching) {
-    return <Spinner />;
+  if (!isResolved(productsState.meta)) {
+    return <Spinner variant="large" />;
   }
+
+  const products = productsState.data.filter((p) => p.type === 'good');
 
   return (
     <Wrapper hasCart={cart.length > 0}>
       <List>
-        {productsState.data.map((product) => (
+        {products.map((product) => (
           <ProductItem
             key={product.id}
             product={product}

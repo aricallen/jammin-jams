@@ -109,9 +109,9 @@ export const Success = ({ location }) => {
   useEffect(_createUser, [isResolved(checkoutSessionState.meta)]);
   useEffect(_addMember, [isResolved(usersState.meta)]);
 
-  const allStates = [sessionState, usersState, checkoutSessionState, emailState];
+  const requiredStates = [sessionState, usersState, checkoutSessionState];
 
-  const isAllResolved = allStates.every((state) => isResolved(state.meta));
+  const isAllResolved = requiredStates.every((state) => isResolved(state.meta));
 
   if (isAllResolved) {
     // show receipt
@@ -128,18 +128,18 @@ export const Success = ({ location }) => {
           ))}
           <ReceiptFooter>
             <FooterMessage>You should receive an email confirmation shortly.</FooterMessage>
-            <Link to="/account/orders">
+            {/* <Link to="/account/orders">
               <Button>View Orders</Button>
-            </Link>
+            </Link> */}
           </ReceiptFooter>
         </Content>
       </Wrapper>
     );
   }
 
-  const isAnyErrored = allStates.some((state) => isErrored(state.meta));
+  const isAnyErrored = requiredStates.some((state) => isErrored(state.meta));
   if (isAnyErrored) {
-    const errors = allStates.map((state) => state.meta.error).filter(Boolean);
+    const errors = requiredStates.map((state) => state.meta.error).filter(Boolean);
     console.error(errors);
     return <ErrorPage errors={errors} />;
   }

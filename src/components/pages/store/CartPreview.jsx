@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { useSelector, useDispatch } from 'react-redux';
+import { sum } from 'lodash';
 import { Content } from '../../common/Structure';
 import { Button as BaseButton } from '../../common/Button';
 import { boxShadow, spacing, border, font } from '../../../constants/style-guide';
@@ -37,9 +38,23 @@ const Rows = styled('div')``;
 const Title = styled('div')``;
 const Action = styled('div')``;
 const ItemInfo = styled('div')``;
-const Price = styled('div')`
-  font-weight: ${font.weight.bold};
+
+const TotalWrapper = styled('div')`
+  border-top: ${border};
+  padding: ${spacing.regular}px;
+  text-align: right;
 `;
+
+const TotalRow = styled('div')`
+  margin-top: ${spacing.regular}px;
+`;
+
+const Label = styled('span')`
+  font-weight: ${font.weight.bold};
+  margin-right: ${spacing.regular}px;
+`;
+
+const Price = styled('span')``;
 
 const CartItem = ({ item }) => {
   const dispatch = useDispatch();
@@ -54,7 +69,6 @@ const CartItem = ({ item }) => {
     <Row>
       <ItemInfo>
         <Title>{title}</Title>
-        <Price>${formatAmount(sku.price)}</Price>
       </ItemInfo>
       <Action>
         <Button variant="secondary" onClick={onClick}>
@@ -67,9 +81,16 @@ const CartItem = ({ item }) => {
 
 export const CartPreview = ({ onCheckout }) => {
   const cart = useSelector((state) => state.cart.data);
+  const coupons = useSelector((state) => state.coupons.data);
+
   if (cart.length === 0) {
     return null;
   }
+
+  const totalDiscount = sum(
+    coupons.filter((coupon) => coupon.metadata.type === 'price').map((coupon) => coupon.amountOff)
+  );
+  const totalAmount = sum(cart.map((item) => item.sku.price)) - totalDiscount;
 
   return (
     <Wrapper>
@@ -77,6 +98,16 @@ export const CartPreview = ({ onCheckout }) => {
         {cart.map((item) => (
           <CartItem item={item} key={item.product.id} />
         ))}
+        <TotalWrapper>
+          <TotalRow>
+            <Label>Discount: </Label>
+            <Price>${formatAmount(totalDiscount)}</Price>
+          </TotalRow>
+          <TotalRow>
+            <Label>Total: </Label>
+            <Price>${formatAmount(totalAmount)}</Price>
+          </TotalRow>
+        </TotalWrapper>
       </Rows>
       {onCheckout && (
         <Footer>

@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react';
 import { startCase } from 'lodash';
-import { FormInput } from '../../common/Forms';
+import { FormInput, TextArea, Label } from '../../common/Forms';
 import { Method } from './constants';
 
 const FIELDS = ['firstName', 'lastName', 'address', 'address2', 'zipCode'];
@@ -35,6 +35,13 @@ export const Shipping = (props) => {
           isRequired={field !== 'address2'}
         />
       ))}
+      <Label htmlFor="shippingInstructions">Special Instructions</Label>
+      <TextArea
+        value={values.shippingInstructions || ''}
+        rows={10}
+        onChange={handleChange('shippingInstructions', (e) => e.target.value)}
+        placeholder="Hide under the unicorn tree..."
+      />
     </Fragment>
   );
 };

@@ -21,14 +21,16 @@ router.get('/plans', async (req, res) => {
   res.send(plans);
 });
 
-const serializeLineItems = (cartItems) => {
+const serializeLineItems = (cartItems, coupons) => {
+  const discount = coupons.map((coupon) => coupon.amountOff);
+  const fractionalDiscount = Math.ceil(discount / cartItems.length);
   return cartItems.map((item) => {
     const { product, sku } = item;
     return {
       ...pick(product, ['name', 'description']),
       ...pick(sku, ['currency']),
       quantity: 1,
-      amount: sku.price,
+      amount: sku.price - fractionalDiscount,
       description: sku.attributes.interval,
     };
   });
@@ -39,7 +41,7 @@ const serializeLineItems = (cartItems) => {
  * return session.id to FE to use for redirecting to hosted checkout form
  */
 router.post('/checkout', async (req, res) => {
-  const { formValues, cartItems } = req.body;
+  const { formValues, cartItems, coupons = [] } = req.body;
   try {
     const session = await stripe.checkout.sessions.create({
       customer_email: formValues.email,
@@ -47,9 +49,15 @@ router.post('/checkout', async (req, res) => {
       payment_intent_data: {
         setup_future_usage: 'off_session',
       },
-      line_items: serializeLineItems(cartItems),
+      line_items: serializeLineItems(cartItems, coupons),
       submit_type: 'auto',
       billing_address_collection: 'auto',
+      metadata: cartItems.reduce((acc, item) => {
+        return {
+          ...acc,
+          ...item.attributes,
+        };
+      }, {}),
       success_url: `${HOST}:${PORT}/store/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${HOST}:${PORT}/store/cancel?session_id={CHECKOUT_SESSION_ID}`,
     });
@@ -112,9 +120,25 @@ router.post('/checkout/success', async (req, res) => {
   }
 });
 
+router.get('/coupons', async (req, res) => {
+  const { key, value, type } = req.query;
+  const results = await stripe.coupons.list();
+  const filteredData =
+    results.data &&
+    results.data.filter((item) => {
+      if (type) {
+        return item[key] === value && item.metadata.type === type;
+      }
+      return item[key] === value;
+    });
+  res.send({ ...results, data: filteredData });
+});
+
 router.get('/:resource', async (req, res) => {
+  const { key, value } = req.query;
   const results = await stripe[req.params.resource].list();
-  res.send(results);
+  const filteredData = results.data && results.data.filter((item) => item[key] === value);
+  res.send({ ...results, data: filteredData });
 });
 
 router.get('/:resource/:id', async (req, res) => {
