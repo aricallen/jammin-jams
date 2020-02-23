@@ -4,15 +4,26 @@ import styled from '@emotion/styled';
 import * as d3 from 'd3';
 import { Calendar } from 'calendar';
 import { Content, Header1, Section } from '../common/Structure';
-import { Fieldset, Label } from '../common/Forms';
+import { Label } from '../common/Forms';
+import { media } from '../../utils/media';
 import { Select } from '../common/Select';
+import { pallet, spacing } from '../../constants/style-guide';
 
 const ContentWrapper = styled(Content)`
   margin: 0 auto;
   width: 100%;
 `;
 
+const DeliveryTypeWrapper = styled('div')`
+  width: 50%;
+  ${media.mobile()} {
+    width: 100%;
+  }
+`;
+
 const D3Wrapper = styled('div')`
+  margin-top: ${spacing.double}px;
+
   & > .calendar {
     width: 70%;
     height: 200px;
@@ -21,18 +32,27 @@ const D3Wrapper = styled('div')`
   & > .calendar tbody td {
     border: 1px solid black;
     text-align: center;
-    vertical-align: top;
+    vertical-align: middle;
+    padding: ${spacing.regular}px;
+    min-height: ${spacing.quadruple}px;
   }
 
   & > .calendar td.empty {
     border: none;
+  }
+
+  & td.delivery-day-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: ${pallet.plum};
   }
 `;
 
 const BICYCLE = 'BICYCLE';
 const OTHER = 'OTHER';
 
-const DELIVERYTYPES = [
+const DELIVERY_TYPES = [
   {
     label: BICYCLE,
     value: BICYCLE,
@@ -73,17 +93,21 @@ const buildCalendar = (tableRef, monthConfig, deliveryType) => {
       .enter()
       .append('td')
       .attr('class', function(d) {
-        return d > 0 ? '' : 'empty';
+        return d > 0 ? 'cal-cell' : 'empty';
       })
       .text(function(d) {
+        const showNumber = d > 0 && d !== deliveryDay;
+        return showNumber ? d : '';
+      })
+      .each(function(d) {
         if (d === deliveryDay) {
-          const imgData = [];
-          const url =
-            'https://previews.123rf.com/images/siraphol/siraphol1507/siraphol150700002/41819348-marmalade-jam-jar-isolated-on-white-background.jpg';
-          imgData.push(url);
-          d3.select(this).style('background-color', 'purple');
-        } else {
-          return d > 0 ? d : '';
+          const cell = d3.select(this);
+          cell
+            .attr('class', 'delivery-day-cell')
+            .append('img')
+            .attr('src', '/assets/favicons/favicon.ico')
+            .attr('width', '22px')
+            .attr('height', '22px');
         }
       });
   });
@@ -106,7 +130,7 @@ const MonthCalendar = ({ monthConfig, deliveryType }) => {
 };
 
 export const DeliveryCalendar = () => {
-  const [currentDeliveryType, setContentDeliveryType] = useState('bike');
+  const [currentDeliveryType, setContentDeliveryType] = useState(BICYCLE);
   const handleChange = (option) => {
     setContentDeliveryType(option.value);
   };
@@ -122,10 +146,15 @@ export const DeliveryCalendar = () => {
         Look out for a notification email at least one week prior to delivery for the month.
       </Section>
       <Section>
-        <Fieldset className="required">
+        <DeliveryTypeWrapper>
           <Label>Delivery Type</Label>
-          <Select name="deliveryType" options={DELIVERYTYPES} onChange={handleChange} />
-        </Fieldset>
+          <Select
+            name="deliveryType"
+            options={DELIVERY_TYPES}
+            value={DELIVERY_TYPES.find((option) => option.value === currentDeliveryType)}
+            onChange={handleChange}
+          />
+        </DeliveryTypeWrapper>
       </Section>
       <Section key={currentDeliveryType}>
         {CALENDAR_DATA.map((monthConfig) => (
