@@ -5,14 +5,9 @@ import { spacing, font } from '../../../constants/style-guide';
 import { Button as BaseButton } from '../../common/Button';
 import { Select } from '../../common/Select';
 import { Spinner } from '../../common/Spinner';
-import { media } from '../../../utils/media';
 import { isResolved, isBusy } from '../../../redux/utils/meta-status';
 
 const Wrapper = styled('div')`
-  max-width: 33%;
-  ${media.mobile()} {
-    max-width: 50%;
-  }
   padding: ${spacing.quadruple}px;
 `;
 

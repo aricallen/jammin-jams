@@ -26,6 +26,15 @@ export const TextArea = styled('textarea')`
   border-width: 1px;
   border-color: ${pallet.strawberry};
   width: 100%;
+  padding: ${spacing.regular}px;
+  ${fontSizes('regular')}
+  &:active,
+  &:focus,
+  &:focus-within,
+  &:hover {
+    outline: none;
+    box-shadow: 0 0 4px ${pallet.strawberry};
+  }
 `;
 
 export const Fieldset = styled('fieldset')`

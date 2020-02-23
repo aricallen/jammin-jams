@@ -84,16 +84,16 @@ const StepCircle = styled('div')`
 const ContentWrapper = styled(Content)``;
 
 const SECTIONS = [
+  // {
+  //   header: 'Create Account',
+  //   Component: CreateAccount,
+  // },
   {
-    header: 'Create Account',
-    Component: CreateAccount,
-  },
-  {
-    header: 'Delivery',
+    header: 'Delivery Method',
     Component: DeliveryMethod,
   },
   {
-    header: 'Shipping',
+    header: 'Delivery Address',
     Component: Shipping,
   },
   {
@@ -130,6 +130,7 @@ export const Checkout = () => {
   const [_isValid, setIsValid] = useState(false);
   const cart = useSelector((state) => state.cart.data);
   const checkoutSessionState = useSelector((state) => state.checkoutSession);
+  const couponsState = useSelector((state) => state.coupons);
   const dispatch = useDispatch();
 
   // fake add an item to cart
@@ -189,7 +190,7 @@ export const Checkout = () => {
     }
   };
 
-  const _isBusy = isBusy(checkoutSessionState.meta);
+  const _isBusy = isBusy(checkoutSessionState.meta) || isBusy(couponsState.meta);
 
   return (
     <Content>
