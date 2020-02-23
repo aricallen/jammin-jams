@@ -4,49 +4,10 @@ import { spacing, animation, pallet } from '../../constants/style-guide';
 import { fontSizes } from '../../utils/style-helpers';
 import { media } from '../../utils/media';
 
-const LEFT_COL_WIDTH = `${spacing.quadruple}px`;
-const CENTER_COL_WIDTH = `${spacing.triple * 30}px`;
-const RIGHT_COL_WIDTH = `${spacing.quadruple * 10}px`;
-
 export const Content = styled('div')`
   width: 100%;
   padding: ${spacing.quadruple}px;
   ${fontSizes('regular')}
-`;
-
-export const Article = styled('div')`
-  display: flex;
-  justify-content: center;
-`;
-
-export const ArticleGridWrapper = styled('div')``;
-
-export const ArticleGrid = styled('div')`
-  display: grid;
-  padding-top: ${spacing.quadruple}px;
-  grid-gap: ${spacing.quadruple * 2}px;
-  ${fontSizes('regular')}
-  grid-template-columns: ${LEFT_COL_WIDTH} ${CENTER_COL_WIDTH} ${RIGHT_COL_WIDTH};
-  height: min-content;
-  grid-template-areas: 'left center right';
-  ${media.mobile()} {
-    grid-template-columns: auto;
-  }
-`;
-
-export const ArticleColLeft = styled('div')`
-  grid-area: left;
-`;
-
-export const ArticleColMain = styled('div')`
-  grid-area: center;
-`;
-
-export const ArticleColRight = styled('div')`
-  grid-area: right;
-  ${media.mobile()} {
-    display: none;
-  }
 `;
 
 export const Header1 = styled('h1')`

@@ -1,4 +1,5 @@
 import { css } from '@emotion/core';
+import { pallet, animation } from './style-guide';
 
 export const globalStyles = css`
   html,
@@ -35,6 +36,11 @@ export const globalStyles = css`
   }
 
   a {
+    color: ${pallet.strawberry};
     text-decoration: none;
+    transition: color ${animation};
+    &:hover {
+      color: ${pallet.light.strawberry};
+    }
   }
 `;

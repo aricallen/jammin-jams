@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { Header2, Paragraph } from './Structure';
+import { Header2 } from './Structure';
 import { pallet, spacing, border } from '../../constants/style-guide';
 import { NewsletterForm } from './NewsletterForm';
 
