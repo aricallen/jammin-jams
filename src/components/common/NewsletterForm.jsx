@@ -1,33 +1,31 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { Button as ButtonBase } from './Button';
+import { Button } from './Button';
 import { Input, FormError } from './Forms';
 import { isBusy, isResolved } from '../../redux/utils/meta-status';
 import { addMember } from '../../redux/email/actions';
 import { spacing } from '../../constants/style-guide';
 
 const Wrapper = styled('div')`
-  display: flex;
+  display: ${(p) => (p.isInline ? 'flex' : 'block')};
   align-items: center;
 `;
 
 const InputSection = styled('div')`
-  width: 50%;
-  padding-right: ${spacing.regular}px;
-  &:last-child {
-    padding-right: 0;
-  }
-`;
-
-const Button = styled(ButtonBase)`
   width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  & button {
+    margin-top: ${spacing.regular}px;
+  }
 `;
 
 const Message = styled('div')``;
 const Form = styled('form')``;
 
-export const NewsletterForm = () => {
+export const NewsletterForm = (props) => {
   const dispatch = useDispatch();
   const emailState = useSelector((state) => state.email);
   const [values, setValues] = useState({ email: '', firstName: '', lastName: '' });
@@ -50,9 +48,11 @@ export const NewsletterForm = () => {
     return <Message>Signed up successfully 🎉</Message>;
   }
 
+  const { isInline = false } = props;
+
   return (
     <Form onSubmit={onSubmit}>
-      <Wrapper>
+      <Wrapper isInline={isInline}>
         <InputSection>
           <Input
             type="email"
@@ -64,7 +64,7 @@ export const NewsletterForm = () => {
         </InputSection>
         <InputSection>
           <Button onClick={onSubmit} isBusy={isBusy(emailState.meta)} type="submit">
-            Sign up
+            Subscribe
           </Button>
         </InputSection>
       </Wrapper>

@@ -6,6 +6,8 @@ import { NewsletterForm } from './NewsletterForm';
 
 const Wrapper = styled('div')`
   border: ${border};
+  border-radius: ${spacing.regular}px;
+  overflow: hidden;
 `;
 
 const Header = styled('div')`
@@ -29,6 +31,8 @@ const FormWrapper = styled('div')`
   margin-top: ${spacing.double}px;
 `;
 
+const Message = styled('span')``;
+
 export const NewsletterBlock = () => {
   return (
     <Wrapper>
@@ -36,10 +40,10 @@ export const NewsletterBlock = () => {
         <HeaderText>Jam Journeys Newsletter</HeaderText>
       </Header>
       <ContentWrapper>
-        <Paragraph>
+        <Message>
           Sign up for our newlsetter to stay up to date on the latest flavors, features, music and
           adventures.
-        </Paragraph>
+        </Message>
         <FormWrapper>
           <NewsletterForm />
         </FormWrapper>

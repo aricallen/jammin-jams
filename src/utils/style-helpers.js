@@ -5,5 +5,6 @@ export const fontSizes = (key) => `
   font-size: ${font.size[key]}px;
   ${media.mobile()} {
     font-size: ${font.mobileSize[key]}px;
+    line-height: 1.20em;
   }
 `;
