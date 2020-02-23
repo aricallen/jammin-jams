@@ -10,6 +10,31 @@ export const Content = styled('div')`
   ${fontSizes('regular')}
 `;
 
+export const ContentGrid = styled('div')`
+  display: grid;
+  padding-top: ${spacing.double}px;
+  ${fontSizes('regular')}
+  grid-template-columns: 1fr 3fr 2fr;
+  grid-template-areas: 'spacer main actions';
+  ${media.mobile()} {
+    grid-template-columns: auto;
+    grid-template-areas:
+      'main'
+      'actions';
+  }
+`;
+
+export const ContentColMain = styled('div')`
+  grid-area: main;
+  padding: ${spacing.quadruple}px;
+`;
+
+export const ContentColActions = styled('div')`
+  grid-area: actions;
+  justify-self: center;
+  padding: ${spacing.quadruple}px;
+`;
+
 export const Header1 = styled('h1')`
   margin-bottom: ${spacing.regular}px;
   ${media.mobile()} {

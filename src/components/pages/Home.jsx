@@ -1,14 +1,11 @@
-import React, { useState, useRef, useLayoutEffect, useEffect } from 'react';
+import React, { useState, useRef, useLayoutEffect } from 'react';
 import styled from '@emotion/styled';
-import { useSelector, useDispatch } from 'react-redux';
 import { LogoFilled } from '../common/LogoFilled';
-import { fetchMany as fetchUsers } from '../../redux/users/actions';
+import { HomeContent } from './HomeContent';
 
 const Wrapper = styled('div')`
   height: 100%;
 `;
-
-const FADE_OUT = 1;
 
 const Hero = styled('div')`
   width: 100%;
@@ -17,7 +14,7 @@ const Hero = styled('div')`
   align-items: center;
   justify-content: space-around;
   background-color: white;
-  transition: opacity ${FADE_OUT}s ease-in-out;
+  transition: opacity 1s ease-out;
   opacity: 1;
   &.done-bumping {
     opacity: 0;
@@ -30,25 +27,21 @@ const LogoWrapper = styled('div')`
   animation: bumping 0.5s 4;
 `;
 
-const HomeContent = () => {
-  return <div>home content</div>;
-};
-
 export const Home = () => {
   const [isBumping, setIsBumping] = useState(true);
   const [isAnimating, setIsAnimating] = useState(true);
   const heroRef = useRef();
 
-  const listenForAnimation = () => {
+  const initAnimationListeners = () => {
     heroRef.current.addEventListener('animationend', () => {
       setIsBumping(false);
     });
     heroRef.current.addEventListener('transitionend', () => {
-      setIsAnimating(true);
+      setIsAnimating(false);
     });
   };
 
-  useLayoutEffect(listenForAnimation, []);
+  useLayoutEffect(initAnimationListeners, []);
 
   return isAnimating ? (
     <Wrapper>
