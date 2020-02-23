@@ -14,9 +14,10 @@ export const Type = {
 export const createOne = (formValues) => {
   return async (dispatch, getState) => {
     const cartItems = getState().cart.data;
+    const coupons = getState().coupons.data;
     dispatch({ type: Type.CREATE_ONE_REQUESTED });
     try {
-      const response = await axios.post(`/api/stripe/checkout`, { formValues, cartItems });
+      const response = await axios.post(`/api/stripe/checkout`, { formValues, cartItems, coupons });
       const checkoutSession = response.data.data;
       dispatch({ type: Type.CREATE_ONE_SUCCEEDED, checkoutSession });
       return checkoutSession;
