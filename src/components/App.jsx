@@ -6,6 +6,7 @@ import { AdminRoute } from './common/AdminRoute';
 import { Home } from './pages/Home';
 import { About } from './pages/About';
 import { Waitlist } from './pages/Waitlist';
+import { DeliveryCalendar } from './pages/DeliveryCalendar';
 import { ThankYou } from './pages/ThankYou';
 import { NotFound } from './pages/NotFound';
 import { ErrorPage } from './pages/ErrorPage';
@@ -55,6 +56,7 @@ export const App = () => {
           <Route exact path="/thank-you" component={ThankYou} />
           <Route exact path="/oh-noes" component={NotFound} />
           <Route exact path="/error" component={ErrorPage} />
+          <Route exact path="/delivery-calendar" component={DeliveryCalendar} />
 
           <Route exact path="/account/log-in" component={LogIn} />
           <Route exact path="/account/log-out" component={LogOut} />
