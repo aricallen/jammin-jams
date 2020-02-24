@@ -2,11 +2,17 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { pallet, spacing, border, font } from '../../constants/style-guide';
 import { NewsletterForm } from './NewsletterForm';
+import { media } from '../../utils/media';
+import { fontSizes } from '../../utils/style-helpers';
 
 const Wrapper = styled('div')`
   border: ${border};
   border-radius: ${spacing.regular}px;
   overflow: hidden;
+  ${media.mobile()} {
+    width: 60%;
+    margin: 0 auto;
+  }
 `;
 
 const Header = styled('div')`
@@ -20,7 +26,7 @@ const Header = styled('div')`
 const HeaderText = styled('h2')`
   color: white;
   margin-bottom: 0;
-  font-size: ${font.size.header2}px;
+  ${fontSizes('large')}
 `;
 
 const ContentWrapper = styled('div')`
@@ -32,7 +38,7 @@ const FormWrapper = styled('div')`
 `;
 
 const Message = styled('span')`
-  font-size: ${font.size.small}px;
+  ${fontSizes('small')}
 `;
 
 export const NewsletterBlock = () => {

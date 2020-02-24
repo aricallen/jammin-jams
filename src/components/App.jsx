@@ -33,7 +33,7 @@ import { LogoBuilder } from './pages/admin/LogoBuilder';
 import { QrCodes } from './pages/admin/QrCodes';
 import { MediaPage } from './pages/admin/MediaPage';
 
-// import { Footer } from './common/Footer';
+import { Footer } from './common/Footer';
 import { NavBar } from './common/NavBar';
 import { globalStyles } from '../constants/global-styles';
 
@@ -78,7 +78,7 @@ export const App = () => {
           <Route exact path="/" component={Home} />
           <Route component={NotFound} />
         </Switch>
-        {/* <Footer /> */}
+        <Footer />
       </Router>
     </Wrapper>
   );

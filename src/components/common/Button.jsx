@@ -15,7 +15,7 @@ const ButtonElem = styled('button')`
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
+  color: ${(p) => (p.variant === 'secondary' ? pallet.strawberry : 'white')};
 
   &:active,
   &:focus,

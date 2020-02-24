@@ -74,7 +74,6 @@ export const Article = (props) => {
           <ColMain>
             <Middle />
             <MobileWrapper>
-              <Left />
               <Right />
             </MobileWrapper>
           </ColMain>
