@@ -45,6 +45,12 @@ const D3Wrapper = styled('div')`
     height: 100%;
   }
 
+  & > .calendar td.day-of-week {
+    text-align: center;
+    padding: 0;
+    border: 0;
+  }
+
   & > .calendar td.empty {
     border: none;
   }
@@ -72,10 +78,10 @@ const DELIVERY_TYPES = [
 ];
 
 const CALENDAR_DATA = [
-  { month: 'April', num: 4, [BICYCLE]: 22, [OTHER]: 25 },
-  { month: 'May', num: 5, [BICYCLE]: 20, [OTHER]: 23 },
-  { month: 'June', num: 6, [BICYCLE]: 20, [OTHER]: 23 },
-  { month: 'July', num: 7, [BICYCLE]: 20, [OTHER]: 23 },
+  { month: 'April', num: 3, [BICYCLE]: 22, [OTHER]: 25 },
+  { month: 'May', num: 4, [BICYCLE]: 20, [OTHER]: 23 },
+  { month: 'June', num: 5, [BICYCLE]: 20, [OTHER]: 23 },
+  { month: 'July', num: 6, [BICYCLE]: 20, [OTHER]: 23 },
 ];
 
 const buildCalendar = (tableRef, monthConfig, deliveryType) => {
@@ -84,6 +90,7 @@ const buildCalendar = (tableRef, monthConfig, deliveryType) => {
   const header = table.append('thead');
   const body = table.append('tbody');
   const weeks = cal.monthDays(2020, monthConfig.num);
+  const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const deliveryDay = monthConfig[deliveryType];
 
   header
@@ -93,6 +100,16 @@ const buildCalendar = (tableRef, monthConfig, deliveryType) => {
     .style('text-align', 'center')
     .style('font-weight', font.weight.semiBold)
     .text(monthConfig.month);
+
+  // add days of the week
+  body.append('tr');
+  daysOfWeek.forEach((day) => {
+    body
+      .select('tr')
+      .append('td')
+      .attr('class', 'day-of-week')
+      .text(day);
+  });
 
   weeks.forEach(function(week) {
     body
@@ -139,13 +156,13 @@ const MonthCalendar = ({ monthConfig, deliveryType }) => {
 
 export const DeliveryCalendarContent = () => {
   const [currentDeliveryType, setContentDeliveryType] = useState(BICYCLE);
-  const handleChange = (option) => {
-    setContentDeliveryType(option.value);
-  };
+  // const handleChange = (option) => {
+  //   setContentDeliveryType(option.value);
+  // };
 
   return (
     <ContentWrapper>
-      <Header1>Delivery Dates Calendar - Marked in Purple</Header1>
+      <Header1>Delivery Dates Calendar</Header1>
       <Section>
         Even though we try to plan ahead as much as possible, please note that bike delivery dates
         are estimates.
@@ -153,7 +170,7 @@ export const DeliveryCalendarContent = () => {
       <Section>
         Look out for a notification email at least one week prior to delivery for the month.
       </Section>
-      <Section>
+      {/* <Section>
         <DeliveryTypeWrapper>
           <Label>Delivery Type</Label>
           <Select
@@ -163,7 +180,7 @@ export const DeliveryCalendarContent = () => {
             onChange={handleChange}
           />
         </DeliveryTypeWrapper>
-      </Section>
+      </Section> */}
       <Section key={currentDeliveryType}>
         {CALENDAR_DATA.map((monthConfig) => (
           <MonthCalendar

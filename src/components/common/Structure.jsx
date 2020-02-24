@@ -16,6 +16,7 @@ export const Header1 = styled('h1')`
     margin-bottom: ${spacing.triple}px;
   }
   ${fontSizes('header1')}
+  font-weight: ${font.weight.bold};
 `;
 
 export const Header2 = styled('h2')`
