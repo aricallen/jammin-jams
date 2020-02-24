@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { spacing } from '../../constants/style-guide';
+import { spacing, sizes } from '../../constants/style-guide';
 import { fontSizes } from '../../utils/style-helpers';
 import { media } from '../../utils/media';
 import { NewsletterBlock } from './NewletterBlock';
@@ -13,6 +13,8 @@ const RIGHT_COL_WIDTH = `${spacing.quadruple * 10}px`;
 export const Wrapper = styled('article')`
   display: flex;
   justify-content: center;
+  position: sticky;
+  top: 0;
   ${fontSizes('regular')}
 `;
 
@@ -36,6 +38,10 @@ export const Grid = styled('div')`
 
 export const ColLeft = styled('div')`
   grid-area: left;
+  & > div {
+    position: sticky;
+    top: ${sizes.rowHeight + spacing.double}px;
+  }
   ${media.mobile()} {
     display: none;
   }
@@ -47,6 +53,10 @@ export const ColMain = styled('div')`
 
 export const ColRight = styled('div')`
   grid-area: right;
+  & > div {
+    position: sticky;
+    top: ${sizes.rowHeight + spacing.double}px;
+  }
   ${media.mobile()} {
     display: none;
   }
