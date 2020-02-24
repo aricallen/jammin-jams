@@ -1,7 +1,7 @@
 import React, { useState, useRef, useLayoutEffect } from 'react';
 import styled from '@emotion/styled';
 import { LogoFilled } from '../common/LogoFilled';
-import { HomeContent } from './HomeContent';
+import { Introduction } from './about/Introduction';
 
 const Wrapper = styled('div')`
   height: 100%;
@@ -52,6 +52,6 @@ export const Home = () => {
       </Hero>
     </Wrapper>
   ) : (
-    <HomeContent />
+    <Introduction />
   );
 };

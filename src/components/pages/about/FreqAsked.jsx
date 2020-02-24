@@ -1,9 +1,9 @@
 import React, { Fragment } from 'react';
 import styled from '@emotion/styled';
-import { Section, Paragraph, Emoji, Emphasis } from '../common/Structure';
-import { font } from '../../constants/style-guide';
-import { fontSizes } from '../../utils/style-helpers';
-import { Article } from '../common/Article';
+import { Section, Paragraph, Emoji, Emphasis } from '../../common/Structure';
+import { font } from '../../../constants/style-guide';
+import { fontSizes } from '../../../utils/style-helpers';
+import { Article } from '../../common/Article';
 
 const Question = styled('h4')`
   ${fontSizes('regular')}

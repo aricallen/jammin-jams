@@ -1,7 +1,8 @@
 import React, { Fragment } from 'react';
-import { OrderedList, ListItem } from '../common/Structure';
+import { OrderedList, ListItem, Header1 } from '../../common/Structure';
+import { Article } from '../../common/Article';
 
-export const HowItWorks = () => {
+export const HowItWorksList = () => {
   return (
     <Fragment>
       <OrderedList>
@@ -22,4 +23,17 @@ export const HowItWorks = () => {
       </OrderedList>
     </Fragment>
   );
+};
+
+const HowItWorksContent = () => {
+  return (
+    <Fragment>
+      <Header1>How It Works</Header1>
+      <HowItWorksList />
+    </Fragment>
+  );
+};
+
+export const HowItWorks = () => {
+  return <Article Middle={HowItWorksContent} />;
 };

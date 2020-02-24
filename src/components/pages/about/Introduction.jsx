@@ -2,11 +2,11 @@ import React, { Fragment } from 'react';
 import styled from '@emotion/styled';
 // import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { CameraRoll } from '../common/CameraRoll';
-import { Article } from '../common/Article';
-import { Section } from '../common/Structure';
-import { ExpandableSection } from '../common/ExpandableSection';
-import { HowItWorks } from './HowItWorks';
+import { CameraRoll } from '../../common/CameraRoll';
+import { Article } from '../../common/Article';
+import { Section } from '../../common/Structure';
+import { ExpandableSection } from '../../common/ExpandableSection';
+import { HowItWorksList } from './HowItWorks';
 
 const Wrapper = styled('div')`
   animation: fade-in 0.5s 1;
@@ -28,12 +28,12 @@ const MainContent = () => (
       </Text>
     </Section>
     <Section>
-      <ExpandableSection headerText="How It Works" Content={HowItWorks} />
+      <ExpandableSection headerText="How It Works" Content={HowItWorksList} />
     </Section>
   </Fragment>
 );
 
-export const HomeContent = () => {
+export const Introduction = () => {
   return (
     <Wrapper>
       <CameraRoll />

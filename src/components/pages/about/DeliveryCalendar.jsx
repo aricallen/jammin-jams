@@ -1,18 +1,16 @@
 /* eslint-disable func-names */
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, Fragment } from 'react';
 import styled from '@emotion/styled';
 import * as d3 from 'd3';
 import { Calendar } from 'calendar';
-import { Content, Header1, Section } from '../common/Structure';
-import { Label } from '../common/Forms';
-import { media } from '../../utils/media';
-import { Select } from '../common/Select';
-import { pallet, spacing } from '../../constants/style-guide';
+import { Header1, Section } from '../../common/Structure';
+import { Label } from '../../common/Forms';
+import { media } from '../../../utils/media';
+import { Select } from '../../common/Select';
+import { pallet, spacing } from '../../../constants/style-guide';
+import { Article } from '../../common/Article';
 
-const ContentWrapper = styled(Content)`
-  margin: 0 auto;
-  width: 100%;
-`;
+const ContentWrapper = styled('div')``;
 
 const DeliveryTypeWrapper = styled('div')`
   width: 50%;
@@ -23,6 +21,8 @@ const DeliveryTypeWrapper = styled('div')`
 
 const D3Wrapper = styled('div')`
   margin-top: ${spacing.double}px;
+  display: flex;
+  justify-content: center;
 
   & > .calendar {
     width: 70%;
@@ -35,6 +35,7 @@ const D3Wrapper = styled('div')`
     vertical-align: middle;
     padding: ${spacing.regular}px;
     min-height: ${spacing.quadruple}px;
+    height: 100%;
   }
 
   & > .calendar td.empty {
@@ -106,8 +107,7 @@ const buildCalendar = (tableRef, monthConfig, deliveryType) => {
             .attr('class', 'delivery-day-cell')
             .append('img')
             .attr('src', '/assets/favicons/favicon.ico')
-            .attr('width', '22px')
-            .attr('height', '22px');
+            .attr('width', '30px');
         }
       });
   });
@@ -123,13 +123,13 @@ const MonthCalendar = ({ monthConfig, deliveryType }) => {
   }, [tableRef.current]);
 
   return (
-    <D3Wrapper id="deliveries">
+    <D3Wrapper>
       <table className="calendar" ref={tableRef} />
     </D3Wrapper>
   );
 };
 
-export const DeliveryCalendar = () => {
+export const DeliveryCalendarContent = () => {
   const [currentDeliveryType, setContentDeliveryType] = useState(BICYCLE);
   const handleChange = (option) => {
     setContentDeliveryType(option.value);
@@ -169,3 +169,9 @@ export const DeliveryCalendar = () => {
     </ContentWrapper>
   );
 };
+
+export const DeliveryCalendar = () => (
+  <Fragment>
+    <Article Middle={DeliveryCalendarContent} />
+  </Fragment>
+);

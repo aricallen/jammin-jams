@@ -4,13 +4,16 @@ import styled from '@emotion/styled';
 import { Global } from '@emotion/core';
 import { AdminRoute } from './common/AdminRoute';
 import { Home } from './pages/Home';
-import { About } from './pages/About';
 import { Waitlist } from './pages/Waitlist';
-import { DeliveryCalendar } from './pages/DeliveryCalendar';
 import { ThankYou } from './pages/ThankYou';
 import { NotFound } from './pages/NotFound';
 import { ErrorPage } from './pages/ErrorPage';
-import { FreqAsked } from './pages/FreqAsked';
+
+// about
+import { About } from './pages/about/About';
+import { DeliveryCalendar } from './pages/about/DeliveryCalendar';
+import { HowItWorks } from './pages/about/HowItWorks';
+import { FreqAsked } from './pages/about/FreqAsked';
 
 // store
 import { Store } from './pages/store/Store';
@@ -45,14 +48,15 @@ export const App = () => {
       <Router basename="/">
         <NavBar />
         <Switch>
-          <Route exact path="/about" component={About} />
           <Route exact path="/waitlist" component={Waitlist} />
           <Route exact path="/thank-you" component={ThankYou} />
           <Route exact path="/oh-noes" component={NotFound} />
           <Route exact path="/error" component={ErrorPage} />
 
-          <Route exact path="/delivery-calendar" component={DeliveryCalendar} />
-          <Route exact path="/faqs" component={FreqAsked} />
+          <Route exact path="/about/how-it-works" component={HowItWorks} />
+          <Route exact path="/about/delivery-calendar" component={DeliveryCalendar} />
+          <Route exact path="/about/faqs" component={FreqAsked} />
+          <Route exact path="/about" component={About} />
 
           <Route exact path="/account/log-in" component={LogIn} />
           <Route exact path="/account/log-out" component={LogOut} />
