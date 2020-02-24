@@ -6,21 +6,9 @@ import { Spinner } from '../../common/Spinner';
 import { fetchPosts } from '../../../redux/posts/actions';
 import { Section, Header1 } from '../../common/Structure';
 import { Header } from './Header';
-// import { Input } from '../../common/Forms';
 import { Button } from '../../common/Button';
-import { spacing, pallet, animation } from '../../../constants/style-guide';
-
-const Row = styled('div')`
-  display: flex;
-  align-items: center;
-  padding: ${spacing.double}px;
-  border-bottom: 1px solid ${pallet.light.charcoal};
-  cursor: pointer;
-  transition: background-color ${animation};
-  &:hover {
-    background-color: ${pallet.light.strawberry};
-  }
-`;
+import { spacing } from '../../../constants/style-guide';
+import { Row } from '../../common/Tables';
 
 const Cell = styled('div')`
   margin-right: ${spacing.regular}px;

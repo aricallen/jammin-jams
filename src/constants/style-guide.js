@@ -39,18 +39,6 @@ export const spacing = {
   quadruple: 32,
 };
 
-export const ScreenSizes = {
-  PHONE: 'PHONE',
-  TABLET: 'TABLET',
-  DESKTOP: 'DESKTOP',
-};
-
-export const screenSize = {
-  [ScreenSizes.PHONE]: 768,
-  [ScreenSizes.TABLET]: 1024,
-  [ScreenSizes.DESKTOP]: 1440,
-};
-
 export const sizes = {
   rowHeight: 64,
 };

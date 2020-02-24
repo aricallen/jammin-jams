@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import { Input, Fieldset, Label, FormError } from '../../common/Forms';
 import { Button } from '../../common/Button';
-import { spacing, ScreenSizes } from '../../../constants/style-guide';
+import { spacing } from '../../../constants/style-guide';
 import { media } from '../../../utils/media';
 import { logInUser } from '../../../redux/session/actions';
 import { MetaStatus } from '../../../constants/meta-status';
@@ -16,7 +16,7 @@ const Wrapper = styled('div')`
 `;
 
 const LogInWrapper = styled('div')`
-  ${media.min(ScreenSizes.TABLET)} {
+  ${media.mobile()} {
     width: 50%;
   }
   width: 80%;

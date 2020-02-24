@@ -56,6 +56,14 @@ export const Link = styled('a')`
   }
 `;
 
+export const OrderedList = styled('ol')`
+  padding-left: ${spacing.regular * 5}px;
+`;
+
+export const ListItem = styled('li')`
+  padding-left: ${spacing.double}px;
+`;
+
 export const Emoji = ({ label, children }) => {
   return <span aria-label={label}>{children}</span>;
 };

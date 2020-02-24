@@ -20,7 +20,7 @@ export const globalStyles = css`
   ul,
   a,
   li {
-    line-height: 1.42em;
+    line-height: 1.5em;
   }
 
   .anton {

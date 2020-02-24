@@ -22,9 +22,13 @@ export const Grid = styled('div')`
   display: grid;
   padding-top: ${spacing.quadruple}px;
   grid-gap: ${spacing.quadruple * 2}px;
-  grid-template-columns: ${LEFT_COL_WIDTH} ${MIDDLE_COL_WIDTH} ${RIGHT_COL_WIDTH};
+  grid-template-columns: ${LEFT_COL_WIDTH} ${MIDDLE_COL_WIDTH} minmax(
+      min-content,
+      ${RIGHT_COL_WIDTH}
+    );
   height: min-content;
   grid-template-areas: 'left middle right';
+
   ${media.mobile()} {
     grid-template-columns: auto;
   }
