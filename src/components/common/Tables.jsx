@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from '@emotion/styled';
 import { spacing, pallet, animation } from '../../constants/style-guide';
 

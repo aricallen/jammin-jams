@@ -10,6 +10,7 @@ import { DeliveryCalendar } from './pages/DeliveryCalendar';
 import { ThankYou } from './pages/ThankYou';
 import { NotFound } from './pages/NotFound';
 import { ErrorPage } from './pages/ErrorPage';
+import { FreqAsked } from './pages/FreqAsked';
 
 // store
 import { Store } from './pages/store/Store';
@@ -31,17 +32,10 @@ import { MediaPage } from './pages/admin/MediaPage';
 
 // import { Footer } from './common/Footer';
 import { NavBar } from './common/NavBar';
-import { sizes } from '../constants/style-guide';
 import { globalStyles } from '../constants/global-styles';
-import { media } from '../utils/media';
 
 const Wrapper = styled('div')`
   height: 100%;
-  display: grid;
-  grid-template-rows: ${sizes.rowHeight}px auto;
-  ${media.mobile()} {
-    grid-template-rows: ${sizes.rowHeight * 1.5}px auto;
-  }
 `;
 
 export const App = () => {
@@ -56,7 +50,9 @@ export const App = () => {
           <Route exact path="/thank-you" component={ThankYou} />
           <Route exact path="/oh-noes" component={NotFound} />
           <Route exact path="/error" component={ErrorPage} />
+
           <Route exact path="/delivery-calendar" component={DeliveryCalendar} />
+          <Route exact path="/faqs" component={FreqAsked} />
 
           <Route exact path="/account/log-in" component={LogIn} />
           <Route exact path="/account/log-out" component={LogOut} />

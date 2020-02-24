@@ -11,6 +11,9 @@ import CartIcon from '../../assets/icons/shopping_cart.svg';
 
 const Wrapper = styled('nav')`
   display: flex;
+  position: sticky;
+  top: 0;
+  z-index: 10;
   align-items: center;
   justify-content: space-between;
   min-height: ${sizes.rowHeight}px;

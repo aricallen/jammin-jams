@@ -1,5 +1,4 @@
 import React, { Fragment } from 'react';
-import styled from '@emotion/styled';
 import { OrderedList, ListItem } from '../common/Structure';
 
 export const HowItWorks = () => {

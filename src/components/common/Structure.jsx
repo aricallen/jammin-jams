@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { spacing, animation, pallet } from '../../constants/style-guide';
+import { spacing, animation, pallet, font } from '../../constants/style-guide';
 import { fontSizes } from '../../utils/style-helpers';
 import { media } from '../../utils/media';
 
@@ -38,7 +38,7 @@ export const Paragraph = styled('p')`
 
 export const Emphasis = styled('span')`
   font-style: italic;
-  font-weight: bold;
+  font-weight: ${font.weight.semiBold};
 `;
 
 export const Link = styled('a')`
