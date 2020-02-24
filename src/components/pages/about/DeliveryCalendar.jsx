@@ -7,15 +7,19 @@ import { Header1, Section } from '../../common/Structure';
 import { Label } from '../../common/Forms';
 import { media } from '../../../utils/media';
 import { Select } from '../../common/Select';
-import { pallet, spacing } from '../../../constants/style-guide';
+import { pallet, spacing, font, border } from '../../../constants/style-guide';
 import { Article } from '../../common/Article';
 
 const ContentWrapper = styled('div')``;
 
 const DeliveryTypeWrapper = styled('div')`
-  width: 50%;
+  width: 60%;
+  margin: 0 auto;
   ${media.mobile()} {
     width: 100%;
+  }
+  label {
+    font-weight: ${font.weight.semiBold};
   }
 `;
 
@@ -27,10 +31,13 @@ const D3Wrapper = styled('div')`
   & > .calendar {
     width: 70%;
     height: 200px;
+    border: ${border};
+    border-radius: ${spacing.regular}px;
+    padding: ${spacing.regular}px;
   }
 
   & > .calendar tbody td {
-    border: 1px solid black;
+    border: ${border};
     text-align: center;
     vertical-align: middle;
     padding: ${spacing.regular}px;
@@ -84,6 +91,7 @@ const buildCalendar = (tableRef, monthConfig, deliveryType) => {
     .append('td')
     .attr('colspan', 17)
     .style('text-align', 'center')
+    .style('font-weight', font.weight.semiBold)
     .text(monthConfig.month);
 
   weeks.forEach(function(week) {
