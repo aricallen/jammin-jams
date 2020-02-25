@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { pallet, animation, spacing, font } from '../../../constants/style-guide';
+import { pallet, animation, spacing, font, sizes } from '../../../constants/style-guide';
 import DashboardIcon from '../../../assets/icons/dashboard.svg';
 import PostsIcon from '../../../assets/icons/web.svg';
 import BuildIcon from '../../../assets/icons/build.svg';
@@ -16,7 +16,7 @@ const Wrapper = styled('div')`
 `;
 
 const ItemBlock = styled('div')`
-  height: ${spacing.quadruple * 2}px;
+  min-height: ${sizes.rowHeight}px;
   width: 100%;
   text-align: center;
   padding: ${spacing.regular}px;
