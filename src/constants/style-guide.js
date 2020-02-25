@@ -44,8 +44,8 @@ export const sizes = {
 };
 
 const baseFontSizes = {
-  small: 18,
-  regular: 20,
+  small: 16,
+  regular: 18,
   large: 24,
   largest: 30,
   header1: 24,

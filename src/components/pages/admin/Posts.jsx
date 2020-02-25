@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import { isResolved, isInitial } from '../../../redux/utils/meta-status';
 import { Spinner } from '../../common/Spinner';
-import { fetchPosts } from '../../../redux/posts/actions';
+import { fetchMany } from '../../../redux/posts/actions';
 import { Section, Header1 } from '../../common/Structure';
 import { Header } from './Header';
 import { Button } from '../../common/Button';
@@ -28,7 +28,7 @@ export const Posts = ({ history }) => {
   const postsState = useSelector((state) => state.posts);
 
   const fetch = () => {
-    dispatch(fetchPosts());
+    dispatch(fetchMany());
   };
   useEffect(fetch, []);
 

@@ -4,9 +4,10 @@ const {
   getRecord,
   getRecords,
   upsertRecord,
+  updateRecord,
   insertRecord,
 } = require('../utils/db-helpers');
-const { parseError, checkReadonly, createUpdateController } = require('../utils/api-helpers');
+const { parseError, checkReadonly } = require('../utils/api-helpers');
 
 const router = express.Router();
 
@@ -50,8 +51,18 @@ router.get('/:tableName', async (req, res) => {
  * UPDATE
  */
 
-router.put('/:tableName/:resourceId', checkReadonly, (req) => {
-  return createUpdateController(req.params.tableName);
+router.put('/:tableName/:resourceId', checkReadonly, async (req, res) => {
+  const { tableName, resourceId } = req.params;
+  const conn = await getConnection();
+  try {
+    const updated = await updateRecord(conn, tableName, resourceId, req.body);
+    res.send({
+      data: updated[0],
+    });
+  } catch (err) {
+    res.status(400).send(parseError(err, req));
+  }
+  conn.end();
 });
 
 /**

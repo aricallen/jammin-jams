@@ -4,7 +4,7 @@ import { PostEditor } from './PostEditor';
 import { Button } from '../../common/Button';
 import { Header, HeaderActions } from './Header';
 import { isBusy, isResolved } from '../../../redux/utils/meta-status';
-import { savePost, fetchPost } from '../../../redux/posts/actions';
+import { createOne, updateOne, fetchOne } from '../../../redux/posts/actions';
 import { Header1 } from '../../common/Structure';
 import { Spinner } from '../../common/Spinner';
 
@@ -19,7 +19,7 @@ export const Post = ({ history, match }) => {
 
   const fetch = () => {
     if (isExisting) {
-      dispatch(fetchPost(postId));
+      dispatch(fetchOne(postId));
     }
   };
   useEffect(fetch, []);
@@ -38,7 +38,11 @@ export const Post = ({ history, match }) => {
   };
 
   const onSavePost = async () => {
-    await dispatch(savePost(post));
+    if (isExisting) {
+      await dispatch(updateOne(post));
+    } else {
+      await dispatch(createOne(post));
+    }
     history.push('/admin/posts');
   };
 

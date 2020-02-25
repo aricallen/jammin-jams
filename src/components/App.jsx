@@ -36,8 +36,12 @@ import { MediaPage } from './pages/admin/MediaPage';
 import { Footer } from './common/Footer';
 import { NavBar } from './common/NavBar';
 import { globalStyles } from '../constants/global-styles';
+import { sizes } from '../constants/style-guide';
 
 const Wrapper = styled('div')`
+  display: grid;
+  grid-template-rows: ${sizes.rowHeight}px auto min-content;
+  min-height: 100vh;
   height: 100%;
 `;
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import { withRouter } from 'react-router-dom';
 import { sizes, pallet, spacing } from '../../constants/style-guide';
 import { Emoji } from './Structure';
 import { FollowUs } from './FollowUs';
@@ -36,7 +37,10 @@ const TagLine = styled('div')`
   justify-content: center;
 `;
 
-export const Footer = () => {
+export const Footer = withRouter((routeProps) => {
+  if (routeProps.location.pathname.includes('admin')) {
+    return null;
+  }
   return (
     <Wrapper>
       <Left />
@@ -53,4 +57,4 @@ export const Footer = () => {
       </Right>
     </Wrapper>
   );
-};
+});
