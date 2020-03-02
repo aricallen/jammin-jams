@@ -14,7 +14,7 @@ const Wrapper = styled('div')`
 
 const Text = styled('span')``;
 
-const MainContent = () => (
+export const MainContent = () => (
   <Fragment>
     <Section style={{ marginTop: 0 }}>
       <Text>

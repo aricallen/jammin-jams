@@ -6,13 +6,13 @@ export const Type = {
   CREATE_MANY_SUCCEEDED: 'media/CREATE_MANY_SUCCEEDED',
   CREATE_MANY_FAILED: 'media/CREATE_MANY_FAILED',
 
-  FETCH_MANY_MEDIA_REQUESTED: 'media/FETCH_MANY_MEDIA_REQUESTED',
-  FETCH_MANY_MEDIA_SUCCEEDED: 'media/FETCH_MANY_MEDIA_SUCCEEDED',
-  FETCH_MANY_MEDIA_FAILED: 'media/FETCH_MANY_MEDIA_FAILED',
+  FETCH_MANY_REQUESTED: 'media/FETCH_MANY_REQUESTED',
+  FETCH_MANY_SUCCEEDED: 'media/FETCH_MANY_SUCCEEDED',
+  FETCH_MANY_FAILED: 'media/FETCH_MANY_FAILED',
 
-  FETCH_ONE_MEDIA_REQUESTED: 'media/FETCH_ONE_MEDIA_REQUESTED',
-  FETCH_ONE_MEDIA_SUCCEEDED: 'media/FETCH_ONE_MEDIA_SUCCEEDED',
-  FETCH_ONE_MEDIA_FAILED: 'media/FETCH_ONE_MEDIA_FAILED',
+  FETCH_ONE_REQUESTED: 'media/FETCH_ONE_REQUESTED',
+  FETCH_ONE_SUCCEEDED: 'media/FETCH_ONE_SUCCEEDED',
+  FETCH_ONE_FAILED: 'media/FETCH_ONE_FAILED',
 
   UPDATE_ONE_REQUESTED: 'media/UPDATE_ONE_REQUESTED',
   UPDATE_ONE_SUCCEEDED: 'media/UPDATE_ONE_SUCCEEDED',
@@ -23,11 +23,11 @@ export const Type = {
   DELETE_ONE_FAILED: 'media/DELETE_ONE_FAILED',
 };
 
-export const uploadMedia = (fileData) => {
+export const createMany = (formData) => {
   return async (dispatch) => {
     dispatch({ type: Type.CREATE_MANY_REQUESTED });
     try {
-      const response = await axios.post('/api/admin/media', fileData);
+      const response = await axios.post('/api/admin/media', { files: formData });
       dispatch({ type: Type.CREATE_MANY_SUCCEEDED, media: response.data.data });
       return response.data.data;
     } catch (err) {
@@ -37,21 +37,21 @@ export const uploadMedia = (fileData) => {
   };
 };
 
-export const fetchAllMedia = () => {
+export const fetchMany = () => {
   return async (dispatch) => {
-    dispatch({ type: Type.FETCH_MANY_MEDIA_REQUESTED });
+    dispatch({ type: Type.FETCH_MANY_REQUESTED });
     try {
       const response = await axios.get(`/api/admin/media`);
-      dispatch({ type: Type.FETCH_MANY_MEDIA_SUCCEEDED, media: response.data.data });
+      dispatch({ type: Type.FETCH_MANY_SUCCEEDED, media: response.data.data });
       return response.data.data;
     } catch (err) {
-      dispatch({ type: Type.FETCH_MANY_MEDIA_FAILED, error: parseAxiosError(err) });
+      dispatch({ type: Type.FETCH_MANY_FAILED, error: parseAxiosError(err) });
       throw err;
     }
   };
 };
 
-export const fetchMedia = (id) => {
+export const fetchOne = (id) => {
   return async (dispatch) => {
     dispatch({ type: Type.FETCH_ONE_MEDIA_REQUESTED });
     try {
@@ -65,7 +65,7 @@ export const fetchMedia = (id) => {
   };
 };
 
-export const updateMedia = (id, values) => {
+export const updateOne = (id, values) => {
   return async (dispatch) => {
     dispatch({ type: Type.UPDATE_ONE_REQUESTED });
     try {
@@ -79,7 +79,7 @@ export const updateMedia = (id, values) => {
   };
 };
 
-export const deleteMedia = (id) => {
+export const deleteOne = (id) => {
   return async (dispatch) => {
     dispatch({ type: Type.DELETE_ONE_REQUESTED });
     try {

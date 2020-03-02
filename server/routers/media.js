@@ -12,7 +12,7 @@ const {
 const router = express.Router();
 const uploader = fileUpload({ debug: true, useTempFiles: true, createParentPath: true });
 
-const MEDIA_DIR = path.resolve(__dirname, '..', 'media');
+const MEDIA_DIR = path.resolve(__dirname, '..', '..', 'media');
 
 /**
  * check if media dir exists
