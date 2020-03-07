@@ -32,15 +32,23 @@ const replacePost = (posts, newPost) => {
   return posts.map((post) => (post.id === newPost.id ? newPost : post));
 };
 
+const sortRecentFirst = (posts) => {
+  return [...posts].sort((a, b) => {
+    const aTime = new Date(a.dateCreated).getTime();
+    const bTime = new Date(b.dateCreated).getTime();
+    return aTime > bTime ? -1 : 1;
+  });
+};
+
 const data = (state = initialData, action) => {
   switch (action.type) {
     case Type.FETCH_MANY_SUCCEEDED:
-      return action.posts;
+      return sortRecentFirst(action.posts);
     case Type.FETCH_ONE_SUCCEEDED:
     case Type.UPDATE_ONE_SUCCEEDED:
       return replacePost(state, action.post);
     case Type.CREATE_ONE_SUCCEEDED:
-      return [...state, action.post];
+      return sortRecentFirst([...state, action.post]);
     default:
       return state;
   }

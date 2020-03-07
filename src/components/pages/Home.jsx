@@ -1,7 +1,17 @@
-import React, { useState, useRef, useLayoutEffect } from 'react';
+import React, { useState, useRef, useLayoutEffect, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import { LogoFilled } from '../common/LogoFilled';
+import { Section } from '../common/Structure';
+import { Spinner } from '../common/Spinner';
 import { Introduction } from './about/Introduction';
+import { CameraRoll } from '../common/CameraRoll';
+import { Article } from '../common/Article';
+import { Blurb } from './blog/Blurb';
+import { ExpandableSection } from '../common/ExpandableSection';
+import { HowItWorksList } from './about/HowItWorks';
+import { fetchMany as fetchPosts } from '../../redux/posts/actions';
+import { isResolved } from '../../redux/utils/meta-status';
 
 const Wrapper = styled('div')`
   height: 100%;
@@ -27,6 +37,36 @@ const LogoWrapper = styled('div')`
   animation: bumping 0.5s 4;
 `;
 
+const MainContentWrapper = styled('div')`
+  animation: fade-in 0.5s 1;
+`;
+
+const MainContent = () => {
+  const dispatch = useDispatch();
+  const postsState = useSelector((state) => state.posts);
+
+  const _fetchPosts = () => {
+    if (!postsState.data[0]) {
+      dispatch(fetchPosts());
+    }
+  };
+  useEffect(_fetchPosts, []);
+
+  return (
+    <MainContentWrapper>
+      <Section>
+        <Introduction />
+      </Section>
+      <Section>
+        <ExpandableSection headerText="How It Works" Content={HowItWorksList} />
+      </Section>
+      <Section>
+        {!isResolved(postsState.meta) ? <Spinner /> : <Blurb post={postsState.data[0]} />}
+      </Section>
+    </MainContentWrapper>
+  );
+};
+
 export const Home = () => {
   const [isBumping, setIsBumping] = useState(true);
   const [isAnimating, setIsAnimating] = useState(true);
@@ -43,15 +83,22 @@ export const Home = () => {
 
   useLayoutEffect(initAnimationListeners, []);
 
-  return isAnimating ? (
+  if (isAnimating) {
+    return (
+      <Wrapper>
+        <Hero ref={heroRef} className={isBumping ? 'is-bumping' : 'done-bumping'}>
+          <LogoWrapper>
+            <LogoFilled className="grooving" />
+          </LogoWrapper>
+        </Hero>
+      </Wrapper>
+    );
+  }
+
+  return (
     <Wrapper>
-      <Hero ref={heroRef} className={isBumping ? 'is-bumping' : 'done-bumping'}>
-        <LogoWrapper>
-          <LogoFilled className="grooving" />
-        </LogoWrapper>
-      </Hero>
+      <CameraRoll />
+      <Article Middle={MainContent} />
     </Wrapper>
-  ) : (
-    <Introduction />
   );
 };
