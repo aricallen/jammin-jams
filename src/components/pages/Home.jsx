@@ -1,5 +1,6 @@
-import React, { useState, useRef, useLayoutEffect, useEffect } from 'react';
+import React, { useState, useRef, useLayoutEffect, useEffect, Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { LogoFilled } from '../common/LogoFilled';
 import { Section } from '../common/Structure';
@@ -41,6 +42,18 @@ const MainContentWrapper = styled('div')`
   animation: fade-in 0.5s 1;
 `;
 
+const BlurbIntroText = styled('div')``;
+
+const BlurbIntro = () => {
+  return (
+    <BlurbIntroText>
+      Every <Link to="/store">Jam of the Month</Link> will be accompanied with a writeup exploring
+      our process and featuring the DJ set that was performed and recorded live while making the
+      jam. Here is the latest from Jam Journeys.
+    </BlurbIntroText>
+  );
+};
+
 const JamJourneysSection = ({ post, isBusy }) => {
   if (isBusy) {
     return <Spinner />;
@@ -49,7 +62,12 @@ const JamJourneysSection = ({ post, isBusy }) => {
     <ExpandableSection
       headerText="Jam Journeys"
       defaultIsExpanded={true}
-      Content={() => <Blurb post={post} />}
+      Content={() => (
+        <Fragment>
+          <BlurbIntro />
+          <Blurb post={post} />
+        </Fragment>
+      )}
     />
   );
 };
