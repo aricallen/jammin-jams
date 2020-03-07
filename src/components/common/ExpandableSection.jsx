@@ -16,14 +16,14 @@ const HeaderRow = styled(Row)`
 `;
 
 const BodySection = styled('div')`
-  overflow: hidden;
+  overflow: ${(p) => (p.isExpanded ? 'auto' : 'hidden')};
   transition: height ${animation};
-  height: 0px;
+  height: ${(p) => (p.isExpanded ? p.height : '0px')};
 `;
 
 export const ExpandableSection = (props) => {
-  const [isExpanded, setIsExpanded] = useState(false);
-  const { headerText, Content } = props;
+  const { headerText, Content, defaultIsExpanded = false } = props;
+  const [isExpanded, setIsExpanded] = useState(defaultIsExpanded);
   const bodyRef = useRef();
 
   const onToggleExpand = () => {
@@ -39,7 +39,7 @@ export const ExpandableSection = (props) => {
   return (
     <Wrapper>
       <HeaderRow onClick={onToggleExpand}>{headerText}</HeaderRow>
-      <BodySection ref={bodyRef} isExpanded={isExpanded}>
+      <BodySection ref={bodyRef} isExpanded={isExpanded} height={bodyRef.current?.scrollHeight}>
         <Content />
       </BodySection>
     </Wrapper>

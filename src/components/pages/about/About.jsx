@@ -1,7 +1,7 @@
 import React from 'react';
 import { Article } from '../../common/Article';
-import { MainContent } from './Introduction';
+import { Introduction } from './Introduction';
 
 export const About = () => {
-  return <Article Middle={MainContent} />;
+  return <Article Middle={Introduction} />;
 };

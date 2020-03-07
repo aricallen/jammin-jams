@@ -41,12 +41,26 @@ const MainContentWrapper = styled('div')`
   animation: fade-in 0.5s 1;
 `;
 
+const JamJourneysSection = ({ post, isBusy }) => {
+  if (isBusy) {
+    return <Spinner />;
+  }
+  return (
+    <ExpandableSection
+      headerText="Jam Journeys"
+      defaultIsExpanded={true}
+      Content={() => <Blurb post={post} />}
+    />
+  );
+};
+
 const MainContent = () => {
   const dispatch = useDispatch();
   const postsState = useSelector((state) => state.posts);
 
+  const latestPost = postsState.data[0];
   const _fetchPosts = () => {
-    if (!postsState.data[0]) {
+    if (!latestPost) {
       dispatch(fetchPosts());
     }
   };
@@ -61,7 +75,7 @@ const MainContent = () => {
         <ExpandableSection headerText="How It Works" Content={HowItWorksList} />
       </Section>
       <Section>
-        {!isResolved(postsState.meta) ? <Spinner /> : <Blurb post={postsState.data[0]} />}
+        <JamJourneysSection post={latestPost} isBusy={!isResolved(postsState.meta)} />
       </Section>
     </MainContentWrapper>
   );
