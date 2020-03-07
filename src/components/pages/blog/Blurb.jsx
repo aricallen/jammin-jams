@@ -3,9 +3,9 @@ import ReactMarkdown from 'react-markdown';
 import Color from 'color';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { Emoji } from '../../common/Structure';
 import { spacing, pallet } from '../../../constants/style-guide';
 import { Row } from '../../common/Tables';
+import { UnstyledLink } from '../../common/UnstyledLink';
 
 const Wrapper = styled(Row)`
   &:hover {
@@ -45,18 +45,14 @@ const parseFirstParagraph = (content) => {
  * currently will be `/posts/${post.id}` but may change later to a date or live date etc.
  */
 const getPostLink = (post) => {
-  return `/posts/${post.id}`;
+  return `/posts/${post?.id}`;
 };
 
 export const Blurb = ({ post }) => {
   const firstParagraph = parseFirstParagraph(post.content);
 
-  const onClick = () => {
-    console.log('go to ', getPostLink(post));
-  };
-
   return (
-    <Wrapper onClick={onClick}>
+    <Wrapper as={UnstyledLink} to={getPostLink(post)}>
       <ThumbnailWrapper>
         <Thumbnail src="https://generative-placeholders.glitch.me/image?width=200&height=160" />
       </ThumbnailWrapper>

@@ -8,9 +8,12 @@ import { Spinner } from '../../common/Spinner';
 import { Blurb } from './Blurb';
 import { Emoji } from '../../common/Structure';
 import { Article } from '../../common/Article';
+import { spacing } from '../../../constants/style-guide';
 
 const Wrapper = styled('div')``;
-const IntroText = styled('div')``;
+const IntroText = styled('div')`
+  margin-bottom: ${spacing.double}px;
+`;
 
 const BlurbList = ({ posts, isBusy }) => {
   if (isBusy) {
