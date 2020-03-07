@@ -33,6 +33,10 @@ import { LogoBuilder } from './pages/admin/LogoBuilder';
 import { QrCodes } from './pages/admin/QrCodes';
 import { MediaPage } from './pages/admin/MediaPage';
 
+// blog
+import { Blog } from './pages/blog/Blog';
+import { Post as BlogPost } from './pages/blog/Post';
+
 import { Footer } from './common/Footer';
 import { NavBar } from './common/NavBar';
 import { globalStyles } from '../constants/global-styles';
@@ -61,6 +65,9 @@ export const App = () => {
           <Route exact path="/about/delivery-calendar" component={DeliveryCalendar} />
           <Route exact path="/about/faqs" component={FreqAsked} />
           <Route exact path="/about" component={About} />
+
+          <Route exact path="/posts/:postId" component={BlogPost} />
+          <Route exact path="/posts" component={Blog} />
 
           <Route exact path="/account/log-in" component={LogIn} />
           <Route exact path="/account/log-out" component={LogOut} />

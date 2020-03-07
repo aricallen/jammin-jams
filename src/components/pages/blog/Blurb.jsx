@@ -1,7 +1,9 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import Color from 'color';
+import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
+import { Emoji } from '../../common/Structure';
 import { spacing, pallet } from '../../../constants/style-guide';
 import { Row } from '../../common/Tables';
 
@@ -28,6 +30,10 @@ const Text = styled('div')`
   -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
+`;
+
+const MoreLinkWrapper = styled('div')`
+  text-align: right;
 `;
 
 const parseFirstParagraph = (content) => {
@@ -58,6 +64,9 @@ export const Blurb = ({ post }) => {
         <Text>
           <ReactMarkdown source={firstParagraph} escapeHtml={false} />
         </Text>
+        <MoreLinkWrapper>
+          <Link to={getPostLink(post)}>Read more</Link>
+        </MoreLinkWrapper>
       </TextWrapper>
     </Wrapper>
   );

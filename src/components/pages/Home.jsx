@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { LogoFilled } from '../common/LogoFilled';
-import { Section } from '../common/Structure';
+import { Section, Emoji } from '../common/Structure';
 import { Spinner } from '../common/Spinner';
 import { Introduction } from './about/Introduction';
 import { CameraRoll } from '../common/CameraRoll';
@@ -47,9 +47,9 @@ const BlurbIntroText = styled('div')``;
 const BlurbIntro = () => {
   return (
     <BlurbIntroText>
-      Every <Link to="/store">Jam of the Month</Link> will be accompanied with a writeup exploring
-      our process and featuring the DJ set that was performed and recorded live while making the
-      jam. Here is the latest from Jam Journeys.
+      Here is the latest from <Link to="/posts">Jam Journeys</Link> featuring the latest{' '}
+      <Link to="/store">Jam of the Month</Link> DJ set. <br />
+      Enjoy <Emoji label="headphones">🎧</Emoji>.
     </BlurbIntroText>
   );
 };
