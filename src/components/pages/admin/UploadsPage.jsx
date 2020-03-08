@@ -1,7 +1,7 @@
 import React, { useEffect, Fragment, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
-import { isResolved } from '../../../redux/utils/meta-status';
+import { isResolved, isBusy } from '../../../redux/utils/meta-status';
 import { Spinner } from '../../common/Spinner';
 import { fetchMany, createMany } from '../../../redux/uploads/actions';
 import { Section, Header1 } from '../../common/Structure';
@@ -9,15 +9,26 @@ import { Header } from './Header';
 import { Button } from '../../common/Button';
 import { UserMessage } from '../../common/UserMessage';
 import { UploadItem } from './UploadItem';
+import { spacing } from '../../../constants/style-guide';
 
 const FileInput = styled('input')``;
 
-const UploadsList = ({ uploads, inputRef }) => {
+const Controls = styled('div')`
+  display: flex;
+  align-items: center;
+  & > div {
+    margin-left: ${spacing.double}px;
+  }
+`;
+
+const UploadsList = ({ uploads, isUploading, inputRef }) => {
   if (uploads.length === 0) {
-    return (
+    return isUploading ? (
+      <Spinner />
+    ) : (
       <UserMessage
         Message={() => 'Nothing uploaded yet...'}
-        action={{ text: 'Upload stuff', onClick: () => inputRef.current?.click() }}
+        action={{ text: 'Select files', onClick: () => inputRef.current?.click() }}
       />
     );
   }
@@ -28,7 +39,7 @@ const UploadsList = ({ uploads, inputRef }) => {
 export const UploadsPage = () => {
   const dispatch = useDispatch();
   const uploadsState = useSelector((state) => state.uploads);
-  const [selectedFiles, setSelectedFiles] = useState(null);
+  const [selectedFiles, setSelectedFiles] = useState([]);
   const inputRef = useRef();
 
   const fetch = () => {
@@ -49,7 +60,7 @@ export const UploadsPage = () => {
     setSelectedFiles(files);
   };
 
-  const hasFiles = !!selectedFiles;
+  const hasFiles = selectedFiles.length > 0;
 
   if (!isResolved(uploadsState.meta.many)) {
     return <Spinner variant="large" />;
@@ -60,21 +71,27 @@ export const UploadsPage = () => {
     onClick: () => history.push(`/admin/uploads/${uploads.id}`),
   }));
 
+  const isUploading = isBusy(uploadsState.meta.many);
+
   return (
     <Fragment>
       <Header>
         <Header1>Uploads</Header1>
-        <FileInput
-          type="file"
-          name="uploads"
-          onChange={onFilesSelected}
-          multiple={true}
-          ref={inputRef}
-        />
-        {hasFiles && <Button onClick={onClickUpload}>Upload</Button>}
+        <Controls>
+          <FileInput
+            type="file"
+            name="uploads"
+            onChange={onFilesSelected}
+            multiple={true}
+            ref={inputRef}
+          />
+          <Button onClick={onClickUpload} disabled={!hasFiles} isBusy={isUploading}>
+            Upload
+          </Button>
+        </Controls>
       </Header>
       <Section>
-        <UploadsList uploads={uploadRecords} inputRef={inputRef} />
+        <UploadsList uploads={uploadRecords} inputRef={inputRef} isUploading={isUploading} />
       </Section>
     </Fragment>
   );
