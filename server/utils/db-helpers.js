@@ -82,7 +82,7 @@ const insertRecord = async (conn, tableName, values) => {
   try {
     const result = await conn.query(`INSERT INTO ${tableName} SET ?`, values);
     const inserted = await conn.query(`SELECT * FROM ${tableName} WHERE id = ${result.insertId}`);
-    return inserted;
+    return inserted[0];
   } catch (err) {
     console.log(err);
     throw err;

@@ -3,13 +3,10 @@ const path = require('path');
 const fs = require('fs');
 const Jimp = require('jimp');
 const multer = require('multer');
-const {
-  createGetController,
-  createGetOneController,
-  createUpdateController,
-} = require('../utils/api-helpers');
+const { promisify } = require('util');
+const { createGetController, createGetOneController } = require('../utils/api-helpers');
 const { sizes } = require('../constants');
-const { getConnection, insertRecord } = require('../utils/db-helpers');
+const { getConnection, insertRecord, updateRecord, getRecord } = require('../utils/db-helpers');
 
 const router = express.Router();
 
@@ -20,6 +17,8 @@ const SMALL_DIR = path.join(UPLOADS_DIR, 'small');
 const MEDIUM_DIR = path.join(UPLOADS_DIR, 'medium');
 const LARGE_DIR = path.join(UPLOADS_DIR, 'large');
 const RAW_DIR = path.join(UPLOADS_DIR, 'raw');
+
+const pUnlink = promisify(fs.unlink);
 
 const safeMakeDir = (dirPath) => {
   try {
@@ -64,10 +63,9 @@ const makeDirStructure = () => {
 makeDirStructure();
 
 const processFile = async (options) => {
-  const { src, dest, width, height = Jimp.AUTO, quality = 0.75 } = options;
+  const { src, dest, width, height = Jimp.AUTO } = options;
   const image = await Jimp.read(src);
   await image.resize(width, height);
-  await image.quality(quality);
   await image.writeAsync(dest);
 };
 
@@ -81,20 +79,22 @@ const processFileUpload = async (file) => {
   const promises = configs.map((config) => {
     return processFile({
       ...baseOptions,
-      dest: `${config.dir}/${file.filename}`,
+      dest: path.join(config.dir, file.originalname),
       width: config.width,
     });
   });
   await Promise.all(promises);
+
   // remove file from tmp
-  fs.unlinkSync(file.filename);
+  fs.unlinkSync(file.path);
+
   // update db
   const conn = await getConnection();
   const record = await insertRecord(conn, 'uploads', {
-    fileName: file.filename,
-    title: file.filename,
-    altText: file.filename,
-    caption: file.filename,
+    fileName: file.originalname,
+    title: file.originalname,
+    altText: file.originalname,
+    caption: file.originalname,
   });
   return record;
 };
@@ -121,7 +121,24 @@ router.post('/', uploader.array('uploads', { dest: TEMP_DIR }), async (req, res)
 
 router.get('/:id', createGetOneController('uploads'));
 router.get('/', createGetController('uploads'));
-router.put('/:id', createUpdateController('uploads'));
+
+/**
+ * update db record
+ * rename files in each dir
+ */
+router.put('/:id', async (req, res) => {
+  const { id } = req.params;
+  const values = req.body;
+  const conn = await getConnection();
+  const oldRecord = await getRecord(conn, 'uploads', id);
+  const updatedRecord = await updateRecord(conn, 'uploads', id, values);
+  // remove files
+  const promises = configs.map((config) => {
+    return pUnlink(path.join(config.dir, oldRecord.fileName));
+  });
+  await Promise.all(promises);
+  res.send({ data: updatedRecord });
+});
 
 /**
  * remove file from each dir
