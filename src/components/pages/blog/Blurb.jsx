@@ -13,7 +13,7 @@ const Wrapper = styled(Row)`
       .alpha(0.1)
       .toString()};
   }
-  align-items: flex-start;
+  align-items: initial;
 `;
 
 const ThumbnailWrapper = styled('div')`
@@ -23,6 +23,9 @@ const Thumbnail = styled('img')``;
 
 const TextWrapper = styled('div')`
   padding: 0 ${spacing.double}px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 const Text = styled('div')`

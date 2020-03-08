@@ -17,6 +17,11 @@ export const PostEditor = ({ post, onChange }) => {
       <Section>
         <Header2>Title</Header2>
         <Input onChange={(e) => onChange({ ...post, title: e.target.value })} value={post.title} />
+        <Header2>Soundcloud Link</Header2>
+        <Input
+          onChange={(e) => onChange({ ...post, setLink: e.target.value })}
+          value={post.setLink}
+        />
       </Section>
       <Section>
         <Header2>Content</Header2>

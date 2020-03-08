@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Fragment } from 'react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -6,7 +6,7 @@ import { fetchMany as fetchPosts } from '../../../redux/posts/actions';
 import { isResolved } from '../../../redux/utils/meta-status';
 import { Spinner } from '../../common/Spinner';
 import { Blurb } from './Blurb';
-import { Emoji } from '../../common/Structure';
+import { Header1, Emoji } from '../../common/Structure';
 import { Article } from '../../common/Article';
 import { spacing } from '../../../constants/style-guide';
 
@@ -24,11 +24,14 @@ const BlurbList = ({ posts, isBusy }) => {
 
 const Intro = () => {
   return (
-    <IntroText>
-      Here is the latest from <Link to="/posts">Jam Journeys</Link> featuring the latest{' '}
-      <Link to="/store">Jam of the Month</Link> DJ set. <br />
-      Enjoy <Emoji label="headphones">🎧</Emoji>.
-    </IntroText>
+    <Fragment>
+      <Header1>Jam Journeys</Header1>
+      <IntroText>
+        Here is the latest from <Link to="/posts">Jam Journeys</Link> featuring the latest{' '}
+        <Link to="/store">Jam of the Month</Link> DJ set. <br />
+        Enjoy <Emoji label="headphones">🎧</Emoji>.
+      </IntroText>
+    </Fragment>
   );
 };
 
