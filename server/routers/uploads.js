@@ -8,7 +8,7 @@ const {
   createGetOneController,
   createUpdateController,
 } = require('../utils/api-helpers');
-const { sizes } = require('../../src/constants/style-guide');
+const { sizes } = require('../constants');
 const { getConnection, insertRecord } = require('../utils/db-helpers');
 
 const router = express.Router();
@@ -29,32 +29,6 @@ const safeMakeDir = (dirPath) => {
   }
 };
 
-/**
- * folder structure
- * server/uploads
- * |- small
- * |- medium
- * |- large
- * |- raw
- */
-const makeDirStructure = () => {
-  safeMakeDir(UPLOADS_DIR);
-  safeMakeDir(TEMP_DIR);
-  safeMakeDir(SMALL_DIR);
-  safeMakeDir(MEDIUM_DIR);
-  safeMakeDir(LARGE_DIR);
-  safeMakeDir(RAW_DIR);
-};
-makeDirStructure();
-
-const processFile = async (options) => {
-  const { src, dest, width, height = Jimp.AUTO, quality = 0.75 } = options;
-  const image = await Jimp.read(src);
-  await image.resize(width, height);
-  await image.quality(quality);
-  await image.writeAsync(dest);
-};
-
 const configs = [
   {
     dir: SMALL_DIR,
@@ -73,6 +47,29 @@ const configs = [
     width: sizes.desktopWidth,
   },
 ];
+
+/**
+ * folder structure
+ * server/uploads
+ * |- small
+ * |- medium
+ * |- large
+ * |- raw
+ */
+const makeDirStructure = () => {
+  safeMakeDir(UPLOADS_DIR);
+  safeMakeDir(TEMP_DIR);
+  configs.forEach((config) => safeMakeDir(config.dir));
+};
+makeDirStructure();
+
+const processFile = async (options) => {
+  const { src, dest, width, height = Jimp.AUTO, quality = 0.75 } = options;
+  const image = await Jimp.read(src);
+  await image.resize(width, height);
+  await image.quality(quality);
+  await image.writeAsync(dest);
+};
 
 /**
  * - create small, medium, large versions
@@ -126,8 +123,10 @@ router.get('/:id', createGetOneController('uploads'));
 router.get('/', createGetController('uploads'));
 router.put('/:id', createUpdateController('uploads'));
 
-router.delete('/', (req, res) => {
-  // ... remove file
-});
+/**
+ * remove file from each dir
+ * remove record from db
+ */
+router.delete('/:id', (req, res) => {});
 
 module.exports = { router };
