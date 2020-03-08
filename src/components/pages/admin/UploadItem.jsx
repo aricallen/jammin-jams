@@ -1,19 +1,34 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import { fontSizes } from '../../../utils/style-helpers';
+import { pallet, spacing } from '../../../constants/style-guide';
 
-const ItemWrapper = styled('div')``;
-const Title = styled('div')``;
+const Wrapper = styled('div')`
+  cursor: pointer;
+  padding: ${spacing.regular}px;
+  &:hover {
+    background-color: ${pallet.light.strawberry};
+  }
+`;
+
+const Title = styled('div')`
+  ${fontSizes('small')};
+`;
+
+const ThumbnailWrapper = styled('div')`
+  text-align: center;
+`;
 const Thumbnail = styled('img')``;
-const Caption = styled('div')``;
 
 export const UploadItem = ({ item }) => {
-  const thumbnailSrc = `/uploads/small/${item.filename}`;
+  const thumbnailSrc = `/assets/uploads/small/${item.filename}`;
 
   return (
-    <ItemWrapper onClick={item.onClick}>
+    <Wrapper onClick={item.onClick}>
+      <ThumbnailWrapper>
+        <Thumbnail src={thumbnailSrc} />
+      </ThumbnailWrapper>
       <Title>{item.title}</Title>
-      <Thumbnail src={thumbnailSrc} />
-      <Caption>{item.caption}</Caption>
-    </ItemWrapper>
+    </Wrapper>
   );
 };
