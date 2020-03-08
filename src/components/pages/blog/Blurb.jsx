@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import Color from 'color';
-import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { spacing, pallet } from '../../../constants/style-guide';
 import { Row } from '../../common/Tables';
-import { UnstyledLink } from '../../common/UnstyledLink';
+import { UnstyledLink, LinkLikeSpan } from '../../common/Links';
+import { getPostLink } from './helpers';
 
 const Wrapper = styled(Row)`
   &:hover {
@@ -41,13 +41,6 @@ const parseFirstParagraph = (content) => {
   return paragraphs[0];
 };
 
-/**
- * currently will be `/posts/${post.id}` but may change later to a date or live date etc.
- */
-const getPostLink = (post) => {
-  return `/posts/${post?.id}`;
-};
-
 export const Blurb = ({ post }) => {
   const firstParagraph = parseFirstParagraph(post.content);
 
@@ -61,7 +54,7 @@ export const Blurb = ({ post }) => {
           <ReactMarkdown source={firstParagraph} escapeHtml={false} />
         </Text>
         <MoreLinkWrapper>
-          <Link to={getPostLink(post)}>Read more</Link>
+          <LinkLikeSpan>Read more</LinkLikeSpan>
         </MoreLinkWrapper>
       </TextWrapper>
     </Wrapper>

@@ -19,7 +19,7 @@ const BlurbList = ({ posts, isBusy }) => {
   if (isBusy) {
     return <Spinner variant="large" />;
   }
-  return posts.map((post) => <Blurb post={post} />);
+  return posts.map((post) => <Blurb key={post.id} post={post} />);
 };
 
 const Intro = () => {
@@ -46,7 +46,7 @@ export const Blog = () => {
       Middle={() => (
         <Wrapper>
           <Intro />
-          <BlurbList posts={postsState.data} isBusy={!isResolved(postsState.meta)} />
+          <BlurbList posts={postsState.data} isBusy={!isResolved(postsState.meta.many)} />
         </Wrapper>
       )}
     />

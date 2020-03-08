@@ -1,13 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useLayoutEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import ReactMarkdown from 'react-markdown';
 import { Article } from '../../common/Article';
 import { Section, Header1 } from '../../common/Structure';
 import { fetchOne as fetchPost } from '../../../redux/posts/actions';
-import { isResolved } from '../../../redux/utils/meta-status';
+import { isResolved, isBusy } from '../../../redux/utils/meta-status';
 import { Spinner } from '../../common/Spinner';
 import { spacing } from '../../../constants/style-guide';
+import { PostsNav } from './PostsNav';
 
 const Wrapper = styled('div')``;
 
@@ -25,8 +26,8 @@ const ContentSection = styled(Section)`
   }
 `;
 
-const PostContent = ({ post, isBusy }) => {
-  if (isBusy) {
+const PostContent = ({ post, isBusy: _isBusy }) => {
+  if (_isBusy) {
     return <Spinner variant="large" />;
   }
 
@@ -41,6 +42,9 @@ const PostContent = ({ post, isBusy }) => {
       <ContentSection>
         <ReactMarkdown source={post?.content} escapeHtml={false} />
       </ContentSection>
+      <Section>
+        <PostsNav currentPostId={post.id} />
+      </Section>
     </Wrapper>
   );
 };
@@ -51,14 +55,22 @@ export const Post = ({ match }) => {
   const { postId } = match.params;
 
   const post = postsState.data.find((p) => p.id === +postId);
+
   const _fetchPost = () => {
-    if (!post) {
+    if (!post && !isBusy(postsState.meta.one)) {
       dispatch(fetchPost(postId));
     }
   };
   useEffect(_fetchPost, []);
 
+  // scroll to top so clicking posts nav links doesn't stay at bottom
+  useLayoutEffect(() => {
+    if (window.scollY !== 0) {
+      window.scrollTo(0, 0);
+    }
+  }, [postId]);
+
   return (
-    <Article Middle={() => <PostContent post={post} isBusy={!isResolved(postsState.meta)} />} />
+    <Article Middle={() => <PostContent post={post} isBusy={!isResolved(postsState.meta.one)} />} />
   );
 };

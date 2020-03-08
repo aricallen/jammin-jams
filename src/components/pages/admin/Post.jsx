@@ -24,7 +24,7 @@ export const Post = ({ history, match }) => {
   };
   useEffect(fetch, []);
 
-  if (isResolved(postsState.meta)) {
+  if (isResolved(postsState.meta.one)) {
     const existingPost = postsState.data.find((p) => p.id === +postId);
     if (existingPost && post.id !== existingPost.id) {
       setPost(existingPost);
@@ -51,15 +51,15 @@ export const Post = ({ history, match }) => {
       <Header>
         <Header1>{isExisting ? 'Edit Post' : 'New Post'}</Header1>
         <HeaderActions>
-          <Button variant="secondary" onClick={cancelCreate} disabled={isBusy(postsState.meta)}>
+          <Button variant="secondary" onClick={cancelCreate} disabled={isBusy(postsState.meta.one)}>
             Cancel
           </Button>
-          <Button onClick={onSavePost} isBusy={isBusy(postsState.meta)}>
+          <Button onClick={onSavePost} isBusy={isBusy(postsState.meta.one)}>
             Save
           </Button>
         </HeaderActions>
       </Header>
-      {isBusy(postsState.meta) ? (
+      {isBusy(postsState.meta.one) ? (
         <Spinner variant="large" />
       ) : (
         <PostEditor post={post} onChange={onChange} />
