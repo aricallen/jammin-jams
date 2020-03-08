@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const { promisify } = require('util');
-const fileUpload = require('express-fileupload');
+const multer = require('multer');
 const {
   createGetController,
   createGetOneController,
@@ -10,21 +10,31 @@ const {
 } = require('../utils/api-helpers');
 
 const router = express.Router();
-const uploader = fileUpload({ debug: true, useTempFiles: true, createParentPath: true });
 
-const MEDIA_DIR = path.resolve(__dirname, '..', '..', 'media');
+const UPLOADS_DIR = path.resolve(__dirname, '..', 'uploads');
+const TEMP_DIR = path.resolve(__dirname, '..', '.tmp.uploads');
+const uploader = multer({ dest: UPLOADS_DIR });
 
 /**
- * check if media dir exists
+ * check if upload dir exists
  */
 try {
-  fs.statSync(MEDIA_DIR);
+  fs.statSync(UPLOADS_DIR);
 } catch (err) {
-  fs.mkdirSync(MEDIA_DIR);
+  fs.mkdirSync(UPLOADS_DIR);
 }
 
-router.post('/', uploader, async (req, res) => {
-  if (!req.files || Object.keys(req.files).length === 0) {
+/**
+ * check if tmp dir exists
+ */
+try {
+  fs.statSync(TEMP_DIR);
+} catch (err) {
+  fs.mkdirSync(TEMP_DIR);
+}
+
+router.post('/', uploader.array('uploads', { dest: TEMP_DIR }), async (req, res) => {
+  if (!req.files || req.files.length === 0) {
     return res.status(400).send('No files were uploaded.');
   }
 
@@ -33,7 +43,7 @@ router.post('/', uploader, async (req, res) => {
 
   const movedPromises = files.map((file) => {
     const pmv = promisify(file.mv);
-    return pmv(`${MEDIA_DIR}/${file.name}`);
+    return pmv(`${UPLOADS_DIR}/${file.name}`);
   });
   try {
     await Promise.all(movedPromises);

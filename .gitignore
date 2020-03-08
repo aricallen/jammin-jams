@@ -11,4 +11,5 @@ node_modules/
 .env*
 
 # user uploads
-src/media
+server/uploads
+server/.tmp.uploads

@@ -7,13 +7,13 @@ const { controller: loginController } = require('../controllers/login');
 const { controller: waitlistController } = require('../controllers/waitlist');
 const { controller: createUserController } = require('../controllers/create-user');
 const { getConnection } = require('../utils/db-helpers');
-const { router: mediaRouter } = require('./media');
+const { router: uploadsRouter } = require('./uploads');
 const schemas = require('../schemas');
 
 // /api
 const router = express.Router();
 
-router.use('/admin/media', mediaRouter);
+router.use('/admin/uploads', uploadsRouter);
 router.use('/admin', crudRouter);
 router.use('/stripe', stripeRouter);
 router.use('/session', sessionRouter);

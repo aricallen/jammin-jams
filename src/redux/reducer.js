@@ -3,7 +3,7 @@ import { session } from './session/reducer';
 import { schemas } from './schemas/reducer';
 import { products } from './products/reducer';
 import { posts } from './posts/reducer';
-import { media } from './media/reducer';
+import { uploads } from './uploads/reducer';
 import { plans } from './plans/reducer';
 import { cart } from './cart/reducer';
 import { checkoutSession } from './checkout-session/reducer';
@@ -18,7 +18,7 @@ export const rootReducer = combineReducers({
   products,
   plans,
   posts,
-  media,
+  uploads,
   cart,
   checkoutSession,
   skus,

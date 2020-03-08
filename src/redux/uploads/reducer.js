@@ -31,27 +31,27 @@ const meta = (state = initialMeta, action) => {
 
 const initialData = [];
 
-const replacePost = (allMedia, newMedia) => {
-  if (allMedia.length === 0) {
-    return [newMedia];
+const replacePost = (allUpload, newUpload) => {
+  if (allUpload.length === 0) {
+    return [newUpload];
   }
-  return allMedia.map((media) => (media.id === newMedia.id ? newMedia : media));
+  return allUpload.map((upload) => (upload.id === newUpload.id ? newUpload : upload));
 };
 
 const data = (state = initialData, action) => {
   switch (action.type) {
     case Type.FETCH_MANY_SUCCEEDED:
-      return action.media;
+      return action.upload;
     case Type.FETCH_ONE_SUCCEEDED:
     case Type.UPDATE_ONE_SUCCEEDED:
-      return replacePost(state, action.media);
+      return replacePost(state, action.upload);
     case Type.DELETE_ONE_SUCCEEDED:
       return state.filter((item) => item.id !== action.id);
     case Type.UPLOAD_MANY_SUCCEEDED:
-      return [state, ...action.media];
+      return [state, ...action.upload];
     default:
       return state;
   }
 };
 
-export const media = combineReducers({ meta, data });
+export const uploads = combineReducers({ meta, data });
