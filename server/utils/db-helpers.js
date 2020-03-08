@@ -101,6 +101,24 @@ const upsertRecord = async (conn, tableName, values, uniqueBy = 'id') => {
   return insertRecord(conn, tableName, values);
 };
 
+const deleteRecord = async (conn, tableName, resourceId) => {
+  try {
+    const existing = await getRecord(conn, tableName, resourceId);
+    if (!existing) {
+      throw new Error(`Unknown '${tableName}' record with id '${resourceId}'`);
+    }
+    const result = await conn.query(`DELETE FROM ${tableName} WHERE id = ?`, [resourceId]);
+    if (result.affectedRows) {
+      return existing;
+    }
+
+    throw new Error(`Nothing was deleted from ${tableName}`);
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
 module.exports = {
   serialize,
   deserialize,
@@ -113,4 +131,5 @@ module.exports = {
   updateRecord,
   insertRecord,
   upsertRecord,
+  deleteRecord,
 };

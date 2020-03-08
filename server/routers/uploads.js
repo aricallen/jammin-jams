@@ -6,7 +6,13 @@ const multer = require('multer');
 const { promisify } = require('util');
 const { createGetController, createGetOneController } = require('../utils/api-helpers');
 const { sizes } = require('../constants');
-const { getConnection, insertRecord, updateRecord, getRecord } = require('../utils/db-helpers');
+const {
+  getConnection,
+  insertRecord,
+  updateRecord,
+  getRecord,
+  deleteRecord,
+} = require('../utils/db-helpers');
 
 const router = express.Router();
 
@@ -19,6 +25,7 @@ const LARGE_DIR = path.join(UPLOADS_DIR, 'large');
 const RAW_DIR = path.join(UPLOADS_DIR, 'raw');
 
 const pUnlink = promisify(fs.unlink);
+const pRename = promisify(fs.rename);
 
 const safeMakeDir = (dirPath) => {
   try {
@@ -43,7 +50,7 @@ const configs = [
   },
   {
     dir: RAW_DIR,
-    width: sizes.desktopWidth,
+    width: null,
   },
 ];
 
@@ -65,7 +72,9 @@ makeDirStructure();
 const processFile = async (options) => {
   const { src, dest, width, height = Jimp.AUTO } = options;
   const image = await Jimp.read(src);
-  await image.resize(width, height);
+  if (width) {
+    await image.resize(width, height);
+  }
   await image.writeAsync(dest);
 };
 
@@ -132,18 +141,58 @@ router.put('/:id', async (req, res) => {
   const conn = await getConnection();
   const oldRecord = await getRecord(conn, 'uploads', id);
   const updatedRecord = await updateRecord(conn, 'uploads', id, values);
-  // remove files
+
+  // update file names
   const promises = configs.map((config) => {
-    return pUnlink(path.join(config.dir, oldRecord.fileName));
+    const oldPath = path.join(config.dir, oldRecord.fileName);
+    const newPath = path.join(config.dir, values.fileName);
+    if (fs.existsSync(newPath)) {
+      throw new Error(`A file with name ${values.fileName} already exists`);
+    }
+    return pRename(oldPath, newPath);
   });
-  await Promise.all(promises);
-  res.send({ data: updatedRecord });
+
+  try {
+    await Promise.all(promises);
+    res.send({ data: updatedRecord });
+  } catch (err) {
+    res.status(400).send({
+      error: err,
+      message: `Error while trying to update ${oldRecord.fileName}`,
+    });
+  }
 });
 
 /**
  * remove file from each dir
  * remove record from db
  */
-router.delete('/:id', (req, res) => {});
+router.delete('/:id', async (req, res) => {
+  const { id } = req.params;
+  const conn = await getConnection();
+  const oldRecord = await getRecord(conn, 'uploads', id);
+
+  if (!oldRecord) {
+    res.status(404).send();
+  }
+
+  try {
+    // remove record from db
+    const deletedRecord = await deleteRecord(conn, 'uploads', id);
+
+    // remove files
+    const promises = configs.map((config) => {
+      return pUnlink(path.join(config.dir, oldRecord.fileName));
+    });
+
+    await Promise.all(promises);
+    res.send({ data: deletedRecord });
+  } catch (err) {
+    res.status(400).send({
+      error: err,
+      message: `Error while trying to delete ${oldRecord.fileName}`,
+    });
+  }
+});
 
 module.exports = { router };
