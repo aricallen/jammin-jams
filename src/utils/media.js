@@ -1,3 +1,5 @@
+import { sizes } from '../constants/style-guide';
+
 const Screen = {
   PHONE: 'PHONE',
   TABLET: 'TABLET',
@@ -5,9 +7,9 @@ const Screen = {
 };
 
 const ScreenSize = {
-  [Screen.PHONE]: 768,
-  [Screen.TABLET]: 1024,
-  [Screen.DESKTOP]: 1440,
+  [Screen.PHONE]: sizes.phoneWidth,
+  [Screen.TABLET]: sizes.tabletWidth,
+  [Screen.DESKTOP]: sizes.desktopWidth,
 };
 
 const defaultToPixels = (sizeVal) => {

@@ -23,11 +23,17 @@ export const Type = {
   DELETE_ONE_FAILED: 'uploads/DELETE_ONE_FAILED',
 };
 
+const adapter = axios.create({
+  headers: {
+    'Content-Type': 'multipart/form-data; boundary=---XXX---',
+  },
+});
+
 export const createMany = (formData) => {
   return async (dispatch) => {
     dispatch({ type: Type.CREATE_MANY_REQUESTED });
     try {
-      const response = await axios.post('/api/admin/uploads', { files: formData });
+      const response = await adapter.post('/api/admin/uploads', formData);
       dispatch({ type: Type.CREATE_MANY_SUCCEEDED, uploads: response.data.data });
       return response.data.data;
     } catch (err) {

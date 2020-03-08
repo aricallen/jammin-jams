@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import { isResolved } from '../../../redux/utils/meta-status';
 import { Spinner } from '../../common/Spinner';
-import { fetchMany, createMany } from '../../../redux/media/actions';
+import { fetchMany, createMany } from '../../../redux/uploads/actions';
 import { Section, Header1 } from '../../common/Structure';
 import { Header } from './Header';
 // import { Input } from '../../common/Forms';
@@ -16,7 +16,7 @@ const Thumbnail = styled('div')``;
 const Caption = styled('div')``;
 const Form = styled('form')``;
 
-const MediaItem = ({ item }) => {
+const UploadItem = ({ item }) => {
   return (
     <ItemWrapper>
       <Title>{item.title}</Title>
@@ -26,9 +26,9 @@ const MediaItem = ({ item }) => {
   );
 };
 
-export const MediaPage = () => {
+export const UploadsPage = () => {
   const dispatch = useDispatch();
-  const mediaState = useSelector((state) => state.media);
+  const uploadsState = useSelector((state) => state.uploads);
   const [selectedFiles, setSelectedFiles] = useState(null);
 
   const fetch = () => {
@@ -36,15 +36,10 @@ export const MediaPage = () => {
   };
   useEffect(fetch, []);
 
-  const onSubmitUpload = (e) => {
-    e.preventDefault();
-    // handle files manually
-  };
-
   const onClickUpload = () => {
     const formData = new FormData();
     for (let i = 0; i < selectedFiles.length; i += 1) {
-      formData.append('file', selectedFiles[i]);
+      formData.append('uploads', selectedFiles[i]);
     }
     dispatch(createMany(formData));
   };
@@ -56,31 +51,26 @@ export const MediaPage = () => {
 
   const hasFiles = !!selectedFiles;
 
-  if (isResolved(mediaState.meta)) {
-    const mediaRecords = mediaState.data.map((media) => ({
-      ...media,
-      onSelect: () => history.push(`/admin/media/${media.id}`),
-    }));
-    return (
-      <Fragment>
-        <Header>
-          <Header1>Media</Header1>
-          <Form onSubmit={onSubmitUpload}>
-            {/* <Button onClick={onChooseFiles}>Choose Files</Button> */}
-            <input type="file" name="media" onChange={onFilesSelected} multiple={true} />
-            {hasFiles && <Button onClick={onClickUpload}>Upload</Button>}
-          </Form>
-        </Header>
-        <Section>
-          {mediaRecords.map((mediaItem) => (
-            <MediaItem key={mediaItem.id} mediaItem={mediaItem} />
-          ))}
-        </Section>
-      </Fragment>
-    );
-  }
-
-  if (!isResolved(mediaState.meta)) {
+  if (!isResolved(uploadsState.meta.many)) {
     return <Spinner variant="large" />;
   }
+
+  const uploadsRecords = uploadsState.data.map((uploads) => ({
+    ...uploads,
+    onSelect: () => history.push(`/admin/uploads/${uploads.id}`),
+  }));
+  return (
+    <Fragment>
+      <Header>
+        <Header1>Uploads</Header1>
+        <input type="file" name="uploads" onChange={onFilesSelected} multiple={true} />
+        {hasFiles && <Button onClick={onClickUpload}>Upload</Button>}
+      </Header>
+      <Section>
+        {uploadsRecords.map((uploadsItem) => (
+          <UploadItem key={uploadsItem.id} uploadsItem={uploadsItem} />
+        ))}
+      </Section>
+    </Fragment>
+  );
 };

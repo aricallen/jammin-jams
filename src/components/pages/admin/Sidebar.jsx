@@ -58,9 +58,9 @@ const TOOLBAR_ITEMS = [
     path: '/admin/posts',
   },
   {
-    text: 'Media',
+    text: 'Uploads',
     Icon: WallpaperIcon,
-    path: '/admin/media',
+    path: '/admin/uploads',
   },
   {
     text: 'Logo Builder',
