@@ -39,6 +39,16 @@ app.use('/api*', (req, res) => {
   });
 });
 
+const uploadsServer = express.static(path.resolve(__dirname, 'uploads'));
+app.use(
+  '/uploads',
+  (req, res, next) => {
+    console.log('requesting', req.originalUrl);
+    next();
+  },
+  uploadsServer
+);
+
 if (TARGET_ENV === 'production' || TARGET_ENV === 'local') {
   const staticDirPath = path.resolve(__dirname, '..', 'dist');
   const staticServer = express.static(staticDirPath);

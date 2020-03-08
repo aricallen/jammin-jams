@@ -16,8 +16,8 @@ const {
 
 const router = express.Router();
 
-const UPLOADS_DIR = path.resolve(__dirname, '..', 'uploads');
-const TEMP_DIR = path.resolve(__dirname, '..', '.tmp.uploads');
+const UPLOADS_DIR = path.resolve(__dirname, '..', '..', 'src', 'assets', 'uploads');
+const TEMP_DIR = path.resolve(UPLOADS_DIR, '.tmp');
 const uploader = multer({ dest: UPLOADS_DIR });
 const SMALL_DIR = path.join(UPLOADS_DIR, 'small');
 const MEDIUM_DIR = path.join(UPLOADS_DIR, 'medium');
@@ -100,7 +100,7 @@ const processFileUpload = async (file) => {
   // update db
   const conn = await getConnection();
   const record = await insertRecord(conn, 'uploads', {
-    fileName: file.originalname,
+    filename: file.originalname,
     title: file.originalname,
     altText: file.originalname,
     caption: file.originalname,
@@ -144,10 +144,10 @@ router.put('/:id', async (req, res) => {
 
   // update file names
   const promises = configs.map((config) => {
-    const oldPath = path.join(config.dir, oldRecord.fileName);
-    const newPath = path.join(config.dir, values.fileName);
+    const oldPath = path.join(config.dir, oldRecord.filename);
+    const newPath = path.join(config.dir, values.filename);
     if (fs.existsSync(newPath)) {
-      throw new Error(`A file with name ${values.fileName} already exists`);
+      throw new Error(`A file with name ${values.filename} already exists`);
     }
     return pRename(oldPath, newPath);
   });
@@ -158,7 +158,7 @@ router.put('/:id', async (req, res) => {
   } catch (err) {
     res.status(400).send({
       error: err,
-      message: `Error while trying to update ${oldRecord.fileName}`,
+      message: `Error while trying to update ${oldRecord.filename}`,
     });
   }
 });
@@ -182,7 +182,7 @@ router.delete('/:id', async (req, res) => {
 
     // remove files
     const promises = configs.map((config) => {
-      return pUnlink(path.join(config.dir, oldRecord.fileName));
+      return pUnlink(path.join(config.dir, oldRecord.filename));
     });
 
     await Promise.all(promises);
@@ -190,7 +190,7 @@ router.delete('/:id', async (req, res) => {
   } catch (err) {
     res.status(400).send({
       error: err,
-      message: `Error while trying to delete ${oldRecord.fileName}`,
+      message: `Error while trying to delete ${oldRecord.filename}`,
     });
   }
 });
