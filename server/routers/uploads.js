@@ -128,19 +128,19 @@ router.post('/', uploader.array('uploads', { dest: TEMP_DIR }), async (req, res)
   }
 });
 
-router.get('/:id', createGetOneController('uploads'));
+router.get('/:resourceId', createGetOneController('uploads'));
 router.get('/', createGetController('uploads'));
 
 /**
  * update db record
  * rename files in each dir
  */
-router.put('/:id', async (req, res) => {
-  const { id } = req.params;
+router.put('/:resourceId', async (req, res) => {
+  const { resourceId } = req.params;
   const values = req.body;
   const conn = await getConnection();
-  const oldRecord = await getRecord(conn, 'uploads', id);
-  const updatedRecord = await updateRecord(conn, 'uploads', id, values);
+  const oldRecord = await getRecord(conn, 'uploads', resourceId);
+  const updatedRecord = await updateRecord(conn, 'uploads', resourceId, values);
 
   // update file names
   const promises = configs.map((config) => {
@@ -167,10 +167,10 @@ router.put('/:id', async (req, res) => {
  * remove file from each dir
  * remove record from db
  */
-router.delete('/:id', async (req, res) => {
-  const { id } = req.params;
+router.delete('/:resourceId', async (req, res) => {
+  const { resourceId } = req.params;
   const conn = await getConnection();
-  const oldRecord = await getRecord(conn, 'uploads', id);
+  const oldRecord = await getRecord(conn, 'uploads', resourceId);
 
   if (!oldRecord) {
     res.status(404).send();
@@ -178,7 +178,7 @@ router.delete('/:id', async (req, res) => {
 
   try {
     // remove record from db
-    const deletedRecord = await deleteRecord(conn, 'uploads', id);
+    const deletedRecord = await deleteRecord(conn, 'uploads', resourceId);
 
     // remove files
     const promises = configs.map((config) => {

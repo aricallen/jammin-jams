@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 import { fetchSession } from '../../redux/session/actions';
 import { isResolved } from '../../redux/utils/meta-status';
-import { Page } from '../pages/admin/Page';
+import { Page } from '../features/admin/Page';
 
 const { TARGET_ENV } = process.env;
 const IS_PRODUCTION = TARGET_ENV === 'production';

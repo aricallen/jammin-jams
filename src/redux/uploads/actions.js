@@ -59,13 +59,13 @@ export const fetchMany = () => {
 
 export const fetchOne = (id) => {
   return async (dispatch) => {
-    dispatch({ type: Type.FETCH_ONE_MEDIA_REQUESTED });
+    dispatch({ type: Type.FETCH_ONE_REQUESTED });
     try {
       const response = await axios.get(`/api/admin/uploads/${id}`);
-      dispatch({ type: Type.FETCH_ONE_MEDIA_SUCCEEDED, uploads: response.data.data });
+      dispatch({ type: Type.FETCH_ONE_SUCCEEDED, upload: response.data.data });
       return response.data.data;
     } catch (err) {
-      dispatch({ type: Type.FETCH_ONE_MEDIA_FAILED, error: parseAxiosError(err) });
+      dispatch({ type: Type.FETCH_ONE_FAILED, error: parseAxiosError(err) });
       throw err;
     }
   };

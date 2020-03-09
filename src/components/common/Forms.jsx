@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { omit, startCase } from 'lodash';
-import { spacing, pallet } from '../../constants/style-guide';
+import { spacing, pallet, font } from '../../constants/style-guide';
 import { fontSizes } from '../../utils/style-helpers';
 import { media } from '../../utils/media';
 
@@ -52,10 +52,15 @@ export const Fieldset = styled('fieldset')`
 
 export const Label = styled('label')`
   display: block;
-  margin-bottom: ${spacing.regular}px;
+  font-weight: ${font.weight.semiBold};
 `;
 
 export const Form = styled('form')``;
+
+export const Description = styled('div')`
+  font-style: italic;
+  ${fontSizes('small')}
+`;
 
 export const FormError = styled('span')`
   color: red;
@@ -80,13 +85,19 @@ const getType = (name) => {
 };
 
 export const FormInput = (props) => {
-  const { name, label, error, isRequired = false } = props;
+  const { name, label, description, error, isRequired = false } = props;
   const inputProps = omit(props, ['isRequired', 'label', 'error']);
   const type = inputProps.type || getType(inputProps.name);
   return (
     <Fieldset className={isRequired ? 'required' : null}>
       <Label>{label || startCase(name)}</Label>
-      <Input {...inputProps} type={type} required={isRequired} />
+      {description && <Description>{description}</Description>}
+      <Input
+        {...inputProps}
+        type={type}
+        required={isRequired}
+        style={{ marginTop: spacing.regular }}
+      />
       {error && <FormError>{error}</FormError>}
     </Fieldset>
   );

@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { fontSizes } from '../../../utils/style-helpers';
-import { pallet, spacing } from '../../../constants/style-guide';
+import { fontSizes } from '../../../../utils/style-helpers';
+import { pallet, spacing } from '../../../../constants/style-guide';
 
 const Wrapper = styled('div')`
   cursor: pointer;

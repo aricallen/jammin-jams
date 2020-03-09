@@ -3,39 +3,40 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 import styled from '@emotion/styled';
 import { Global } from '@emotion/core';
 import { AdminRoute } from './common/AdminRoute';
-import { Home } from './pages/Home';
-import { Waitlist } from './pages/Waitlist';
-import { ThankYou } from './pages/ThankYou';
-import { NotFound } from './pages/NotFound';
-import { ErrorPage } from './pages/ErrorPage';
+import { Home } from './features/Home';
+import { Waitlist } from './features/Waitlist';
+import { ThankYou } from './features/ThankYou';
+import { NotFound } from './features/NotFound';
+import { ErrorPage } from './features/ErrorPage';
 
 // about
-import { About } from './pages/about/About';
-import { DeliveryCalendar } from './pages/about/DeliveryCalendar';
-import { HowItWorks } from './pages/about/HowItWorks';
-import { FreqAsked } from './pages/about/FreqAsked';
+import { About } from './features/about/About';
+import { DeliveryCalendar } from './features/about/DeliveryCalendar';
+import { HowItWorks } from './features/about/HowItWorks';
+import { FreqAsked } from './features/about/FreqAsked';
 
 // store
-import { Store } from './pages/store/Store';
-import { Success } from './pages/store/Success';
-import { Cancel } from './pages/store/Cancel';
-import { Checkout } from './pages/store/Checkout';
+import { Store } from './features/store/Store';
+import { Success } from './features/store/Success';
+import { Cancel } from './features/store/Cancel';
+import { Checkout } from './features/store/Checkout';
 
 // account
-import { LogIn } from './pages/account/LogIn';
-import { LogOut } from './pages/account/LogOut';
+import { LogIn } from './features/account/LogIn';
+import { LogOut } from './features/account/LogOut';
 
 // admin
-import { Dashboard } from './pages/admin/Dashboard';
-import { Posts as AdminPosts } from './pages/admin/Posts';
-import { Post } from './pages/admin/Post';
-import { LogoBuilder } from './pages/admin/LogoBuilder';
-import { QrCodes } from './pages/admin/QrCodes';
-import { UploadsPage } from './pages/admin/UploadsPage';
+import { Dashboard } from './features/admin/Dashboard';
+import { Posts as AdminPosts } from './features/admin/Posts';
+import { Post } from './features/admin/Post';
+import { LogoBuilder } from './features/admin/LogoBuilder';
+import { QrCodes } from './features/admin/QrCodes';
+import { Page as UploadsPage } from './features/admin/uploads/Page';
+import { EditPage } from './features/admin/uploads/EditPage';
 
 // blog
-import { Blog } from './pages/blog/Blog';
-import { Post as BlogPost } from './pages/blog/Post';
+import { Blog } from './features/blog/Blog';
+import { Post as BlogPost } from './features/blog/Post';
 
 import { Footer } from './common/Footer';
 import { NavBar } from './common/NavBar';
@@ -83,6 +84,7 @@ export const App = () => {
           <AdminRoute exact path="/admin/posts/:postId" component={Post} />
           <AdminRoute exact path="/admin/posts/new" component={Post} />
           <AdminRoute exact path="/admin/qr-codes" component={QrCodes} />
+          <AdminRoute exact path="/admin/uploads/:uploadId" component={EditPage} />
           <AdminRoute exact path="/admin/uploads" component={UploadsPage} />
           <AdminRoute exact path="/admin" component={() => <Redirect to="/admin/dashboard" />} />
 
