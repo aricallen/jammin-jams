@@ -21,6 +21,10 @@ const Caption = styled('div')`
 `;
 
 export const ArticleImage = ({ upload, width = '100%', height = 'auto' }) => {
+  if (!upload) {
+    return null;
+  }
+
   const imgRef = useRef();
   const [isLoaded, setIsLoaded] = useState(false);
 

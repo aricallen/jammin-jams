@@ -4,7 +4,8 @@ import styled from '@emotion/styled';
 import ReactMarkdown from 'react-markdown';
 import { Article } from '../../common/Article';
 import { Section, Header1 } from '../../common/Structure';
-import { fetchOne as fetchPost } from '../../../redux/posts/actions';
+import { ArticleImage } from '../../common/ArticleImage';
+import { fetchPostContent } from '../../../redux/posts/actions';
 import { isResolved } from '../../../redux/utils/meta-status';
 import { Spinner } from '../../common/Spinner';
 import { spacing } from '../../../constants/style-guide';
@@ -13,9 +14,6 @@ import { PostsNav } from './PostsNav';
 const Wrapper = styled('div')``;
 
 const HeroImageWrapper = styled('div')``;
-const HeroImage = styled('img')`
-  width: 100%;
-`;
 
 const ContentSection = styled(Section)`
   & > p {
@@ -34,7 +32,7 @@ const PostContent = ({ post, isBusy }) => {
   return (
     <Wrapper>
       <HeroImageWrapper>
-        <HeroImage src="https://generative-placeholders.glitch.me/image?width=600&height=400" />
+        <ArticleImage upload={post.upload} />
       </HeroImageWrapper>
       <Section>
         <Header1>{post?.title}</Header1>
@@ -52,13 +50,15 @@ const PostContent = ({ post, isBusy }) => {
 export const Post = ({ match }) => {
   const dispatch = useDispatch();
   const postsState = useSelector((state) => state.posts);
+  const uploadsState = useSelector((state) => state.uploads);
   const { postId } = match.params;
 
   const post = postsState.data.find((p) => p.id === +postId);
+  const upload = uploadsState.data.find((u) => u.id === post?.heroImgId);
 
   const _fetchPost = () => {
     if (!post) {
-      dispatch(fetchPost(postId));
+      dispatch(fetchPostContent(postId));
     }
   };
   useEffect(_fetchPost, []);
@@ -72,7 +72,12 @@ export const Post = ({ match }) => {
 
   return (
     <Article
-      Middle={() => <PostContent post={post} isBusy={!post && !isResolved(postsState.meta.one)} />}
+      Middle={() => (
+        <PostContent
+          post={{ ...post, upload }}
+          isBusy={!post && !isResolved(postsState.meta.one)}
+        />
+      )}
     />
   );
 };

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { parseAxiosError } from '../utils/error';
+import { fetchOne as fetchUpload } from '../uploads/actions';
 
 export const Type = {
   FETCH_MANY_REQUESTED: 'posts/FETCH_MANY_REQUESTED',
@@ -72,5 +73,19 @@ export const createOne = (post) => {
       dispatch({ type: Type.CREATE_ONE_FAILED, error: parseAxiosError(err) });
       throw err;
     }
+  };
+};
+
+/**
+ * fetches both a post and the associated upload
+ */
+export const fetchPostContent = (postId) => {
+  return async (dispatch) => {
+    const post = await dispatch(fetchOne(postId));
+    const upload = await dispatch(fetchUpload(post.heroImgId));
+    return {
+      ...post,
+      upload,
+    };
   };
 };
