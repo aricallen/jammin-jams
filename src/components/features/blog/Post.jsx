@@ -5,7 +5,7 @@ import ReactMarkdown from 'react-markdown';
 import { Article } from '../../common/Article';
 import { Section, Header1 } from '../../common/Structure';
 import { fetchOne as fetchPost } from '../../../redux/posts/actions';
-import { isResolved, isBusy } from '../../../redux/utils/meta-status';
+import { isResolved } from '../../../redux/utils/meta-status';
 import { Spinner } from '../../common/Spinner';
 import { spacing } from '../../../constants/style-guide';
 import { PostsNav } from './PostsNav';
@@ -26,8 +26,8 @@ const ContentSection = styled(Section)`
   }
 `;
 
-const PostContent = ({ post, isBusy: _isBusy }) => {
-  if (_isBusy) {
+const PostContent = ({ post, isBusy }) => {
+  if (isBusy) {
     return <Spinner variant="large" />;
   }
 
