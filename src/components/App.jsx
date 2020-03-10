@@ -27,8 +27,8 @@ import { LogOut } from './features/account/LogOut';
 
 // admin
 import { Dashboard } from './features/admin/Dashboard';
-import { Posts as AdminPosts } from './features/admin/Posts';
-import { Post } from './features/admin/Post';
+import { Page as AdminPostsPage } from './features/admin/posts/Page';
+import { EditPage as AdminEditPostPage } from './features/admin/posts/EditPage';
 import { LogoBuilder } from './features/admin/LogoBuilder';
 import { QrCodes } from './features/admin/QrCodes';
 import { Page as UploadsPage } from './features/admin/uploads/Page';
@@ -80,9 +80,9 @@ export const App = () => {
 
           <AdminRoute exact path="/admin/dashboard" component={Dashboard} />
           <AdminRoute exact path="/admin/logo-builder" component={LogoBuilder} />
-          <AdminRoute exact path="/admin/posts" component={AdminPosts} />
-          <AdminRoute exact path="/admin/posts/:postId" component={Post} />
-          <AdminRoute exact path="/admin/posts/new" component={Post} />
+          <AdminRoute exact path="/admin/posts" component={AdminPostsPage} />
+          <AdminRoute exact path="/admin/posts/:postId" component={AdminEditPostPage} />
+          <AdminRoute exact path="/admin/posts/new" component={AdminEditPostPage} />
           <AdminRoute exact path="/admin/qr-codes" component={QrCodes} />
           <AdminRoute exact path="/admin/uploads/:uploadId" component={EditPage} />
           <AdminRoute exact path="/admin/uploads" component={UploadsPage} />

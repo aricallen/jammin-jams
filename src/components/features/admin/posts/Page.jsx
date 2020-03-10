@@ -1,14 +1,14 @@
 import React, { useEffect, Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
-import { isResolved } from '../../../redux/utils/meta-status';
-import { Spinner } from '../../common/Spinner';
-import { fetchMany } from '../../../redux/posts/actions';
-import { Section, Header1 } from '../../common/Structure';
-import { Header } from './Header';
-import { Button } from '../../common/Button';
-import { spacing } from '../../../constants/style-guide';
-import { Row } from '../../common/Tables';
+import { isResolved } from '../../../../redux/utils/meta-status';
+import { Spinner } from '../../../common/Spinner';
+import { fetchMany } from '../../../../redux/posts/actions';
+import { Section, Header1 } from '../../../common/Structure';
+import { Header } from '../Header';
+import { Button } from '../../../common/Button';
+import { spacing } from '../../../../constants/style-guide';
+import { Row } from '../../../common/Tables';
 
 const Cell = styled('div')`
   margin-right: ${spacing.regular}px;
@@ -23,7 +23,7 @@ const ListItem = ({ post }) => {
   );
 };
 
-export const Posts = ({ history }) => {
+export const Page = ({ history }) => {
   const dispatch = useDispatch();
   const postsState = useSelector((state) => state.posts);
 
@@ -49,10 +49,7 @@ export const Posts = ({ history }) => {
 
   return (
     <Fragment>
-      <Header>
-        <Header1>Posts</Header1>
-        <Button onClick={goToCreatePost}>Add Post</Button>
-      </Header>
+      <Header title="Posts" Controls={() => <Button onClick={goToCreatePost}>Add Post</Button>} />
       <Section>
         {posts.map((post) => (
           <ListItem key={post.id} post={post} />

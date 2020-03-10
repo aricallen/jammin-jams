@@ -1,14 +1,13 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { PostEditor } from './PostEditor';
-import { Button } from '../../common/Button';
-import { Header, HeaderActions } from './Header';
-import { isBusy, isResolved } from '../../../redux/utils/meta-status';
-import { createOne, updateOne, fetchOne } from '../../../redux/posts/actions';
-import { Header1 } from '../../common/Structure';
-import { Spinner } from '../../common/Spinner';
+import { Editor } from './Editor';
+import { Button } from '../../../common/Button';
+import { Header } from '../Header';
+import { isBusy, isResolved } from '../../../../redux/utils/meta-status';
+import { createOne, updateOne, fetchOne } from '../../../../redux/posts/actions';
+import { Spinner } from '../../../common/Spinner';
 
-export const Post = ({ history, match }) => {
+export const EditPage = ({ history, match }) => {
   const dispatch = useDispatch();
   const postsState = useSelector((state) => state.posts);
   const defaultPost = { title: '', content: '' };
@@ -48,21 +47,27 @@ export const Post = ({ history, match }) => {
 
   return (
     <Fragment>
-      <Header>
-        <Header1>{isExisting ? 'Edit Post' : 'New Post'}</Header1>
-        <HeaderActions>
-          <Button variant="secondary" onClick={cancelCreate} disabled={isBusy(postsState.meta.one)}>
-            Cancel
-          </Button>
-          <Button onClick={onSavePost} isBusy={isBusy(postsState.meta.one)}>
-            Save
-          </Button>
-        </HeaderActions>
-      </Header>
+      <Header
+        title={isExisting ? 'Edit Post' : 'New Post'}
+        Controls={() => (
+          <Fragment>
+            <Button
+              variant="secondary"
+              onClick={cancelCreate}
+              disabled={isBusy(postsState.meta.one)}
+            >
+              Cancel
+            </Button>
+            <Button onClick={onSavePost} isBusy={isBusy(postsState.meta.one)}>
+              Save
+            </Button>
+          </Fragment>
+        )}
+      />
       {isBusy(postsState.meta.one) ? (
         <Spinner variant="large" />
       ) : (
-        <PostEditor post={post} onChange={onChange} />
+        <Editor post={post} onChange={onChange} />
       )}
     </Fragment>
   );

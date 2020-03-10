@@ -1,16 +1,16 @@
 import React, { Fragment, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import styled from '@emotion/styled';
-import { Input, TextArea } from '../../common/Forms';
-import { Section, Header2 } from '../../common/Structure';
-import { Button } from '../../common/Button';
-import { spacing, font } from '../../../constants/style-guide';
+import { Input, TextArea } from '../../../common/Forms';
+import { Section, Header2 } from '../../../common/Structure';
+import { Button } from '../../../common/Button';
+import { spacing, font } from '../../../../constants/style-guide';
 
 const ContentWrapper = styled('div')`
   margin-top: ${spacing.double}px;
 `;
 
-export const PostEditor = ({ post, onChange }) => {
+export const Editor = ({ post, onChange }) => {
   const [isPreview, setIsPreview] = useState(false);
   return (
     <Fragment>
