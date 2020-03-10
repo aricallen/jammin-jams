@@ -71,11 +71,11 @@ export const fetchOne = (id) => {
   };
 };
 
-export const updateOne = (id, values) => {
+export const updateOne = (upload) => {
   return async (dispatch) => {
     dispatch({ type: Type.UPDATE_ONE_REQUESTED });
     try {
-      const response = await axios.put(`/api/admin/uploads/${id}`, values);
+      const response = await axios.put(`/api/admin/uploads/${upload.id}`, upload);
       dispatch({ type: Type.UPDATE_ONE_SUCCEEDED, upload: response.data.data });
       return response.data.data;
     } catch (err) {

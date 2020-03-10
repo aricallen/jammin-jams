@@ -6,6 +6,7 @@ const {
   upsertRecord,
   updateRecord,
   insertRecord,
+  deleteRecord,
 } = require('../utils/db-helpers');
 const { parseError, checkReadonly } = require('../utils/api-helpers');
 
@@ -57,7 +58,7 @@ router.put('/:tableName/:resourceId', checkReadonly, async (req, res) => {
   try {
     const updated = await updateRecord(conn, tableName, resourceId, req.body);
     res.send({
-      data: updated[0],
+      data: updated,
     });
   } catch (err) {
     res.status(400).send(parseError(err, req));
@@ -82,7 +83,7 @@ router.post('/:tableName', checkReadonly, async (req, res) => {
     }
     const inserted = await insertRecord(conn, tableName, req.body);
     return res.send({
-      data: inserted[0],
+      data: inserted,
     });
   } catch (err) {
     res.status(400).send(parseError(err, req));
@@ -98,7 +99,7 @@ router.delete('/:tableName/:resourceId', checkReadonly, async (req, res) => {
   const { tableName, resourceId } = req.params;
   const conn = await getConnection();
   try {
-    const results = await conn.query(`DELETE FROM ${tableName} WHERE id = ?`, resourceId);
+    const results = await deleteRecord(conn, tableName, resourceId);
     res.send({
       data: results[0],
     });

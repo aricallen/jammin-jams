@@ -53,7 +53,7 @@ export const EditPage = ({ match, history }) => {
   const onSubmit = async () => {
     setIsSubmitting(true);
     await dispatch(
-      updateOne(uploadRecord.id, {
+      updateOne({
         ...values,
         filename: `${values.filename}.${extension}`,
       })
