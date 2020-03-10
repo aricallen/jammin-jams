@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import { fetchMany as fetchManyPosts } from '../../../redux/posts/actions';
 import { isResolved, isBusy } from '../../../redux/utils/meta-status';
 import { DisabledLink } from '../../common/Links';
-import { getPostLink } from './helpers';
+import { getPostLink } from '../../../utils/post-helpers';
 import { Spinner } from '../../common/Spinner';
 import { spacing } from '../../../constants/style-guide';
 

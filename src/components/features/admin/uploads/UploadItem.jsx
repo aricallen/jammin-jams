@@ -2,6 +2,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import { fontSizes } from '../../../../utils/style-helpers';
 import { pallet, spacing } from '../../../../constants/style-guide';
+import { getSmallUploadSrc } from '../../../../utils/upload-helpers';
 
 const Wrapper = styled('div')`
   cursor: pointer;
@@ -21,12 +22,10 @@ const ThumbnailWrapper = styled('div')`
 const Thumbnail = styled('img')``;
 
 export const UploadItem = ({ item }) => {
-  const thumbnailSrc = `/assets/uploads/small/${item.filename}`;
-
   return (
     <Wrapper onClick={item.onClick}>
       <ThumbnailWrapper>
-        <Thumbnail src={thumbnailSrc} />
+        <Thumbnail src={getSmallUploadSrc(item)} />
       </ThumbnailWrapper>
       <Title>{item.title}</Title>
     </Wrapper>

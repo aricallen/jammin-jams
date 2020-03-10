@@ -8,7 +8,7 @@ const { createGetController, createGetOneController } = require('../utils/api-he
 const { sizes } = require('../constants');
 const {
   getConnection,
-  insertRecord,
+  upsertRecord,
   updateRecord,
   getRecord,
   deleteRecord,
@@ -99,12 +99,17 @@ const processFileUpload = async (file) => {
 
   // update db
   const conn = await getConnection();
-  const record = await insertRecord(conn, 'uploads', {
-    filename: file.originalname,
-    title: file.originalname,
-    altText: file.originalname,
-    caption: file.originalname,
-  });
+  const record = await upsertRecord(
+    conn,
+    'uploads',
+    {
+      filename: file.originalname,
+      title: file.originalname,
+      altText: file.originalname,
+      caption: file.originalname,
+    },
+    'filename'
+  );
   return record;
 };
 
@@ -141,6 +146,10 @@ router.put('/:resourceId', async (req, res) => {
   const conn = await getConnection();
   const oldRecord = await getRecord(conn, 'uploads', resourceId);
   const updatedRecord = await updateRecord(conn, 'uploads', resourceId, values);
+
+  if (oldRecord.filename === values.filename) {
+    return res.send({ data: updatedRecord });
+  }
 
   // update file names
   const promises = configs.map((config) => {

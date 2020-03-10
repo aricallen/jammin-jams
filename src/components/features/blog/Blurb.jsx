@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import { spacing, pallet } from '../../../constants/style-guide';
 import { Row } from '../../common/Tables';
 import { UnstyledLink, LinkLikeSpan } from '../../common/Links';
-import { getPostLink } from './helpers';
+import { getPostLink } from '../../../utils/post-helpers';
 
 const Wrapper = styled(Row)`
   &:hover {

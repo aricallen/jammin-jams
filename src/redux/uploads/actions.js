@@ -75,8 +75,8 @@ export const updateOne = (id, values) => {
   return async (dispatch) => {
     dispatch({ type: Type.UPDATE_ONE_REQUESTED });
     try {
-      const response = await axios.get(`/api/admin/uploads/${id}`, values);
-      dispatch({ type: Type.UPDATE_ONE_SUCCEEDED, uploads: response.data.data });
+      const response = await axios.put(`/api/admin/uploads/${id}`, values);
+      dispatch({ type: Type.UPDATE_ONE_SUCCEEDED, upload: response.data.data });
       return response.data.data;
     } catch (err) {
       dispatch({ type: Type.UPDATE_ONE_FAILED, error: parseAxiosError(err) });

@@ -69,9 +69,12 @@ const getRecord = async (conn, tableName, resourceId) => {
 
 const updateRecord = async (conn, tableName, resourceId, values) => {
   try {
-    await conn.query(`UPDATE ${tableName} SET ? WHERE id = ${resourceId}`, omit(values, ['id']));
+    await conn.query(
+      `UPDATE ${tableName} SET ? WHERE id = ${resourceId}`,
+      omit(values, ['id', 'dateCreated', 'dateModified'])
+    );
     const updated = await conn.query(`SELECT * FROM ${tableName} WHERE id = ${resourceId}`);
-    return updated;
+    return updated[0];
   } catch (err) {
     console.log(err);
     throw err;

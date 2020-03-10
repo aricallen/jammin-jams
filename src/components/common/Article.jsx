@@ -51,7 +51,7 @@ export const ColMain = styled('div')`
   grid-area: middle;
   display: flex;
   align-items: center;
-  min-height: 100vh;
+  min-height: 50vh;
 `;
 
 export const ColRight = styled('div')`
