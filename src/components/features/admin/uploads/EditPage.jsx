@@ -14,6 +14,14 @@ const FieldWrapper = styled('div')`
   margin-bottom: ${spacing.double}px;
 `;
 
+const ImageWrapper = styled('div')`
+  padding: ${spacing.double}px;
+  display: flex;
+  justify-content: center;
+`;
+
+const Image = styled('img')``;
+
 const descriptions = {
   title: 'Human readable name for easy reference',
   caption: 'Text to display under photos in blog posts',
@@ -110,6 +118,9 @@ export const EditPage = ({ match }) => {
           </Button>
         )}
       />
+      <ImageWrapper>
+        <Image src={`/assets/uploads/medium/${uploadRecord.filename}`} />
+      </ImageWrapper>
       <UploadEditForm record={uploadRecord} onSubmit={onSubmit} />
     </Fragment>
   );

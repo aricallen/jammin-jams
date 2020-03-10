@@ -93,7 +93,7 @@ const MainContent = () => {
         <ExpandableSection headerText="How It Works" Content={HowItWorksList} />
       </Section>
       <Section>
-        <JamJourneysSection post={latestPost} isBusy={!isResolved(postsState.meta)} />
+        <JamJourneysSection post={latestPost} isBusy={!isResolved(postsState.meta.many)} />
       </Section>
     </MainContentWrapper>
   );

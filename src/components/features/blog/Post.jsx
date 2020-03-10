@@ -57,7 +57,7 @@ export const Post = ({ match }) => {
   const post = postsState.data.find((p) => p.id === +postId);
 
   const _fetchPost = () => {
-    if (!post && !isBusy(postsState.meta.one)) {
+    if (!post) {
       dispatch(fetchPost(postId));
     }
   };
@@ -71,6 +71,8 @@ export const Post = ({ match }) => {
   }, [postId]);
 
   return (
-    <Article Middle={() => <PostContent post={post} isBusy={!isResolved(postsState.meta.one)} />} />
+    <Article
+      Middle={() => <PostContent post={post} isBusy={!post && !isResolved(postsState.meta.one)} />}
+    />
   );
 };
