@@ -8,7 +8,6 @@ import { Spinner } from '../../../common/Spinner';
 import { Header } from '../../admin/Header';
 import { OrderItem } from './OrderItem';
 import { fetchMany as fetchOrders } from '../../../../redux/orders/actions';
-import { fetchOne as fetchUser } from '../../../../redux/users/actions';
 import { Content } from '../../../common/Structure';
 
 const Wrapper = styled(Content)``;
@@ -57,8 +56,8 @@ export const Page = () => {
   useEffect(fetchSessionUser, []);
 
   const _fetchOrders = () => {
-    if (ordersState.data.length === 0 && MetaStatus.isInitial(ordersState.meta)) {
-      dispatch(fetchOrders());
+    if (sessionUser && ordersState.data.length === 0 && MetaStatus.isInitial(ordersState.meta)) {
+      dispatch(fetchOrders(sessionUser.paymentCustomerId));
     }
   };
   useEffect(_fetchOrders, [sessionUser]);

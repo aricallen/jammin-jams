@@ -46,10 +46,12 @@ export const SignIn = ({ history }) => {
     try {
       const user = await dispatch(logInUser(values));
       if (user.isAdmin) {
-        history.push('/admin/dashboard');
-      } else {
-        history.push('/account/orders');
+        return history.push('/admin/dashboard');
       }
+      if (history.length > 1) {
+        return history.goBack();
+      }
+      return history.push('/account/orders');
     } catch (err) {
       console.error(err);
     }

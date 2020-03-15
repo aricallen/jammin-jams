@@ -11,9 +11,10 @@ export const fetchMany = (customerId) => {
   return async (dispatch) => {
     dispatch({ type: Type.FETCH_MANY_REQUESTED });
     try {
-      const params = { key: 'customer_id', value: customerId };
+      const params = { key: 'customer', value: customerId };
       const queryString = new URLSearchParams(params).toString();
-      const response = await axios.get(`/api/stripe/orders?${queryString}`);
+      // because of way we setup the products, these are actually invoices rather than orders
+      const response = await axios.get(`/api/stripe/invoices?${queryString}`);
       const orders = response.data.data;
       dispatch({ type: Type.FETCH_MANY_SUCCEEDED, orders });
       return orders;
