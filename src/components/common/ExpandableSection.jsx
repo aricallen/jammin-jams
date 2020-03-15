@@ -3,9 +3,20 @@ import styled from '@emotion/styled';
 import { expandSection, collapseSection } from '../../utils/expandable-helpers';
 import { fontSizes } from '../../utils/style-helpers';
 import { border, spacing, animation } from '../../constants/style-guide';
+import ChevronIcon from '../../assets/icons/chevron_right.svg';
 import { Row } from './Tables';
 
 const Wrapper = styled('div')``;
+
+const HeaderText = styled('div')``;
+const Chevron = styled('div')`
+  display: flex;
+  align-items: center;
+  transition: transform ${animation};
+  &.is-expanded {
+    transform: rotate(${90 * 5}deg);
+  }
+`;
 
 const HeaderRow = styled(Row)`
   ${fontSizes('large')}
@@ -13,6 +24,8 @@ const HeaderRow = styled(Row)`
   padding-bottom: ${spacing.regular}px;
   padding-left: 0;
   margin-bottom: ${spacing.regular}px;
+  display: flex;
+  justify-content: space-between;
 `;
 
 const BodySection = styled('div')`
@@ -38,7 +51,12 @@ export const ExpandableSection = (props) => {
 
   return (
     <Wrapper>
-      <HeaderRow onClick={onToggleExpand}>{headerText}</HeaderRow>
+      <HeaderRow onClick={onToggleExpand}>
+        <HeaderText>{headerText}</HeaderText>
+        <Chevron className={isExpanded ? 'is-expanded' : 'is-collapsed'}>
+          <ChevronIcon />
+        </Chevron>
+      </HeaderRow>
       <BodySection ref={bodyRef} isExpanded={isExpanded} height={bodyRef.current?.scrollHeight}>
         <Content />
       </BodySection>

@@ -10,6 +10,7 @@ import { isResolved } from '../../../redux/utils/meta-status';
 import { Spinner } from '../../common/Spinner';
 import { spacing } from '../../../constants/style-guide';
 import { PostsNav } from './PostsNav';
+import { SoundcloudPlayer } from '../../common/SoundcloudPlayer';
 
 const Wrapper = styled('div')``;
 
@@ -36,6 +37,9 @@ const PostContent = ({ post, isBusy }) => {
       </HeroImageWrapper>
       <Section>
         <Header1>{post?.title}</Header1>
+      </Section>
+      <Section>
+        <SoundcloudPlayer setLink={post.setLink} title={post.title} />
       </Section>
       <ContentSection>
         <ReactMarkdown source={post?.content} escapeHtml={false} />

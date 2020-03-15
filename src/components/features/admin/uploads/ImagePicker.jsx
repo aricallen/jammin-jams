@@ -8,9 +8,9 @@ import { isResolved } from '../../../../redux/utils/meta-status';
 
 const Wrapper = styled('div')``;
 
-const createOption = (upload) => ({
-  label: upload.title,
-  value: upload.id,
+const createOption = (upload = {}) => ({
+  label: upload?.title,
+  value: upload?.id,
 });
 
 const createOptions = (uploads) => uploads.map(createOption);
