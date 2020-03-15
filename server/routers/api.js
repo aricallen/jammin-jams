@@ -3,7 +3,7 @@ const { router: crudRouter } = require('./crud');
 const { router: sessionRouter } = require('./session');
 const { router: stripeRouter } = require('./stripe');
 const { router: emailRouter } = require('./email');
-const { controller: loginController } = require('../controllers/login');
+const { controller: signInController } = require('../controllers/sign-in');
 const { controller: waitlistController } = require('../controllers/waitlist');
 const { controller: createUserController } = require('../controllers/create-user');
 const { getConnection } = require('../utils/db-helpers');
@@ -36,7 +36,7 @@ router.get('/status', async (req, res) => {
   });
 });
 
-router.post('/sign-in', loginController);
+router.post('/sign-in', signInController);
 
 router.post('/users', createUserController);
 

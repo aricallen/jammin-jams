@@ -6,7 +6,7 @@ import { Button } from '../../common/Button';
 import { spacing } from '../../../constants/style-guide';
 import { media } from '../../../utils/media';
 import { logInUser } from '../../../redux/session/actions';
-import { MetaStatus } from '../../../constants/meta-status';
+import { isBusy } from '../../../redux/utils/meta-status';
 
 const Wrapper = styled('div')`
   width: 100%;
@@ -32,9 +32,10 @@ const ButtonWrapper = styled('div')`
 
 export const SignIn = ({ history }) => {
   const [values, setValues] = useState({});
+  const sessionState = useSelector((state) => state.session);
   const loginError = useSelector((state) => state.session.meta.error);
-  const metaStatus = useSelector((state) => state.session.meta.status);
   const dispatch = useDispatch();
+
   const errorMessage = loginError && loginError.message;
 
   const handleChange = (name) => (event) => {
@@ -43,8 +44,12 @@ export const SignIn = ({ history }) => {
 
   const handleSubmit = async () => {
     try {
-      await dispatch(logInUser(values));
-      history.push('/admin/dashboard');
+      const user = await dispatch(logInUser(values));
+      if (user.isAdmin) {
+        history.push('/admin/dashboard');
+      } else {
+        history.push('/account/orders');
+      }
     } catch (err) {
       console.error(err);
     }
@@ -76,7 +81,7 @@ export const SignIn = ({ history }) => {
           {errorMessage && <FormError>{errorMessage}</FormError>}
 
           <ButtonWrapper>
-            <Button isBusy={metaStatus === MetaStatus.BUSY}>Log in</Button>
+            <Button isBusy={isBusy(sessionState.meta)}>Log in</Button>
           </ButtonWrapper>
         </SignInForm>
       </SignInWrapper>

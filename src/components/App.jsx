@@ -23,7 +23,7 @@ import { Checkout } from './features/store/Checkout';
 
 // account
 import { SignIn } from './features/account/SignIn';
-import { LogOut } from './features/account/LogOut';
+import { SignOut } from './features/account/SignOut';
 import { Page as Orders } from './features/account/orders/Page';
 
 // admin
@@ -72,7 +72,7 @@ export const App = () => {
           <Route exact path="/posts" component={Blog} />
 
           <Route exact path="/account/sign-in" component={SignIn} />
-          <Route exact path="/account/log-out" component={LogOut} />
+          <Route exact path="/account/sign-out" component={SignOut} />
           <Route exact path="/account/orders" component={Orders} />
 
           <Route exact path="/store" component={Store} />
