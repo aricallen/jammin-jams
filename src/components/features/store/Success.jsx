@@ -32,7 +32,9 @@ const ConfNumber = styled('div')`
 const Name = styled('div')``;
 const Amount = styled('div')``;
 const Description = styled('div')``;
-const FooterMessage = styled('div')``;
+const FooterMessage = styled('div')`
+  margin-bottom: ${spacing.double}px;
+`;
 
 const ReceiptFooter = styled('div')`
   margin-top: ${spacing.double}px;
@@ -64,7 +66,6 @@ export const Success = ({ location }) => {
   const sessionState = useSelector((state) => state.session);
   const usersState = useSelector((state) => state.users);
   const checkoutSessionState = useSelector((state) => state.checkoutSession);
-  const emailState = useSelector((state) => state.email);
   const dispatch = useDispatch();
   const sessionId = new URLSearchParams(location.search).get('session_id');
   const checkoutData = sessionState.data[sessionId];
@@ -83,7 +84,7 @@ export const Success = ({ location }) => {
     }
   };
 
-  // create local user with payment customer id
+  // create jj user with payment customer id
   const _createUser = () => {
     if (isResolved(checkoutSessionState.meta)) {
       const { customer } = checkoutSessionState.data;
@@ -128,9 +129,9 @@ export const Success = ({ location }) => {
           ))}
           <ReceiptFooter>
             <FooterMessage>You should receive an email confirmation shortly.</FooterMessage>
-            {/* <Link to="/account/orders">
+            <Link to="/account/orders">
               <Button>View Orders</Button>
-            </Link> */}
+            </Link>
           </ReceiptFooter>
         </Content>
       </Wrapper>

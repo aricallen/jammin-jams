@@ -26,6 +26,21 @@ export const createOne = (data) => {
   };
 };
 
+export const fetchOne = (userId) => {
+  return async (dispatch) => {
+    dispatch({ type: Type.FETCH_ONE_REQUESTED });
+    try {
+      const response = await axios.get(`/api/admin/users/${userId}`);
+      const users = response.data.data;
+      dispatch({ type: Type.FETCH_ONE_SUCCEEDED, users });
+      return users;
+    } catch (err) {
+      dispatch({ type: Type.FETCH_ONE_FAILED, error: parseAxiosError(err) });
+      throw err;
+    }
+  };
+};
+
 export const fetchMany = () => {
   return async (dispatch) => {
     dispatch({ type: Type.FETCH_MANY_REQUESTED });
