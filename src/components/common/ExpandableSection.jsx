@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import styled from '@emotion/styled';
 import { expandSection, collapseSection } from '../../utils/expandable-helpers';
 import { fontSizes } from '../../utils/style-helpers';
-import { border, spacing, animation } from '../../constants/style-guide';
+import { pallet, border, spacing, animation } from '../../constants/style-guide';
 import ChevronIcon from '../../assets/icons/chevron_right.svg';
 import { Row } from './Tables';
 
@@ -14,7 +14,10 @@ const Chevron = styled('div')`
   align-items: center;
   transition: transform ${animation};
   &.is-expanded {
-    transform: rotate(${90 * 5}deg);
+    transform: rotate(${360 + 90}deg);
+  }
+  svg {
+    fill: ${pallet.charcoal};
   }
 `;
 

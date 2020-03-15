@@ -86,7 +86,7 @@ const MainContent = () => {
 
   return (
     <MainContentWrapper>
-      <Section>
+      <Section style={{ marginTop: 0 }}>
         <Introduction />
       </Section>
       <Section>
