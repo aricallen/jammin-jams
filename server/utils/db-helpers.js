@@ -69,9 +69,12 @@ const getRecord = async (conn, tableName, resourceId) => {
 
 const updateRecord = async (conn, tableName, resourceId, values) => {
   try {
-    await conn.query(`UPDATE ${tableName} SET ? WHERE id = ${resourceId}`, omit(values, ['id']));
+    await conn.query(
+      `UPDATE ${tableName} SET ? WHERE id = ${resourceId}`,
+      omit(values, ['id', 'dateCreated', 'dateModified'])
+    );
     const updated = await conn.query(`SELECT * FROM ${tableName} WHERE id = ${resourceId}`);
-    return updated;
+    return updated[0];
   } catch (err) {
     console.log(err);
     throw err;
@@ -82,7 +85,7 @@ const insertRecord = async (conn, tableName, values) => {
   try {
     const result = await conn.query(`INSERT INTO ${tableName} SET ?`, values);
     const inserted = await conn.query(`SELECT * FROM ${tableName} WHERE id = ${result.insertId}`);
-    return inserted;
+    return inserted[0];
   } catch (err) {
     console.log(err);
     throw err;
@@ -101,6 +104,24 @@ const upsertRecord = async (conn, tableName, values, uniqueBy = 'id') => {
   return insertRecord(conn, tableName, values);
 };
 
+const deleteRecord = async (conn, tableName, resourceId) => {
+  try {
+    const existing = await getRecord(conn, tableName, resourceId);
+    if (!existing) {
+      throw new Error(`Unknown '${tableName}' record with id '${resourceId}'`);
+    }
+    const result = await conn.query(`DELETE FROM ${tableName} WHERE id = ?`, [resourceId]);
+    if (result.affectedRows) {
+      return existing;
+    }
+
+    throw new Error(`Nothing was deleted from ${tableName}`);
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
 module.exports = {
   serialize,
   deserialize,
@@ -113,4 +134,5 @@ module.exports = {
   updateRecord,
   insertRecord,
   upsertRecord,
+  deleteRecord,
 };

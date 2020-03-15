@@ -1,13 +1,34 @@
 import React, { useRef } from 'react';
+import Color from 'color';
 import { omit } from 'lodash';
 import styled from '@emotion/styled';
 import { spacing, pallet, font } from '../../constants/style-guide';
 import { Spinner } from './Spinner';
 
+const getBackgroundColor = (props) => {
+  const { variant = 'primary', disabled = false } = props;
+
+  if (disabled && variant === 'primary') {
+    return pallet.light.strawberry;
+  }
+
+  if (disabled && variant === 'secondary') {
+    return Color(pallet.charcoal)
+      .alpha(0.05)
+      .toString();
+  }
+
+  if (variant === 'secondary') {
+    return 'white';
+  }
+
+  return pallet.strawberry;
+};
+
 const ButtonElem = styled('button')`
   cursor: pointer;
   padding: ${spacing.regular}px;
-  background-color: ${(p) => (p.variant === 'secondary' ? 'white' : pallet.strawberry)};
+  background-color: ${getBackgroundColor};
   border-radius: ${spacing.regular}px;
   font-size: 1em;
   font-weight: ${font.weight.bold};
@@ -15,6 +36,7 @@ const ButtonElem = styled('button')`
   display: flex;
   justify-content: center;
   align-items: center;
+  color: ${(p) => (p.variant === 'secondary' ? pallet.strawberry : 'white')};
 
   &:active,
   &:focus,
