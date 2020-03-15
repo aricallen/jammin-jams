@@ -22,8 +22,9 @@ import { Cancel } from './features/store/Cancel';
 import { Checkout } from './features/store/Checkout';
 
 // account
-import { LogIn } from './features/account/LogIn';
+import { SignIn } from './features/account/SignIn';
 import { LogOut } from './features/account/LogOut';
+import { Page as Orders } from './features/account/orders/Page';
 
 // admin
 import { Dashboard } from './features/admin/Dashboard';
@@ -70,8 +71,9 @@ export const App = () => {
           <Route exact path="/posts/:postId" component={BlogPost} />
           <Route exact path="/posts" component={Blog} />
 
-          <Route exact path="/account/log-in" component={LogIn} />
+          <Route exact path="/account/sign-in" component={SignIn} />
           <Route exact path="/account/log-out" component={LogOut} />
+          <Route exact path="/account/orders" component={Orders} />
 
           <Route exact path="/store" component={Store} />
           <Route exact path="/store/checkout" component={Checkout} />

@@ -15,7 +15,7 @@ const Wrapper = styled('div')`
   padding-top: 6%;
 `;
 
-const LogInWrapper = styled('div')`
+const SignInWrapper = styled('div')`
   ${media.mobile()} {
     width: 50%;
   }
@@ -24,13 +24,13 @@ const LogInWrapper = styled('div')`
   max-width: 480px;
 `;
 
-const LogInForm = styled('form')``;
+const SignInForm = styled('form')``;
 
 const ButtonWrapper = styled('div')`
   margin-top: ${spacing.double}px;
 `;
 
-export const LogIn = ({ history }) => {
+export const SignIn = ({ history }) => {
   const [values, setValues] = useState({});
   const loginError = useSelector((state) => state.session.meta.error);
   const metaStatus = useSelector((state) => state.session.meta.status);
@@ -52,8 +52,8 @@ export const LogIn = ({ history }) => {
 
   return (
     <Wrapper>
-      <LogInWrapper>
-        <LogInForm
+      <SignInWrapper>
+        <SignInForm
           onSubmit={(e) => {
             e.preventDefault();
             handleSubmit();
@@ -78,8 +78,8 @@ export const LogIn = ({ history }) => {
           <ButtonWrapper>
             <Button isBusy={metaStatus === MetaStatus.BUSY}>Log in</Button>
           </ButtonWrapper>
-        </LogInForm>
-      </LogInWrapper>
+        </SignInForm>
+      </SignInWrapper>
     </Wrapper>
   );
 };

@@ -31,7 +31,7 @@ const ActionWrapper = styled('div')`
 export const UserMessage = ({ Message, ImageSection = null, action = null }) => {
   return (
     <Wrapper>
-      <ImageSection />
+      {ImageSection && <ImageSection />}
       <HeaderText>
         <Message />
       </HeaderText>

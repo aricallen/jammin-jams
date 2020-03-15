@@ -36,7 +36,7 @@ router.get('/status', async (req, res) => {
   });
 });
 
-router.post('/log-in', loginController);
+router.post('/sign-in', loginController);
 
 router.post('/users', createUserController);
 

@@ -25,7 +25,7 @@ const handleRouting = (routeProps, Component, sessionState) => {
     return (
       <Redirect
         to={{
-          pathname: '/account/log-in',
+          pathname: '/account/sign-in',
           state: { from: routeProps.location },
         }}
       />

@@ -146,7 +146,7 @@ const LOGGED_IN_ITEMS = [
 const LOGGED_OUT_ITEMS = [
   {
     text: 'Sign In',
-    path: '/account/log-in',
+    path: '/account/sign-in',
   },
 ];
 
