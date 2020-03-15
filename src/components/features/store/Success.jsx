@@ -84,9 +84,9 @@ export const Success = ({ location }) => {
     }
   };
 
-  // create jj user with payment customer id
+  // create jj user with payment customer id if the user is new
   const _createUser = () => {
-    if (isResolved(checkoutSessionState.meta)) {
+    if (isResolved(checkoutSessionState.meta) && checkoutData.formValues.password) {
       const { customer } = checkoutSessionState.data;
       const { email, password } = checkoutData.formValues;
       dispatch(createOne({ email, password, userRolesId: 2, paymentCustomerId: customer.id }));

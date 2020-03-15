@@ -8,6 +8,7 @@ const { controller: waitlistController } = require('../controllers/waitlist');
 const { controller: createUserController } = require('../controllers/create-user');
 const { getConnection } = require('../utils/db-helpers');
 const { router: uploadsRouter } = require('./uploads');
+const { router: appStatusRouter } = require('./app-status');
 
 // /api
 const router = express.Router();
@@ -17,6 +18,7 @@ router.use('/admin', crudRouter);
 router.use('/stripe', stripeRouter);
 router.use('/session', sessionRouter);
 router.use('/email', emailRouter);
+router.use('/app-status', appStatusRouter);
 
 // general api
 router.get('/status', async (req, res) => {

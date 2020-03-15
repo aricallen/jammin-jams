@@ -74,9 +74,18 @@ const Form = ({ values, handleChange, errors }) => (
   </Fragment>
 );
 
-const SignedInForm = ({ sessionUser }) => (
-  <FormInput name="email" type="email" disabled={true} value={sessionUser.email} onChange={null} />
-);
+const SignedInForm = ({ sessionUser, onUpdate }) => {
+  onUpdate('email', sessionUser.email);
+  return (
+    <FormInput
+      name="email"
+      type="email"
+      disabled={true}
+      value={sessionUser.email}
+      onChange={null}
+    />
+  );
+};
 
 export const CreateAccount = (props) => {
   const dispatch = useDispatch();
@@ -108,7 +117,7 @@ export const CreateAccount = (props) => {
   return (
     <Fragment>
       {sessionUser ? (
-        <SignedInForm sessionUser={sessionUser} />
+        <SignedInForm sessionUser={sessionUser} onUpdate={onUpdate} />
       ) : (
         <Form handleChange={handleChange} values={values} errors={errors} />
       )}

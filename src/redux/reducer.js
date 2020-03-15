@@ -12,6 +12,7 @@ import { users } from './users/reducer';
 import { email } from './email/reducer';
 import { coupons } from './coupons/reducer';
 import { orders } from './orders/reducer';
+import { appStatus } from './app-status/reducer';
 
 export const rootReducer = combineReducers({
   session,
@@ -27,4 +28,5 @@ export const rootReducer = combineReducers({
   email,
   coupons,
   orders,
+  appStatus,
 });

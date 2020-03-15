@@ -12,9 +12,9 @@ import { Shipping } from './Shipping';
 import { Payment } from './Payment';
 import { CartPreview } from './CartPreview';
 import { CreateAccount } from './CreateAccount';
-import { createOne } from '../../../redux/checkout-session/actions';
+import { createOne as createCheckoutSession } from '../../../redux/checkout-session/actions';
 import { isBusy, isResolved } from '../../../redux/utils/meta-status';
-import { fetchMany as fetchUsers } from '../../../redux/users/actions';
+import { fetchOne as fetchAppStatus } from '../../../redux/app-status/actions';
 
 const STRIPE_SCRIPT_ID = 'STRIPE_SCRIPT_ID';
 const STRIPE_SRC = 'https://js.stripe.com/v3/';
@@ -132,13 +132,8 @@ export const Checkout = () => {
   const cart = useSelector((state) => state.cart.data);
   const checkoutSessionState = useSelector((state) => state.checkoutSession);
   const couponsState = useSelector((state) => state.coupons);
+  const appStatusState = useSelector((state) => state.appStatus);
   const dispatch = useDispatch();
-  const users = useSelector((state) => state.users);
-
-  const _fetchUsers = () => {
-    dispatch(fetchUsers());
-  };
-  useEffect(_fetchUsers, []);
 
   // fake add an item to cart
   if (process.env.TARGET_ENV !== 'production' && cart.length === 0) {
@@ -167,21 +162,23 @@ export const Checkout = () => {
   };
   useEffect(loadStripe, []);
 
-  /**
-   * check for max subscribers
-   */
-  const subscribedUsers = users.data.filter((user) => user.isSubscriber);
+  const _fetchAppStatus = () => {
+    if (!isResolved(appStatusState.meta)) {
+      dispatch(fetchAppStatus());
+    }
+  };
+  useEffect(_fetchAppStatus, []);
 
   if (cart.length === 0) {
     return <Redirect to="/store" />;
   }
 
-  if (isResolved(users.meta) && subscribedUsers.length > +process.env.MAX_SUBSCRIBERS) {
-    return <Redirect to="/waitlist" />;
+  if (!isStripeLoaded || !isResolved(appStatusState.meta)) {
+    return <Spinner variant="large" />;
   }
 
-  if (!isStripeLoaded || !isResolved(users.meta)) {
-    return <Spinner variant="large" />;
+  if (appStatusState.data.isFull) {
+    return <Redirect to="/waitlist" />;
   }
 
   const onUpdate = (name, value) => {
@@ -202,7 +199,7 @@ export const Checkout = () => {
       setActiveSection(nextSection);
     } else {
       // create session and redirect
-      dispatch(createOne(values));
+      dispatch(createCheckoutSession(values));
     }
   };
 
