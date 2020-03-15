@@ -1,53 +1,60 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { sizes, spacing } from '../../constants/style-guide';
-import { Input } from './Forms';
+import { withRouter } from 'react-router-dom';
+import { sizes, pallet, spacing } from '../../constants/style-guide';
+import { Emoji } from './Structure';
+import { FollowUs } from './FollowUs';
+import { media } from '../../utils/media';
 
 const Wrapper = styled('div')`
   width: 100%;
+  display: grid;
   min-height: ${sizes.rowHeight}px;
-  background-color: white;
+  margin-top: ${spacing.quadruple}px;
+  padding: ${spacing.double}px;
+  background-color: ${pallet.charcoal};
   color: white;
-  display: flex;
-  align-items: center;
-`;
-
-const FormWrapper = styled('div')`
-  width: 100%;
-  display: flex;
-  justify-content: center;
-`;
-
-const FieldsWrapper = styled('div')`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-grow: 1;
-  max-width: 70%;
-  input {
-    flex-grow: 1;
-    margin-right: ${spacing.regular}px;
-    &:last-child {
-      flex-grow: 2;
-    }
+  grid-template-columns: repeat(3, 1fr);
+  ${media.mobile()} {
+    grid-template-columns: 1fr;
   }
 `;
 
-const Span = styled('span')`
-  margin-right: ${spacing.regular}px;
+const Heart = styled(Emoji)`
+  display: inline-block;
+  padding: 0 ${spacing.regular}px;
 `;
 
-export const Footer = () => {
+const Left = styled('div')``;
+const Middle = styled('div')`
+  align-self: center;
+`;
+const Right = styled('div')``;
+
+const TagLine = styled('div')`
+  margin-top: ${spacing.regular}px;
+  display: flex;
+  justify-content: center;
+`;
+
+export const Footer = withRouter((routeProps) => {
+  if (routeProps.location.pathname.includes('admin')) {
+    return null;
+  }
   return (
     <Wrapper>
-      {/* <FormWrapper>
-        <FieldsWrapper>
-          <Span>Join our mailing list!</Span>
-          <Input placeholder="first name" />
-          <Input placeholder="last name" />
-          <Input placeholder="email address" />
-        </FieldsWrapper>
-      </FormWrapper> */}
+      <Left />
+      <Middle>
+        <TagLine>
+          Made with&nbsp;<Heart label="heart">💜</Heart>&nbsp;in an Oakland kitchen.
+        </TagLine>
+      </Middle>
+      <Right>
+        <TagLine>Follow us around the interwebs!</TagLine>
+        <TagLine>
+          <FollowUs isInline={true} />
+        </TagLine>
+      </Right>
     </Wrapper>
   );
-};
+});

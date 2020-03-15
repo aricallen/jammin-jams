@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { spacing, animation, pallet } from '../../constants/style-guide';
+import { spacing, animation, pallet, font } from '../../constants/style-guide';
 import { fontSizes } from '../../utils/style-helpers';
 import { media } from '../../utils/media';
 
@@ -16,6 +16,7 @@ export const Header1 = styled('h1')`
     margin-bottom: ${spacing.triple}px;
   }
   ${fontSizes('header1')}
+  font-weight: ${font.weight.bold};
 `;
 
 export const Header2 = styled('h2')`
@@ -38,7 +39,7 @@ export const Paragraph = styled('p')`
 
 export const Emphasis = styled('span')`
   font-style: italic;
-  font-weight: bold;
+  font-weight: ${font.weight.semiBold};
 `;
 
 export const Link = styled('a')`
@@ -54,6 +55,14 @@ export const Link = styled('a')`
   &:hover {
     color: ${pallet.light.strawberry};
   }
+`;
+
+export const OrderedList = styled('ol')`
+  padding-left: ${spacing.regular * 5}px;
+`;
+
+export const ListItem = styled('li')`
+  padding-left: ${spacing.double}px;
 `;
 
 export const Emoji = ({ label, children }) => {
