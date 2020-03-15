@@ -1,4 +1,5 @@
 import { css } from '@emotion/core';
+import { pallet, animation } from './style-guide';
 
 export const globalStyles = css`
   html,
@@ -19,7 +20,7 @@ export const globalStyles = css`
   ul,
   a,
   li {
-    line-height: 1.42em;
+    line-height: 1.5em;
   }
 
   .anton {
@@ -35,6 +36,11 @@ export const globalStyles = css`
   }
 
   a {
+    color: ${pallet.strawberry};
     text-decoration: none;
+    transition: color ${animation};
+    &:hover {
+      color: ${pallet.light.strawberry};
+    }
   }
 `;

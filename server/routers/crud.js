@@ -4,9 +4,11 @@ const {
   getRecord,
   getRecords,
   upsertRecord,
+  updateRecord,
   insertRecord,
+  deleteRecord,
 } = require('../utils/db-helpers');
-const { parseError, checkReadonly, createUpdateController } = require('../utils/api-helpers');
+const { parseError, checkReadonly } = require('../utils/api-helpers');
 
 const router = express.Router();
 
@@ -50,8 +52,18 @@ router.get('/:tableName', async (req, res) => {
  * UPDATE
  */
 
-router.put('/:tableName/:resourceId', checkReadonly, (req) => {
-  return createUpdateController(req.params.tableName);
+router.put('/:tableName/:resourceId', checkReadonly, async (req, res) => {
+  const { tableName, resourceId } = req.params;
+  const conn = await getConnection();
+  try {
+    const updated = await updateRecord(conn, tableName, resourceId, req.body);
+    res.send({
+      data: updated,
+    });
+  } catch (err) {
+    res.status(400).send(parseError(err, req));
+  }
+  conn.end();
 });
 
 /**
@@ -71,7 +83,7 @@ router.post('/:tableName', checkReadonly, async (req, res) => {
     }
     const inserted = await insertRecord(conn, tableName, req.body);
     return res.send({
-      data: inserted[0],
+      data: inserted,
     });
   } catch (err) {
     res.status(400).send(parseError(err, req));
@@ -87,7 +99,7 @@ router.delete('/:tableName/:resourceId', checkReadonly, async (req, res) => {
   const { tableName, resourceId } = req.params;
   const conn = await getConnection();
   try {
-    const results = await conn.query(`DELETE FROM ${tableName} WHERE id = ?`, resourceId);
+    const results = await deleteRecord(conn, tableName, resourceId);
     res.send({
       data: results[0],
     });

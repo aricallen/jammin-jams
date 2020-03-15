@@ -39,27 +39,19 @@ export const spacing = {
   quadruple: 32,
 };
 
-export const ScreenSizes = {
-  PHONE: 'PHONE',
-  TABLET: 'TABLET',
-  DESKTOP: 'DESKTOP',
-};
-
-export const screenSize = {
-  [ScreenSizes.PHONE]: 768,
-  [ScreenSizes.TABLET]: 1024,
-  [ScreenSizes.DESKTOP]: 1440,
-};
-
 export const sizes = {
   rowHeight: 64,
+  thumbnailWidth: 200,
+  phoneWidth: 768,
+  tabletWidth: 1024,
+  desktopWidth: 1440,
 };
 
 const baseFontSizes = {
-  small: 12,
-  regular: 16,
+  small: 16,
+  regular: 18,
   large: 24,
-  largest: 32,
+  largest: 30,
   header1: 24,
   header2: 20,
   header3: 18,
@@ -68,7 +60,7 @@ const baseFontSizes = {
 
 const mobileFontSizes = Object.entries(baseFontSizes).reduce((acc, curr) => {
   const [key, val] = curr;
-  acc[key] = val * 2;
+  acc[key] = val + 6;
   return acc;
 }, {});
 

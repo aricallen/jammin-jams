@@ -98,7 +98,7 @@ router.post('/checkout/success', async (req, res) => {
     const { customer: customerId } = sessionRecord;
     const fullName = `${formValues.firstName} ${formValues.lastName}`;
     const customerRecord = await stripe.customers.update(customerId, {
-      description: sessionRecord.display_items.map((item) => item.description).join(' - '),
+      description: sessionRecord.display_items.map((item) => item.custom.description).join(' - '),
       name: fullName,
       shipping: {
         address: {
@@ -110,7 +110,10 @@ router.post('/checkout/success', async (req, res) => {
       },
     });
     res.send({
-      data: customerRecord,
+      data: {
+        ...sessionRecord,
+        customer: customerRecord,
+      },
     });
   } catch (err) {
     res.status(400).send({

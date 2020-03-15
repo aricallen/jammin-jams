@@ -11,6 +11,9 @@ import CartIcon from '../../assets/icons/shopping_cart.svg';
 
 const Wrapper = styled('nav')`
   display: flex;
+  position: sticky;
+  top: 0;
+  z-index: 10;
   align-items: center;
   justify-content: space-between;
   min-height: ${sizes.rowHeight}px;
@@ -48,7 +51,31 @@ const NavList = styled('ul')`
 const NavItem = styled('li')`
   margin-left: ${spacing.double}px;
   display: inline-block;
+  position: relative;
   ${fontSizes('large')}
+  .sub-nav {
+    display: none;
+  }
+  &:hover {
+    .sub-nav {
+      display: initial;
+    }
+  }
+`;
+
+const SubNav = styled('nav')`
+  position: absolute;
+  top: ${spacing.quadruple}px;
+  left: 0;
+  display: block;
+  background: ${pallet.light.blueberry};
+  width: max-content;
+  & > li {
+    padding: ${spacing.regular}px;
+    margin-left: 0;
+    display: block;
+    border-bottom: 1px solid white;
+  }
 `;
 
 const NavLink = styled(BaseNavLink)`
@@ -82,11 +109,27 @@ const IconWrapper = styled('div')`
   }
 `;
 
+const ABOUT_ITEMS = [
+  {
+    text: 'How It Works',
+    path: '/about/how-it-works',
+  },
+  {
+    text: 'FAQs',
+    path: '/about/faqs',
+  },
+  {
+    text: 'Delivery Calendar',
+    path: '/about/delivery-calendar',
+  },
+];
+
 const NAV_ITEMS = [
-  // {
-  //   text: 'About',
-  //   path: '/about',
-  // },
+  {
+    text: 'About',
+    path: '/about',
+    children: ABOUT_ITEMS,
+  },
   {
     text: 'Store',
     path: '/store',
@@ -113,6 +156,20 @@ const getNavItems = (navItems, sessionState) => {
   }
   return [...navItems, ...LOGGED_OUT_ITEMS];
 };
+
+const renderNavItem = (item) => (
+  <NavItem key={item.path}>
+    <NavLink
+      to={item.path}
+      activeStyle={{
+        color: pallet.light.strawberry,
+      }}
+    >
+      {item.text}
+    </NavLink>
+    {item.children ? <SubNav className="sub-nav">{item.children.map(renderNavItem)}</SubNav> : null}
+  </NavItem>
+);
 
 export const NavBar = withRouter(({ history }) => {
   const sessionState = useSelector((state) => state.session);
@@ -141,20 +198,7 @@ export const NavBar = withRouter(({ history }) => {
         </Brand>
       </BarSection>
       <BarSection>
-        <NavList>
-          {navItems.map((item) => (
-            <NavItem key={item.path}>
-              <NavLink
-                to={item.path}
-                activeStyle={{
-                  color: pallet.light.strawberry,
-                }}
-              >
-                {item.text}
-              </NavLink>
-            </NavItem>
-          ))}
-        </NavList>
+        <NavList>{navItems.map(renderNavItem)}</NavList>
         {cart.length > 0 && (
           <IconWrapper onClick={() => history.push('/store/checkout')}>
             <CartIcon />
