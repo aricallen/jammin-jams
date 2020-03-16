@@ -17,6 +17,10 @@ export const Type = {
   FETCH_SESSION_REQUESTED: 'session/FETCH_SESSION_REQUESTED',
   FETCH_SESSION_SUCCEEDED: 'session/FETCH_SESSION_SUCCEEDED',
   FETCH_SESSION_FAILED: 'session/FETCH_SESSION_FAILED',
+
+  FETCH_SESSION_USER_REQUESTED: 'session/FETCH_SESSION_USER_REQUESTED',
+  FETCH_SESSION_USER_SUCCEEDED: 'session/FETCH_SESSION_USER_SUCCEEDED',
+  FETCH_SESSION_USER_FAILED: 'session/FETCH_SESSION_USER_FAILED',
 };
 
 export const logInUser = ({ email, password }) => {
@@ -56,6 +60,20 @@ export const fetchSession = () => {
       dispatch({ type: Type.FETCH_SESSION_SUCCEEDED, data: response.data.data });
     } catch (err) {
       dispatch({ type: Type.FETCH_SESSION_FAILED, error: parseAxiosError(err) });
+      throw err;
+    }
+  };
+};
+
+export const fetchSessionUser = (email) => {
+  return async (dispatch) => {
+    dispatch({ type: Type.FETCH_SESSION_USER_REQUESTED });
+    try {
+      const response = await axios.get(`/api/users/email/${email}`);
+      const user = response.data.data;
+      dispatch({ type: Type.FETCH_SESSION_USER_SUCCEEDED, user });
+    } catch (err) {
+      dispatch({ type: Type.FETCH_SESSION_USER_FAILED, error: parseAxiosError(err) });
       throw err;
     }
   };

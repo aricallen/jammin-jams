@@ -12,15 +12,18 @@ const meta = (state = initialMeta, action) => {
     case Type.SIGN_OUT_REQUESTED:
     case Type.CREATE_SESSION_REQUESTED:
     case Type.FETCH_SESSION_REQUESTED:
+    case Type.FETCH_SESSION_USER_REQUESTED:
       return { ...state, status: MetaStatus.BUSY };
     case Type.SIGN_IN_FAILED:
     case Type.SIGN_OUT_FAILED:
     case Type.FETCH_SESSION_FAILED:
+    case Type.FETCH_SESSION_USER_FAILED:
     case Type.CREATE_SESSION_FAILED:
       return { ...state, error: action.error, status: MetaStatus.ERRORED };
     case Type.SIGN_IN_SUCCEEDED:
     case Type.SIGN_OUT_SUCCEEDED:
     case Type.FETCH_SESSION_SUCCEEDED:
+    case Type.FETCH_SESSION_USER_SUCCEEDED:
     case Type.CREATE_SESSION_SUCCEEDED:
       return { ...state, status: MetaStatus.RESOLVED };
     default:
@@ -34,6 +37,7 @@ const data = (state = initialData, action) => {
   switch (action.type) {
     case Type.SIGN_IN_SUCCEEDED:
     case Users.Type.CREATE_ONE_SUCCEEDED:
+    case Type.FETCH_SESSION_USER_SUCCEEDED:
       return { ...state, user: deserializeUser(action.user) };
     case Type.SIGN_OUT_SUCCEEDED:
       return { ...state, user: action.user };

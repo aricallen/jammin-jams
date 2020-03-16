@@ -8,7 +8,7 @@ import { updateOne as updateUser } from '../../../redux/users/actions';
 import { Spinner } from '../../common/Spinner';
 import { Button } from '../../common/Button';
 import { boxShadow, spacing } from '../../../constants/style-guide';
-import { fetchSession } from '../../../redux/session/actions';
+import { fetchSession, fetchSessionUser } from '../../../redux/session/actions';
 import { updateOne as updateCheckoutSession } from '../../../redux/checkout-session/actions';
 import { addMember } from '../../../redux/email/actions';
 import { ErrorPage } from '../ErrorPage';
@@ -81,12 +81,13 @@ export const Success = ({ location }) => {
   // update new customer with shipping info
   const _updateCheckoutSession = () => {
     if (checkoutData) {
+      dispatch(fetchSessionUser(checkoutData.formValues.email));
       dispatch(updateCheckoutSession(checkoutData.formValues, sessionId));
     }
   };
 
   const _updateUser = () => {
-    if (!MetaStatus.isBusy(usersState.meta) && !sessionUser?.paymentCustomerId && checkoutData) {
+    if (sessionUser && !sessionUser.paymentCustomerId && checkoutData) {
       const userRecord = {
         ...sessionUser,
         paymentCustomerId: checkoutData?.customer,

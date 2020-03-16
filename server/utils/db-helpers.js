@@ -67,6 +67,16 @@ const getRecord = async (conn, tableName, resourceId) => {
   }
 };
 
+const getRecordBy = async (conn, tableName, key, value) => {
+  try {
+    const results = await conn.query(`SELECT * FROM ${tableName} WHERE ${key} = ?`, value);
+    return results[0];
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
 const updateRecord = async (conn, tableName, resourceId, values) => {
   try {
     await conn.query(
@@ -135,4 +145,5 @@ module.exports = {
   insertRecord,
   upsertRecord,
   deleteRecord,
+  getRecordBy,
 };
