@@ -66,7 +66,7 @@ export const Page = () => {
     return <SignInMessage />;
   }
 
-  if (MetaStatus.isBusy(sessionState.meta)) {
+  if (MetaStatus.isBusy(sessionState.meta) || MetaStatus.isBusy(ordersState.meta)) {
     return <Spinner variant="large" />;
   }
 

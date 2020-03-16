@@ -30,6 +30,7 @@ router.get('/email/:email', async (req, res) => {
   try {
     const conn = await getConnection();
     const userRecord = await getRecordBy(conn, 'users', 'email', email);
+    // also "sign in" user by updating session
     if (req.query.updateSession === 'true' || req.query.updateSession === true) {
       updateSession(req, 'user');
     }
