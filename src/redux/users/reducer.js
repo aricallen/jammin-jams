@@ -38,7 +38,7 @@ const data = (state = initialData, action) => {
   switch (action.type) {
     case Type.CREATE_ONE_SUCCEEDED:
     case Type.UPDATE_ONE_SUCCEEDED:
-      return replaceOne(state, deserializeUser(action.user));
+      return replaceOne(deserializeUser(action.user), state);
     case Type.FETCH_MANY_SUCCEEDED:
       return action.users.map(deserializeUser);
     default:

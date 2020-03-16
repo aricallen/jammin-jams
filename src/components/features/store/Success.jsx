@@ -86,10 +86,10 @@ export const Success = ({ location }) => {
   };
 
   const _updateUser = () => {
-    if (!MetaStatus.isBusy(usersState.meta) && !sessionUser?.paymentCustomerId) {
+    if (!MetaStatus.isBusy(usersState.meta) && !sessionUser?.paymentCustomerId && checkoutData) {
       const userRecord = {
         ...sessionUser,
-        paymentCustomerId: checkoutData.customer,
+        paymentCustomerId: checkoutData?.customer,
         firstName: checkoutData.formValues.firstName,
         lastName: checkoutData.formValues.lastName,
         isActive: 1,
@@ -112,7 +112,7 @@ export const Success = ({ location }) => {
 
   useEffect(_fetchSession, []);
   useEffect(_updateCheckoutSession, [checkoutData]);
-  useEffect(_updateUser, [sessionUser]);
+  useEffect(_updateUser, [sessionUser, checkoutData]);
   useEffect(_addMember, [MetaStatus.isResolved(usersState.meta)]);
 
   const requiredStates = [sessionState, checkoutSessionState];

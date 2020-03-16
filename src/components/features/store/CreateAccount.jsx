@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -28,9 +28,15 @@ const ButtonWrapper = styled('div')`
   margin-top: ${spacing.double}px;
 `;
 
-const getErrors = (values) => {
+const emailRegexp = /^([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9_\-.]+)\.([a-zA-Z]{2,5})$/;
+
+const getErrors = (values, hasTouched = false) => {
   const errors = {};
-  const { password, confirmPassword } = values;
+  const { email, password, confirmPassword } = values;
+
+  if (hasTouched && !emailRegexp.test(email)) {
+    errors.email = 'Invalid email';
+  }
 
   if (!password || password.length === 0 || !confirmPassword || confirmPassword.length === 0) {
     return errors;
@@ -48,42 +54,47 @@ const getErrors = (values) => {
 
 const getInputValue = (e) => e.target.value;
 
-const CreateForm = ({ values, handleChange, errors, onSubmitCreate, isBusy }) => (
-  <Fragment>
-    <Text>
-      Already have an account? <Link to="/account/sign-in">Sign in</Link>
-    </Text>
-    <FormInput
-      name="email"
-      type="email"
-      value={values.email || ''}
-      onChange={handleChange('email')}
-      error={errors.email}
-      isRequired={true}
-    />
-    <FormInput
-      name="password"
-      type="password"
-      value={values.password || ''}
-      onChange={handleChange('password')}
-      error={errors.password}
-      isRequired={true}
-    />
-    <FormInput
-      name="confirmPassword"
-      type="password"
-      value={values.confirmPassword || ''}
-      onChange={handleChange('confirmPassword')}
-      error={errors.confirmPassword}
-      isRequired={true}
-    />
-    <ButtonWrapper>
-      <Button onClick={onSubmitCreate} type="button" isBusy={isBusy}>
-        Create Account
-      </Button>
-    </ButtonWrapper>
-  </Fragment>
-);
+const getHasErrors = (errors) => Object.values(errors).length > 0;
+
+const CreateForm = ({ values, handleChange, errors, onSubmitCreate, isBusy }) => {
+  const hasErrors = getHasErrors(errors);
+  return (
+    <Fragment>
+      <Text>
+        Already have an account? <Link to="/account/sign-in">Sign in</Link>
+      </Text>
+      <FormInput
+        name="email"
+        type="email"
+        value={values.email || ''}
+        onChange={handleChange('email')}
+        error={errors.email}
+        isRequired={true}
+      />
+      <FormInput
+        name="password"
+        type="password"
+        value={values.password || ''}
+        onChange={handleChange('password')}
+        error={errors.password}
+        isRequired={true}
+      />
+      <FormInput
+        name="confirmPassword"
+        type="password"
+        value={values.confirmPassword || ''}
+        onChange={handleChange('confirmPassword')}
+        error={errors.confirmPassword}
+        isRequired={true}
+      />
+      <ButtonWrapper>
+        <Button onClick={onSubmitCreate} type="button" isBusy={isBusy} disabled={hasErrors}>
+          Create Account
+        </Button>
+      </ButtonWrapper>
+    </Fragment>
+  );
+};
 
 const SignedInForm = ({ sessionUser, values, onUpdate }) => {
   if (values.email !== sessionUser.email) {
@@ -101,6 +112,7 @@ const SignedInForm = ({ sessionUser, values, onUpdate }) => {
 
 export const CreateAccount = (props) => {
   const dispatch = useDispatch();
+  const [hasTouched, setHasTouched] = useState(false);
   const sessionState = useSelector((state) => state.session);
   const usersState = useSelector((state) => state.users);
   const sessionUser = sessionState.data.user;
@@ -119,7 +131,7 @@ export const CreateAccount = (props) => {
     onUpdate(name, newVal);
   };
 
-  const errors = getErrors(values);
+  const errors = getErrors(values, hasTouched);
 
   if (MetaStatus.isBusy(sessionState.meta)) {
     return <Spinner />;
@@ -129,8 +141,12 @@ export const CreateAccount = (props) => {
 
   const onSubmitCreate = (e) => {
     e.preventDefault();
-    const { email, password } = values;
-    dispatch(createUser({ email, password, userRolesId: 2, isActive: false }));
+    setHasTouched(true);
+    const hasErrors = getHasErrors(getErrors(values, true));
+    if (!hasErrors) {
+      const { email, password } = values;
+      dispatch(createUser({ email, password, userRolesId: 2, isActive: false }));
+    }
   };
 
   return (

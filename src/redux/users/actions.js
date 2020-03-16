@@ -34,7 +34,7 @@ export const updateOne = (values) => {
   return async (dispatch) => {
     dispatch({ type: Type.UPDATE_ONE_REQUESTED });
     try {
-      const response = await axios.post(`/api/admin/users`, values);
+      const response = await axios.put(`/api/admin/users/${values.id}`, values);
       const user = response.data.data;
       dispatch({ type: Type.UPDATE_ONE_SUCCEEDED, user });
       return user;
