@@ -69,7 +69,7 @@ export const fetchSessionUser = (email) => {
   return async (dispatch) => {
     dispatch({ type: Type.FETCH_SESSION_USER_REQUESTED });
     try {
-      const response = await axios.get(`/api/users/email/${email}`);
+      const response = await axios.get(`/api/users/email/${email}?updateSession=true`);
       const user = response.data.data;
       dispatch({ type: Type.FETCH_SESSION_USER_SUCCEEDED, user });
     } catch (err) {
