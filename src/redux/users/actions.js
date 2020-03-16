@@ -6,6 +6,10 @@ export const Type = {
   CREATE_ONE_SUCCEEDED: 'users/CREATE_ONE_SUCCEEDED',
   CREATE_ONE_FAILED: 'users/CREATE_ONE_FAILED',
 
+  UPDATE_ONE_REQUESTED: 'users/UPDATE_ONE_REQUESTED',
+  UPDATE_ONE_SUCCEEDED: 'users/UPDATE_ONE_SUCCEEDED',
+  UPDATE_ONE_FAILED: 'users/UPDATE_ONE_FAILED',
+
   FETCH_MANY_REQUESTED: 'users/FETCH_MANY_REQUESTED',
   FETCH_MANY_SUCCEEDED: 'users/FETCH_MANY_SUCCEEDED',
   FETCH_MANY_FAILED: 'users/FETCH_MANY_FAILED',
@@ -21,6 +25,21 @@ export const createOne = (data) => {
       return user;
     } catch (err) {
       dispatch({ type: Type.CREATE_ONE_FAILED, error: parseAxiosError(err) });
+      throw err;
+    }
+  };
+};
+
+export const updateOne = (values) => {
+  return async (dispatch) => {
+    dispatch({ type: Type.UPDATE_ONE_REQUESTED });
+    try {
+      const response = await axios.post(`/api/admin/users`, values);
+      const user = response.data.data;
+      dispatch({ type: Type.UPDATE_ONE_SUCCEEDED, user });
+      return user;
+    } catch (err) {
+      dispatch({ type: Type.UPDATE_ONE_FAILED, error: parseAxiosError(err) });
       throw err;
     }
   };

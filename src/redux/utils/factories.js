@@ -4,6 +4,7 @@ import { combineReducers } from 'redux';
 import { parseAxiosError } from './error';
 import { MetaStatus } from '../../constants/meta-status';
 import { deserialize } from './deserialize';
+import { replaceOne, replaceMany, removeOne, removeMany } from './reducer-helpers';
 
 const DEFAULT_VERBS = ['fetch', 'update', 'create', 'delete'];
 const DEFAULT_VARIATIONS = ['one', 'many'];
@@ -89,26 +90,6 @@ export const createDefaultReducers = (
         return state;
     }
   };
-
-  const replaceOne = (newResource, state) => {
-    return state.map((oldResource) =>
-      newResource.id === oldResource.id ? newResource : oldResource
-    );
-  };
-
-  const replaceMany = (newResources, state) => {
-    return state.map((oldResource) => {
-      const toReplace = newResources.find((resource) => resource.id === oldResource.id);
-      return toReplace || oldResource;
-    });
-  };
-
-  const removeOne = (deleted, state) => state.filter((resource) => resource.id !== deleted.id);
-
-  const removeMany = (deleted, state) =>
-    state.filter(
-      (resource) => !deleted.some((deletedResource) => deletedResource.id === resource.id)
-    );
 
   const data = (state = initialData, action) => {
     switch (action.type) {

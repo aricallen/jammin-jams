@@ -6,6 +6,7 @@ import { FormInput } from '../../common/Forms';
 import { Checkbox } from '../../common/Checkbox';
 import { Spinner } from '../../common/Spinner';
 import { Button } from '../../common/Button';
+import { Emphasis } from '../../common/Structure';
 import { spacing } from '../../../constants/style-guide';
 import * as MetaStatus from '../../../redux/utils/meta-status';
 import { fetchSession } from '../../../redux/session/actions';
@@ -47,16 +48,7 @@ const getErrors = (values) => {
 
 const getInputValue = (e) => e.target.value;
 
-const isValidField = (value) => value?.length > 0;
-
-const getIsValid = (values, sessionUser) => {
-  if (sessionUser) {
-    return false;
-  }
-  return Object.values(values).every(isValidField);
-};
-
-const CreateForm = ({ values, handleChange, errors, onSubmitCreate }) => (
+const CreateForm = ({ values, handleChange, errors, onSubmitCreate, isBusy }) => (
   <Fragment>
     <Text>
       Already have an account? <Link to="/account/sign-in">Sign in</Link>
@@ -79,14 +71,16 @@ const CreateForm = ({ values, handleChange, errors, onSubmitCreate }) => (
     />
     <FormInput
       name="confirmPassword"
-      type="confirmPassword"
+      type="password"
       value={values.confirmPassword || ''}
       onChange={handleChange('confirmPassword')}
       error={errors.confirmPassword}
       isRequired={true}
     />
     <ButtonWrapper>
-      <Button onClick={onSubmitCreate}>Create Account</Button>
+      <Button onClick={onSubmitCreate} type="button" isBusy={isBusy}>
+        Create Account
+      </Button>
     </ButtonWrapper>
   </Fragment>
 );
@@ -95,14 +89,13 @@ const SignedInForm = ({ sessionUser, values, onUpdate }) => {
   if (values.email !== sessionUser.email) {
     onUpdate('email', sessionUser.email);
   }
+  if (!sessionUser.email) {
+    return <Text>Uh oh... something is not right... please try again later.</Text>;
+  }
   return (
-    <FormInput
-      name="email"
-      type="email"
-      disabled={true}
-      value={sessionUser.email}
-      onChange={null}
-    />
+    <Text>
+      Signed in as <Emphasis>{sessionUser.email}</Emphasis>
+    </Text>
   );
 };
 
@@ -132,9 +125,10 @@ export const CreateAccount = (props) => {
     return <Spinner />;
   }
 
-  setIsValid(getIsValid(values, sessionUser));
+  setIsValid(!!sessionUser);
 
-  const onSubmitCreate = () => {
+  const onSubmitCreate = (e) => {
+    e.preventDefault();
     const { email, password } = values;
     dispatch(createUser({ email, password, userRolesId: 2, isActive: false }));
   };

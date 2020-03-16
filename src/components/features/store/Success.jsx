@@ -3,8 +3,8 @@ import styled from '@emotion/styled';
 import { Redirect, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Content, Header2 } from '../../common/Structure';
-import { isResolved, isErrored, isInitial } from '../../../redux/utils/meta-status';
-import { createOne } from '../../../redux/users/actions';
+import * as MetaStatus from '../../../redux/utils/meta-status';
+import { updateOne as updateUser } from '../../../redux/users/actions';
 import { Spinner } from '../../common/Spinner';
 import { Button } from '../../common/Button';
 import { boxShadow, spacing } from '../../../constants/style-guide';
@@ -69,10 +69,11 @@ export const Success = ({ location }) => {
   const dispatch = useDispatch();
   const sessionId = new URLSearchParams(location.search).get('session_id');
   const checkoutData = sessionState.data[sessionId];
+  const sessionUser = sessionState.data.user;
 
   // get session data from server
   const _fetchSession = () => {
-    if (!isInitial(sessionState.meta)) {
+    if (!MetaStatus.isInitial(sessionState.meta)) {
       dispatch(fetchSession());
     }
   };
@@ -84,9 +85,22 @@ export const Success = ({ location }) => {
     }
   };
 
+  const _updateUser = () => {
+    if (!MetaStatus.isBusy(usersState.meta) && !sessionUser?.paymentCustomerId) {
+      const userRecord = {
+        ...sessionUser,
+        paymentCustomerId: checkoutData.customer,
+        firstName: checkoutData.formValues.firstName,
+        lastName: checkoutData.formValues.lastName,
+        isActive: 1,
+      };
+      dispatch(updateUser(userRecord));
+    }
+  };
+
   // add member to subscribers list and optionally to newsletter list
   const _addMember = () => {
-    if (isResolved(usersState.meta)) {
+    if (MetaStatus.isResolved(usersState.meta)) {
       const { email, firstName, lastName, newsletterSignup } = checkoutData.formValues;
       const tags = ['Subscriber'];
       if (newsletterSignup) {
@@ -98,11 +112,12 @@ export const Success = ({ location }) => {
 
   useEffect(_fetchSession, []);
   useEffect(_updateCheckoutSession, [checkoutData]);
-  useEffect(_addMember, [isResolved(usersState.meta)]);
+  useEffect(_updateUser, [sessionUser]);
+  useEffect(_addMember, [MetaStatus.isResolved(usersState.meta)]);
 
   const requiredStates = [sessionState, checkoutSessionState];
 
-  const isAllResolved = requiredStates.every((state) => isResolved(state.meta));
+  const isAllResolved = requiredStates.every((state) => MetaStatus.isResolved(state.meta));
 
   if (isAllResolved) {
     // show receipt
@@ -128,7 +143,7 @@ export const Success = ({ location }) => {
     );
   }
 
-  const isAnyErrored = requiredStates.some((state) => isErrored(state.meta));
+  const isAnyErrored = requiredStates.some((state) => MetaStatus.isErrored(state.meta));
   if (isAnyErrored) {
     const errors = requiredStates.map((state) => state.meta.error).filter(Boolean);
     console.error(errors);
@@ -136,7 +151,7 @@ export const Success = ({ location }) => {
   }
 
   // landed on page without session data returned from checkout
-  if (isResolved(sessionState.meta) && !checkoutData) {
+  if (MetaStatus.isResolved(sessionState.meta) && !checkoutData) {
     return <Redirect to="/store" />;
   }
 
