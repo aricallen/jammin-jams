@@ -1,5 +1,5 @@
 import React from 'react';
-import { pick, startCase } from 'lodash';
+import { startCase } from 'lodash';
 import styled from '@emotion/styled';
 import { Label } from '../../../common/Forms';
 import { spacing, border } from '../../../../constants/style-guide';
@@ -11,7 +11,7 @@ const ReceiptLink = styled('a')`
 
 const Wrapper = styled('div')`
   padding: ${spacing.double}px;
-  border-bottom: ${border};
+  border-top: ${border};
 `;
 
 const Row = styled('div')`
@@ -34,11 +34,9 @@ const Value = styled('span')`
  */
 
 const parseOrder = (order) => {
-  const fields = pick(order, ['amount_paid', 'receipt_number', 'status']);
   return {
-    ...fields,
-    total: formatAmount(order.total),
-    discount: formatAmount(order.discount),
+    status: order.status,
+    total: `$${formatAmount(order.amount)}`,
     completed: new Date(order.created * 1000).toString(),
   };
 };

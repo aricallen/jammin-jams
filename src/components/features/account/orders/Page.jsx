@@ -9,9 +9,16 @@ import { Header } from '../../admin/Header';
 import { OrderItem } from './OrderItem';
 import { fetchMany as fetchOrders } from '../../../../redux/orders/actions';
 import { Content } from '../../../common/Structure';
+import { spacing } from '../../../../constants/style-guide';
+import { fontSizes } from '../../../../utils/style-helpers';
 
 const Wrapper = styled(Content)``;
 const Text = styled('div')``;
+
+const Message = styled('div')`
+  margin-bottom: ${spacing.double}px;
+  ${fontSizes('large')}
+`;
 
 const SignInMessage = () => {
   const action = {
@@ -19,9 +26,9 @@ const SignInMessage = () => {
     text: 'Sign in',
   };
 
-  const Message = () => <Text>Please sign in to view orders.</Text>;
-
-  return <UserMessage Message={Message} action={action} />;
+  return (
+    <UserMessage Message={() => <Text>Please sign in to view orders.</Text>} action={action} />
+  );
 };
 
 const OrdersList = ({ orders, isBusy }) => {
@@ -72,7 +79,12 @@ export const Page = () => {
 
   return (
     <Wrapper>
-      <Header title="Orders" />
+      <Message>
+        This section is still underdevelopment. If anyting seems wrong or you would like to change
+        or cancel your subscription, please reach out to us at{' '}
+        <a href="mailto:jam@jmnjams.com">jam@jmnjams.com</a>.
+      </Message>
+      <Header title="Past Orders" />
       <OrdersList orders={ordersState.data} />
     </Wrapper>
   );
