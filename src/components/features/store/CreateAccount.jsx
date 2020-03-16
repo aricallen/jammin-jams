@@ -1,12 +1,15 @@
 import React, { Fragment, useEffect } from 'react';
 import styled from '@emotion/styled';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { FormInput } from '../../common/Forms';
 import { Checkbox } from '../../common/Checkbox';
 import { Spinner } from '../../common/Spinner';
+import { Button } from '../../common/Button';
 import { spacing } from '../../../constants/style-guide';
-import { isInitial, isBusy } from '../../../redux/utils/meta-status';
+import * as MetaStatus from '../../../redux/utils/meta-status';
 import { fetchSession } from '../../../redux/session/actions';
+import { createOne as createUser } from '../../../redux/users/actions';
 
 const SignupWrapper = styled('div')`
   padding-top: ${spacing.double}px;
@@ -14,6 +17,14 @@ const SignupWrapper = styled('div')`
 const SignupMessage = styled('label')`
   cursor: pointer;
   margin-right: ${spacing.double}px;
+`;
+
+const Text = styled('div')`
+  margin-bottom: ${spacing.double}px;
+`;
+
+const ButtonWrapper = styled('div')`
+  margin-top: ${spacing.double}px;
 `;
 
 const getErrors = (values) => {
@@ -40,13 +51,16 @@ const isValidField = (value) => value?.length > 0;
 
 const getIsValid = (values, sessionUser) => {
   if (sessionUser) {
-    return true;
+    return false;
   }
   return Object.values(values).every(isValidField);
 };
 
-const Form = ({ values, handleChange, errors }) => (
+const CreateForm = ({ values, handleChange, errors, onSubmitCreate }) => (
   <Fragment>
+    <Text>
+      Already have an account? <Link to="/account/sign-in">Sign in</Link>
+    </Text>
     <FormInput
       name="email"
       type="email"
@@ -71,6 +85,9 @@ const Form = ({ values, handleChange, errors }) => (
       error={errors.confirmPassword}
       isRequired={true}
     />
+    <ButtonWrapper>
+      <Button onClick={onSubmitCreate}>Create Account</Button>
+    </ButtonWrapper>
   </Fragment>
 );
 
@@ -92,10 +109,11 @@ const SignedInForm = ({ sessionUser, values, onUpdate }) => {
 export const CreateAccount = (props) => {
   const dispatch = useDispatch();
   const sessionState = useSelector((state) => state.session);
+  const usersState = useSelector((state) => state.users);
   const sessionUser = sessionState.data.user;
 
   const _fetchSession = () => {
-    if (!sessionUser && isInitial(sessionState.meta)) {
+    if (!sessionUser && MetaStatus.isInitial(sessionState.meta)) {
       dispatch(fetchSession());
     }
   };
@@ -110,18 +128,29 @@ export const CreateAccount = (props) => {
 
   const errors = getErrors(values);
 
-  if (isBusy(sessionState.meta)) {
+  if (MetaStatus.isBusy(sessionState.meta)) {
     return <Spinner />;
   }
 
   setIsValid(getIsValid(values, sessionUser));
+
+  const onSubmitCreate = () => {
+    const { email, password } = values;
+    dispatch(createUser({ email, password, userRolesId: 2, isActive: false }));
+  };
 
   return (
     <Fragment>
       {sessionUser ? (
         <SignedInForm values={values} sessionUser={sessionUser} onUpdate={onUpdate} />
       ) : (
-        <Form handleChange={handleChange} values={values} errors={errors} />
+        <CreateForm
+          handleChange={handleChange}
+          values={values}
+          errors={errors}
+          onSubmitCreate={onSubmitCreate}
+          isBusy={MetaStatus.isBusy(usersState.meta)}
+        />
       )}
       <SignupWrapper>
         <SignupMessage htmlFor="newsletterSignup">Sign up for our newletter?</SignupMessage>

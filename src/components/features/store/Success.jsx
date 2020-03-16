@@ -69,8 +69,6 @@ export const Success = ({ location }) => {
   const dispatch = useDispatch();
   const sessionId = new URLSearchParams(location.search).get('session_id');
   const checkoutData = sessionState.data[sessionId];
-  // TODO: avoid implicit computing of isExisting by forcing users to create account or sign in
-  const isExistingUser = !!checkoutData?.formValues?.password;
 
   // get session data from server
   const _fetchSession = () => {
@@ -83,15 +81,6 @@ export const Success = ({ location }) => {
   const _updateCheckoutSession = () => {
     if (checkoutData) {
       dispatch(updateCheckoutSession(checkoutData.formValues, sessionId));
-    }
-  };
-
-  // create jj user with payment customer id if the user is new
-  const _createUser = () => {
-    if (isResolved(checkoutSessionState.meta) && !isExistingUser) {
-      const { customer } = checkoutSessionState.data;
-      const { email, password } = checkoutData.formValues;
-      dispatch(createOne({ email, password, userRolesId: 2, paymentCustomerId: customer.id }));
     }
   };
 
@@ -109,13 +98,9 @@ export const Success = ({ location }) => {
 
   useEffect(_fetchSession, []);
   useEffect(_updateCheckoutSession, [checkoutData]);
-  useEffect(_createUser, [isResolved(checkoutSessionState.meta)]);
   useEffect(_addMember, [isResolved(usersState.meta)]);
 
   const requiredStates = [sessionState, checkoutSessionState];
-  if (!isExistingUser) {
-    requiredStates.push(usersState);
-  }
 
   const isAllResolved = requiredStates.every((state) => isResolved(state.meta));
 

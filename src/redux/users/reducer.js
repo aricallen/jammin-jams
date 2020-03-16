@@ -23,10 +23,10 @@ const meta = (state = initialMeta, action) => {
 
 const initialData = [];
 
-const deserializeUser = (user) => {
+export const deserializeUser = (user) => {
   return deserialize({
     ...user,
-    isSubscriber: user.paymentCustomerId !== null,
+    isActive: user.isActive === 1,
   });
 };
 

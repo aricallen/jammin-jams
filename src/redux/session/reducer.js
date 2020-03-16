@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { Type } from './actions';
 import * as Users from '../users/actions';
+import { deserializeUser } from '../users/reducer';
 import { MetaStatus } from '../../constants/meta-status';
 
 const initialMeta = { status: MetaStatus.INITIAL, error: null };
@@ -33,7 +34,7 @@ const data = (state = initialData, action) => {
   switch (action.type) {
     case Type.SIGN_IN_SUCCEEDED:
     case Users.Type.CREATE_ONE_SUCCEEDED:
-      return { ...state, user: action.user };
+      return { ...state, user: deserializeUser(action.user) };
     case Type.SIGN_OUT_SUCCEEDED:
       return { ...state, user: action.user };
     case Type.FETCH_SESSION_SUCCEEDED:
