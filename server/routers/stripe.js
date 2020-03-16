@@ -109,6 +109,7 @@ router.post('/checkout/success', async (req, res) => {
         name: fullName,
       },
     });
+
     res.send({
       data: {
         ...sessionRecord,

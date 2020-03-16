@@ -74,8 +74,10 @@ const Form = ({ values, handleChange, errors }) => (
   </Fragment>
 );
 
-const SignedInForm = ({ sessionUser, onUpdate }) => {
-  onUpdate('email', sessionUser.email);
+const SignedInForm = ({ sessionUser, values, onUpdate }) => {
+  if (values.email !== sessionUser.email) {
+    onUpdate('email', sessionUser.email);
+  }
   return (
     <FormInput
       name="email"
@@ -117,7 +119,7 @@ export const CreateAccount = (props) => {
   return (
     <Fragment>
       {sessionUser ? (
-        <SignedInForm sessionUser={sessionUser} onUpdate={onUpdate} />
+        <SignedInForm values={values} sessionUser={sessionUser} onUpdate={onUpdate} />
       ) : (
         <Form handleChange={handleChange} values={values} errors={errors} />
       )}

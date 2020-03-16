@@ -86,7 +86,7 @@ const ContentWrapper = styled(Content)``;
 
 const SECTIONS = [
   {
-    header: 'Create Account',
+    header: 'Account',
     Component: CreateAccount,
   },
   {
