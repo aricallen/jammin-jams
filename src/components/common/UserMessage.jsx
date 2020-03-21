@@ -4,6 +4,11 @@ import styled from '@emotion/styled';
 import { media } from '../../utils/media';
 import { Header2 } from './Structure';
 import { Button } from './Button';
+import { spacing } from '../../constants/style-guide';
+
+const HeaderText = styled(Header2)`
+  margin-bottom: ${spacing.double}px;
+`;
 
 const Wrapper = styled('div')`
   width: 60%;
@@ -23,12 +28,13 @@ const ActionWrapper = styled('div')`
 /**
  * @param action { text: string, onClick?: () => void, linkPath?: string }
  */
-export const UserMessage = ({ Message, action = null }) => {
+export const UserMessage = ({ Message, ImageSection = null, action = null }) => {
   return (
     <Wrapper>
-      <Header2>
+      {ImageSection && <ImageSection />}
+      <HeaderText>
         <Message />
-      </Header2>
+      </HeaderText>
       <ActionWrapper>
         {action?.linkPath && (
           <Link to={action.linkPath}>

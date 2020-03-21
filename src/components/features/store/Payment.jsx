@@ -55,7 +55,13 @@ export const Payment = (props) => {
           will then charge you for every subsequent order. Confirmation emails will be sent every
           step of the way. 😊
         </Message>
-        <CouponCodeForm {...props} couponsState={couponsState} onApply={onApplyCoupon} />
+        <CouponCodeForm
+          {...props}
+          couponsState={couponsState}
+          onApply={onApplyCoupon}
+          fieldName="couponCode"
+          couponType="price"
+        />
       </Wrapper>
     );
   }

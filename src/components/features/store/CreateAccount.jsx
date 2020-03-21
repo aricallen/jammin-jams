@@ -1,8 +1,16 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
+import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { FormInput } from '../../common/Forms';
 import { Checkbox } from '../../common/Checkbox';
+import { Spinner } from '../../common/Spinner';
+import { Button } from '../../common/Button';
+import { Emphasis } from '../../common/Structure';
 import { spacing } from '../../../constants/style-guide';
+import * as MetaStatus from '../../../redux/utils/meta-status';
+import { fetchSession } from '../../../redux/session/actions';
+import { createOne as createUser } from '../../../redux/users/actions';
 
 const SignupWrapper = styled('div')`
   padding-top: ${spacing.double}px;
@@ -12,11 +20,23 @@ const SignupMessage = styled('label')`
   margin-right: ${spacing.double}px;
 `;
 
-const FIELDS = ['email', 'password', 'confirmPassword'];
+const Text = styled('div')`
+  margin-bottom: ${spacing.double}px;
+`;
 
-const getErrors = (values) => {
+const ButtonWrapper = styled('div')`
+  margin-top: ${spacing.double}px;
+`;
+
+const emailRegexp = /^([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9_\-.]+)\.([a-zA-Z]{2,5})$/;
+
+const getErrors = (values, hasTouched = false) => {
   const errors = {};
-  const { password, confirmPassword } = values;
+  const { email, password, confirmPassword } = values;
+
+  if (hasTouched && !emailRegexp.test(email)) {
+    errors.email = 'Invalid email';
+  }
 
   if (!password || password.length === 0 || !confirmPassword || confirmPassword.length === 0) {
     return errors;
@@ -32,40 +52,122 @@ const getErrors = (values) => {
   return errors;
 };
 
+const getInputValue = (e) => e.target.value;
+
+const getHasErrors = (errors) => Object.values(errors).length > 0;
+
+const CreateForm = ({ values, handleChange, errors, onSubmitCreate, isBusy }) => {
+  const hasErrors = getHasErrors(errors);
+  return (
+    <Fragment>
+      <Text>
+        Already have an account? <Link to="/account/sign-in">Sign in</Link>
+      </Text>
+      <FormInput
+        name="email"
+        type="email"
+        value={values.email || ''}
+        onChange={handleChange('email')}
+        error={errors.email}
+        isRequired={true}
+      />
+      <FormInput
+        name="password"
+        type="password"
+        value={values.password || ''}
+        onChange={handleChange('password')}
+        error={errors.password}
+        isRequired={true}
+      />
+      <FormInput
+        name="confirmPassword"
+        type="password"
+        value={values.confirmPassword || ''}
+        onChange={handleChange('confirmPassword')}
+        error={errors.confirmPassword}
+        isRequired={true}
+      />
+      <ButtonWrapper>
+        <Button onClick={onSubmitCreate} type="button" isBusy={isBusy} disabled={hasErrors}>
+          Create Account
+        </Button>
+      </ButtonWrapper>
+    </Fragment>
+  );
+};
+
+const SignedInForm = ({ sessionUser, values, onUpdate }) => {
+  if (values.email !== sessionUser.email) {
+    onUpdate('email', sessionUser.email);
+  }
+  if (!sessionUser.email) {
+    return <Text>Uh oh... something is not right... please try again later.</Text>;
+  }
+  return (
+    <Text>
+      Signed in as <Emphasis>{sessionUser.email}</Emphasis>
+    </Text>
+  );
+};
+
 export const CreateAccount = (props) => {
+  const dispatch = useDispatch();
+  const [hasTouched, setHasTouched] = useState(false);
+  const sessionState = useSelector((state) => state.session);
+  const usersState = useSelector((state) => state.users);
+  const sessionUser = sessionState.data.user;
+
+  const _fetchSession = () => {
+    if (!sessionUser && MetaStatus.isInitial(sessionState.meta)) {
+      dispatch(fetchSession());
+    }
+  };
+  useEffect(_fetchSession, []);
+
   const { values, onUpdate, setIsValid } = props;
 
-  const handleChange = (name, getValue) => (event) => {
+  const handleChange = (name, getValue = getInputValue) => (event) => {
     const newVal = getValue(event);
     onUpdate(name, newVal);
   };
 
-  const errors = getErrors(values);
+  const errors = getErrors(values, hasTouched);
 
-  const isValid =
-    Object.keys(errors).length === 0 &&
-    FIELDS.every((field) => values[field] && values[field].length > 0);
-  setIsValid(isValid);
+  if (MetaStatus.isBusy(sessionState.meta)) {
+    return <Spinner />;
+  }
+
+  setIsValid(!!sessionUser);
+
+  const onSubmitCreate = (e) => {
+    e.preventDefault();
+    setHasTouched(true);
+    const hasErrors = getHasErrors(getErrors(values, true));
+    if (!hasErrors) {
+      const { email, password } = values;
+      dispatch(createUser({ email, password, userRolesId: 2, isActive: false }));
+    }
+  };
 
   return (
     <Fragment>
-      {FIELDS.map((field) => (
-        <FormInput
-          key={field}
-          name={field}
-          type={field === 'email' ? 'email' : 'password'}
-          value={values[field] || ''}
-          onChange={handleChange(field, (e) => e.target.value)}
-          error={errors[field]}
-          isRequired={true}
+      {sessionUser ? (
+        <SignedInForm values={values} sessionUser={sessionUser} onUpdate={onUpdate} />
+      ) : (
+        <CreateForm
+          handleChange={handleChange}
+          values={values}
+          errors={errors}
+          onSubmitCreate={onSubmitCreate}
+          isBusy={MetaStatus.isBusy(usersState.meta)}
         />
-      ))}
+      )}
       <SignupWrapper>
         <SignupMessage htmlFor="newsletterSignup">Sign up for our newletter?</SignupMessage>
         <Checkbox
           checked={values.newsletterSignup}
           name="newsletterSignup"
-          onChange={(e) => onUpdate('newsletterSignup', e.target.checked)}
+          onChange={handleChange('newsletterSignup', (e) => e.target.checked)}
         />
       </SignupWrapper>
     </Fragment>

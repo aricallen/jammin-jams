@@ -2,13 +2,13 @@ import axios from 'axios';
 import { parseAxiosError } from '../utils/error';
 
 export const Type = {
-  LOG_IN_REQUESTED: 'session/LOG_IN_REQUESTED',
-  LOG_IN_SUCCEEDED: 'session/LOG_IN_SUCCEEDED',
-  LOG_IN_FAILED: 'session/LOG_IN_FAILED',
+  SIGN_IN_REQUESTED: 'session/SIGN_IN_REQUESTED',
+  SIGN_IN_SUCCEEDED: 'session/SIGN_IN_SUCCEEDED',
+  SIGN_IN_FAILED: 'session/SIGN_IN_FAILED',
 
-  LOG_OUT_REQUESTED: 'session/LOG_OUT_REQUESTED',
-  LOG_OUT_SUCCEEDED: 'session/LOG_OUT_SUCCEEDED',
-  LOG_OUT_FAILED: 'session/LOG_OUT_FAILED',
+  SIGN_OUT_REQUESTED: 'session/SIGN_OUT_REQUESTED',
+  SIGN_OUT_SUCCEEDED: 'session/SIGN_OUT_SUCCEEDED',
+  SIGN_OUT_FAILED: 'session/SIGN_OUT_FAILED',
 
   CREATE_SESSION_REQUESTED: 'session/CREATE_SESSION_REQUESTED',
   CREATE_SESSION_SUCCEEDED: 'session/CREATE_SESSION_SUCCEEDED',
@@ -17,18 +17,22 @@ export const Type = {
   FETCH_SESSION_REQUESTED: 'session/FETCH_SESSION_REQUESTED',
   FETCH_SESSION_SUCCEEDED: 'session/FETCH_SESSION_SUCCEEDED',
   FETCH_SESSION_FAILED: 'session/FETCH_SESSION_FAILED',
+
+  FETCH_SESSION_USER_REQUESTED: 'session/FETCH_SESSION_USER_REQUESTED',
+  FETCH_SESSION_USER_SUCCEEDED: 'session/FETCH_SESSION_USER_SUCCEEDED',
+  FETCH_SESSION_USER_FAILED: 'session/FETCH_SESSION_USER_FAILED',
 };
 
 export const logInUser = ({ email, password }) => {
   return async (dispatch) => {
-    dispatch({ type: Type.LOG_IN_REQUESTED });
+    dispatch({ type: Type.SIGN_IN_REQUESTED });
     try {
-      const response = await axios.post('/api/log-in', { email, password, key: 'user' });
+      const response = await axios.post('/api/sign-in', { email, password, key: 'user' });
       const user = response.data.data;
-      dispatch({ type: Type.LOG_IN_SUCCEEDED, user });
+      dispatch({ type: Type.SIGN_IN_SUCCEEDED, user });
       return user;
     } catch (err) {
-      dispatch({ type: Type.LOG_IN_FAILED, error: parseAxiosError(err) });
+      dispatch({ type: Type.SIGN_IN_FAILED, error: parseAxiosError(err) });
       throw err;
     }
   };
@@ -36,13 +40,13 @@ export const logInUser = ({ email, password }) => {
 
 export const logOutUser = () => {
   return async (dispatch) => {
-    dispatch({ type: Type.LOG_OUT_REQUESTED });
+    dispatch({ type: Type.SIGN_OUT_REQUESTED });
     try {
       await axios.post('/api/log-out');
-      dispatch({ type: Type.LOG_OUT_SUCCEEDED, user: null });
+      dispatch({ type: Type.SIGN_OUT_SUCCEEDED, user: null });
       return null;
     } catch (err) {
-      dispatch({ type: Type.LOG_OUT_FAILED, error: parseAxiosError(err) });
+      dispatch({ type: Type.SIGN_OUT_FAILED, error: parseAxiosError(err) });
       throw err;
     }
   };
@@ -56,6 +60,20 @@ export const fetchSession = () => {
       dispatch({ type: Type.FETCH_SESSION_SUCCEEDED, data: response.data.data });
     } catch (err) {
       dispatch({ type: Type.FETCH_SESSION_FAILED, error: parseAxiosError(err) });
+      throw err;
+    }
+  };
+};
+
+export const fetchSessionUser = (email) => {
+  return async (dispatch) => {
+    dispatch({ type: Type.FETCH_SESSION_USER_REQUESTED });
+    try {
+      const response = await axios.get(`/api/users/email/${email}?updateSession=true`);
+      const user = response.data.data;
+      dispatch({ type: Type.FETCH_SESSION_USER_SUCCEEDED, user });
+    } catch (err) {
+      dispatch({ type: Type.FETCH_SESSION_USER_FAILED, error: parseAxiosError(err) });
       throw err;
     }
   };
