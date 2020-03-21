@@ -13,6 +13,10 @@ import { ExpandableSection } from '../common/ExpandableSection';
 import { HowItWorksList } from './about/HowItWorks';
 import { fetchMany as fetchPosts } from '../../redux/posts/actions';
 import { isResolved } from '../../redux/utils/meta-status';
+import * as SessionStorage from '../../utils/session-storage';
+
+const ANIMATION_TIMEOUT = 1000 * 60 * 15; // 15 mins
+const ANIMATION_STORAGE_KEY = 'homeAnimationDisabledUntil';
 
 const Wrapper = styled('div')`
   height: 100%;
@@ -99,23 +103,39 @@ const MainContent = () => {
   );
 };
 
+const disableAnimation = () => {
+  const disabledUntil = Date.now() + ANIMATION_TIMEOUT;
+  SessionStorage.setItem(ANIMATION_STORAGE_KEY, disabledUntil);
+};
+
+const shouldAnimate = () => {
+  const disabledUntil = SessionStorage.getItem(ANIMATION_STORAGE_KEY);
+  if (!disabledUntil) {
+    return true;
+  }
+  return Date.now() > +disabledUntil;
+};
+
 export const Home = () => {
   const [isBumping, setIsBumping] = useState(true);
   const [isAnimating, setIsAnimating] = useState(true);
   const heroRef = useRef();
 
   const initAnimationListeners = () => {
-    heroRef.current.addEventListener('animationend', () => {
-      setIsBumping(false);
-    });
-    heroRef.current.addEventListener('transitionend', () => {
-      setIsAnimating(false);
-    });
+    if (shouldAnimate()) {
+      heroRef.current.addEventListener('animationend', () => {
+        setIsBumping(false);
+        disableAnimation();
+      });
+      heroRef.current.addEventListener('transitionend', () => {
+        setIsAnimating(false);
+      });
+    }
   };
 
   useLayoutEffect(initAnimationListeners, []);
 
-  if (isAnimating) {
+  if (shouldAnimate() && isAnimating) {
     return (
       <Wrapper>
         <Hero ref={heroRef} className={isBumping ? 'is-bumping' : 'done-bumping'}>
