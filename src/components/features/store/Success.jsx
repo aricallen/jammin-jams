@@ -3,12 +3,12 @@ import styled from '@emotion/styled';
 import { Redirect, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Content, Header2 } from '../../common/Structure';
-import { isResolved, isErrored, isInitial } from '../../../redux/utils/meta-status';
-import { createOne } from '../../../redux/users/actions';
+import * as MetaStatus from '../../../redux/utils/meta-status';
+import { updateOne as updateUser } from '../../../redux/users/actions';
 import { Spinner } from '../../common/Spinner';
 import { Button } from '../../common/Button';
 import { boxShadow, spacing } from '../../../constants/style-guide';
-import { fetchSession } from '../../../redux/session/actions';
+import { fetchSession, fetchSessionUser } from '../../../redux/session/actions';
 import { updateOne as updateCheckoutSession } from '../../../redux/checkout-session/actions';
 import { addMember } from '../../../redux/email/actions';
 import { ErrorPage } from '../ErrorPage';
@@ -32,7 +32,9 @@ const ConfNumber = styled('div')`
 const Name = styled('div')``;
 const Amount = styled('div')``;
 const Description = styled('div')``;
-const FooterMessage = styled('div')``;
+const FooterMessage = styled('div')`
+  margin-bottom: ${spacing.double}px;
+`;
 
 const ReceiptFooter = styled('div')`
   margin-top: ${spacing.double}px;
@@ -64,14 +66,14 @@ export const Success = ({ location }) => {
   const sessionState = useSelector((state) => state.session);
   const usersState = useSelector((state) => state.users);
   const checkoutSessionState = useSelector((state) => state.checkoutSession);
-  const emailState = useSelector((state) => state.email);
   const dispatch = useDispatch();
   const sessionId = new URLSearchParams(location.search).get('session_id');
   const checkoutData = sessionState.data[sessionId];
+  const sessionUser = sessionState.data.user;
 
   // get session data from server
   const _fetchSession = () => {
-    if (!isInitial(sessionState.meta)) {
+    if (!MetaStatus.isInitial(sessionState.meta)) {
       dispatch(fetchSession());
     }
   };
@@ -79,22 +81,27 @@ export const Success = ({ location }) => {
   // update new customer with shipping info
   const _updateCheckoutSession = () => {
     if (checkoutData) {
+      dispatch(fetchSessionUser(checkoutData.formValues.email));
       dispatch(updateCheckoutSession(checkoutData.formValues, sessionId));
     }
   };
 
-  // create local user with payment customer id
-  const _createUser = () => {
-    if (isResolved(checkoutSessionState.meta)) {
-      const { customer } = checkoutSessionState.data;
-      const { email, password } = checkoutData.formValues;
-      dispatch(createOne({ email, password, userRolesId: 2, paymentCustomerId: customer.id }));
+  const _updateUser = () => {
+    if (sessionUser && !sessionUser.paymentCustomerId && checkoutData) {
+      const userRecord = {
+        ...sessionUser,
+        paymentCustomerId: checkoutData?.customer,
+        firstName: checkoutData.formValues.firstName,
+        lastName: checkoutData.formValues.lastName,
+        isActive: 1,
+      };
+      dispatch(updateUser(userRecord));
     }
   };
 
   // add member to subscribers list and optionally to newsletter list
   const _addMember = () => {
-    if (isResolved(usersState.meta)) {
+    if (MetaStatus.isResolved(usersState.meta)) {
       const { email, firstName, lastName, newsletterSignup } = checkoutData.formValues;
       const tags = ['Subscriber'];
       if (newsletterSignup) {
@@ -106,12 +113,12 @@ export const Success = ({ location }) => {
 
   useEffect(_fetchSession, []);
   useEffect(_updateCheckoutSession, [checkoutData]);
-  useEffect(_createUser, [isResolved(checkoutSessionState.meta)]);
-  useEffect(_addMember, [isResolved(usersState.meta)]);
+  useEffect(_updateUser, [sessionUser, checkoutData]);
+  useEffect(_addMember, [MetaStatus.isResolved(usersState.meta)]);
 
-  const requiredStates = [sessionState, usersState, checkoutSessionState];
+  const requiredStates = [sessionState, checkoutSessionState];
 
-  const isAllResolved = requiredStates.every((state) => isResolved(state.meta));
+  const isAllResolved = requiredStates.every((state) => MetaStatus.isResolved(state.meta));
 
   if (isAllResolved) {
     // show receipt
@@ -128,16 +135,16 @@ export const Success = ({ location }) => {
           ))}
           <ReceiptFooter>
             <FooterMessage>You should receive an email confirmation shortly.</FooterMessage>
-            {/* <Link to="/account/orders">
+            <Link to="/account/orders">
               <Button>View Orders</Button>
-            </Link> */}
+            </Link>
           </ReceiptFooter>
         </Content>
       </Wrapper>
     );
   }
 
-  const isAnyErrored = requiredStates.some((state) => isErrored(state.meta));
+  const isAnyErrored = requiredStates.some((state) => MetaStatus.isErrored(state.meta));
   if (isAnyErrored) {
     const errors = requiredStates.map((state) => state.meta.error).filter(Boolean);
     console.error(errors);
@@ -145,7 +152,7 @@ export const Success = ({ location }) => {
   }
 
   // landed on page without session data returned from checkout
-  if (isResolved(sessionState.meta) && !checkoutData) {
+  if (MetaStatus.isResolved(sessionState.meta) && !checkoutData) {
     return <Redirect to="/store" />;
   }
 

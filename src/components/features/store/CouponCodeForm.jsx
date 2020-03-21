@@ -42,11 +42,13 @@ const InputsWrapper = styled('div')`
 `;
 
 export const CouponCodeForm = (props) => {
-  const { couponsState, onUpdate, values, onApply, fieldName = 'couponCode' } = props;
+  const { couponsState, onUpdate, values, onApply, fieldName = 'couponCode', couponType } = props;
 
   const showUnknownCouponMessage = isResolved(couponsState.meta) && couponsState.data.length === 0;
 
-  const showAppliedCouponMessage = isResolved(couponsState.meta) && couponsState.data.length > 0;
+  const showAppliedCouponMessage =
+    isResolved(couponsState.meta) &&
+    couponsState.data.find((coupon) => coupon.metadata.type === couponType);
 
   if (showAppliedCouponMessage) {
     return <CouponMessage>Code applied successfully.</CouponMessage>;

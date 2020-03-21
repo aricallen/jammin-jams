@@ -138,15 +138,19 @@ const NAV_ITEMS = [
 
 const LOGGED_IN_ITEMS = [
   {
-    text: 'Log out',
-    path: '/account/log-out',
+    text: 'Account',
+    path: '/account/orders',
+  },
+  {
+    text: 'Sign out',
+    path: '/account/sign-out',
   },
 ];
 
 const LOGGED_OUT_ITEMS = [
   {
     text: 'Sign In',
-    path: '/account/log-in',
+    path: '/account/sign-in',
   },
 ];
 

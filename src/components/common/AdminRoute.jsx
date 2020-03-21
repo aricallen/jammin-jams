@@ -17,15 +17,11 @@ const renderRouteComponent = (routeProps, Component) => {
 };
 
 const handleRouting = (routeProps, Component, sessionState) => {
-  if (isResolved(sessionState.meta) && !IS_PRODUCTION) {
-    return renderRouteComponent(routeProps, Component);
-  }
-
   if (isResolved(sessionState.meta) && !sessionState.data.user) {
     return (
       <Redirect
         to={{
-          pathname: '/account/log-in',
+          pathname: '/account/sign-in',
           state: { from: routeProps.location },
         }}
       />
@@ -36,7 +32,7 @@ const handleRouting = (routeProps, Component, sessionState) => {
     return (
       <Redirect
         to={{
-          pathname: '/oh-noes',
+          pathname: '/account/orders',
           state: { from: routeProps.location },
         }}
       />

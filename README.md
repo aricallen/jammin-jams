@@ -69,13 +69,16 @@ db status -> OK!
     │   └── logos
     ├── components
     │   ├── common # shared components
-    │   └── pages # components related to specific pages
+    │   └── features # components related to specific features
     │       └── store
+    │       └── blog
+    │       └── admin
+    │       └── <other features>
     ├── constants
     ├── redux
-    │   ├── schemas
     │   ├── session
     │   └── utils
+    │   └── <other store slices>
     ├── services
     ├── styles
     └── utils
