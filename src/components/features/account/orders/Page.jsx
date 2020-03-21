@@ -80,12 +80,12 @@ export const Page = () => {
   return (
     <Wrapper>
       <Message>
-        This section is still underdevelopment. If anyting seems wrong or you would like to change
-        or cancel your subscription, please reach out to us at{' '}
-        <a href="mailto:jam@jmnjams.com">jam@jmnjams.com</a>.
+        This section is still underdevelopment. Please reach out to us at{' '}
+        <a href="mailto:jam@jmnjams.com">jam@jmnjams.com</a> if you would like to update or cancel
+        your subscription.
       </Message>
-      <Header title="Past Orders" />
-      <OrdersList orders={ordersState.data} />
+      {/* <Header title="Past Orders" />
+      <OrdersList orders={ordersState.data} /> */}
     </Wrapper>
   );
 };
