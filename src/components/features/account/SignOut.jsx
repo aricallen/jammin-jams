@@ -21,7 +21,7 @@ const ButtonWrapper = styled('div')`
   justify-content: center;
 `;
 
-export const LogOut = ({ history }) => {
+export const SignOut = ({ history }) => {
   const dispatch = useDispatch();
   const sessionState = useSelector((state) => state.session);
 

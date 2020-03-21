@@ -127,19 +127,13 @@ export const DeliveryMethod = (props) => {
           />
         </Fieldset>
         {showPromo && (
-          // <FormInput
-          //   name="deliveryExceptionCode"
-          //   value={deliveryExceptionCode || ''}
-          //   onChange={handleChange('deliveryExceptionCode', (e) => e.target.value)}
-          //   label="Exception Code"
-          //   isRequired={true}
-          // />
           <CouponCodeForm
             couponsState={couponsState}
             fieldName="deliveryExceptionCode"
             onUpdate={onUpdate}
             values={values}
             onApply={onApplyException}
+            couponType="delivery"
           />
         )}
         {showZip && (

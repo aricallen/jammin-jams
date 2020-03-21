@@ -48,7 +48,7 @@ export const ProductItem = (props) => {
 
   return (
     <Wrapper>
-      <Picture src="https://via.placeholder.com/400" />
+      <Picture src="/assets/images/jotm.jpeg" />
       <ItemContent>
         <Name>{product.name}</Name>
       </ItemContent>

@@ -109,6 +109,7 @@ router.post('/checkout/success', async (req, res) => {
         name: fullName,
       },
     });
+
     res.send({
       data: {
         ...sessionRecord,
@@ -139,9 +140,16 @@ router.get('/coupons', async (req, res) => {
 
 router.get('/:resource', async (req, res) => {
   const { key, value } = req.query;
-  const results = await stripe[req.params.resource].list();
-  const filteredData = results.data && results.data.filter((item) => item[key] === value);
-  res.send({ ...results, data: filteredData });
+  try {
+    const results = await stripe[req.params.resource].list();
+    const filteredData = results.data && results.data.filter((item) => item[key] === value);
+    res.send({ ...results, data: filteredData });
+  } catch (err) {
+    res.status(400).send({
+      error: err,
+      message: `Unable to fetch resource '${req.params.resource}'`,
+    });
+  }
 });
 
 router.get('/:resource/:id', async (req, res) => {

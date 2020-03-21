@@ -3,11 +3,12 @@ const { router: crudRouter } = require('./crud');
 const { router: sessionRouter } = require('./session');
 const { router: stripeRouter } = require('./stripe');
 const { router: emailRouter } = require('./email');
-const { controller: loginController } = require('../controllers/login');
+const { controller: signInController } = require('../controllers/sign-in');
 const { controller: waitlistController } = require('../controllers/waitlist');
-const { controller: createUserController } = require('../controllers/create-user');
 const { getConnection } = require('../utils/db-helpers');
 const { router: uploadsRouter } = require('./uploads');
+const { router: appStatusRouter } = require('./app-status');
+const { router: usersRouter } = require('./users');
 
 // /api
 const router = express.Router();
@@ -17,6 +18,8 @@ router.use('/admin', crudRouter);
 router.use('/stripe', stripeRouter);
 router.use('/session', sessionRouter);
 router.use('/email', emailRouter);
+router.use('/app-status', appStatusRouter);
+router.use('/users', usersRouter);
 
 // general api
 router.get('/status', async (req, res) => {
@@ -36,9 +39,7 @@ router.get('/status', async (req, res) => {
   });
 });
 
-router.post('/log-in', loginController);
-
-router.post('/users', createUserController);
+router.post('/sign-in', signInController);
 
 router.post('/log-out', (req, res) => {
   req.session.destroy();

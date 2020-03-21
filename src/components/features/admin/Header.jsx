@@ -19,13 +19,11 @@ const HeaderActions = styled('div')`
   }
 `;
 
-export const Header = ({ title, Controls }) => {
+export const Header = ({ title, Controls = null }) => {
   return (
     <Wrapper>
       <Header1 style={{ marginBottom: 0 }}>{title}</Header1>
-      <HeaderActions>
-        <Controls />
-      </HeaderActions>
+      <HeaderActions>{Controls && <Controls />}</HeaderActions>
     </Wrapper>
   );
 };
