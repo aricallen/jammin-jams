@@ -38,46 +38,24 @@ const createColorMap = (color) => ({
 
 const Wrapper = styled('div')``;
 
-const ButtonSection = styled('div')`
+const SelectorSection = styled('div')`
   display: flex;
   justify-content: space-around;
   padding: ${spacing.double}px 0;
 `;
 
 const SelectorWrapper = styled('div')`
-  display: flex;
-  align-items: center;
-  justify-content: center;
   cursor: pointer;
-  padding: ${spacing.double}px;
-  position: relative;
-  width: 20%;
-  top: 0;
-  left: 0;
-
-  .show-on-hover {
-    opacity: 0;
-  }
-
+  padding: ${spacing.quadruple}px;
+  outline: ${(p) => (p.isSelected ? border : 'none')};
   &:hover {
-    .show-on-hover {
-      opacity: 1;
-    }
-    .hide-on-hover {
-      opacity: 0;
-    }
+    background-color: ${pallet.light.strawberry};
   }
 `;
 
 const TitleWrapper = styled('div')`
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  text-align: center;
+  padding-top: ${spacing.regular}px;
 `;
 
 const Title = styled('span')`
@@ -86,20 +64,22 @@ const Title = styled('span')`
 `;
 
 const LogoWrapper = styled('div')`
-  transition: opacity ${animation};
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
-const Selector = ({ section, onClick }) => {
+const Selector = ({ section, onClick, isSelected }) => {
   const { title, color } = section;
   const colorMap = createColorMap(color);
   return (
-    <SelectorWrapper onClick={onClick}>
-      <TitleWrapper className="show-on-hover">
-        <Title>{title}</Title>
-      </TitleWrapper>
+    <SelectorWrapper onClick={onClick} isSelected={isSelected}>
       <LogoWrapper className="hide-on-hover">
         <LogoFilled colorMap={colorMap} />
       </LogoWrapper>
+      <TitleWrapper className="show-on-hover">
+        <Title>{title}</Title>
+      </TitleWrapper>
     </SelectorWrapper>
   );
 };
@@ -125,11 +105,16 @@ export const AboutSwitcher = () => {
 
   return (
     <Wrapper>
-      <ButtonSection>
+      <SelectorSection>
         {SECTIONS.map((section) => (
-          <Selector key={section.title} onClick={() => setSelected(section)} section={section} />
+          <Selector
+            key={section.title}
+            onClick={() => setSelected(section)}
+            section={section}
+            isSelected={section === selected}
+          />
         ))}
-      </ButtonSection>
+      </SelectorSection>
       <About section={selected} />
     </Wrapper>
   );
