@@ -39,8 +39,8 @@ const BrandLinkWrapper = styled('div')`
 `;
 
 const NavLogo = styled(Logo)`
-  width: ${spacing.triple * 2}px;
-  height: ${spacing.triple * 2}px;
+  width: ${spacing.triple}px;
+  height: ${spacing.triple}px;
   margin-right: ${spacing.double}px;
 `;
 
@@ -194,12 +194,12 @@ export const NavBar = withRouter(({ history }) => {
       <BarSection>
         <Brand>
           <NavLink to="/">
-            <BrandLinkWrapper>
-              <NavLogo />
-              Jammin&apos; Jams
-            </BrandLinkWrapper>
+            <BrandLinkWrapper>Jammin&apos; Jams</BrandLinkWrapper>
           </NavLink>
         </Brand>
+      </BarSection>
+      <BarSection>
+        <NavLogo />
       </BarSection>
       <BarSection>
         <NavList>{navItems.map(renderNavItem)}</NavList>

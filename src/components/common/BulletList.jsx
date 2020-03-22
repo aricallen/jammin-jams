@@ -77,7 +77,7 @@ const List = styled('ul')`
 `;
 const ListItem = styled('li')`
   margin-top: ${spacing.regular}px;
-  &:first-child {
+  &:first-of-type {
     margin-top: initial;
   }
 `;

@@ -1,21 +1,29 @@
 import React, { Fragment } from 'react';
-import { Header1, Link } from '../../common/Structure';
+import styled from '@emotion/styled';
+import { Link } from 'react-router-dom';
+import { Header1, Emoji, Emphasis, UnorderedList, ListItem } from '../../common/Structure';
 import { Article } from '../../common/Article';
-import { BulletList } from '../../common/BulletList';
+import { spacing, border } from '../../../constants/style-guide';
+import { fontSizes } from '../../../utils/style-helpers';
 
 const SignUp = () => (
   <Fragment>
-    Sign up for a jam subscription - You specify the preferred frequency of delivery: every month,
-    two months, or three months. Flavor picks are on us! They will depend on what produce is in
-    season and looks extra juicy at the market.
+    You specify the preferred frequency of delivery:
+    <UnorderedList style={{ paddingLeft: 20 }}>
+      <ListItem>Every month</ListItem>
+      <ListItem>Every two months</ListItem>
+      <ListItem>Every three months</ListItem>
+    </UnorderedList>
+    Flavor picks are on us! They will depend on what produce is in season and looks extra juicy at
+    the market.
   </Fragment>
 );
 
 const Delivery = () => (
   <Fragment>
     You will receive an email that notifies you of the upcoming delivery at least one week in
-    advance - We also have a <Link to="/delivery-calendar">delivery calendar</Link> you can access
-    any time.
+    advance - We also have a <Link to="/about/delivery-calendar">delivery calendar</Link> you can
+    access any time.
   </Fragment>
 );
 
@@ -27,15 +35,78 @@ const GetASpoon = () => (
   </Fragment>
 );
 
-export const HowItWorksList = () => {
-  return <BulletList contentItems={[SignUp, Delivery, GetASpoon]} />;
+const STEPS = [
+  {
+    title: 'Sign up',
+    emoji: '👋🏽',
+    Content: SignUp,
+  },
+  {
+    title: 'Delivery',
+    emoji: '🚲',
+    Content: Delivery,
+  },
+  {
+    title: 'Get ready to jam',
+    emoji: '🎧',
+    Content: GetASpoon,
+  },
+];
+
+const Card = styled('div')`
+  border: ${border};
+`;
+
+const CardWrapper = styled('div')`
+  margin-bottom: ${spacing.quadruple}px;
+`;
+
+const CardHeader = styled('div')`
+  display: flex;
+  justify-content: center;
+  padding: ${spacing.regular}px;
+  border-bottom: ${border};
+`;
+const Title = styled('span')`
+  margin-left: ${spacing.regular}px;
+`;
+const CardContent = styled('div')`
+  padding: ${spacing.double}px;
+`;
+
+const ContentCard = ({ title, emoji, Content }) => {
+  return (
+    <Card>
+      <CardHeader>
+        <Emoji>{emoji}</Emoji>
+        <Title>
+          <Emphasis>{title}</Emphasis>
+        </Title>
+      </CardHeader>
+      <CardContent>
+        <Content />
+      </CardContent>
+    </Card>
+  );
 };
+
+export const ContentList = () => {
+  return STEPS.map((step) => (
+    <CardWrapper key={step.title}>
+      <ContentCard {...step} />
+    </CardWrapper>
+  ));
+};
+
+const ContentHeader = styled(Header1)`
+  ${fontSizes('largest')}
+`;
 
 const HowItWorksContent = () => {
   return (
     <Fragment>
-      <Header1>How It Works</Header1>
-      <HowItWorksList />
+      <ContentHeader>How It Works</ContentHeader>
+      <ContentList />
     </Fragment>
   );
 };

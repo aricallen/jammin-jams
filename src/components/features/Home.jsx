@@ -10,7 +10,7 @@ import { CameraRoll } from '../common/CameraRoll';
 import { Article } from '../common/Article';
 import { Blurb } from './blog/Blurb';
 import { ExpandableSection } from '../common/ExpandableSection';
-import { HowItWorksList } from './about/HowItWorks';
+import { ContentList } from './about/HowItWorks';
 import { fetchMany as fetchPosts } from '../../redux/posts/actions';
 import { isResolved } from '../../redux/utils/meta-status';
 import * as SessionStorage from '../../utils/session-storage';
@@ -93,7 +93,7 @@ const MainContent = () => {
         <Introduction />
       </Section>
       <Section>
-        <ExpandableSection headerText="How It Works" Content={HowItWorksList} />
+        <ExpandableSection headerText="How It Works" Content={ContentList} />
       </Section>
       <Section>
         <JamJourneysSection post={latestPost} isBusy={!isResolved(postsState.meta.many)} />

@@ -42,24 +42,11 @@ export const Emphasis = styled('span')`
   font-weight: ${font.weight.semiBold};
 `;
 
-export const Link = styled('a')`
-  text-decoration: none;
-  transition: color ${animation};
-  color: ${pallet.strawberry};
-
-  &:active,
-  &:visited {
-    color: ${pallet.dark.strawberry};
-  }
-
-  &:hover {
-    color: ${pallet.light.strawberry};
-  }
-`;
-
 export const OrderedList = styled('ol')`
   padding-left: ${spacing.regular * 5}px;
 `;
+
+export const UnorderedList = styled('ul')``;
 
 export const ListItem = styled('li')`
   padding-left: ${spacing.double}px;
