@@ -88,7 +88,7 @@ const NavLink = styled(BaseNavLink)`
   }
 
   &:hover {
-    color: ${pallet.strawberry};
+    color: white;
   }
 `;
 
@@ -104,12 +104,12 @@ const IconWrapper = styled('div')`
 
   &:hover {
     svg {
-      fill: ${pallet.strawberry};
+      fill: white;
     }
   }
 `;
 
-const ABOUT_ITEMS = [
+const NAV_ITEMS = [
   {
     text: 'How It Works',
     path: '/about/how-it-works',
@@ -117,18 +117,6 @@ const ABOUT_ITEMS = [
   {
     text: 'FAQs',
     path: '/about/faqs',
-  },
-  {
-    text: 'Delivery Calendar',
-    path: '/about/delivery-calendar',
-  },
-];
-
-const NAV_ITEMS = [
-  {
-    text: 'About',
-    path: '/about',
-    children: ABOUT_ITEMS,
   },
   {
     text: 'Store',
@@ -166,7 +154,7 @@ const renderNavItem = (item) => (
     <NavLink
       to={item.path}
       activeStyle={{
-        color: pallet.light.strawberry,
+        color: 'white',
       }}
     >
       {item.text}
