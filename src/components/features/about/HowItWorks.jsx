@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react';
-import { OrderedList, ListItem, Header1 } from '../../common/Structure';
+import { OrderedList, ListItem, Header1, Link } from '../../common/Structure';
 import { Article } from '../../common/Article';
 
 export const HowItWorksList = () => {
@@ -13,12 +13,14 @@ export const HowItWorksList = () => {
         </ListItem>
         <ListItem>
           You will receive an email that notifies you of the upcoming delivery at least one week in
-          advance - We also have a delivery calendar you can access any time (LINK)
+          advance - We also have a <Link to="/delivery-calendar">delivery calendar</Link> you can
+          access any time.
         </ListItem>
         <ListItem>
           Get yourself a spoon, and some dancing shoes. Jam is in the near future!! Scan the QR code
-          on each label to pair with the music we jammed while jammin. And then tell us, what fun
-          are you looking forward to this month?
+          on each label to pair with the music we jammed while jammin. And then{' '}
+          <a href="mailto:jam@jmnjams.com">tell us</a>, what fun are you looking forward to this
+          month?
         </ListItem>
       </OrderedList>
     </Fragment>
