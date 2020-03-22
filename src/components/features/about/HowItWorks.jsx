@@ -5,17 +5,20 @@ import { Header1, Emoji, Emphasis, UnorderedList, ListItem } from '../../common/
 import { Article } from '../../common/Article';
 import { spacing, border } from '../../../constants/style-guide';
 import { fontSizes } from '../../../utils/style-helpers';
+import { media } from '../../../utils/media';
 
 const SignUp = () => (
   <Fragment>
     You specify the preferred frequency of delivery:
-    <UnorderedList style={{ paddingLeft: 20 }}>
+    <UnorderedList style={{ paddingLeft: spacing.quadruple }}>
       <ListItem>Every month</ListItem>
       <ListItem>Every two months</ListItem>
       <ListItem>Every three months</ListItem>
     </UnorderedList>
-    Flavor picks are on us! They will depend on what produce is in season and looks extra juicy at
-    the market.
+    <p style={{ marginTop: spacing.regular }}>
+      Flavor picks are on us! They will depend on what produce is in season and looks extra juicy at
+      the market.
+    </p>
   </Fragment>
 );
 
@@ -53,34 +56,39 @@ const STEPS = [
   },
 ];
 
-const Card = styled('div')`
-  border: ${border};
+const Wrapper = styled('div')`
+  margin: 0 auto;
+  width: 50%;
+  ${media.mobile()} {
+    width: 100%;
+    padding: 0 ${spacing.double}px;
+  }
 `;
+
+const Card = styled('div')``;
 
 const CardWrapper = styled('div')`
   margin-bottom: ${spacing.quadruple}px;
 `;
 
 const CardHeader = styled('div')`
-  display: flex;
-  justify-content: center;
-  padding: ${spacing.regular}px;
   border-bottom: ${border};
+  ${fontSizes('largest')}
 `;
-const Title = styled('span')`
-  margin-left: ${spacing.regular}px;
-`;
+const Title = styled('div')``;
+const Subtitle = styled('div')``;
 const CardContent = styled('div')`
+  flex-grow: 2;
   padding: ${spacing.double}px;
+  padding-left: ${spacing.quadruple * 2}px;
 `;
 
-const ContentCard = ({ title, emoji, Content }) => {
+const ContentCard = ({ title, emoji, index, Content }) => {
   return (
     <Card>
       <CardHeader>
-        <Emoji>{emoji}</Emoji>
         <Title>
-          <Emphasis>{title}</Emphasis>
+          Step {index + 1} -- <Emphasis>{title}</Emphasis>
         </Title>
       </CardHeader>
       <CardContent>
@@ -91,9 +99,9 @@ const ContentCard = ({ title, emoji, Content }) => {
 };
 
 export const ContentList = () => {
-  return STEPS.map((step) => (
+  return STEPS.map((step, i) => (
     <CardWrapper key={step.title}>
-      <ContentCard {...step} />
+      <ContentCard {...step} index={i} />
     </CardWrapper>
   ));
 };
@@ -102,7 +110,7 @@ const ContentHeader = styled(Header1)`
   ${fontSizes('largest')}
 `;
 
-const HowItWorksContent = () => {
+const HowItWorksMiddle = () => {
   return (
     <Fragment>
       <ContentHeader>How It Works</ContentHeader>
@@ -112,5 +120,12 @@ const HowItWorksContent = () => {
 };
 
 export const HowItWorks = () => {
-  return <Article Middle={HowItWorksContent} />;
+  // return (
+  //   <Wrapper>
+  //     <ContentHeader>How It Works</ContentHeader>
+  //     <ContentList />
+  //   </Wrapper>
+  // );
+
+  return <Article Middle={HowItWorksMiddle} />;
 };

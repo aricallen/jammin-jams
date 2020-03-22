@@ -49,7 +49,7 @@ export const OrderedList = styled('ol')`
 export const UnorderedList = styled('ul')``;
 
 export const ListItem = styled('li')`
-  padding-left: ${spacing.double}px;
+  padding-left: ${spacing.regular}px;
 `;
 
 export const Emoji = ({ label, children }) => {
