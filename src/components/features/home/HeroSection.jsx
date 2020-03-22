@@ -1,16 +1,44 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { pallet } from '../../../constants/style-guide';
+import { pallet, spacing } from '../../../constants/style-guide';
 import { getLargeUploadSrc } from '../../../utils/upload-helpers';
+import { fontSizes } from '../../../utils/style-helpers';
+import { ButtonLink } from '../../common/Links';
 
 const PICTURE_HEIGHT = 600;
 
 const Wrapper = styled('div')`
   display: flex;
   justify-content: center;
+  position: relative;
   background-color: ${pallet.charcoal};
   max-height: ${PICTURE_HEIGHT}px;
 `;
+
+const Overlay = styled('div')`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const CallToAction = styled('div')`
+  padding: ${spacing.double}px;
+  color: white;
+  text-align: center;
+  ${fontSizes(64)}
+`;
+
+const ButtonWrapper = styled('div')`
+  text-align: center;
+  ${fontSizes('largest')}
+`;
+
+const Text = styled('div')``;
 
 const Img = styled('img')`
   width: 100%;
@@ -20,6 +48,16 @@ const Img = styled('img')`
 export const HeroSection = () => {
   return (
     <Wrapper>
+      <Overlay>
+        <CallToAction>
+          <Text>Jam. Delivered. Monthly.</Text>
+          <ButtonWrapper>
+            <ButtonLink variant="secondary" to="/store">
+              Sign up now
+            </ButtonLink>
+          </ButtonWrapper>
+        </CallToAction>
+      </Overlay>
       <Img src={getLargeUploadSrc({ filename: 'jam2-closeup.jpg' })} />
     </Wrapper>
   );
