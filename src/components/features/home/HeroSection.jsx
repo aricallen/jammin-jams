@@ -48,7 +48,7 @@ export const HeroSection = () => {
           </ButtonWrapper>
         </CallToAction>
       </Overlay>
-      <Img src={getLargeUploadSrc({ filename: 'jam2-closeup.jpg' })} />
+      <Img src={getLargeUploadSrc({ filename: 'hero-image.jpeg' })} />
     </Wrapper>
   );
 };

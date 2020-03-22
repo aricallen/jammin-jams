@@ -63,11 +63,13 @@ const NavList = ({ navItems }) => {
   );
 };
 
+// hacked to shift left outside of nav bars padding
 const ExpandableWrapper = styled('div')`
   position: absolute;
   top: ${sizes.rowHeight}px;
   width: 100%;
   background-color: ${pallet.strawberry};
+  margin-left: -32px;
   z-index: 10;
   transition: height ${animation};
 

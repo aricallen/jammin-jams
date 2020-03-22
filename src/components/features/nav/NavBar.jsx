@@ -1,4 +1,4 @@
-import React, { useEffect, Fragment, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -19,9 +19,10 @@ import {
   IconWrapper,
 } from './Nav';
 
+// first column is mobile nav list
 const Wrapper = styled('nav')`
   display: grid;
-  grid-template-columns: 3fr 1fr 3fr;
+  grid-template-columns: 0px 3fr 1fr 3fr;
   position: sticky;
   top: 0;
   z-index: 10;
@@ -121,33 +122,31 @@ export const NavBar = () => {
   const navItems = getNavItems(NAV_ITEMS, sessionState);
 
   return (
-    <Fragment>
-      <Wrapper>
-        <BarSection>
-          <Brand>
-            <NavLink to="/">
-              <BrandLinkWrapper>Jammin&apos; Jams</BrandLinkWrapper>
-            </NavLink>
-          </Brand>
-        </BarSection>
-        <BarSection style={{ justifyContent: 'center' }}>
-          <NavLogo />
-        </BarSection>
-        <BarSection style={{ justifyContent: 'flex-end' }}>
-          {/* desktop nav */}
-          <DesktopOnly>
-            <NavList>{navItems.map(renderNavItem)}</NavList>
-            <Cart cart={cart} />
-          </DesktopOnly>
-
-          {/* mobile nav */}
-          <MobileOnly>
-            <Cart cart={cart} />
-            <MobileNav navItems={navItems} portalRef={portalRef} />
-          </MobileOnly>
-        </BarSection>
-      </Wrapper>
+    <Wrapper>
       <MobileListPortal ref={portalRef} />
-    </Fragment>
+      <BarSection>
+        <Brand>
+          <NavLink to="/">
+            <BrandLinkWrapper>Jammin&apos; Jams</BrandLinkWrapper>
+          </NavLink>
+        </Brand>
+      </BarSection>
+      <BarSection style={{ justifyContent: 'center' }}>
+        <NavLogo />
+      </BarSection>
+      <BarSection style={{ justifyContent: 'flex-end' }}>
+        {/* desktop nav */}
+        <DesktopOnly>
+          <NavList>{navItems.map(renderNavItem)}</NavList>
+          <Cart cart={cart} />
+        </DesktopOnly>
+
+        {/* mobile nav */}
+        <MobileOnly>
+          <Cart cart={cart} />
+          <MobileNav navItems={navItems} portalRef={portalRef} />
+        </MobileOnly>
+      </BarSection>
+    </Wrapper>
   );
 };
