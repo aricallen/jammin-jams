@@ -6,6 +6,9 @@ import { CameraRoll } from '../../common/CameraRoll';
 import { AboutSwitcher } from './AboutSwitcher';
 import { HeroSection } from './HeroSection';
 import * as SessionStorage from '../../../utils/session-storage';
+import { NewsletterBlock } from '../../common/NewletterBlock';
+import { media } from '../../../utils/media';
+import { spacing, pallet } from '../../../constants/style-guide';
 
 const ANIMATION_TIMEOUT = 1000 * 60 * 15; // 15 mins
 const ANIMATION_STORAGE_KEY = 'homeAnimationDisabledUntil';
@@ -39,7 +42,32 @@ const MainContentWrapper = styled('div')`
 `;
 
 const Text = styled('div')`
+  background-color: ${pallet.light.charcoal};
+  color: white;
+  padding: ${spacing.regular}px;
   text-align: center;
+`;
+
+const CameraRollWrapper = styled('div')`
+  margin-top: ${spacing.quadruple}px;
+`;
+
+const CameraRollSection = () => {
+  return (
+    <CameraRollWrapper>
+      <Text>Follow us on Instagram!</Text>
+      <CameraRoll />
+    </CameraRollWrapper>
+  );
+};
+
+const SignUpSection = styled('div')`
+  width: 50%;
+  margin: 0 auto;
+  ${media.mobile()} {
+    width: 100%;
+    padding: ${spacing.double}px;
+  }
 `;
 
 const disableAnimation = () => {
@@ -92,11 +120,11 @@ export const Home = () => {
         <HeroSection />
         <FullPageWrapper>
           <AboutSwitcher />
+          <SignUpSection>
+            <NewsletterBlock />
+          </SignUpSection>
         </FullPageWrapper>
-        <Section>
-          <Text>Follow us on Instagram!</Text>
-        </Section>
-        <CameraRoll />
+        <CameraRollSection />
       </MainContentWrapper>
     </Wrapper>
   );
