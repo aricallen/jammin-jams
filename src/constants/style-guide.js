@@ -60,7 +60,7 @@ const baseFontSizes = {
 
 const mobileFontSizes = Object.entries(baseFontSizes).reduce((acc, curr) => {
   const [key, val] = curr;
-  acc[key] = val + 6;
+  acc[key] = val + 2;
   return acc;
 }, {});
 

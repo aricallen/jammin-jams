@@ -80,3 +80,16 @@ export const Overlay = styled('div')`
   align-items: center;
   justify-content: center;
 `;
+
+export const MobileOnly = styled('div')`
+  display: none;
+  ${media.mobile()} {
+    display: initial;
+  }
+`;
+
+export const DesktopOnly = styled('div')`
+  ${media.mobile()} {
+    display: none;
+  }
+`;

@@ -2,12 +2,14 @@ import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink as BaseNavLink, withRouter } from 'react-router-dom';
-import { Logo } from './Logo';
-import { sizes, pallet, spacing, animation, font } from '../../constants/style-guide';
-import { fontSizes } from '../../utils/style-helpers';
-import { isInitial } from '../../redux/utils/meta-status';
-import { fetchSession } from '../../redux/session/actions';
-import CartIcon from '../../assets/icons/shopping_cart.svg';
+import { Logo } from '../../common/Logo';
+import { sizes, pallet, spacing, animation, font } from '../../../constants/style-guide';
+import { fontSizes } from '../../../utils/style-helpers';
+import { isInitial } from '../../../redux/utils/meta-status';
+import { fetchSession } from '../../../redux/session/actions';
+import CartIcon from '../../../assets/icons/shopping_cart.svg';
+import { DesktopOnly, MobileOnly } from '../../common/Structure';
+import { MobileNav } from './MobileNav';
 
 const Wrapper = styled('nav')`
   display: grid;
@@ -190,12 +192,25 @@ export const NavBar = withRouter(({ history }) => {
         <NavLogo />
       </BarSection>
       <BarSection style={{ justifyContent: 'flex-end' }}>
-        <NavList>{navItems.map(renderNavItem)}</NavList>
-        {cart.length > 0 && (
-          <IconWrapper onClick={() => history.push('/store/checkout')}>
-            <CartIcon />
-          </IconWrapper>
-        )}
+        {/* desktop nav links */}
+        <DesktopOnly>
+          <NavList>{navItems.map(renderNavItem)}</NavList>
+          {cart.length > 0 && (
+            <IconWrapper onClick={() => history.push('/store/checkout')}>
+              <CartIcon />
+            </IconWrapper>
+          )}
+        </DesktopOnly>
+
+        {/* mobile nav */}
+        <MobileOnly>
+          {cart.length > 0 && (
+            <IconWrapper onClick={() => history.push('/store/checkout')}>
+              <CartIcon />
+            </IconWrapper>
+          )}
+          <MobileNav navItems={navItems} />
+        </MobileOnly>
       </BarSection>
     </Wrapper>
   );

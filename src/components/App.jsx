@@ -40,7 +40,7 @@ import { Blog } from './features/blog/Blog';
 import { Post as BlogPost } from './features/blog/Post';
 
 import { Footer } from './common/Footer';
-import { NavBar } from './common/NavBar';
+import { NavBar } from './features/nav/NavBar';
 import { globalStyles } from '../constants/global-styles';
 import { sizes } from '../constants/style-guide';
 
