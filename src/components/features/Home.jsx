@@ -65,7 +65,6 @@ const JamJourneysSection = ({ post, isBusy }) => {
   return (
     <ExpandableSection
       headerText="Jam Journeys"
-      defaultIsExpanded={true}
       Content={() => (
         <Fragment>
           <BlurbIntro />

@@ -49,8 +49,6 @@ export const ColLeft = styled('div')`
 
 export const ColMain = styled('div')`
   grid-area: middle;
-  display: flex;
-  align-items: center;
   min-height: 50vh;
 `;
 
