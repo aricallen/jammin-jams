@@ -6,18 +6,18 @@ import { WhatItIs } from './WhatItIs';
 import { HowItWorks } from './HowItWorks';
 import { LatestList as JamJourneys } from '../blog/LatestList';
 import { LogoFilled } from '../../common/LogoFilled';
-import { fontSizes } from '../../../utils/style-helpers';
+import { fontSizes, boxShadow } from '../../../utils/style-helpers';
 import { Header1 } from '../../common/Structure';
 
 const SECTIONS = [
   {
     title: 'What it is',
-    color: pallet.plum,
+    color: pallet.blueberry,
     Content: WhatItIs,
   },
   {
     title: 'How it works',
-    color: pallet.blueberry,
+    color: pallet.sky,
     Content: HowItWorks,
   },
   {
@@ -47,7 +47,8 @@ const SelectorSection = styled('div')`
 const SelectorWrapper = styled('div')`
   cursor: pointer;
   padding: ${spacing.quadruple}px;
-  outline: ${(p) => (p.isSelected ? border : 'none')};
+  outline: ${(p) => (p.isSelected ? `1px solid ${pallet.sky}` : 'none')};
+  box-shadow: ${(p) => (p.isSelected ? boxShadow(pallet.strawberry) : 'none')};
   &:hover {
     background-color: ${pallet.light.strawberry};
   }

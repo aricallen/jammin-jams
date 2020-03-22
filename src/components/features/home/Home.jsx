@@ -1,7 +1,7 @@
 import React, { useState, useRef, useLayoutEffect } from 'react';
 import styled from '@emotion/styled';
 import { LogoFilled } from '../../common/LogoFilled';
-import { Section, FullPageWrapper } from '../../common/Structure';
+import { FullPageWrapper } from '../../common/Structure';
 import { CameraRoll } from '../../common/CameraRoll';
 import { AboutSwitcher } from './AboutSwitcher';
 import { HeroSection } from './HeroSection';
@@ -42,9 +42,8 @@ const MainContentWrapper = styled('div')`
 `;
 
 const Text = styled('div')`
-  background-color: ${pallet.light.charcoal};
-  color: white;
-  padding: ${spacing.regular}px;
+  background-color: ${pallet.sky};
+  padding: ${spacing.double}px;
   text-align: center;
 `;
 

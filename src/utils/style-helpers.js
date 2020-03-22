@@ -1,4 +1,4 @@
-import { font } from '../constants/style-guide';
+import { font, pallet } from '../constants/style-guide';
 import { media } from './media';
 
 const keyedFontSizes = (key) => `
@@ -22,4 +22,8 @@ export const fontSizes = (keyOrNum) => {
     return numFontSize(keyOrNum);
   }
   return keyedFontSizes(keyOrNum);
+};
+
+export const boxShadow = (color = pallet.light.charcoal) => {
+  return `1px 1px 3px 0 ${color}`;
 };

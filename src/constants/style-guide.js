@@ -3,10 +3,10 @@ import Color from 'color';
 const basePallet = {
   blueberry: '#7A7DB5',
   strawberry: '#FA5C66',
-  peach: '#FFC0CB',
+  peach: '#FFA69E',
   apricot: '#F0941C',
   plum: '#C41EC4',
-  babyBlue: '#D2EFF7',
+  sky: '#D2EFF7',
   charcoal: '#323232',
 };
 
@@ -82,8 +82,6 @@ export const font = {
 };
 
 export const animation = '0.3s ease-in-out';
-
-export const boxShadow = `1px 1px 3px 0 ${pallet.light.charcoal}`;
 
 export const border = `1px solid ${Color(pallet.charcoal)
   .alpha(0.2)

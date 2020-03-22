@@ -4,6 +4,7 @@ import { pallet, spacing } from '../../../constants/style-guide';
 import { getLargeUploadSrc } from '../../../utils/upload-helpers';
 import { fontSizes } from '../../../utils/style-helpers';
 import { ButtonLink } from '../../common/Links';
+import { Overlay } from '../../common/Structure';
 
 const PICTURE_HEIGHT = 600;
 
@@ -13,17 +14,6 @@ const Wrapper = styled('div')`
   position: relative;
   background-color: ${pallet.charcoal};
   max-height: ${PICTURE_HEIGHT}px;
-`;
-
-const Overlay = styled('div')`
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 `;
 
 const CallToAction = styled('div')`

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { spacing, animation, pallet, font } from '../../constants/style-guide';
+import { spacing, font, sizes } from '../../constants/style-guide';
 import { fontSizes } from '../../utils/style-helpers';
 import { media } from '../../utils/media';
 
@@ -13,6 +13,7 @@ export const Content = styled('div')`
 export const FullPageWrapper = styled('div')`
   margin: 0 auto;
   width: 64%;
+  max-width: ${sizes.tabletWidth}px;
   ${media.mobile()} {
     width: 100%;
     padding: 0 ${spacing.double}px;
@@ -64,3 +65,18 @@ export const ListItem = styled('li')`
 export const Emoji = ({ label, children }) => {
   return <span aria-label={label}>{children}</span>;
 };
+
+/**
+ * @usage set position relative to direct parent and place as first child
+ * then all children inside will be overlayed the parent and aligned in the middle
+ */
+export const Overlay = styled('div')`
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
