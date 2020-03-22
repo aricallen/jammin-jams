@@ -1,9 +1,9 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { spacing, border, animation, pallet } from '../../../constants/style-guide';
+import { spacing, border, pallet } from '../../../constants/style-guide';
 import { WhatItIs } from './WhatItIs';
-import { ContentList as HowItWorks } from '../about/HowItWorks';
+import { HowItWorks } from './HowItWorks';
 import { LatestList as JamJourneys } from '../blog/LatestList';
 import { LogoFilled } from '../../common/LogoFilled';
 import { fontSizes } from '../../../utils/style-helpers';
@@ -71,7 +71,7 @@ const LogoWrapper = styled('div')`
 
 const Selector = ({ section, onClick, isSelected }) => {
   const { title, color } = section;
-  const colorMap = createColorMap(color);
+  const colorMap = isSelected ? createColorMap(color) : {};
   return (
     <SelectorWrapper onClick={onClick} isSelected={isSelected}>
       <LogoWrapper className="hide-on-hover">

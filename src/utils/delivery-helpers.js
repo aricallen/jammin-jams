@@ -15,7 +15,7 @@ export const CALENDAR_DATA = [
 const configToString = (config, type = DeliveryType.BICYCLE) => {
   const currYear = new Date().getFullYear();
   const configDate = new Date(`${config.month} ${config[type]} ${currYear}`);
-  return `${format(configDate, 'MMMM do')}`;
+  return `${format(configDate, 'MMMM do')}`.replace(' ', '\u00A0');
 };
 
 export const getNextDeliveryDay = () => {
