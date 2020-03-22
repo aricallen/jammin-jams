@@ -24,6 +24,10 @@ export const getLargeUploadSrc = (upload) => {
   return getUploadSrc(upload, ImageSizes.LARGE);
 };
 
+export const getRawUploadSrc = (upload) => {
+  return getUploadSrc(upload, ImageSizes.RAW);
+};
+
 export const parseExtension = (filename = '') => {
   if (filename.includes('.')) {
     return filename.split('.').pop();
