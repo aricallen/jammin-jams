@@ -21,7 +21,7 @@ const SECTIONS = [
     Content: HowItWorks,
   },
   {
-    title: '#JamJourneys',
+    title: '#jamjourneys',
     color: pallet.peach,
     Content: JamJourneys,
   },
@@ -49,7 +49,6 @@ const SelectorWrapper = styled('div')`
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  border: ${border};
   padding: ${spacing.double}px;
   position: relative;
   width: 20%;
