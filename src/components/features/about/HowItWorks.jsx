@@ -111,12 +111,5 @@ const HowItWorksMiddle = () => {
 };
 
 export const HowItWorks = () => {
-  // return (
-  //   <Wrapper>
-  //     <ContentHeader>How It Works</ContentHeader>
-  //     <ContentList />
-  //   </Wrapper>
-  // );
-
   return <Article Middle={HowItWorksMiddle} />;
 };

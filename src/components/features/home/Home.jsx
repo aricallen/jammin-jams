@@ -1,8 +1,7 @@
 import React, { useState, useRef, useLayoutEffect } from 'react';
 import styled from '@emotion/styled';
 import { LogoFilled } from '../../common/LogoFilled';
-import { Section, Emoji, FullPageWrapper } from '../../common/Structure';
-import { Spinner } from '../../common/Spinner';
+import { FullPageWrapper } from '../../common/Structure';
 import { CameraRoll } from '../../common/CameraRoll';
 import { AboutSwitcher } from './AboutSwitcher';
 import { HeroSection } from './HeroSection';
