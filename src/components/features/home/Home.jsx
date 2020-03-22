@@ -1,7 +1,7 @@
 import React, { useState, useRef, useLayoutEffect } from 'react';
 import styled from '@emotion/styled';
 import { LogoFilled } from '../../common/LogoFilled';
-import { FullPageWrapper } from '../../common/Structure';
+import { Section, FullPageWrapper } from '../../common/Structure';
 import { CameraRoll } from '../../common/CameraRoll';
 import { AboutSwitcher } from './AboutSwitcher';
 import { HeroSection } from './HeroSection';
@@ -36,6 +36,10 @@ const LogoWrapper = styled('div')`
 
 const MainContentWrapper = styled('div')`
   animation: fade-in 0.5s 1;
+`;
+
+const Text = styled('div')`
+  text-align: center;
 `;
 
 const disableAnimation = () => {
@@ -89,6 +93,9 @@ export const Home = () => {
         <FullPageWrapper>
           <AboutSwitcher />
         </FullPageWrapper>
+        <Section>
+          <Text>Follow us on Instagram!</Text>
+        </Section>
         <CameraRoll />
       </MainContentWrapper>
     </Wrapper>

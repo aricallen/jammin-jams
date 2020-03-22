@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { spacing, border, animation } from '../../../constants/style-guide';
+import { spacing, border, animation, pallet } from '../../../constants/style-guide';
 import { WhatItIs } from './WhatItIs';
 import { ContentList as HowItWorks } from '../about/HowItWorks';
 import { LatestList as JamJourneys } from '../blog/LatestList';
@@ -12,17 +12,17 @@ import { Header1 } from '../../common/Structure';
 const SECTIONS = [
   {
     title: 'What it is',
-    color: 'pink',
+    color: pallet.plum,
     Content: WhatItIs,
   },
   {
     title: 'How it works',
-    color: 'blue',
+    color: pallet.blueberry,
     Content: HowItWorks,
   },
   {
     title: '#JamJourneys',
-    color: 'yellow',
+    color: pallet.peach,
     Content: JamJourneys,
   },
 ];
