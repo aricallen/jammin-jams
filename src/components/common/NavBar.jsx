@@ -17,7 +17,7 @@ const Wrapper = styled('nav')`
   align-items: center;
   justify-content: space-between;
   min-height: ${sizes.rowHeight}px;
-  background-color: ${pallet.blueberry};
+  background-color: ${pallet.strawberry};
   padding-left: ${spacing.quadruple}px;
   padding-right: ${spacing.quadruple}px;
 `;

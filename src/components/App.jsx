@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 import styled from '@emotion/styled';
 import { Global } from '@emotion/core';
 import { AdminRoute } from './common/AdminRoute';
-import { Home } from './features/Home';
+import { Home } from './features/home/Home';
 import { Waitlist } from './features/Waitlist';
 import { ThankYou } from './features/ThankYou';
 import { NotFound } from './features/NotFound';

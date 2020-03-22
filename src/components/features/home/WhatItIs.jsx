@@ -6,7 +6,7 @@ import { Emphasis } from '../../common/Structure';
 
 const Text = styled('span')``;
 
-export const Introduction = () => (
+export const WhatItIs = () => (
   <Text>
     We created Jammin&apos; Jams with the intent of celebrating all that is happy in life by doing
     what we love. Jam invites us to live in the present moment. We aim to transform the best

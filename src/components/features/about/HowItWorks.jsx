@@ -56,15 +56,6 @@ const STEPS = [
   },
 ];
 
-const Wrapper = styled('div')`
-  margin: 0 auto;
-  width: 50%;
-  ${media.mobile()} {
-    width: 100%;
-    padding: 0 ${spacing.double}px;
-  }
-`;
-
 const Card = styled('div')``;
 
 const CardWrapper = styled('div')`
@@ -83,7 +74,7 @@ const CardContent = styled('div')`
   padding-left: ${spacing.quadruple * 2}px;
 `;
 
-const ContentCard = ({ title, emoji, index, Content }) => {
+const ContentCard = ({ title, index, Content }) => {
   return (
     <Card>
       <CardHeader>

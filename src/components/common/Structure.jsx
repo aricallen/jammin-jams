@@ -10,6 +10,15 @@ export const Content = styled('div')`
   ${fontSizes('regular')}
 `;
 
+export const FullPageWrapper = styled('div')`
+  margin: 0 auto;
+  width: 64%;
+  ${media.mobile()} {
+    width: 100%;
+    padding: 0 ${spacing.double}px;
+  }
+`;
+
 export const Header1 = styled('h1')`
   margin-bottom: ${spacing.regular}px;
   ${media.mobile()} {
