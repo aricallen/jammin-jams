@@ -55,7 +55,9 @@ const CameraRollWrapper = styled('div')`
 const CameraRollSection = () => {
   return (
     <CameraRollWrapper>
-      <Text>Follow us on Instagram!</Text>
+      <Text>
+        Follow us on Instagram! <a href="https://www.instagram.com/jmn_jams/">@jmn_jams</a>
+      </Text>
       <CameraRoll />
     </CameraRollWrapper>
   );
