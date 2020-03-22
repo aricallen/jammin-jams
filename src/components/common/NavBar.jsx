@@ -10,12 +10,12 @@ import { fetchSession } from '../../redux/session/actions';
 import CartIcon from '../../assets/icons/shopping_cart.svg';
 
 const Wrapper = styled('nav')`
-  display: flex;
+  display: grid;
+  grid-template-columns: 3fr 1fr 3fr;
   position: sticky;
   top: 0;
   z-index: 10;
   align-items: center;
-  justify-content: space-between;
   min-height: ${sizes.rowHeight}px;
   background-color: ${pallet.strawberry};
   padding-left: ${spacing.quadruple}px;
@@ -186,10 +186,10 @@ export const NavBar = withRouter(({ history }) => {
           </NavLink>
         </Brand>
       </BarSection>
-      <BarSection>
+      <BarSection style={{ justifyContent: 'center' }}>
         <NavLogo />
       </BarSection>
-      <BarSection>
+      <BarSection style={{ justifyContent: 'flex-end' }}>
         <NavList>{navItems.map(renderNavItem)}</NavList>
         {cart.length > 0 && (
           <IconWrapper onClick={() => history.push('/store/checkout')}>
