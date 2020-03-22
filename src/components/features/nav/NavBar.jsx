@@ -1,15 +1,23 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Fragment, useRef } from 'react';
 import styled from '@emotion/styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink as BaseNavLink, withRouter } from 'react-router-dom';
-import { Logo } from '../../common/Logo';
-import { sizes, pallet, spacing, animation, font } from '../../../constants/style-guide';
-import { fontSizes } from '../../../utils/style-helpers';
+import { withRouter } from 'react-router-dom';
+import { sizes, pallet, spacing } from '../../../constants/style-guide';
 import { isInitial } from '../../../redux/utils/meta-status';
 import { fetchSession } from '../../../redux/session/actions';
 import CartIcon from '../../../assets/icons/shopping_cart.svg';
 import { DesktopOnly, MobileOnly } from '../../common/Structure';
 import { MobileNav } from './MobileNav';
+import {
+  NavLogo,
+  NavList,
+  NavLink,
+  NavItem,
+  SubNav,
+  Brand,
+  BrandLinkWrapper,
+  IconWrapper,
+} from './Nav';
 
 const Wrapper = styled('nav')`
   display: grid;
@@ -29,87 +37,7 @@ const BarSection = styled('div')`
   align-items: center;
 `;
 
-const Brand = styled('span')`
-  ${fontSizes('largest')}
-  font-weight: ${font.weight.black};
-  cursor: pointer;
-`;
-
-const BrandLinkWrapper = styled('div')`
-  display: flex;
-  align-items: center;
-`;
-
-const NavLogo = styled(Logo)`
-  width: ${spacing.triple}px;
-  height: ${spacing.triple}px;
-  margin-right: ${spacing.double}px;
-`;
-
-const NavList = styled('ul')`
-  list-style: none;
-`;
-
-const NavItem = styled('li')`
-  margin-left: ${spacing.double}px;
-  display: inline-block;
-  position: relative;
-  ${fontSizes('large')}
-  .sub-nav {
-    display: none;
-  }
-  &:hover {
-    .sub-nav {
-      display: initial;
-    }
-  }
-`;
-
-const SubNav = styled('nav')`
-  position: absolute;
-  top: ${spacing.quadruple}px;
-  left: 0;
-  display: block;
-  background: ${pallet.light.blueberry};
-  width: max-content;
-  & > li {
-    padding: ${spacing.regular}px;
-    margin-left: 0;
-    display: block;
-    border-bottom: 1px solid white;
-  }
-`;
-
-const NavLink = styled(BaseNavLink)`
-  text-decoration: none;
-  color: black;
-  transition: color ${animation};
-
-  &:active {
-    color: black;
-  }
-
-  &:hover {
-    color: white;
-  }
-`;
-
-const IconWrapper = styled('div')`
-  display: flex;
-  align-items: center;
-  margin-left: ${spacing.double}px;
-  cursor: pointer;
-
-  svg {
-    transition: fill ${animation};
-  }
-
-  &:hover {
-    svg {
-      fill: white;
-    }
-  }
-`;
+const MobileListPortal = styled('div')``;
 
 const NAV_ITEMS = [
   {
@@ -165,9 +93,22 @@ const renderNavItem = (item) => (
   </NavItem>
 );
 
-export const NavBar = withRouter(({ history }) => {
+const Cart = withRouter(({ cart, history }) => {
+  if (cart.length === 0) {
+    return null;
+  }
+
+  return (
+    <IconWrapper onClick={() => history.push('/store/checkout')}>
+      <CartIcon />
+    </IconWrapper>
+  );
+});
+
+export const NavBar = () => {
   const sessionState = useSelector((state) => state.session);
   const cart = useSelector((state) => state.cart.data);
+  const portalRef = useRef();
   const dispatch = useDispatch();
 
   const fetch = () => {
@@ -180,38 +121,33 @@ export const NavBar = withRouter(({ history }) => {
   const navItems = getNavItems(NAV_ITEMS, sessionState);
 
   return (
-    <Wrapper>
-      <BarSection>
-        <Brand>
-          <NavLink to="/">
-            <BrandLinkWrapper>Jammin&apos; Jams</BrandLinkWrapper>
-          </NavLink>
-        </Brand>
-      </BarSection>
-      <BarSection style={{ justifyContent: 'center' }}>
-        <NavLogo />
-      </BarSection>
-      <BarSection style={{ justifyContent: 'flex-end' }}>
-        {/* desktop nav links */}
-        <DesktopOnly>
-          <NavList>{navItems.map(renderNavItem)}</NavList>
-          {cart.length > 0 && (
-            <IconWrapper onClick={() => history.push('/store/checkout')}>
-              <CartIcon />
-            </IconWrapper>
-          )}
-        </DesktopOnly>
+    <Fragment>
+      <Wrapper>
+        <BarSection>
+          <Brand>
+            <NavLink to="/">
+              <BrandLinkWrapper>Jammin&apos; Jams</BrandLinkWrapper>
+            </NavLink>
+          </Brand>
+        </BarSection>
+        <BarSection style={{ justifyContent: 'center' }}>
+          <NavLogo />
+        </BarSection>
+        <BarSection style={{ justifyContent: 'flex-end' }}>
+          {/* desktop nav */}
+          <DesktopOnly>
+            <NavList>{navItems.map(renderNavItem)}</NavList>
+            <Cart cart={cart} />
+          </DesktopOnly>
 
-        {/* mobile nav */}
-        <MobileOnly>
-          {cart.length > 0 && (
-            <IconWrapper onClick={() => history.push('/store/checkout')}>
-              <CartIcon />
-            </IconWrapper>
-          )}
-          <MobileNav navItems={navItems} />
-        </MobileOnly>
-      </BarSection>
-    </Wrapper>
+          {/* mobile nav */}
+          <MobileOnly>
+            <Cart cart={cart} />
+            <MobileNav navItems={navItems} portalRef={portalRef} />
+          </MobileOnly>
+        </BarSection>
+      </Wrapper>
+      <MobileListPortal ref={portalRef} />
+    </Fragment>
   );
-});
+};
