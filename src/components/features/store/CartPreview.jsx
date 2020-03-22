@@ -70,6 +70,9 @@ const CartItem = ({ item }) => {
     <Row>
       <ItemInfo>
         <Title>{title}</Title>
+        <Price>
+          <Label>Price:</Label> ${formatAmount(item.sku.price)}
+        </Price>
       </ItemInfo>
       <Action>
         <Button variant="secondary" onClick={onClick}>
