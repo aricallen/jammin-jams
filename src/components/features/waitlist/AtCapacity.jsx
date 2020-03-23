@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import { useDispatch } from 'react-redux';
 import {
   Header1,
   Section,
@@ -8,22 +9,15 @@ import {
   Emoji,
   FullPageWrapper,
 } from '../../common/Structure';
-import { Button as BaseButton } from '../../common/Button';
-import { animation, spacing } from '../../../constants/style-guide';
+import { spacing } from '../../../constants/style-guide';
 import { addToWaitlist } from '../../../services/adapter';
 import { WaitlistForm } from './WaitlistForm';
 import { media } from '../../../utils/media';
+import { addMember } from '../../../redux/email/actions';
 
 const ContentWrapper = styled(FullPageWrapper)`
   padding: ${spacing.quadruple}px 0;
   animation: fade-in 0.5s 1;
-`;
-
-const Button = styled(BaseButton)`
-  transition: opacity ${animation};
-  &.is-hidden {
-    opacity: 0;
-  }
 `;
 
 const FormWrapper = styled('div')`
@@ -34,35 +28,38 @@ const FormWrapper = styled('div')`
 `;
 
 export const AtCapacity = ({ history }) => {
+  const dispatch = useDispatch();
+
+  const signupForNewsLetter = (values) => {
+    const { email, firstName, lastName } = values;
+    dispatch(addMember({ email, firstName, lastName, tags: ['Newsletter'] }));
+  };
+
   const onSubmit = async (values) => {
     try {
-      await addToWaitlist({ values, formSource: 'Pre-launch waitlist' });
+      await addToWaitlist({ values, formSource: 'At capacity waitlist' });
       history.push('/thank-you');
     } catch (err) {
       console.error(err);
+    }
+    if (values.newsletterSignup) {
+      signupForNewsLetter(values);
     }
   };
 
   return (
     <ContentWrapper>
-      <Header1>
-        Welcome to Jammin&apos; Jams! We are <Emphasis>so stoked</Emphasis> that you are here.
-      </Header1>
+      <Header1>Oh noes! We are at full capacity. 😩</Header1>
       <Section>
         <Paragraph>
-          We created Jammin&apos; Jams with the intent of celebrating all that is happy in life by
-          doing what we love. Jam invites us to live in the present moment. We aim to transform the
-          best seasonal fruits into sweet-tart-oh-so-tasty jam through the power of high heat and
-          bass. At Jammin&apos; Jams, we firmly believe that fun and passion can be tasted. This is
-          why we will always play a live DJ set while making jam in our home kitchen. We keep our
-          hearts pumping and our jams jammin with funky techno beats, and we hope you’ll do the
-          same!
+          First, we are <Emphasis>absolutely thrilled</Emphasis> you want some of our jam.{' '}
+          Unfortunately, our jam production is on such a small scale and are only able to support a
+          limited set of subscriptions (for now!).
         </Paragraph>
         <Paragraph>
-          We&apos;re just getting started with this thrilling adventure and would love for you to
-          join us on this crazy ride. Please fill out the brief survey below and sign up for our
-          waiting list so you can be notified as soon as we open up our subscription service. Space
-          will be limited so sign up now to be first in line <Emoji label="please">🙏🏽</Emoji>
+          But fear not! <Emoji label="Muscle emoji">💪🏽</Emoji> Fill out the form below to join our
+          waitlist and be first in line for when we expand. Also be sure to sign up for our
+          newsletter so you can stay up to date on our #jamjourneys.
         </Paragraph>
       </Section>
 

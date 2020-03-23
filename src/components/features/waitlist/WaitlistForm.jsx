@@ -1,12 +1,22 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import { FormInput, Fieldset, Label, Form, FormError } from '../../common/Forms';
+import { Checkbox } from '../../common/Checkbox';
 import { Button as BaseButton } from '../../common/Button';
 import { Select } from '../../common/Select';
 import { spacing } from '../../../constants/style-guide';
 
 const SubmitButton = styled(BaseButton)`
   margin-top: ${spacing.double}px;
+`;
+
+const SignupWrapper = styled('div')`
+  padding-top: ${spacing.double}px;
+`;
+
+const SignupLabel = styled('label')`
+  cursor: pointer;
+  margin-right: ${spacing.double}px;
 `;
 
 const FREQUENCIES = ['Once a month', 'Once a quarter', 'Not sure / It depends'];
@@ -123,6 +133,15 @@ export const WaitlistForm = ({ onSubmit }) => {
         value={values.favoriteGenre || ''}
         onChange={handleChange('favoriteGenre')}
       />
+
+      <SignupWrapper>
+        <SignupLabel htmlFor="newsletterSignup">Sign up for our newletter?</SignupLabel>
+        <Checkbox
+          checked={values.newsletterSignup}
+          name="newsletterSignup"
+          onChange={handleChange('newsletterSignup', (e) => e.target.checked)}
+        />
+      </SignupWrapper>
 
       <SubmitButton type="submit">Sign me up!</SubmitButton>
     </Form>

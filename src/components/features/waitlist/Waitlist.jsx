@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import qs from 'query-string';
 import styled from '@emotion/styled';
 import {
@@ -14,6 +15,7 @@ import { animation, spacing } from '../../../constants/style-guide';
 import { addToWaitlist } from '../../../services/adapter';
 import { WaitlistForm } from './WaitlistForm';
 import { media } from '../../../utils/media';
+import { addMember } from '../../../redux/email/actions';
 
 const ContentWrapper = styled(FullPageWrapper)`
   padding: ${spacing.quadruple}px 0;
@@ -43,16 +45,28 @@ const FormWrapper = styled('div')`
 `;
 
 export const Waitlist = ({ history, location }) => {
+  const dispatch = useDispatch();
   const { open } = qs.parse(location.search);
   const [isViewingForm, setIsViewingForm] = useState(open === 'true');
 
-  const onSubmit = async (values) => {
+  const signupForNewsLetter = async (values) => {
+    const { email, firstName, lastName } = values;
     try {
-      // await addToWaitlist({ ...values, formSource: 'Pre-launch waitlist' });
-      // history.push('/thank-you');
-      console.table(values);
+      dispatch(addMember({ email, firstName, lastName, tags: ['Newsletter'] }));
     } catch (err) {
       console.error(err);
+    }
+  };
+
+  const onSubmit = async (values) => {
+    try {
+      await addToWaitlist({ ...values, formSource: 'Pre-launch waitlist' });
+      history.push('/thank-you');
+    } catch (err) {
+      console.error(err);
+    }
+    if (values.newsletterSignup) {
+      signupForNewsLetter(values);
     }
   };
 
