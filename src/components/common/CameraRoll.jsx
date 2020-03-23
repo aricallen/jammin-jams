@@ -15,12 +15,16 @@ const ImageGrid = styled('div')`
   display: grid;
   grid-template-columns: repeat(6, 1fr);
   ${media.mobile()} {
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-wrap: wrap;
   }
 `;
 
 const ImageWrapper = styled('div')`
   display: flex;
+  ${media.mobile()} {
+    max-width: 50%;
+  }
 `;
 
 const Image = styled('img')``;

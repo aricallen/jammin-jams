@@ -3,10 +3,10 @@ import Color from 'color';
 const basePallet = {
   blueberry: '#7A7DB5',
   strawberry: '#FA5C66',
-  peach: '#FFC0CB',
+  peach: '#FFA69E',
   apricot: '#F0941C',
   plum: '#C41EC4',
-  babyBlue: '#D2EFF7',
+  sky: '#D2EFF7',
   charcoal: '#323232',
 };
 
@@ -48,9 +48,9 @@ export const sizes = {
 };
 
 const baseFontSizes = {
-  small: 16,
-  regular: 18,
-  large: 24,
+  small: 14,
+  regular: 16,
+  large: 18,
   largest: 30,
   header1: 24,
   header2: 20,
@@ -60,7 +60,7 @@ const baseFontSizes = {
 
 const mobileFontSizes = Object.entries(baseFontSizes).reduce((acc, curr) => {
   const [key, val] = curr;
-  acc[key] = val + 6;
+  acc[key] = val + 2;
   return acc;
 }, {});
 
@@ -82,8 +82,6 @@ export const font = {
 };
 
 export const animation = '0.3s ease-in-out';
-
-export const boxShadow = `1px 1px 3px 0 ${pallet.light.charcoal}`;
 
 export const border = `1px solid ${Color(pallet.charcoal)
   .alpha(0.2)

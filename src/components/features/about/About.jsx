@@ -1,7 +1,12 @@
 import React from 'react';
-import { Article } from '../../common/Article';
-import { Introduction } from './Introduction';
+import { Redirect } from 'react-router-dom';
+// import { Article } from '../../common/Article';
+// import { Introduction } from './Introduction';
+
+/**
+ * later this should hold a write up about the makers
+ */
 
 export const About = () => {
-  return <Article Middle={Introduction} />;
+  return <Redirect to="/about/how-it-works" />;
 };

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
-import { fetchOne, updateOne } from '../../../../redux/uploads/actions';
+import { fetchOne, updateOne, deleteOne } from '../../../../redux/uploads/actions';
 import { Spinner } from '../../../common/Spinner';
 import { UserMessage } from '../../../common/UserMessage';
 import { Header } from '../Header';
@@ -23,6 +23,7 @@ export const EditPage = ({ match, history }) => {
   const [isFetching, setIsFetching] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [extension, setExtension] = useState(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   const { uploadId } = match.params;
   const uploadRecord = uploadsState.data.find((record) => record.id === +uploadId);
@@ -61,6 +62,13 @@ export const EditPage = ({ match, history }) => {
     setIsSubmitting(false);
   };
 
+  const onDelete = async () => {
+    setIsDeleting(true);
+    await dispatch(deleteOne(values.id));
+    setIsDeleting(false);
+    history.push('/admin/uploads');
+  };
+
   if (isFetching) {
     return <Spinner variant="large" />;
   }
@@ -80,6 +88,9 @@ export const EditPage = ({ match, history }) => {
         title="Edit Upload"
         Controls={() => (
           <Fragment>
+            <Button onClick={onDelete} isBusy={isDeleting} variant="secondary">
+              Delete
+            </Button>
             <Button onClick={() => history.push('/admin/uploads')} variant="secondary">
               Back
             </Button>

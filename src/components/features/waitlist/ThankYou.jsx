@@ -1,5 +1,5 @@
 import React from 'react';
-import { Content, Header1, Header2, Section, Paragraph } from '../common/Structure';
+import { Content, Header1, Header2, Section, Paragraph } from '../../common/Structure';
 
 export const ThankYou = () => {
   return (

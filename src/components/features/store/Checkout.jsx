@@ -2,9 +2,10 @@ import React, { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useSelector, useDispatch } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { spacing, pallet, font, boxShadow } from '../../../constants/style-guide';
+import { spacing, pallet, font } from '../../../constants/style-guide';
 import { Content } from '../../common/Structure';
 import { media } from '../../../utils/media';
+import { boxShadow } from '../../../utils/style-helpers';
 import { Button } from '../../common/Button';
 import { Spinner } from '../../common/Spinner';
 import { DeliveryMethod } from './DeliveryMethod';
@@ -50,7 +51,7 @@ const CartCol = styled('div')`
 
 const SectionWrapper = styled('div')`
   margin-bottom: ${spacing.double}px;
-  box-shadow: ${boxShadow};
+  box-shadow: ${boxShadow()};
 `;
 
 const SectionHeader = styled('div')`
@@ -178,7 +179,7 @@ export const Checkout = () => {
   }
 
   if (appStatusState.data.isFull) {
-    return <Redirect to="/waitlist" />;
+    return <Redirect to="/at-capacity" />;
   }
 
   const onUpdate = (name, value) => {

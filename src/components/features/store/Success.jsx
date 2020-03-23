@@ -7,7 +7,8 @@ import * as MetaStatus from '../../../redux/utils/meta-status';
 import { updateOne as updateUser } from '../../../redux/users/actions';
 import { Spinner } from '../../common/Spinner';
 import { Button } from '../../common/Button';
-import { boxShadow, spacing } from '../../../constants/style-guide';
+import { spacing } from '../../../constants/style-guide';
+import { boxShadow } from '../../../utils/style-helpers';
 import { fetchSession, fetchSessionUser } from '../../../redux/session/actions';
 import { updateOne as updateCheckoutSession } from '../../../redux/checkout-session/actions';
 import { addMember } from '../../../redux/email/actions';
@@ -15,7 +16,7 @@ import { ErrorPage } from '../ErrorPage';
 import { formatAmount } from '../../../utils/format-helpers';
 
 const Wrapper = styled('div')`
-  box-shadow: ${boxShadow};
+  box-shadow: ${boxShadow()};
 `;
 
 const Item = styled('div')`
