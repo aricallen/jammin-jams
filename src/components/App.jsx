@@ -4,8 +4,8 @@ import styled from '@emotion/styled';
 import { Global } from '@emotion/core';
 import { AdminRoute } from './common/AdminRoute';
 import { Home } from './features/home/Home';
-import { Waitlist } from './features/Waitlist';
-import { ThankYou } from './features/ThankYou';
+import { Waitlist } from './features/waitlist/Waitlist';
+import { ThankYou } from './features/waitlist/ThankYou';
 import { NotFound } from './features/NotFound';
 import { ErrorPage } from './features/ErrorPage';
 
