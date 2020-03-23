@@ -24,7 +24,7 @@ const Button = styled(BaseButton)`
 `;
 
 const FormWrapper = styled('div')`
-  width: 50%;
+  width: 64%;
   ${media.mobile()} {
     width: 100%;
   }

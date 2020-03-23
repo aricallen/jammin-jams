@@ -11,12 +11,10 @@ import { addMember } from '../../../redux/email/actions';
 import { LinkLikeSpan } from '../../common/Links';
 import { Article } from '../../common/Article';
 
-const ContentWrapper = styled('div')`
-  animation: fade-in 0.5s 1;
-`;
+const ContentWrapper = styled('div')``;
 
 const FormWrapper = styled('div')`
-  width: 50%;
+  width: 64%;
   ${media.mobile()} {
     width: 100%;
   }

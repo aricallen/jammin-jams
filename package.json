@@ -12,7 +12,7 @@
     "build:production": "TARGET_ENV=production yarn build:local",
     "deploy": "sh scripts/deploy.sh",
     "deploy:local": "yarn clean && yarn build:production && yarn prepare-deploy",
-    "deploy:production": "yarn prepare && yarn deploy",
+    "deploy:production": "yarn deploy:local && yarn deploy",
     "prepare-deploy": "sh scripts/prepare-deploy.sh",
     "run:local": "yarn build:local && yarn prepare-deploy && yarn serve:local",
     "serve:local": "TARGET_ENV=local yarn serve",
