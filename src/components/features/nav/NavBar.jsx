@@ -7,6 +7,7 @@ import { isInitial } from '../../../redux/utils/meta-status';
 import { fetchSession } from '../../../redux/session/actions';
 import CartIcon from '../../../assets/icons/shopping_cart.svg';
 import { DesktopOnly, MobileOnly } from '../../common/Structure';
+import { isBetaTester } from '../../../utils/beta-testing';
 import { MobileNav } from './MobileNav';
 import {
   NavLogo,
@@ -74,6 +75,9 @@ const LOGGED_OUT_ITEMS = [
 ];
 
 const getNavItems = (navItems, sessionState) => {
+  if (!isBetaTester()) {
+    return [];
+  }
   if (sessionState.data.user) {
     return [...navItems, ...LOGGED_IN_ITEMS];
   }

@@ -1,13 +1,15 @@
 import React, { useState, useRef, useLayoutEffect } from 'react';
 import styled from '@emotion/styled';
+import { Redirect } from 'react-router-dom';
 import { LogoFilled } from '../../common/LogoFilled';
 import { FullPageWrapper } from '../../common/Structure';
 import { CameraRoll } from '../../common/CameraRoll';
 import { AboutSwitcher } from './AboutSwitcher';
 import { HeroSection } from './HeroSection';
 import * as SessionStorage from '../../../utils/session-storage';
-import { NewsletterBlock } from '../../common/NewletterBlock';
+import { NewsletterBlock } from '../../common/NewsletterBlock';
 import { media } from '../../../utils/media';
+import { isBetaTester } from '../../../utils/beta-testing';
 import { spacing, pallet } from '../../../constants/style-guide';
 
 const ANIMATION_TIMEOUT = 1000 * 60 * 15; // 15 mins
@@ -113,6 +115,10 @@ export const Home = () => {
         </AnimatedLogo>
       </Wrapper>
     );
+  }
+
+  if (!isBetaTester()) {
+    return <Redirect to="/waitlist" />;
   }
 
   return (

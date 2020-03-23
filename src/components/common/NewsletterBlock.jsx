@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { pallet, spacing, border, font } from '../../constants/style-guide';
+import { pallet, spacing, border } from '../../constants/style-guide';
 import { NewsletterForm } from './NewsletterForm';
 import { media } from '../../utils/media';
 import { fontSizes } from '../../utils/style-helpers';
@@ -12,6 +12,7 @@ const Wrapper = styled('div')`
   ${media.mobile()} {
     width: 60%;
     margin: 0 auto;
+    margin-bottom: ${spacing.quadruple}px;
   }
 `;
 

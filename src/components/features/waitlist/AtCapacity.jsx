@@ -1,23 +1,17 @@
 import React from 'react';
 import styled from '@emotion/styled';
+import { withRouter } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import {
-  Header1,
-  Section,
-  Paragraph,
-  Emphasis,
-  Emoji,
-  FullPageWrapper,
-} from '../../common/Structure';
+import { Header1, Section, Paragraph, Emphasis, Emoji } from '../../common/Structure';
 import { spacing } from '../../../constants/style-guide';
 import { addToWaitlist } from '../../../services/adapter';
 import { WaitlistForm } from './WaitlistForm';
 import { media } from '../../../utils/media';
 import { addMember } from '../../../redux/email/actions';
 import { LinkLikeSpan } from '../../common/Links';
+import { Article } from '../../common/Article';
 
-const ContentWrapper = styled(FullPageWrapper)`
-  padding: ${spacing.quadruple}px 0;
+const ContentWrapper = styled('div')`
   animation: fade-in 0.5s 1;
 `;
 
@@ -28,7 +22,7 @@ const FormWrapper = styled('div')`
   }
 `;
 
-export const AtCapacity = ({ history }) => {
+export const AtCapacityContent = withRouter(({ history }) => {
   const dispatch = useDispatch();
 
   const signupForNewsLetter = (values) => {
@@ -69,11 +63,15 @@ export const AtCapacity = ({ history }) => {
         </Paragraph>
       </Section>
 
-      <Section>
+      <Section style={{ marginBottom: spacing.quadruple }}>
         <FormWrapper>
           <WaitlistForm onSubmit={onSubmit} />
         </FormWrapper>
       </Section>
     </ContentWrapper>
   );
+});
+
+export const AtCapacity = () => {
+  return <Article Middle={AtCapacityContent} />;
 };
