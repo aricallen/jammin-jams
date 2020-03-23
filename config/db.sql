@@ -68,6 +68,7 @@ CREATE TABLE `users` (
   `password` varchar(256) DEFAULT '',
   `paymentCustomerId` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `userRolesId` int(11) unsigned NOT NULL,
+  `isActive` tinyint(1) NOT NULL DEFAULT '0',
   `dateCreated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `dateModified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -91,6 +92,7 @@ CREATE TABLE `waitlist` (
   `favoriteGenre` varchar(256) DEFAULT '',
   `preferredFrequency` varchar(256) DEFAULT '',
   `pairWith` varchar(256) DEFAULT '',
+  `formSource` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '',
   `dateCreated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `dateModified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)

@@ -179,7 +179,7 @@ export const Checkout = () => {
   }
 
   if (appStatusState.data.isFull) {
-    return <Redirect to="/waitlist" />;
+    return <Redirect to="/at-capacity" />;
   }
 
   const onUpdate = (name, value) => {
