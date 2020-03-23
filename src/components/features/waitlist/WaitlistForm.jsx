@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import useForm from 'react-hook-form';
-import { Input, FormError, Fieldset, Label, Form } from '../../common/Forms';
+import { FormInput, Fieldset, Label, Form } from '../../common/Forms';
 import { Button as BaseButton } from '../../common/Button';
 import { Select } from '../../common/Select';
 import { spacing } from '../../../constants/style-guide';
@@ -32,84 +31,54 @@ const pairedOptions = PAIRED_WITH.map((value) => ({
 }));
 
 export const WaitlistForm = ({ onSubmit }) => {
-  const { handleSubmit, errors, register } = useForm();
-  const [selectValues, setSelectValues] = useState({});
+  const [values, setValues] = useState({});
 
-  const handleChange = (name) => (value) => {
-    if (Array.isArray(value)) {
-      const serialized = value.map((option) => option.value).join(', ');
-      setSelectValues({
-        ...selectValues,
-        [name]: serialized,
-      });
-    } else {
-      setSelectValues({
-        ...selectValues,
-        [name]: value.value,
-      });
-    }
+  const handleChange = (name, getValue = (e) => e.target.value) => (event) => {
+    setValues({ ...values, [name]: getValue(event) });
   };
 
-  const _onSubmit = (values) => {
-    onSubmit({ ...values, ...selectValues });
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(values);
   };
 
   return (
-    <Form onSubmit={handleSubmit(_onSubmit)}>
-      <Fieldset className="required">
-        <Label>First Name</Label>
-        <Input
-          placeholder="Jane"
-          name="firstName"
-          ref={register({
-            required: true,
-          })}
-        />
-        {errors.firstName && <FormError>This field is required.</FormError>}
-      </Fieldset>
+    <Form onSubmit={handleSubmit}>
+      <FormInput
+        isRequired={true}
+        name="firstName"
+        placeholder="Jane"
+        onChange={handleChange('firstName')}
+      />
 
-      <Fieldset className="required">
-        <Label>Last Name</Label>
-        <Input
-          placeholder="Awesome"
-          name="lastName"
-          ref={register({
-            required: true,
-          })}
-        />
-        {errors.lastName && <FormError>This field is required.</FormError>}
-      </Fieldset>
+      <FormInput
+        isRequired={true}
+        placeholder="Awesome"
+        name="lastName"
+        onChange={handleChange('lastName')}
+      />
 
-      <Fieldset className="required">
-        <Label>Email</Label>
-        <Input
-          placeholder="jane.awesome@somemail.com"
-          name="email"
-          ref={register({
-            required: true,
-          })}
-        />
-        {errors.email && <FormError>This field is required.</FormError>}
-      </Fieldset>
+      <FormInput
+        isRequired={true}
+        placeholder="jane.awesome@somemail.com"
+        name="email"
+        type="email"
+        onChange={handleChange('email')}
+      />
 
-      <Fieldset className="required">
-        <Label>Zip Code</Label>
-        <Input
-          placeholder="12345"
-          name="zipCode"
-          ref={register({
-            required: true,
-          })}
-        />
-        {errors.zipCode && <FormError>This field is required.</FormError>}
-      </Fieldset>
+      <FormInput
+        isRequired={true}
+        placeholder="12345"
+        name="zipCode"
+        onChange={handleChange('zipCode')}
+      />
 
       <Fieldset className="required">
         <Label>Preferred Subscription Frequency</Label>
         <Select
           name="preferredFrequency"
           options={frequencyOptions}
-          onChange={handleChange('preferredFrequency')}
+          onChange={handleChange('preferredFrequency', (option) => option.value)}
         />
       </Fieldset>
 
@@ -118,26 +87,27 @@ export const WaitlistForm = ({ onSubmit }) => {
         <Select
           name="pairWith"
           options={pairedOptions}
-          onChange={handleChange('pairWith')}
+          onChange={handleChange('pairWith', (options) => options.map((o) => o.value).join(', '))}
           isMulti={true}
           closeMenuOnSelect={false}
         />
       </Fieldset>
 
-      <Fieldset>
-        <Label>Favorite Jam</Label>
-        <Input placeholder="peach" name="favoriteJam" ref={register} />
-      </Fieldset>
+      <FormInput placeholder="peach" name="favoriteJam" onChange={handleChange('favoriteJam')} />
 
-      <Fieldset>
-        <Label>Least Favorite Jam</Label>
-        <Input placeholder="onion" name="leastFavoriteJam" ref={register} />
-      </Fieldset>
+      <FormInput
+        placeholder="onion"
+        name="leastFavoriteJam"
+        onChange={handleChange('leastFavoriteJam')}
+      />
 
-      <Fieldset>
-        <Label>Favorite Genre of Music</Label>
-        <Input placeholder="techno" name="favoriteGenre" ref={register} />
-      </Fieldset>
+      <FormInput
+        label="Favorite Genre of Music"
+        placeholder="techno"
+        name="favoriteGenre"
+        onChange={handleChange('favoriteGenre')}
+      />
+
       <SubmitButton type="submit">Sign me up!</SubmitButton>
     </Form>
   );

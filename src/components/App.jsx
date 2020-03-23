@@ -4,10 +4,13 @@ import styled from '@emotion/styled';
 import { Global } from '@emotion/core';
 import { AdminRoute } from './common/AdminRoute';
 import { Home } from './features/home/Home';
-import { Waitlist } from './features/waitlist/Waitlist';
-import { ThankYou } from './features/waitlist/ThankYou';
 import { NotFound } from './features/NotFound';
 import { ErrorPage } from './features/ErrorPage';
+
+// waitlists
+import { Waitlist } from './features/waitlist/Waitlist';
+import { ThankYou } from './features/waitlist/ThankYou';
+import { AtCapacity } from './features/waitlist/AtCapacity';
 
 // about
 import { About } from './features/about/About';
@@ -60,8 +63,7 @@ export const App = () => {
         <Switch>
           <Route exact path="/waitlist" component={Waitlist} />
           <Route exact path="/thank-you" component={ThankYou} />
-          <Route exact path="/oh-noes" component={NotFound} />
-          <Route exact path="/error" component={ErrorPage} />
+          <Route exact path="/at-capacity" component={AtCapacity} />
 
           <Route exact path="/about/how-it-works" component={HowItWorks} />
           <Route exact path="/about/delivery-calendar" component={DeliveryCalendar} />
@@ -90,6 +92,8 @@ export const App = () => {
           <AdminRoute exact path="/admin/uploads" component={UploadsPage} />
           <AdminRoute exact path="/admin" component={() => <Redirect to="/admin/dashboard" />} />
 
+          <Route exact path="/oh-noes" component={NotFound} />
+          <Route exact path="/error" component={ErrorPage} />
           <Route exact path="/" component={Home} />
           <Route component={NotFound} />
         </Switch>

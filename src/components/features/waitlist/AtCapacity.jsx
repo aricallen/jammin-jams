@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import qs from 'query-string';
 import styled from '@emotion/styled';
 import {
   Header1,
@@ -32,23 +31,12 @@ const FormWrapper = styled('div')`
   ${media.mobile()} {
     width: 100%;
   }
-  &.is-hidden {
-    display: none;
-    opacity: 0;
-  }
-  &.is-visible {
-    display: block;
-    animation: fade-in 0.5s;
-  }
 `;
 
-export const Waitlist = ({ history, location }) => {
-  const { open } = qs.parse(location.search);
-  const [isViewingForm, setIsViewingForm] = useState(open === 'true');
-
+export const AtCapacity = ({ history }) => {
   const onSubmit = async (values) => {
     try {
-      await addToWaitlist({ ...values, formSource: 'Pre-launch waitlist' });
+      await addToWaitlist({ values, formSource: 'Pre-launch waitlist' });
       history.push('/thank-you');
     } catch (err) {
       console.error(err);
@@ -79,19 +67,7 @@ export const Waitlist = ({ history, location }) => {
       </Section>
 
       <Section>
-        <Button
-          className={isViewingForm ? 'is-hidden' : 'is-visible'}
-          onClick={() => {
-            setIsViewingForm(true);
-            history.replace({ pathname: 'waitlist', search: qs.stringify({ open: true }) });
-          }}
-        >
-          Let&apos;s do this
-        </Button>
-      </Section>
-
-      <Section>
-        <FormWrapper className={isViewingForm ? 'is-visible' : 'is-hidden'}>
+        <FormWrapper>
           <WaitlistForm onSubmit={onSubmit} />
         </FormWrapper>
       </Section>
