@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { FormInput, Fieldset, Label, Form } from '../../common/Forms';
+import { FormInput, Fieldset, Label, Form, FormError } from '../../common/Forms';
 import { Button as BaseButton } from '../../common/Button';
 import { Select } from '../../common/Select';
 import { spacing } from '../../../constants/style-guide';
@@ -20,18 +20,15 @@ const PAIRED_WITH = [
   'With a spoon (we get it)',
 ];
 
-const frequencyOptions = FREQUENCIES.map((value) => ({
-  label: value,
-  value,
-}));
+const makeOption = (val) => ({ label: val, value: val });
 
-const pairedOptions = PAIRED_WITH.map((value) => ({
-  label: value,
-  value,
-}));
+const frequencyOptions = FREQUENCIES.map(makeOption);
+
+const pairedOptions = PAIRED_WITH.map(makeOption);
 
 export const WaitlistForm = ({ onSubmit }) => {
   const [values, setValues] = useState({});
+  const [errors, setErrors] = useState({});
 
   const handleChange = (name, getValue = (e) => e.target.value) => (event) => {
     setValues({ ...values, [name]: getValue(event) });
@@ -39,7 +36,11 @@ export const WaitlistForm = ({ onSubmit }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onSubmit(values);
+    if (!values.preferredFrequency || values.preferredFrequency === '') {
+      setErrors({ ...errors, preferredFrequency: 'Please select one' });
+    } else {
+      onSubmit(values);
+    }
   };
 
   return (
@@ -47,6 +48,7 @@ export const WaitlistForm = ({ onSubmit }) => {
       <FormInput
         isRequired={true}
         name="firstName"
+        value={values.firstName || ''}
         placeholder="Jane"
         onChange={handleChange('firstName')}
       />
@@ -55,6 +57,7 @@ export const WaitlistForm = ({ onSubmit }) => {
         isRequired={true}
         placeholder="Awesome"
         name="lastName"
+        value={values.lastName || ''}
         onChange={handleChange('lastName')}
       />
 
@@ -62,6 +65,7 @@ export const WaitlistForm = ({ onSubmit }) => {
         isRequired={true}
         placeholder="jane.awesome@somemail.com"
         name="email"
+        value={values.email || ''}
         type="email"
         onChange={handleChange('email')}
       />
@@ -70,22 +74,27 @@ export const WaitlistForm = ({ onSubmit }) => {
         isRequired={true}
         placeholder="12345"
         name="zipCode"
+        value={values.zipCode || ''}
         onChange={handleChange('zipCode')}
       />
 
       <Fieldset className="required">
         <Label>Preferred Subscription Frequency</Label>
         <Select
+          isRequired={true}
           name="preferredFrequency"
+          value={values.preferredFrequency ? makeOption(values.preferredFrequency) : ''}
           options={frequencyOptions}
           onChange={handleChange('preferredFrequency', (option) => option.value)}
         />
+        {errors.preferredFrequency && <FormError>{errors.preferredFrequency}</FormError>}
       </Fieldset>
 
       <Fieldset>
         <Label>I eat jam with... (one or more)</Label>
         <Select
           name="pairWith"
+          value={values.pairWith ? makeOption(values.pairWith) : ''}
           options={pairedOptions}
           onChange={handleChange('pairWith', (options) => options.map((o) => o.value).join(', '))}
           isMulti={true}
@@ -93,11 +102,17 @@ export const WaitlistForm = ({ onSubmit }) => {
         />
       </Fieldset>
 
-      <FormInput placeholder="peach" name="favoriteJam" onChange={handleChange('favoriteJam')} />
+      <FormInput
+        placeholder="peach"
+        name="favoriteJam"
+        value={values.favoriteJam || ''}
+        onChange={handleChange('favoriteJam')}
+      />
 
       <FormInput
         placeholder="onion"
         name="leastFavoriteJam"
+        value={values.leastFavoriteJam || ''}
         onChange={handleChange('leastFavoriteJam')}
       />
 
@@ -105,6 +120,7 @@ export const WaitlistForm = ({ onSubmit }) => {
         label="Favorite Genre of Music"
         placeholder="techno"
         name="favoriteGenre"
+        value={values.favoriteGenre || ''}
         onChange={handleChange('favoriteGenre')}
       />
 

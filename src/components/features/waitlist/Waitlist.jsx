@@ -48,8 +48,9 @@ export const Waitlist = ({ history, location }) => {
 
   const onSubmit = async (values) => {
     try {
-      await addToWaitlist({ ...values, formSource: 'Pre-launch waitlist' });
-      history.push('/thank-you');
+      // await addToWaitlist({ ...values, formSource: 'Pre-launch waitlist' });
+      // history.push('/thank-you');
+      console.table(values);
     } catch (err) {
       console.error(err);
     }
