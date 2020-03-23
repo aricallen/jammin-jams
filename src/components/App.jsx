@@ -85,8 +85,8 @@ export const App = () => {
           <AdminRoute exact path="/admin/dashboard" component={Dashboard} />
           <AdminRoute exact path="/admin/logo-builder" component={LogoBuilder} />
           <AdminRoute exact path="/admin/posts" component={AdminPostsPage} />
-          <AdminRoute exact path="/admin/posts/:postId" component={AdminEditPostPage} />
           <AdminRoute exact path="/admin/posts/new" component={AdminEditPostPage} />
+          <AdminRoute exact path="/admin/posts/:postId" component={AdminEditPostPage} />
           <AdminRoute exact path="/admin/qr-codes" component={QrCodes} />
           <AdminRoute exact path="/admin/uploads/:uploadId" component={EditPage} />
           <AdminRoute exact path="/admin/uploads" component={UploadsPage} />
