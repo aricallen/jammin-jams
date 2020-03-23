@@ -104,7 +104,7 @@ export const WaitlistForm = ({ onSubmit }) => {
         <Label>I eat jam with... (one or more)</Label>
         <Select
           name="pairWith"
-          value={values.pairWith ? makeOption(values.pairWith) : ''}
+          value={values.pairWith ? values.pairWith.split(', ').map(makeOption) : ''}
           options={pairedOptions}
           onChange={handleChange('pairWith', (options) => options.map((o) => o.value).join(', '))}
           isMulti={true}

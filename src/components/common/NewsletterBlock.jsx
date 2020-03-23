@@ -10,7 +10,7 @@ const Wrapper = styled('div')`
   border-radius: ${spacing.regular}px;
   overflow: hidden;
   ${media.mobile()} {
-    width: 60%;
+    width: 64%;
     margin: 0 auto;
     margin-bottom: ${spacing.quadruple}px;
   }
@@ -46,7 +46,7 @@ export const NewsletterBlock = () => {
   return (
     <Wrapper>
       <Header>
-        <HeaderText>Jam Journeys Newsletter</HeaderText>
+        <HeaderText>#jamjourneys Newsletter</HeaderText>
       </Header>
       <ContentWrapper>
         <Message>
