@@ -14,6 +14,7 @@ import { addToWaitlist } from '../../../services/adapter';
 import { WaitlistForm } from './WaitlistForm';
 import { media } from '../../../utils/media';
 import { addMember } from '../../../redux/email/actions';
+import { LinkLikeSpan } from '../../common/Links';
 
 const ContentWrapper = styled(FullPageWrapper)`
   padding: ${spacing.quadruple}px 0;
@@ -47,6 +48,10 @@ export const AtCapacity = ({ history }) => {
     }
   };
 
+  const onClickSignUp = () => {
+    document.querySelector('[name="newsletterSignup"]').scrollIntoView();
+  };
+
   return (
     <ContentWrapper>
       <Header1>Oh noes! We are at full capacity. 😩</Header1>
@@ -58,8 +63,9 @@ export const AtCapacity = ({ history }) => {
         </Paragraph>
         <Paragraph>
           But fear not! <Emoji label="Muscle emoji">💪🏽</Emoji> Fill out the form below to join our
-          waitlist and be first in line for when we expand. Also be sure to sign up for our
-          newsletter so you can stay up to date on our #jamjourneys.
+          waitlist and be first in line for when we expand. Also be sure to{' '}
+          <LinkLikeSpan onClick={onClickSignUp}>sign up</LinkLikeSpan> for our newsletter so you can
+          stay up to date on our #jamjourneys.
         </Paragraph>
       </Section>
 
