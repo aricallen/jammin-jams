@@ -8,8 +8,12 @@ import { isResolved, isBusy } from '../../../redux/utils/meta-status';
 
 const CouponMessage = styled('div')`
   margin-top: ${spacing.double}px;
-  color: ${pallet.strawberry};
+  color: red;
   text-align: center;
+`;
+
+const SuccessMessage = styled(CouponMessage)`
+  color: black;
 `;
 
 const Label = styled('label')`
@@ -51,7 +55,7 @@ export const CouponCodeForm = (props) => {
     couponsState.data.find((coupon) => coupon.metadata.type === couponType);
 
   if (showAppliedCouponMessage) {
-    return <CouponMessage>Code applied successfully.</CouponMessage>;
+    return <SuccessMessage>Code applied successfully.</SuccessMessage>;
   }
 
   const couponCode = values[fieldName];
@@ -71,7 +75,6 @@ export const CouponCodeForm = (props) => {
       <ActionsRow>
         <Feedback>
           {showUnknownCouponMessage && <CouponMessage>Unknown coupon code... 🤔</CouponMessage>}
-          {showAppliedCouponMessage && <CouponMessage>Coupon code has been applied.</CouponMessage>}
         </Feedback>
         <ButtonWrapper>
           <Button onClick={onApply} isBusy={isBusy(couponsState.meta)}>

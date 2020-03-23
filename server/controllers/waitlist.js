@@ -1,12 +1,10 @@
-const { getConnection } = require('../utils/db-helpers');
+const { getConnection, insertRecord } = require('../utils/db-helpers');
 const { parseError } = require('../utils/api-helpers');
 
 const controller = async (req, res) => {
   const conn = await getConnection();
-  const tableName = 'waitlist';
   try {
-    const result = await conn.query(`INSERT INTO ${tableName} SET ?`, req.body);
-    const inserted = await conn.query(`SELECT * from ${tableName} WHERE id = ${result.insertId}`);
+    const inserted = await insertRecord(conn, 'waitlist', req.body);
     res.send({
       data: inserted,
     });

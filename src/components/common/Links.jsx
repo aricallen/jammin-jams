@@ -1,6 +1,8 @@
+import React from 'react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { pallet, animation } from '../../constants/style-guide';
+import { Button } from './Button';
 
 /**
  * overrides global 'a' styled
@@ -30,3 +32,12 @@ export const DisabledLink = styled(LinkLikeSpan)`
   cursor: default;
   color: ${pallet.light.strawberry};
 `;
+
+export const ButtonLink = (props) => {
+  const { to, ...buttonProps } = props;
+  return (
+    <Link to={to} style={{ display: 'inline-block' }}>
+      <Button {...buttonProps} />
+    </Link>
+  );
+};

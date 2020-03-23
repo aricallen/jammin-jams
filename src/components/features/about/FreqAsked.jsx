@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import styled from '@emotion/styled';
 import { Section, Paragraph, Emoji, Emphasis } from '../../common/Structure';
-import { font } from '../../../constants/style-guide';
+import { font, spacing } from '../../../constants/style-guide';
 import { fontSizes } from '../../../utils/style-helpers';
 import { Article } from '../../common/Article';
 
@@ -36,8 +36,8 @@ export const Questions = () => {
         <Answer>
           First of all, <Emphasis>THANK YOU</Emphasis> for loving our jam! We love you back! Our jam
           production is on such a small scale that we are currently unable to support
-          non-subscription orders. With that said, you should join our newsletter (LINK) to be the
-          first one to know when that changes.
+          non-subscription orders. With that said, you should join our newsletter to be the first
+          one to know when that changes.
         </Answer>
       </Section>
 
@@ -63,12 +63,13 @@ export const Questions = () => {
           Techno holds a special place in our hearts and something magical happens when pairing it
           with our jam making. With that said, we are open to anything groovy and would love to
           expand our music curations. Stay tuned for guest DJs and musician sessions. Are you a DJ,
-          musician, or music producer, or similar aficionado? Share your favorites with us (email
-          link) and we may feature you in the future <Emoji>❤️</Emoji>
+          musician, or music producer, or similar aficionado?{' '}
+          <a href="mailto:jmn@jmnjams.com">Share your favorites with us</a> and we may feature you
+          in the future <Emoji label="heart">❤️</Emoji>
         </Answer>
       </Section>
 
-      <Section>
+      <Section style={{ marginBottom: spacing.quadruple }}>
         <Question>Your FAQs did not answer my question.</Question>
         <Answer>
           Oh my! Email us at <MailToLink /> and we’ll get back to you asap!

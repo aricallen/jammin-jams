@@ -9,6 +9,7 @@ import { media } from '../../../utils/media';
 import { Select } from '../../common/Select';
 import { pallet, spacing, font, border } from '../../../constants/style-guide';
 import { Article } from '../../common/Article';
+import { DeliveryType, CALENDAR_DATA } from '../../../utils/delivery-helpers';
 
 const ContentWrapper = styled('div')``;
 
@@ -63,25 +64,15 @@ const D3Wrapper = styled('div')`
   }
 `;
 
-const BICYCLE = 'BICYCLE';
-const OTHER = 'OTHER';
-
 const DELIVERY_TYPES = [
   {
-    label: BICYCLE,
-    value: BICYCLE,
+    label: DeliveryType.BICYCLE,
+    value: DeliveryType.BICYCLE,
   },
-  {
-    label: OTHER,
-    value: OTHER,
-  },
-];
-
-const CALENDAR_DATA = [
-  { month: 'April', num: 3, [BICYCLE]: 22, [OTHER]: 25 },
-  { month: 'May', num: 4, [BICYCLE]: 20, [OTHER]: 23 },
-  { month: 'June', num: 5, [BICYCLE]: 20, [OTHER]: 23 },
-  { month: 'July', num: 6, [BICYCLE]: 20, [OTHER]: 23 },
+  // {
+  //   label: OTHER,
+  //   value: OTHER,
+  // },
 ];
 
 const buildCalendar = (tableRef, monthConfig, deliveryType) => {
@@ -155,10 +146,10 @@ const MonthCalendar = ({ monthConfig, deliveryType }) => {
 };
 
 export const DeliveryCalendarContent = () => {
-  const [currentDeliveryType, setContentDeliveryType] = useState(BICYCLE);
-  // const handleChange = (option) => {
-  //   setContentDeliveryType(option.value);
-  // };
+  const [currentDeliveryType, setContentDeliveryType] = useState(DeliveryType.BICYCLE);
+  const handleChange = (option) => {
+    setContentDeliveryType(option.value);
+  };
 
   return (
     <ContentWrapper>
@@ -170,7 +161,7 @@ export const DeliveryCalendarContent = () => {
       <Section>
         Look out for a notification email at least one week prior to delivery for the month.
       </Section>
-      {/* <Section>
+      <Section>
         <DeliveryTypeWrapper>
           <Label>Delivery Type</Label>
           <Select
@@ -180,7 +171,7 @@ export const DeliveryCalendarContent = () => {
             onChange={handleChange}
           />
         </DeliveryTypeWrapper>
-      </Section> */}
+      </Section>
       <Section key={currentDeliveryType}>
         {CALENDAR_DATA.map((monthConfig) => (
           <MonthCalendar

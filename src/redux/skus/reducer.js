@@ -20,10 +20,13 @@ const meta = (state = initialMeta, action) => {
 
 const initialData = [];
 
+// monthly was created first in stripe
+const sortMonthlyFirst = (skus) => [...skus].sort((a, b) => (a.created < b.created ? -1 : 1));
+
 const data = (state = initialData, action) => {
   switch (action.type) {
     case Type.FETCH_MANY_SUCCEEDED:
-      return action.skus.map(deserialize);
+      return sortMonthlyFirst(action.skus.map(deserialize));
     default:
       return state;
   }
