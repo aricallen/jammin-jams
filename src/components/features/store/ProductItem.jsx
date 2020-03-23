@@ -6,9 +6,14 @@ import { Button as BaseButton } from '../../common/Button';
 import { Select } from '../../common/Select';
 import { Spinner } from '../../common/Spinner';
 import { isResolved, isBusy } from '../../../redux/utils/meta-status';
+import { media } from '../../../utils/media';
 
 const Wrapper = styled('div')`
   padding: ${spacing.quadruple}px;
+  max-width: 30%;
+  ${media.mobile()} {
+    max-width: 80%;
+  }
 `;
 
 const Picture = styled('img')``;

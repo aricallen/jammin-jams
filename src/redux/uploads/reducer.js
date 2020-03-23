@@ -26,13 +26,13 @@ const one = (state = initialMeta, action) => {
 const many = (state = initialMeta, action) => {
   switch (action.type) {
     case Type.FETCH_MANY_REQUESTED:
-    case Type.UPLOAD_MANY_REQUESTED:
+    case Type.CREATE_MANY_REQUESTED:
       return { ...state, status: MetaStatus.BUSY };
     case Type.FETCH_MANY_FAILED:
-    case Type.UPLOAD_MANY_FAILED:
+    case Type.CREATE_MANY_FAILED:
       return { ...state, error: action.error, status: MetaStatus.ERRORED };
     case Type.FETCH_MANY_SUCCEEDED:
-    case Type.UPLOAD_MANY_SUCCEEDED:
+    case Type.CREATE_MANY_SUCCEEDED:
       return { ...state, status: MetaStatus.RESOLVED };
     default:
       return { ...state };
@@ -59,7 +59,7 @@ const data = (state = initialData, action) => {
       return replacePost(state, action.upload);
     case Type.DELETE_ONE_SUCCEEDED:
       return state.filter((item) => item.id !== action.id);
-    case Type.UPLOAD_MANY_SUCCEEDED:
+    case Type.CREATE_MANY_SUCCEEDED:
       return [state, ...action.uploads];
     default:
       return state;

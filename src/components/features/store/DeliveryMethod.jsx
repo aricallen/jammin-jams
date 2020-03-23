@@ -83,7 +83,7 @@ export const DeliveryMethod = (props) => {
   const couponsState = useSelector((state) => state.coupons);
   const { values, onUpdate, setIsValid } = props;
 
-  const { zipCode, deliveryMethod, deliveryExceptionCode } = values;
+  const { zipCode, deliveryMethod = Method.BICYCLE, deliveryExceptionCode } = values;
 
   const zipError = isInvalidZip(zipCode)
     ? 'Unfortunately, we do not service this zip code at the moment.'

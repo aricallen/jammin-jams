@@ -1,37 +1,37 @@
 /* eslint-disable no-param-reassign */
 
-export const collapseSection = (ref) => {
+export const collapseSection = (elem) => {
   // get scroll height of content
-  const sectionHeight = ref.scrollHeight;
+  const sectionHeight = elem.scrollHeight;
 
   // temporarily disable all css transitions
-  const refTransition = ref.style.transition;
-  ref.style.transition = '';
+  const elemTransition = elem.style.transition;
+  elem.style.transition = '';
 
   // set to height and ready to transition to 0
   requestAnimationFrame(() => {
-    ref.style.height = `${sectionHeight}px`;
-    ref.style.transition = refTransition;
+    elem.style.height = `${sectionHeight}px`;
+    elem.style.transition = elemTransition;
 
     // reset to 0px to allow transition
     requestAnimationFrame(() => {
-      ref.style.height = '0px';
+      elem.style.height = '0px';
     });
   });
 };
 
-export const expandSection = (ref) => {
+export const expandSection = (elem) => {
   // get scroll height of inner content
-  const sectionHeight = ref.scrollHeight;
+  const sectionHeight = elem.scrollHeight;
 
-  // have the ref transition to the height of its inner content
-  ref.style.height = `${sectionHeight}px`;
+  // have the elem transition to the height of its inner content
+  elem.style.height = `${sectionHeight}px`;
 
-  ref.addEventListener('transitionend', function onTransitionEnd() {
+  elem.addEventListener('transitionend', function onTransitionEnd() {
     // cleanup
-    ref.removeEventListener('transitionend', onTransitionEnd);
+    elem.removeEventListener('transitionend', onTransitionEnd);
 
     // reset to auto
-    ref.style.height = 'auto';
+    elem.style.height = 'auto';
   });
 };

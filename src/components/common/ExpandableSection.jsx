@@ -32,8 +32,8 @@ const HeaderRow = styled(Row)`
 `;
 
 const BodySection = styled('div')`
-  overflow: ${(p) => (p.isExpanded ? 'auto' : 'hidden')};
   transition: height ${animation};
+  overflow: ${(p) => (p.isExpanded ? 'auto' : 'hidden')};
   height: ${(p) => (p.isExpanded ? p.height : '0px')};
 `;
 

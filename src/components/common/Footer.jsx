@@ -10,7 +10,6 @@ const Wrapper = styled('div')`
   width: 100%;
   display: grid;
   min-height: ${sizes.rowHeight}px;
-  margin-top: ${spacing.quadruple}px;
   padding: ${spacing.double}px;
   background-color: ${pallet.charcoal};
   color: white;
