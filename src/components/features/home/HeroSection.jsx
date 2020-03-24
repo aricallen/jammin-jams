@@ -40,7 +40,7 @@ export const HeroSection = () => {
     <Wrapper>
       <Overlay>
         <CallToAction>
-          <Text>Jam. Delivered. Monthly.</Text>
+          <Text>Jam. Music. Delivered.</Text>
           <ButtonWrapper>
             <ButtonLink variant="secondary" to="/store">
               Sign up now
