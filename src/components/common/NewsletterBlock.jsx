@@ -46,11 +46,11 @@ export const NewsletterBlock = () => {
   return (
     <Wrapper>
       <Header>
-        <HeaderText>#jamjourneys Newsletter</HeaderText>
+        <HeaderText>#jamjourneys newsletter</HeaderText>
       </Header>
       <ContentWrapper>
         <Message>
-          Sign up for our newlsetter to stay up to date on the latest flavors, features, music and
+          Sign up for our newsletter to stay up to date on the latest flavors, features, music and
           adventures.
         </Message>
         <FormWrapper>
