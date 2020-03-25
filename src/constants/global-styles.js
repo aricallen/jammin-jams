@@ -23,10 +23,6 @@ export const globalStyles = css`
     line-height: 1.5em;
   }
 
-  .anton {
-    font-family: 'Anton', sans-serif;
-  }
-
   .fjalla {
     font-family: 'Fjalla One', sans-serif;
   }
