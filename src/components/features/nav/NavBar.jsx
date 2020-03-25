@@ -39,6 +39,11 @@ const BarSection = styled('div')`
   align-items: center;
 `;
 
+const MobileWrapper = styled('div')`
+  display: flex;
+  align-items: center;
+`;
+
 const MobileListPortal = styled('div')``;
 
 const NAV_ITEMS = [
@@ -141,14 +146,22 @@ export const NavBar = () => {
       <BarSection style={{ justifyContent: 'flex-end' }}>
         {/* desktop nav */}
         <DesktopOnly>
-          <NavList>{navItems.map(renderNavItem)}</NavList>
-          <Cart cart={cart} />
+          <NavList>
+            {navItems.map(renderNavItem)}
+            <NavItem style={{ marginLeft: 0 }}>
+              <Cart cart={cart} />
+            </NavItem>
+          </NavList>
         </DesktopOnly>
 
         {/* mobile nav */}
         <MobileOnly>
-          <Cart cart={cart} />
-          <MobileNav navItems={navItems} portalRef={portalRef} />
+          <MobileWrapper>
+            <NavItem>
+              <Cart cart={cart} />
+            </NavItem>
+            <MobileNav navItems={navItems} portalRef={portalRef} />
+          </MobileWrapper>
         </MobileOnly>
       </BarSection>
     </Wrapper>
