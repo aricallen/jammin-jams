@@ -31,6 +31,15 @@ export const globalStyles = css`
     font-family: 'Libre Franklin', sans-serif;
   }
 
+  .nunito-sans {
+    font-family: 'Nunito Sans', sans-serif;
+    font-weight: 300;
+  }
+
+  .staatliches {
+    font-family: 'staatliches', open-sans;
+  }
+
   a {
     color: ${pallet.strawberry};
     text-decoration: none;

@@ -136,7 +136,7 @@ export const NavBar = () => {
       <BarSection>
         <Brand>
           <NavLink to="/">
-            <BrandLinkWrapper className="fjalla">Jammin&apos; Jams</BrandLinkWrapper>
+            <BrandLinkWrapper className="staatliches">Jammin&apos; Jams</BrandLinkWrapper>
           </NavLink>
         </Brand>
       </BarSection>

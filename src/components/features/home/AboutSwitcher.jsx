@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { spacing, border, pallet } from '../../../constants/style-guide';
+import { spacing, border, pallet, font } from '../../../constants/style-guide';
 import { WhatItIs } from './WhatItIs';
 import { HowItWorks } from './HowItWorks';
 import { LatestList as JamJourneys } from '../blog/LatestList';
@@ -62,6 +62,8 @@ const TitleWrapper = styled('div')`
 const Title = styled('span')`
   ${fontSizes('large')}
   color: black;
+  font-weight: ${font.weight.regular};
+  text-decoration: underline;
 `;
 
 const LogoWrapper = styled('div')`
