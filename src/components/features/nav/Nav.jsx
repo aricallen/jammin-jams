@@ -17,8 +17,8 @@ export const BrandLinkWrapper = styled('div')`
 `;
 
 export const NavLogo = styled(Logo)`
-  width: ${spacing.triple}px;
-  height: ${spacing.triple}px;
+  width: ${spacing.quadruple}px;
+  height: ${spacing.quadruple}px;
 `;
 
 export const NavList = styled('ul')`

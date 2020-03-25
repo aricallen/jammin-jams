@@ -141,6 +141,7 @@ export const DeliveryMethod = (props) => {
             <FormInput
               name="zipCode"
               value={zipCode || ''}
+              placeholder="12345"
               onChange={handleChange('zipCode', (e) => e.target.value)}
               label="Zip Code"
               isRequired={true}

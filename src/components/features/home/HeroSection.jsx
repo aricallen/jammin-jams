@@ -43,7 +43,7 @@ export const HeroSection = () => {
           <Text>Jam. Music. Delivered.</Text>
           <ButtonWrapper>
             <ButtonLink variant="secondary" to="/store">
-              Sign up now
+              Sign up
             </ButtonLink>
           </ButtonWrapper>
         </CallToAction>

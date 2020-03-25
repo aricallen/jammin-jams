@@ -12,12 +12,12 @@ import { Header1 } from '../../common/Structure';
 const SECTIONS = [
   {
     title: 'What it is',
-    color: pallet.blueberry,
+    color: pallet.sky,
     Content: WhatItIs,
   },
   {
     title: 'How it works',
-    color: pallet.sky,
+    color: pallet.light.blueberry,
     Content: HowItWorks,
   },
   {
