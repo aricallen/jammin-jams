@@ -11,6 +11,7 @@ import { ErrorPage } from './features/ErrorPage';
 import { Waitlist } from './features/waitlist/Waitlist';
 import { ThankYou } from './features/waitlist/ThankYou';
 import { AtCapacity } from './features/waitlist/AtCapacity';
+import { CovidWaitlist } from './features/waitlist/CovidWaitlist';
 
 // about
 import { About } from './features/about/About';
@@ -19,7 +20,7 @@ import { HowItWorks } from './features/about/HowItWorks';
 import { FreqAsked } from './features/about/FreqAsked';
 
 // store
-import { Store } from './features/store/Store';
+// import { Store } from './features/store/Store';
 import { Success } from './features/store/Success';
 import { Cancel } from './features/store/Cancel';
 import { Checkout } from './features/store/Checkout';
@@ -64,6 +65,7 @@ export const App = () => {
           <Route exact path="/waitlist" component={Waitlist} />
           <Route exact path="/thank-you" component={ThankYou} />
           <Route exact path="/at-capacity" component={AtCapacity} />
+          <Route exact path="/covid-waitlist" component={CovidWaitlist} />
 
           <Route exact path="/about/how-it-works" component={HowItWorks} />
           <Route exact path="/about/delivery-calendar" component={DeliveryCalendar} />
@@ -77,7 +79,8 @@ export const App = () => {
           <Route exact path="/account/sign-out" component={SignOut} />
           <Route exact path="/account/orders" component={Orders} />
 
-          <Route exact path="/store" component={Store} />
+          {/* <Route exact path="/store" component={Store} /> */}
+          <Route exact path="/store" component={() => <Redirect to="/covid-waitlist" />} />
           <Route exact path="/store/checkout" component={Checkout} />
           <Route exact path="/store/success" component={Success} />
           <Route exact path="/store/cancel" component={Cancel} />
