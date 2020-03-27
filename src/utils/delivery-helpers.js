@@ -16,9 +16,13 @@ export const CALENDAR_DATA = [
 ];
 
 const configToString = (config, type = DeliveryType.BICYCLE) => {
-  const currYear = new Date().getFullYear();
-  const configDate = new Date(`${config.month} ${config[type]} ${currYear}`);
-  return `${format(configDate, 'MMMM do')}`.replace(' ', '\u00A0');
+  const date = new Date();
+  const currYear = date.getFullYear();
+  const deliveryDays = config[type];
+  const begConfigDate = new Date(`${config.month} ${deliveryDays[0]} ${currYear}`);
+  const endConfigDate = new Date(`${config.month} ${deliveryDays.pop()} ${currYear}`);
+  const combinedStr = `${format(begConfigDate, 'MMMM do')}-${format(endConfigDate, 'do')}`;
+  return combinedStr.replace(' ', '\u00A0');
 };
 
 export const getNextDeliveryDay = () => {
