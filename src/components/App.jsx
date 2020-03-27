@@ -80,14 +80,12 @@ export const App = () => {
           <Route exact path="/account/sign-out" component={SignOut} />
           <Route exact path="/account/orders" component={Orders} />
 
-          {isBetaTester() ? (
-            <Fragment>
-              <Route exact path="/store" component={Store} />
-              <Route exact path="/store/checkout" component={Checkout} />
-              <Route exact path="/store/success" component={Success} />
-              <Route exact path="/store/cancel" component={Cancel} />
-            </Fragment>
-          ) : (
+          {isBetaTester() && <Route exact path="/store" component={Store} />}
+          {isBetaTester() && <Route exact path="/store/checkout" component={Checkout} />}
+          {isBetaTester() && <Route exact path="/store/success" component={Success} />}
+          {isBetaTester() && <Route exact path="/store/cancel" component={Cancel} />}
+          {/* non beta */}
+          {!isBetaTester() && (
             <Route exact path="/store" component={() => <Redirect to="/covid-waitlist" />} />
           )}
 

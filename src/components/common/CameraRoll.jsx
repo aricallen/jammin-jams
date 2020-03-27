@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { media } from '../../utils/media';
+import { spacing } from '../../constants/style-guide';
 
 const SOURCES = [
   'https://scontent-sjc3-1.cdninstagram.com/v/t51.2885-15/e35/s1080x1080/84077831_630273530880048_1998945644995952757_n.jpg?_nc_ht=scontent-sjc3-1.cdninstagram.com&_nc_cat=100&_nc_ohc=sUQMWJLFQv8AX9VIgN1&oh=a9494a9efbc15a19240ff4d138f18c20&oe=5E8B7CA3',
@@ -14,6 +15,7 @@ const SOURCES = [
 const ImageGrid = styled('div')`
   display: grid;
   grid-template-columns: repeat(6, 1fr);
+  grid-template-rows: ${spacing.triple * 10}px;
   ${media.mobile()} {
     display: flex;
     flex-wrap: wrap;
