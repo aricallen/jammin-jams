@@ -101,7 +101,7 @@ export const DeliveryMethod = (props) => {
   if (deliveryMethod === Method.PROMO) {
     setIsValid(isValid(values) && foundCoupon);
   } else {
-    setIsValid(isValid(values) && !zipError);
+    setIsValid(isValid({ ...values, deliveryMethod }) && !zipError);
   }
 
   const onApplyException = (e) => {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Global } from '@emotion/core';
@@ -20,7 +20,7 @@ import { HowItWorks } from './features/about/HowItWorks';
 import { FreqAsked } from './features/about/FreqAsked';
 
 // store
-// import { Store } from './features/store/Store';
+import { Store } from './features/store/Store';
 import { Success } from './features/store/Success';
 import { Cancel } from './features/store/Cancel';
 import { Checkout } from './features/store/Checkout';
@@ -47,6 +47,7 @@ import { Footer } from './common/Footer';
 import { NavBar } from './features/nav/NavBar';
 import { globalStyles } from '../constants/global-styles';
 import { sizes } from '../constants/style-guide';
+import { isBetaTester } from '../utils/beta-testing';
 
 const Wrapper = styled('div')`
   display: grid;
@@ -79,11 +80,16 @@ export const App = () => {
           <Route exact path="/account/sign-out" component={SignOut} />
           <Route exact path="/account/orders" component={Orders} />
 
-          {/* <Route exact path="/store" component={Store} /> */}
-          <Route exact path="/store" component={() => <Redirect to="/covid-waitlist" />} />
-          {/* <Route exact path="/store/checkout" component={Checkout} /> */}
-          {/* <Route exact path="/store/success" component={Success} /> */}
-          {/* <Route exact path="/store/cancel" component={Cancel} /> */}
+          {isBetaTester() ? (
+            <Fragment>
+              <Route exact path="/store" component={Store} />
+              <Route exact path="/store/checkout" component={Checkout} />
+              <Route exact path="/store/success" component={Success} />
+              <Route exact path="/store/cancel" component={Cancel} />
+            </Fragment>
+          ) : (
+            <Route exact path="/store" component={() => <Redirect to="/covid-waitlist" />} />
+          )}
 
           <AdminRoute exact path="/admin/dashboard" component={Dashboard} />
           <AdminRoute exact path="/admin/logo-builder" component={LogoBuilder} />

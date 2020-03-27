@@ -63,8 +63,8 @@ export const CovidWaitlistContent = withRouter(({ history }) => {
         <Paragraph>
           First, we are <Emphasis>absolutely thrilled</Emphasis> you want some of our jam. However,
           our service is powered by bicycle delivery. Because of the current pandemic situation, in
-          order to protect our fellow humans, subscriptions are temporarily closed. Lets flatten
-          that curve!
+          order to protect our fellow humans, subscriptions are temporarily closed. Let&apos;s
+          flatten that curve!
         </Paragraph>
         <Paragraph>
           But fear not! <Emoji label="Muscle emoji">💪🏽</Emoji> This too shall pass.{' '}
