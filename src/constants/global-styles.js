@@ -6,6 +6,8 @@ export const globalStyles = css`
   body {
     width: 100%;
     min-height: 100vh;
+    font-family: 'Nunito Sans', sans-serif;
+    font-weight: 300;
   }
 
   body,
@@ -21,14 +23,6 @@ export const globalStyles = css`
   a,
   li {
     line-height: 1.5em;
-  }
-
-  .fjalla {
-    font-family: 'Fjalla One', sans-serif;
-  }
-
-  .libre-franklin {
-    font-family: 'Libre Franklin', sans-serif;
   }
 
   .nunito-sans {
