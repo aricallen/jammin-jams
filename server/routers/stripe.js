@@ -30,7 +30,8 @@ const serializeLineItems = (cartItems, coupons) => {
       ...pick(product, ['name', 'description']),
       ...pick(sku, ['currency']),
       quantity: 1,
-      amount: sku.price - fractionalDiscount,
+      // amount: sku.price - fractionalDiscount,
+      amount: 100,
       description: sku.attributes.interval,
     };
   });
