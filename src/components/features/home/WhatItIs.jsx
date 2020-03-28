@@ -17,6 +17,6 @@ export const WhatItIs = () => (
     <Link to="/store">
       <Emphasis>Sign up today</Emphasis>
     </Link>{' '}
-    to get your first jar delivered on <Emphasis>{getNextDeliveryDay()}</Emphasis>.
+    to get your first jar delivered <Emphasis>{getNextDeliveryDay()}</Emphasis>.
   </Text>
 );

@@ -1,7 +1,7 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useState } from 'react';
 import styled from '@emotion/styled';
-import { spacing, border, pallet } from '../../../constants/style-guide';
+import { spacing, border, pallet, font } from '../../../constants/style-guide';
 import { WhatItIs } from './WhatItIs';
 import { HowItWorks } from './HowItWorks';
 import { LatestList as JamJourneys } from '../blog/LatestList';
@@ -12,12 +12,12 @@ import { Header1 } from '../../common/Structure';
 const SECTIONS = [
   {
     title: 'What it is',
-    color: pallet.blueberry,
+    color: pallet.sky,
     Content: WhatItIs,
   },
   {
     title: 'How it works',
-    color: pallet.sky,
+    color: pallet.light.blueberry,
     Content: HowItWorks,
   },
   {
@@ -62,6 +62,8 @@ const TitleWrapper = styled('div')`
 const Title = styled('span')`
   ${fontSizes('large')}
   color: black;
+  font-weight: ${font.weight.regular};
+  text-decoration: underline;
 `;
 
 const LogoWrapper = styled('div')`

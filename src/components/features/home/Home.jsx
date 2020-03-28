@@ -6,7 +6,7 @@ import { CameraRoll } from '../../common/CameraRoll';
 import { AboutSwitcher } from './AboutSwitcher';
 import { HeroSection } from './HeroSection';
 import * as SessionStorage from '../../../utils/session-storage';
-import { NewsletterBlock } from '../../common/NewletterBlock';
+import { NewsletterBlock } from '../../common/NewsletterBlock';
 import { media } from '../../../utils/media';
 import { spacing, pallet } from '../../../constants/style-guide';
 

@@ -6,11 +6,17 @@ import { Blurb } from './Blurb';
 import { fetchMany as fetchPosts } from '../../../redux/posts/actions';
 import { isResolved } from '../../../redux/utils/meta-status';
 import { Spinner } from '../../common/Spinner';
-import { Emoji } from '../../common/Structure';
+import { Emoji, Emphasis } from '../../common/Structure';
+import { spacing } from '../../../constants/style-guide';
 
 const Wrapper = styled('div')``;
 
 const BlurbIntroText = styled('div')``;
+
+const Message = styled('div')`
+  text-align: center;
+  padding: ${spacing.double}px;
+`;
 
 const BlurbIntro = () => {
   return (
@@ -25,6 +31,14 @@ const BlurbIntro = () => {
 const BlurbList = ({ posts, isBusy }) => {
   if (isBusy) {
     return <Spinner />;
+  }
+
+  if (posts.length === 0) {
+    return (
+      <Message>
+        <Emphasis>Coming soon!</Emphasis>
+      </Message>
+    );
   }
   return posts.map((post) => <Blurb key={post.title} post={post} />);
 };

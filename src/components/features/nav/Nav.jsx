@@ -3,6 +3,7 @@ import { NavLink as BaseNavLink } from 'react-router-dom';
 import { Logo } from '../../common/Logo';
 import { pallet, spacing, animation, font } from '../../../constants/style-guide';
 import { fontSizes } from '../../../utils/style-helpers';
+import { media } from '../../../utils/media';
 
 export const Brand = styled('span')`
   ${fontSizes('largest')}
@@ -16,12 +17,16 @@ export const BrandLinkWrapper = styled('div')`
 `;
 
 export const NavLogo = styled(Logo)`
-  width: ${spacing.triple}px;
-  height: ${spacing.triple}px;
+  width: ${spacing.quadruple}px;
+  height: ${spacing.quadruple}px;
 `;
 
 export const NavList = styled('ul')`
   list-style: none;
+  ${media.desktop()} {
+    display: flex;
+    align-items: center;
+  }
 `;
 
 export const NavItem = styled('li')`
@@ -72,6 +77,10 @@ export const IconWrapper = styled('div')`
   display: flex;
   align-items: center;
   margin-left: ${spacing.double}px;
+  ${media.mobile()} {
+    margin-left: 0;
+    margin-right: ${spacing.quadruple}px;
+  }
   cursor: pointer;
 
   svg {

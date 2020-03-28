@@ -1,24 +1,18 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import qs from 'query-string';
 import styled from '@emotion/styled';
-import {
-  Header1,
-  Section,
-  Paragraph,
-  Emphasis,
-  Emoji,
-  FullPageWrapper,
-} from '../../common/Structure';
+import { Header1, Section, Paragraph, Emphasis, Emoji } from '../../common/Structure';
 import { Button as BaseButton } from '../../common/Button';
-import { animation, spacing } from '../../../constants/style-guide';
+import { Article } from '../../common/Article';
+import { spacing, animation } from '../../../constants/style-guide';
 import { addToWaitlist } from '../../../services/adapter';
 import { WaitlistForm } from './WaitlistForm';
 import { media } from '../../../utils/media';
 import { addMember } from '../../../redux/email/actions';
 
-const ContentWrapper = styled(FullPageWrapper)`
-  padding: ${spacing.quadruple}px 0;
+const ContentWrapper = styled('div')`
   animation: fade-in 0.5s 1;
 `;
 
@@ -30,7 +24,7 @@ const Button = styled(BaseButton)`
 `;
 
 const FormWrapper = styled('div')`
-  width: 50%;
+  width: 64%;
   ${media.mobile()} {
     width: 100%;
   }
@@ -44,7 +38,7 @@ const FormWrapper = styled('div')`
   }
 `;
 
-export const Waitlist = ({ history, location }) => {
+const WaitlistContent = withRouter(({ history, location }) => {
   const dispatch = useDispatch();
   const { open } = qs.parse(location.search);
   const [isViewingForm, setIsViewingForm] = useState(open === 'true');
@@ -105,11 +99,15 @@ export const Waitlist = ({ history, location }) => {
         </Button>
       </Section>
 
-      <Section>
+      <Section style={{ marginBottom: spacing.quadruple }}>
         <FormWrapper className={isViewingForm ? 'is-visible' : 'is-hidden'}>
           <WaitlistForm onSubmit={onSubmit} />
         </FormWrapper>
       </Section>
     </ContentWrapper>
   );
+});
+
+export const Waitlist = () => {
+  return <Article Middle={WaitlistContent} />;
 };

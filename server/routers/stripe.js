@@ -2,7 +2,7 @@ const express = require('express');
 const Stripe = require('stripe');
 const { pick } = require('lodash');
 
-const { STRIPE_PUBLISHABLE_KEY, STRIPE_SECRET_KEY, HOST, PORT } = process.env;
+const { STRIPE_PUBLISHABLE_KEY, STRIPE_SECRET_KEY, HOST, PORT, TARGET_ENV } = process.env;
 
 const stripe = Stripe(STRIPE_SECRET_KEY);
 
@@ -42,6 +42,7 @@ const serializeLineItems = (cartItems, coupons) => {
  */
 router.post('/checkout', async (req, res) => {
   const { formValues, cartItems, coupons = [] } = req.body;
+  const host = TARGET_ENV === 'production' ? HOST : `${HOST}:${PORT}`;
   try {
     const session = await stripe.checkout.sessions.create({
       customer_email: formValues.email,
@@ -58,8 +59,8 @@ router.post('/checkout', async (req, res) => {
           ...item.attributes,
         };
       }, {}),
-      success_url: `${HOST}:${PORT}/store/success?session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${HOST}:${PORT}/store/cancel?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${host}/store/success?session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: `${host}/store/cancel?session_id={CHECKOUT_SESSION_ID}`,
     });
 
     const responseData = {
