@@ -60,7 +60,7 @@ const data = (state = initialData, action) => {
     case Type.DELETE_ONE_SUCCEEDED:
       return state.filter((item) => item.id !== action.id);
     case Type.CREATE_MANY_SUCCEEDED:
-      return [state, ...action.uploads];
+      return [...state, ...(action.uploads || [])];
     default:
       return state;
   }

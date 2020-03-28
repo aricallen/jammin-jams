@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { pallet, spacing, border, font } from '../../constants/style-guide';
+import { pallet, spacing, border } from '../../constants/style-guide';
 import { NewsletterForm } from './NewsletterForm';
 import { media } from '../../utils/media';
 import { fontSizes } from '../../utils/style-helpers';
@@ -10,8 +10,9 @@ const Wrapper = styled('div')`
   border-radius: ${spacing.regular}px;
   overflow: hidden;
   ${media.mobile()} {
-    width: 60%;
+    width: 64%;
     margin: 0 auto;
+    margin-bottom: ${spacing.quadruple}px;
   }
 `;
 
@@ -45,11 +46,11 @@ export const NewsletterBlock = () => {
   return (
     <Wrapper>
       <Header>
-        <HeaderText>Jam Journeys Newsletter</HeaderText>
+        <HeaderText>#jamjourneys newsletter</HeaderText>
       </Header>
       <ContentWrapper>
         <Message>
-          Sign up for our newlsetter to stay up to date on the latest flavors, features, music and
+          Sign up for our newsletter to stay up to date on the latest flavors, features, music and
           adventures.
         </Message>
         <FormWrapper>

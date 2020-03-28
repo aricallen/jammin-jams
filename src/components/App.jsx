@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Global } from '@emotion/core';
@@ -11,6 +11,7 @@ import { ErrorPage } from './features/ErrorPage';
 import { Waitlist } from './features/waitlist/Waitlist';
 import { ThankYou } from './features/waitlist/ThankYou';
 import { AtCapacity } from './features/waitlist/AtCapacity';
+import { CovidWaitlist } from './features/waitlist/CovidWaitlist';
 
 // about
 import { About } from './features/about/About';
@@ -46,6 +47,7 @@ import { Footer } from './common/Footer';
 import { NavBar } from './features/nav/NavBar';
 import { globalStyles } from '../constants/global-styles';
 import { sizes } from '../constants/style-guide';
+import { isBetaTester } from '../utils/beta-testing';
 
 const Wrapper = styled('div')`
   display: grid;
@@ -64,6 +66,7 @@ export const App = () => {
           <Route exact path="/waitlist" component={Waitlist} />
           <Route exact path="/thank-you" component={ThankYou} />
           <Route exact path="/at-capacity" component={AtCapacity} />
+          <Route exact path="/covid-waitlist" component={CovidWaitlist} />
 
           <Route exact path="/about/how-it-works" component={HowItWorks} />
           <Route exact path="/about/delivery-calendar" component={DeliveryCalendar} />
@@ -77,16 +80,20 @@ export const App = () => {
           <Route exact path="/account/sign-out" component={SignOut} />
           <Route exact path="/account/orders" component={Orders} />
 
-          <Route exact path="/store" component={Store} />
-          <Route exact path="/store/checkout" component={Checkout} />
-          <Route exact path="/store/success" component={Success} />
-          <Route exact path="/store/cancel" component={Cancel} />
+          {isBetaTester() && <Route exact path="/store" component={Store} />}
+          {isBetaTester() && <Route exact path="/store/checkout" component={Checkout} />}
+          {isBetaTester() && <Route exact path="/store/success" component={Success} />}
+          {isBetaTester() && <Route exact path="/store/cancel" component={Cancel} />}
+          {/* non beta */}
+          {!isBetaTester() && (
+            <Route exact path="/store" component={() => <Redirect to="/covid-waitlist" />} />
+          )}
 
           <AdminRoute exact path="/admin/dashboard" component={Dashboard} />
           <AdminRoute exact path="/admin/logo-builder" component={LogoBuilder} />
           <AdminRoute exact path="/admin/posts" component={AdminPostsPage} />
-          <AdminRoute exact path="/admin/posts/:postId" component={AdminEditPostPage} />
           <AdminRoute exact path="/admin/posts/new" component={AdminEditPostPage} />
+          <AdminRoute exact path="/admin/posts/:postId" component={AdminEditPostPage} />
           <AdminRoute exact path="/admin/qr-codes" component={QrCodes} />
           <AdminRoute exact path="/admin/uploads/:uploadId" component={EditPage} />
           <AdminRoute exact path="/admin/uploads" component={UploadsPage} />

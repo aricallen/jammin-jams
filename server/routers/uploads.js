@@ -15,8 +15,9 @@ const {
 } = require('../utils/db-helpers');
 
 const router = express.Router();
-
-const UPLOADS_DIR = path.resolve(__dirname, '..', '..', 'src', 'assets', 'uploads');
+// dir for frontend app
+const appDir = process.env.APP_DIR || 'src';
+const UPLOADS_DIR = path.resolve(__dirname, '..', '..', appDir, 'assets', 'uploads');
 const TEMP_DIR = path.resolve(UPLOADS_DIR, '.tmp');
 const uploader = multer({ dest: UPLOADS_DIR });
 const SMALL_DIR = path.join(UPLOADS_DIR, 'small');

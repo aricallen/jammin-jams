@@ -48,7 +48,7 @@ export const FollowUs = (props) => {
       <IconLink target="_blank" href="https://github.com/aricallen/jmnjams">
         <GithubIcon />
       </IconLink>
-      <IconLink target="_blank" href="https://soundcloud.com/solstice-sebastian">
+      <IconLink target="_blank" href="https://soundcloud.com/jmnjams">
         <SoundcloudIcon />
       </IconLink>
     </Wrapper>

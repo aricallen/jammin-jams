@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { spacing, sizes } from '../../constants/style-guide';
 import { fontSizes } from '../../utils/style-helpers';
 import { media } from '../../utils/media';
-import { NewsletterBlock } from './NewletterBlock';
+import { NewsletterBlock } from './NewsletterBlock';
 import { FollowUs } from './FollowUs';
 
 const LEFT_COL_WIDTH = `${spacing.quadruple}px`;

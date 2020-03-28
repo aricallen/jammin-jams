@@ -20,7 +20,16 @@ const FormWrapper = styled('div')`
   }
 `;
 
-export const AtCapacityContent = withRouter(({ history }) => {
+const Picture = styled('img')`
+  margin: 0 auto;
+`;
+
+const ItemContent = styled('div')`
+  text-align: center;
+  margin-bottom: ${spacing.double}px;
+`;
+
+export const CovidWaitlistContent = withRouter(({ history }) => {
   const dispatch = useDispatch();
 
   const signupForNewsLetter = (values) => {
@@ -46,16 +55,21 @@ export const AtCapacityContent = withRouter(({ history }) => {
 
   return (
     <ContentWrapper>
-      <Header1>Oh noes! We are at full capacity. 😩</Header1>
+      <ItemContent>
+        <Picture src="/assets/images/jotm.jpeg" />
+      </ItemContent>
+      <Header1>We are temporarily closed. 😩</Header1>
       <Section>
         <Paragraph>
-          First, we are <Emphasis>absolutely thrilled</Emphasis> you want some of our jam.{' '}
-          Unfortunately, our jam production is on such a small scale and are only able to support a
-          limited set of subscriptions (for now!).
+          First, we are <Emphasis>absolutely thrilled</Emphasis> you want some of our jam. However,
+          our service is powered by bicycle delivery. Because of the current pandemic situation, in
+          order to protect our fellow humans, subscriptions are temporarily closed. Let&apos;s
+          flatten that curve!
         </Paragraph>
         <Paragraph>
-          But fear not! <Emoji label="Muscle emoji">💪🏽</Emoji> Fill out the form below to join our
-          waitlist and be first in line for when we expand. Also be sure to{' '}
+          But fear not! <Emoji label="Muscle emoji">💪🏽</Emoji> This too shall pass.{' '}
+          <Emoji label="zen emoji">🧘🏽‍♀️</Emoji> Fill out the form below to join our waitlist and be
+          first in line for when we open up. Also be sure to{' '}
           <LinkLikeSpan onClick={onClickSignUp}>sign up</LinkLikeSpan> for our newsletter so you can
           stay up to date on our #jamjourneys.
         </Paragraph>
@@ -70,6 +84,6 @@ export const AtCapacityContent = withRouter(({ history }) => {
   );
 });
 
-export const AtCapacity = () => {
-  return <Article Middle={AtCapacityContent} />;
+export const CovidWaitlist = () => {
+  return <Article Middle={CovidWaitlistContent} />;
 };

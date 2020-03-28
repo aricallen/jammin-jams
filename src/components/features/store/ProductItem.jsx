@@ -7,6 +7,7 @@ import { Select } from '../../common/Select';
 import { Spinner } from '../../common/Spinner';
 import { isResolved, isBusy } from '../../../redux/utils/meta-status';
 import { media } from '../../../utils/media';
+import { formatAmount } from '../../../utils/format-helpers';
 
 const Wrapper = styled('div')`
   padding: ${spacing.quadruple}px;
@@ -43,7 +44,7 @@ export const ProductItem = (props) => {
   const skusOptions = skusState.data
     .filter((sku) => sku.product === product.id)
     .map((sku) => ({
-      label: sku.attributes.interval,
+      label: `${sku.attributes.interval} -- $${formatAmount(sku.price)}`,
       value: sku.id,
       sku,
     }));

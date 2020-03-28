@@ -5,15 +5,11 @@ import { sum } from 'lodash';
 import { Content } from '../../common/Structure';
 import { Button as BaseButton } from '../../common/Button';
 import { spacing, border, font } from '../../../constants/style-guide';
-import { media } from '../../../utils/media';
 import { removeFromCart } from '../../../redux/cart/actions';
 import { formatAmount } from '../../../utils/format-helpers';
 import { boxShadow } from '../../../utils/style-helpers';
 
 const Wrapper = styled('div')`
-  ${media.mobile()} {
-    display: none;
-  }
   box-shadow: ${boxShadow()};
   width: 100%;
 `;
