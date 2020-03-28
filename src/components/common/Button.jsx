@@ -31,7 +31,7 @@ const ButtonElem = styled('button')`
   background-color: ${getBackgroundColor};
   border-radius: ${spacing.regular}px;
   font-size: 1em;
-  font-weight: ${font.weight.bold};
+  font-weight: ${font.weight.medium};
   position: relative;
   display: flex;
   justify-content: center;

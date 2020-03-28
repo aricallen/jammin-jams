@@ -101,7 +101,7 @@ export const DeliveryMethod = (props) => {
   if (deliveryMethod === Method.PROMO) {
     setIsValid(isValid(values) && foundCoupon);
   } else {
-    setIsValid(isValid(values) && !zipError);
+    setIsValid(isValid({ ...values, deliveryMethod }) && !zipError);
   }
 
   const onApplyException = (e) => {
@@ -141,6 +141,7 @@ export const DeliveryMethod = (props) => {
             <FormInput
               name="zipCode"
               value={zipCode || ''}
+              placeholder="12345"
               onChange={handleChange('zipCode', (e) => e.target.value)}
               label="Zip Code"
               isRequired={true}

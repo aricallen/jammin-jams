@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { isResolved } from '../../../../redux/utils/meta-status';
 import { Spinner } from '../../../common/Spinner';
 import { fetchMany } from '../../../../redux/posts/actions';
-import { Section, Header1 } from '../../../common/Structure';
+import { Section } from '../../../common/Structure';
 import { Header } from '../Header';
 import { Button } from '../../../common/Button';
 import { spacing } from '../../../../constants/style-guide';

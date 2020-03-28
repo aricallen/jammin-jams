@@ -3,7 +3,7 @@ import React, { useState, useRef, useEffect, Fragment } from 'react';
 import styled from '@emotion/styled';
 import * as d3 from 'd3';
 import { Calendar } from 'calendar';
-import { Header1, Section } from '../../common/Structure';
+import { Header1, Section, Paragraph } from '../../common/Structure';
 import { Label } from '../../common/Forms';
 import { media } from '../../../utils/media';
 import { Select } from '../../common/Select';
@@ -30,11 +30,10 @@ const D3Wrapper = styled('div')`
   justify-content: center;
 
   & > .calendar {
-    width: 70%;
+    width: 80%;
     height: 200px;
     border: ${border};
     border-radius: ${spacing.regular}px;
-    padding: ${spacing.regular}px;
   }
 
   & > .calendar tbody td {
@@ -43,6 +42,7 @@ const D3Wrapper = styled('div')`
     vertical-align: middle;
     padding: ${spacing.regular}px;
     min-height: ${spacing.quadruple}px;
+    width: ${spacing.quadruple + spacing.regular}px;
     height: 100%;
   }
 
@@ -54,13 +54,18 @@ const D3Wrapper = styled('div')`
 
   & > .calendar td.empty {
     border: none;
+    opacity: 0;
+  }
+  & > .calendar td.empty::before {
+    content: '-';
   }
 
   & td.delivery-day-cell {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     background-color: ${pallet.plum};
+    background-image: url('/assets/favicons/favicon.ico');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
   }
 `;
 
@@ -82,7 +87,7 @@ const buildCalendar = (tableRef, monthConfig, deliveryType) => {
   const body = table.append('tbody');
   const weeks = cal.monthDays(2020, monthConfig.num);
   const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  const deliveryDay = monthConfig[deliveryType];
+  const deliveryDays = monthConfig[deliveryType];
 
   header
     .append('tr')
@@ -113,17 +118,13 @@ const buildCalendar = (tableRef, monthConfig, deliveryType) => {
         return d > 0 ? 'cal-cell' : 'empty';
       })
       .text(function(d) {
-        const showNumber = d > 0 && d !== deliveryDay;
+        const showNumber = d > 0 && !deliveryDays.includes(+d);
         return showNumber ? d : '';
       })
       .each(function(d) {
-        if (d === deliveryDay) {
+        if (deliveryDays.includes(+d)) {
           const cell = d3.select(this);
-          cell
-            .attr('class', 'delivery-day-cell')
-            .append('img')
-            .attr('src', '/assets/favicons/favicon.ico')
-            .attr('width', '30px');
+          cell.attr('class', 'delivery-day-cell');
         }
       });
   });
@@ -155,11 +156,13 @@ export const DeliveryCalendarContent = () => {
     <ContentWrapper>
       <Header1>Delivery Dates Calendar</Header1>
       <Section>
-        Even though we try to plan ahead as much as possible, please note that bike delivery dates
-        are estimates.
-      </Section>
-      <Section>
-        Look out for a notification email at least one week prior to delivery for the month.
+        <Paragraph>
+          Even though we try to plan ahead as much as possible, please note that bike delivery dates
+          are estimates.
+        </Paragraph>
+        <Paragraph>
+          Look out for a notification email at least one week prior to delivery for the month.
+        </Paragraph>
       </Section>
       <Section>
         <DeliveryTypeWrapper>

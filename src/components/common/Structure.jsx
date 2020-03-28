@@ -49,7 +49,7 @@ export const Paragraph = styled('p')`
 
 export const Emphasis = styled('span')`
   font-style: italic;
-  font-weight: ${font.weight.semiBold};
+  font-weight: ${font.weight.medium};
 `;
 
 export const OrderedList = styled('ol')`

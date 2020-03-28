@@ -1,11 +1,10 @@
 import React, { Fragment } from 'react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
-import { Header1, Emoji, Emphasis, UnorderedList, ListItem } from '../../common/Structure';
+import { Header1, Emphasis, UnorderedList, ListItem } from '../../common/Structure';
 import { Article } from '../../common/Article';
 import { spacing, border } from '../../../constants/style-guide';
 import { fontSizes } from '../../../utils/style-helpers';
-import { media } from '../../../utils/media';
 
 const SignUp = () => (
   <Fragment>
@@ -50,7 +49,7 @@ const STEPS = [
     Content: Delivery,
   },
   {
-    title: 'Get ready to jam',
+    title: 'Jam',
     emoji: '🎧',
     Content: GetASpoon,
   },
@@ -67,7 +66,6 @@ const CardHeader = styled('div')`
   ${fontSizes('largest')}
 `;
 const Title = styled('div')``;
-const Subtitle = styled('div')``;
 const CardContent = styled('div')`
   flex-grow: 2;
   padding: ${spacing.double}px;

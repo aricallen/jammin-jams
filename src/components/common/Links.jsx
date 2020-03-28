@@ -20,6 +20,7 @@ export const UnstyledLink = styled(Link)`
  * e.g. blurbs -> Read More
  */
 export const LinkLikeSpan = styled('span')`
+  cursor: pointer;
   color: ${pallet.strawberry};
   text-decoration: none;
   transition: color ${animation};

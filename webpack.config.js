@@ -4,6 +4,13 @@ const path = require('path');
 const DotEnv = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+const getEnvPath = () => {
+  if (process.env.TARGET_ENV !== 'development') {
+    return `.env.${process.env.TARGET_ENV}`;
+  }
+  return '.env';
+};
+
 const apiProxyPath = `http://localhost:${process.env.API_PORT}`;
 if (process.env.TARGET_ENV !== 'production') {
   console.log(`proxying api requests to ${apiProxyPath}`);
@@ -32,17 +39,6 @@ module.exports = {
 
   resolve: {
     extensions: ['.js', '.jsx', '.json'],
-  },
-
-  externals: {
-    request: 'request',
-    'aws-sdk': 'aws-sdk',
-    require: 'require',
-    'node-pre-gyp': 'node-pre-gyp',
-    'worker-farm': 'worker-farm',
-    'loader-runner': 'loader-runner',
-    fsevents: 'fsevents',
-    'terser-webpack-plugin': 'terser-webpack-plugin',
   },
 
   module: {
@@ -106,7 +102,7 @@ module.exports = {
   },
 
   plugins: [
-    new DotEnv({ path: '.env' }),
+    new DotEnv({ path: getEnvPath() }),
     new HtmlWebpackPlugin({
       template: './src/index.html',
       filename: 'index.html',

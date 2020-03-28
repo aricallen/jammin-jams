@@ -10,12 +10,16 @@ import { isBusy } from '../../../redux/utils/meta-status';
 
 const Wrapper = styled('div')`
   width: 100%;
-  display: flex;
-  justify-content: center;
-  padding-top: 6%;
+`;
+
+const GoBackWrapper = styled('div')`
+  padding: ${spacing.double}px;
+  padding-left: ${spacing.quadruple}px;
 `;
 
 const SignInWrapper = styled('div')`
+  margin: 0 auto;
+  padding-top: 6%;
   ${media.mobile()} {
     width: 50%;
   }
@@ -59,6 +63,13 @@ export const SignIn = ({ history }) => {
 
   return (
     <Wrapper>
+      {history.length > 0 && (
+        <GoBackWrapper>
+          <Button variant="secondary" onClick={() => history.goBack()}>
+            Go back
+          </Button>
+        </GoBackWrapper>
+      )}
       <SignInWrapper>
         <SignInForm
           onSubmit={(e) => {
