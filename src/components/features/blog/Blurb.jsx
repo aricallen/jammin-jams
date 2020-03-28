@@ -49,7 +49,8 @@ const MoreLinkWrapper = styled('div')`
 
 const parseFirstParagraph = (content) => {
   const paragraphs = content.split('\n').filter((str) => str !== '');
-  return paragraphs[0];
+  const contentParagraphs = paragraphs.filter((str) => /^\w/.test(str));
+  return contentParagraphs[0];
 };
 
 export const Blurb = ({ post }) => {
