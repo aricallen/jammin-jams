@@ -5,6 +5,7 @@ import InstagramIcon from '../../assets/icons/instagram.svg';
 import MailIcon from '../../assets/icons/mail.svg';
 import SoundcloudIcon from '../../assets/icons/soundcloud.svg';
 import GithubIcon from '../../assets/icons/github.svg';
+import FacebookIcon from '../../assets/icons/facebook.svg';
 
 const Wrapper = styled('div')`
   display: flex;
@@ -42,14 +43,17 @@ export const FollowUs = (props) => {
       <IconLink target="_blank" href="https://www.instagram.com/jmn_jams/">
         <InstagramIcon />
       </IconLink>
-      <IconLink target="_blank" href="mailto:jam@jmnjams.com">
-        <MailIcon />
+      <IconLink target="_blank" href="https://www.facebook.com/jmnjamsoakland/">
+        <FacebookIcon />
       </IconLink>
       <IconLink target="_blank" href="https://github.com/aricallen/jmnjams">
         <GithubIcon />
       </IconLink>
       <IconLink target="_blank" href="https://soundcloud.com/jmnjams">
         <SoundcloudIcon />
+      </IconLink>
+      <IconLink target="_blank" href="mailto:jam@jmnjams.com">
+        <MailIcon />
       </IconLink>
     </Wrapper>
   );
