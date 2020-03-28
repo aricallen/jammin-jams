@@ -6,7 +6,7 @@ import { Article } from '../../common/Article';
 import { Section, Header1 } from '../../common/Structure';
 import { ArticleImage } from '../../common/ArticleImage';
 import { fetchPostContent } from '../../../redux/posts/actions';
-import { isResolved } from '../../../redux/utils/meta-status';
+import * as MetaStatus from '../../../redux/utils/meta-status';
 import { Spinner } from '../../common/Spinner';
 import { spacing } from '../../../constants/style-guide';
 import { PostsNav } from './PostsNav';
@@ -79,7 +79,7 @@ export const Post = ({ match }) => {
       Middle={() => (
         <PostContent
           post={{ ...post, upload }}
-          isBusy={!post && !isResolved(postsState.meta.one)}
+          isBusy={!post && MetaStatus.isBusy(postsState.meta.one)}
         />
       )}
     />
