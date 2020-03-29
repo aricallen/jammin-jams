@@ -1,8 +1,10 @@
 import React, { useState, useRef, useLayoutEffect } from 'react';
 import styled from '@emotion/styled';
+import Modal from 'react-modal';
 import { LogoFilled } from '../../common/LogoFilled';
 import { FullPageWrapper } from '../../common/Structure';
 import { CameraRoll } from '../../common/CameraRoll';
+import { Button } from '../../common/Button';
 import { AboutSwitcher } from './AboutSwitcher';
 import { HeroSection } from './HeroSection';
 import * as SessionStorage from '../../../utils/session-storage';
@@ -84,7 +86,45 @@ const shouldAnimate = () => {
   return Date.now() > +disabledUntil;
 };
 
+const Message = styled('div')`
+  padding: ${spacing.quadruple}px;
+  text-align: center;
+`;
+
+const Actions = styled('div')`
+  display: flex;
+  justify-content: flex-end;
+`;
+
+const Div = styled('div')``;
+
+const isLiveNow = () => {
+  const liveTimeFrom = new Date('2020-03-29 18:00:00').getTime();
+  const liveTimeTo = new Date('2020-03-29 19:30:00').getTime();
+  const currTime = Date.now();
+  return currTime > liveTimeFrom && currTime < liveTimeTo;
+};
+
+const ModalContent = () => {
+  if (isLiveNow()) {
+    return (
+      <Div>
+        Hey there! We&apos;re streaming our jam making process live right now. Join us! The party is
+        jammin&apos; (obviously).
+      </Div>
+    );
+  }
+  return (
+    <Div>
+      Hey there! We&apos;ll be streaming our jam making process live at 6pm PST. Join us! The party
+      will be jammin&apos; (obviously).
+    </Div>
+  );
+};
+
 export const Home = () => {
+  Modal.setAppElement('#app');
+  const [isOpen, setIsOpen] = useState(true);
   const [isBumping, setIsBumping] = useState(true);
   const [isAnimating, setIsAnimating] = useState(true);
   const heroRef = useRef();
@@ -127,6 +167,33 @@ export const Home = () => {
         </FullPageWrapper>
         <CameraRollSection />
       </MainContentWrapper>
+      <Modal
+        isOpen={isOpen}
+        onRequestClose={() => setIsOpen(false)}
+        contentLabel="Live Alert!"
+        style={{
+          content: {
+            zIndex: 1000,
+            margin: 'auto',
+            marginTop: '64px',
+            height: 'min-content',
+            maxWidth: '48%',
+          },
+        }}
+      >
+        <ModalContent />
+        <Message>
+          <a href="https://twitch.tv/jmnjams" target="_blank" rel="noopener noreferrer">
+            Jammin&apos; Jams live on twitch
+          </a>
+          .
+        </Message>
+        <Actions>
+          <Button variant="secondary" onClick={() => setIsOpen(false)}>
+            Dismiss
+          </Button>
+        </Actions>
+      </Modal>
     </Wrapper>
   );
 };
