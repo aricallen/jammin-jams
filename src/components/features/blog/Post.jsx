@@ -32,6 +32,7 @@ const PostContent = ({ post, isBusy }) => {
 
   return (
     <Wrapper>
+      <Header1 className="staatliches">#jamjourneys</Header1>
       <HeroImageWrapper>
         <ArticleImage upload={post.upload} />
       </HeroImageWrapper>

@@ -5,6 +5,7 @@ import Color from 'color';
 import styled from '@emotion/styled';
 import { spacing, pallet } from '../../../constants/style-guide';
 import { Row } from '../../common/Tables';
+import { Header2 } from '../../common/Structure';
 import { UnstyledLink, LinkLikeSpan } from '../../common/Links';
 import { Spinner } from '../../common/Spinner';
 import { getPostLink } from '../../../utils/post-helpers';
@@ -78,6 +79,7 @@ export const Blurb = ({ post }) => {
         {upload ? <Thumbnail src={getSmallUploadSrc(upload)} /> : placeholder}
       </ThumbnailWrapper>
       <TextWrapper>
+        <Header2>{post.title}</Header2>
         <Text>
           <ReactMarkdown source={firstParagraph} escapeHtml={false} />
         </Text>
