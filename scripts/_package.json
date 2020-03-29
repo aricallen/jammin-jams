@@ -6,7 +6,8 @@
   "author": "aricallen",
   "license": "MIT",
   "scripts": {
-    "start": "yarn serve",
+    "start": "yarn forever",
+    "forever": "forever -a --uid 'jjserver' --killSignal=SIGTERM ./server/index.js",
     "serve": "nodemon ./server/index.js"
   },
   "devDependencies": {},
