@@ -179,6 +179,9 @@ export const Home = () => {
             height: 'min-content',
             maxWidth: '48%',
           },
+          overlay: {
+            backgroundColor: 'rgba(0, 0, 0, 0.36)',
+          },
         }}
       >
         <ModalContent />
