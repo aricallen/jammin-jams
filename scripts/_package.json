@@ -6,7 +6,8 @@
   "author": "aricallen",
   "license": "MIT",
   "scripts": {
-    "start": "yarn serve",
+    "start": "yarn forever",
+    "forever": "forever -a --uid 'jjserver' --killSignal=SIGTERM ./server/index.js",
     "serve": "nodemon ./server/index.js"
   },
   "devDependencies": {},
@@ -18,6 +19,7 @@
     "emailjs": "^2.2.0",
     "express": "^4.17.1",
     "express-session": "^1.17.0",
+    "forever": "^2.0.0",
     "helmet": "^3.21.2",
     "jimp": "^0.9.5",
     "lodash": "^4.17.15",
@@ -28,7 +30,7 @@
     "stripe": "^8.18.0"
   },
   "engines": {
-    "node": ">=12.13.1",
+    "node": "^12.13.0",
     "yarn": ">=1.19.1"
   }
 }

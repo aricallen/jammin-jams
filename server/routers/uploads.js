@@ -16,8 +16,8 @@ const {
 
 const router = express.Router();
 // dir for frontend app
-const appDir = process.env.APP_DIR || 'src';
-const UPLOADS_DIR = path.resolve(__dirname, '..', '..', appDir, 'assets', 'uploads');
+const APP_DIR = 'src';
+const UPLOADS_DIR = path.resolve(__dirname, '..', '..', APP_DIR, 'assets', 'uploads');
 const TEMP_DIR = path.resolve(UPLOADS_DIR, '.tmp');
 const uploader = multer({ dest: UPLOADS_DIR });
 const SMALL_DIR = path.join(UPLOADS_DIR, 'small');
@@ -73,10 +73,12 @@ makeDirStructure();
 const processFile = async (options) => {
   const { src, dest, width, height = Jimp.AUTO } = options;
   const image = await Jimp.read(src);
+  console.log(`read file from ${src}`);
   if (width) {
     await image.resize(width, height);
   }
   await image.writeAsync(dest);
+  console.log(`processed image and moved to: ${dest}`);
 };
 
 /**

@@ -6,7 +6,6 @@ import { getMediumUploadSrc } from '../../utils/upload-helpers';
 
 const Wrapper = styled('div')`
   text-align: center;
-  padding: ${spacing.double}px;
 `;
 
 const Image = styled('img')``;
