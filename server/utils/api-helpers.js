@@ -44,9 +44,9 @@ const createGetOneController = (tableName) => {
   return async (req, res) => {
     const conn = await getConnection();
     try {
-      const records = await getRecord(conn, tableName, req.params.resourceId);
+      const record = await getRecord(conn, tableName, req.params.resourceId);
       res.send({
-        data: records,
+        data: record,
       });
     } catch (err) {
       res.status(400).send({

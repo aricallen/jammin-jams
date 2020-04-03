@@ -4,9 +4,26 @@
     <meta charset="UTF-8" />
     <title>JamminJams</title>
     <link rel="shortcut icon" href="/assets/favicons/favicon-32x32.png" type="image/x-icon" />
+
+    <!-- link preview metadata -->
+    <meta property="og:title" content="Jammin' Jams" />
+    <meta property="og:url" content="https://jmnjams.com" />
+    <meta property="og:image" content="https://jmnjams.com/assets/images/logo-pink.png" />
   </head>
 
   <body class="nunito-sans">
     <div id="app"></div>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-162143638-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag('js', new Date());
+
+      gtag('config', 'UA-162143638-1');
+    </script>
   </body>
 </html>
