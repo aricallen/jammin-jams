@@ -67,13 +67,14 @@ export const UploadsPage = ({ history }) => {
   };
   useEffect(fetch, []);
 
-  const onClickUpload = () => {
+  const onClickUpload = async () => {
     const formData = new FormData();
     for (let i = 0; i < selectedFiles.length; i += 1) {
       formData.append('uploads', selectedFiles[i]);
     }
     setIsUploading(true);
-    dispatch(createMany(formData));
+    await dispatch(createMany(formData));
+    setIsUploading(false);
   };
 
   const onFilesSelected = (e) => {

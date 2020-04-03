@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { fetchMany as fetchManyPosts } from '../../../redux/posts/actions';
-import { isResolved, isBusy } from '../../../redux/utils/meta-status';
+import * as MetaStatus from '../../../redux/utils/meta-status';
 import { DisabledLink } from '../../common/Links';
 import { getPostLink } from '../../../utils/post-helpers';
 import { Spinner } from '../../common/Spinner';
@@ -41,13 +41,13 @@ export const PostsNav = ({ currentPostId }) => {
   const nextPost = postsState.data[currentIndex + 1];
 
   const _fetchAllPosts = () => {
-    if (!prevPost && !nextPost && !isBusy(postsState.meta.many)) {
+    if (postsState.data.length === 0 && MetaStatus.isInitial(postsState.meta.many)) {
       dispatch(fetchManyPosts());
     }
   };
   useEffect(_fetchAllPosts, []);
 
-  if (!isResolved(postsState.meta.many)) {
+  if (!MetaStatus.isResolved(postsState.meta.many)) {
     return <Spinner />;
   }
 

@@ -47,6 +47,10 @@ const MobileListPortal = styled('div')``;
 
 const NAV_ITEMS = [
   {
+    text: 'Blog',
+    path: '/posts',
+  },
+  {
     text: 'How It Works',
     path: '/about/how-it-works',
   },
