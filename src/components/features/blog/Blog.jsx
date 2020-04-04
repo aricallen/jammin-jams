@@ -9,6 +9,7 @@ import { Blurb } from './Blurb';
 import { Header1, Emoji } from '../../common/Structure';
 import { Article } from '../../common/Article';
 import { spacing } from '../../../constants/style-guide';
+import { isLive } from '../../../utils/post-helpers';
 
 const Wrapper = styled('div')``;
 const IntroText = styled('div')`
@@ -44,12 +45,14 @@ export const Blog = () => {
   };
   useEffect(_fetchPosts, []);
 
+  const livePosts = postsState.data.filter(isLive);
+
   return (
     <Article
       Middle={() => (
         <Wrapper>
           <Intro />
-          <BlurbList posts={postsState.data} isBusy={!isResolved(postsState.meta.many)} />
+          <BlurbList posts={livePosts} isBusy={!isResolved(postsState.meta.many)} />
         </Wrapper>
       )}
     />

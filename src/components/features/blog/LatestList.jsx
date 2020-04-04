@@ -8,6 +8,7 @@ import { isResolved } from '../../../redux/utils/meta-status';
 import { Spinner } from '../../common/Spinner';
 import { Emoji, Emphasis } from '../../common/Structure';
 import { spacing } from '../../../constants/style-guide';
+import { isLive } from '../../../utils/post-helpers';
 
 const Wrapper = styled('div')``;
 
@@ -47,9 +48,9 @@ export const LatestList = () => {
   const dispatch = useDispatch();
   const postsState = useSelector((state) => state.posts);
 
-  const latestPosts = postsState.data?.slice(0, 5);
+  const latestPosts = postsState.data.filter(isLive).slice(0, 5) || [];
   const _fetchPosts = () => {
-    if (!latestPosts || latestPosts.length === 0) {
+    if (postsState.data.length === 0) {
       dispatch(fetchPosts());
     }
   };

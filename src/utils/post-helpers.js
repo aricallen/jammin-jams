@@ -4,3 +4,11 @@
 export const getPostLink = (post) => {
   return `/posts/${post?.id}`;
 };
+
+const PostStatus = {
+  LIVE: 'LIVE',
+  DRAFT: 'DRAFT',
+};
+
+export const isLive = (post) => post.status === PostStatus.LIVE;
+export const isDraft = (post) => post.status === PostStatus.DRAFT;
