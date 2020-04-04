@@ -45,7 +45,7 @@ export const Editor = ({ post, onChange }) => {
         </Button>
         <ContentWrapper>
           {isPreview ? (
-            <ReactMarkdown source={post.content} />
+            <ReactMarkdown source={post.content} escapeHtml={false} />
           ) : (
             <TextArea
               style={{

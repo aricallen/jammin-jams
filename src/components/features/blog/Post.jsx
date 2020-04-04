@@ -40,7 +40,7 @@ const PostContent = ({ post, isBusy }) => {
         <Header1>{post?.title}</Header1>
       </Section>
       <Section>
-        <SoundcloudPlayer setLink={post.setLink} title={post.title} />
+        {post.setLink && <SoundcloudPlayer setLink={post.setLink} title={post.title} />}
       </Section>
       <ContentSection>
         <ReactMarkdown source={post?.content} escapeHtml={false} />
