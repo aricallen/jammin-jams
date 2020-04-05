@@ -50,9 +50,13 @@ const FallbackImg = styled('div')`
 
 const TextWrapper = styled('div')`
   padding: 0 ${spacing.double}px;
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  flex-wrap: wrap;
+`;
+
+const TopSection = styled('div')`
+  flex-grow: 1;
 `;
 
 const Text = styled('div')`
@@ -64,12 +68,16 @@ const Text = styled('div')`
 
 const MoreLinkWrapper = styled('div')`
   text-align: right;
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
 `;
 
 export const Blurb = ({ post }) => {
   const dispatch = useDispatch();
   const uploadsState = useSelector((state) => state.uploads);
-  const firstParagraph = getExcerpt(post.content);
+  const firstParagraph = getExcerpt(post);
   const [isFetchingUpload, setIsFetchingUpload] = useState(false);
 
   const upload = uploadsState.data.find((u) => u.id === post.uploadsId);
@@ -102,10 +110,12 @@ export const Blurb = ({ post }) => {
         {upload ? <Thumbnail src={getSmallUploadSrc(upload)} /> : placeholder}
       </ThumbnailWrapper>
       <TextWrapper>
-        <Header2>{post.title}</Header2>
-        <Text>
-          <ReactMarkdown source={firstParagraph} escapeHtml={false} />
-        </Text>
+        <TopSection>
+          <Header2>{post.title}</Header2>
+          <Text>
+            <ReactMarkdown source={firstParagraph} escapeHtml={false} />
+          </Text>
+        </TopSection>
         <MoreLinkWrapper>
           <LinkLikeSpan>Read more</LinkLikeSpan>
         </MoreLinkWrapper>
