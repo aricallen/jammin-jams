@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ReactMarkdown from 'react-markdown';
 import Color from 'color';
@@ -11,6 +11,7 @@ import { Spinner } from '../../common/Spinner';
 import { getPostLink } from '../../../utils/post-helpers';
 import { getSmallUploadSrc } from '../../../utils/upload-helpers';
 import { fetchOne } from '../../../redux/uploads/actions';
+import { isBusy } from '../../../redux/utils/meta-status';
 
 const Wrapper = styled(Row)`
   &:hover {
@@ -58,14 +59,23 @@ export const Blurb = ({ post }) => {
   const dispatch = useDispatch();
   const uploadsState = useSelector((state) => state.uploads);
   const firstParagraph = parseFirstParagraph(post.content);
+  const [isFetchingUpload, setIsFetchingUpload] = useState(false);
 
   const upload = uploadsState.data.find((u) => u.id === post.heroImgId);
-  const fetchUpload = () => {
-    if (!upload && post.heroImgId) {
-      dispatch(fetchOne(post.heroImgId));
+  const fetchUpload = async () => {
+    if (!upload && post.heroImgId && !isFetchingUpload) {
+      setIsFetchingUpload(true);
+      await dispatch(fetchOne(post.heroImgId));
+      setIsFetchingUpload(false);
     }
   };
-  useEffect(fetchUpload, []);
+  useEffect(() => {
+    fetchUpload();
+  }, []);
+
+  if (!upload && post.heroImgId) {
+    return null;
+  }
 
   const placeholder = post.heroImgId ? (
     <Spinner />

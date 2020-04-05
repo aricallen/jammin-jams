@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchMany as fetchPosts } from '../../../redux/posts/actions';
-import { isResolved } from '../../../redux/utils/meta-status';
+import { isBusy, isInitial } from '../../../redux/utils/meta-status';
 import { Spinner } from '../../common/Spinner';
 import { Blurb } from './Blurb';
 import { Header1, Emoji } from '../../common/Structure';
@@ -15,13 +15,6 @@ const Wrapper = styled('div')``;
 const IntroText = styled('div')`
   margin-bottom: ${spacing.double}px;
 `;
-
-const BlurbList = ({ posts, isBusy }) => {
-  if (isBusy) {
-    return <Spinner variant="large" />;
-  }
-  return posts.map((post) => <Blurb key={post.id} post={post} />);
-};
 
 const Intro = () => {
   return (
@@ -41,18 +34,26 @@ export const Blog = () => {
   const postsState = useSelector((state) => state.posts);
 
   const _fetchPosts = () => {
-    dispatch(fetchPosts());
+    if (isInitial(postsState.meta.many) && postsState.data.length === 0) {
+      dispatch(fetchPosts());
+    }
   };
   useEffect(_fetchPosts, []);
 
   const livePosts = postsState.data.filter(isLive);
+
+  if (isBusy(postsState.meta.many)) {
+    return <Spinner variant="large" />;
+  }
 
   return (
     <Article
       Middle={() => (
         <Wrapper>
           <Intro />
-          <BlurbList posts={livePosts} isBusy={!isResolved(postsState.meta.many)} />
+          {livePosts.map((post) => (
+            <Blurb key={post.id} post={post} />
+          ))}
         </Wrapper>
       )}
     />

@@ -16,7 +16,7 @@ const one = (state = initialMeta, action) => {
     case Type.SAVE_ONE_SUCCEEDED:
       return { ...state, status: MetaStatus.RESOLVED };
     default:
-      return { ...state };
+      return state;
   }
 };
 
@@ -29,7 +29,7 @@ const many = (state = initialMeta, action) => {
     case Type.FETCH_MANY_SUCCEEDED:
       return { ...state, status: MetaStatus.RESOLVED };
     default:
-      return { ...state };
+      return state;
   }
 };
 
@@ -37,19 +37,19 @@ const meta = combineReducers({ one, many });
 
 const initialData = [];
 
-const replacePost = (posts, newPost) => {
-  if (posts.length === 0) {
-    return [newPost];
-  }
-  return posts.map((post) => (post.id === newPost.id ? newPost : post));
-};
-
 const sortRecentFirst = (posts) => {
   return [...posts].sort((a, b) => {
     const aTime = new Date(a.dateCreated).getTime();
     const bTime = new Date(b.dateCreated).getTime();
     return aTime > bTime ? -1 : 1;
   });
+};
+
+const replacePost = (posts, newPost) => {
+  if (posts.length === 0) {
+    return [newPost];
+  }
+  return sortRecentFirst(posts.map((post) => (post.id === newPost.id ? newPost : post)));
 };
 
 const data = (state = initialData, action) => {
