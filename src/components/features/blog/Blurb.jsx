@@ -78,25 +78,22 @@ export const Blurb = ({ post }) => {
   const dispatch = useDispatch();
   const uploadsState = useSelector((state) => state.uploads);
   const firstParagraph = getExcerpt(post);
-  const [isFetchingUpload, setIsFetchingUpload] = useState(false);
+  const [isFetching, setIsFetching] = useState(false);
 
   const upload = uploadsState.data.find((u) => u.id === post.uploadsId);
   const fetchUpload = async () => {
-    if (!upload && post.uploadsId && !isFetchingUpload) {
-      setIsFetchingUpload(true);
+    if (!upload && post.uploadsId && !isFetching) {
+      setIsFetching(true);
       await dispatch(fetchOne(post.uploadsId));
-      setIsFetchingUpload(false);
+      setIsFetching(false);
     }
   };
   useEffect(() => {
     fetchUpload();
   }, []);
 
-  if (!upload && post.uploadsId) {
-    return null;
-  }
-
-  const placeholder = post.uploadsId ? (
+  const showSpinnerPlaceholder = !upload && post.uploadsId && isFetching;
+  const placeholder = showSpinnerPlaceholder ? (
     <Spinner />
   ) : (
     <FallbackWrapper>
