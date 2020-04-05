@@ -12,3 +12,13 @@ const PostStatus = {
 
 export const isLive = (post) => post.status === PostStatus.LIVE;
 export const isDraft = (post) => post.status === PostStatus.DRAFT;
+
+export const getExcerpt = (post) => {
+  const { content = '', excerpt = '' } = post;
+  if (excerpt !== '') {
+    return excerpt;
+  }
+  const paragraphs = content.split('\n').filter((str) => str !== '');
+  const contentParagraphs = paragraphs.filter((str) => /^\w/.test(str));
+  return contentParagraphs[0];
+};

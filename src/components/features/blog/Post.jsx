@@ -59,7 +59,7 @@ export const Post = ({ match }) => {
   const { postId } = match.params;
 
   const post = postsState.data.find((p) => p.id === +postId);
-  const upload = uploadsState.data.find((u) => u.id === post?.heroImgId);
+  const upload = uploadsState.data.find((u) => u.id === post?.uploadsId);
 
   const _fetchPost = () => {
     if (!post) {

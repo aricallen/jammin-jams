@@ -30,8 +30,8 @@ export const Editor = ({ post, onChange }) => {
         <Fieldset>
           <Label>Hero Image</Label>
           <ImagePicker
-            onChange={(selectedOption) => onChange({ ...post, heroImgId: +selectedOption.value })}
-            selectedId={post.heroImgId}
+            onChange={(selectedOption) => onChange({ ...post, uploadsId: +selectedOption.value })}
+            selectedId={post.uploadsId}
           />
         </Fieldset>
       </Section>
