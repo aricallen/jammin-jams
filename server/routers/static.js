@@ -24,11 +24,12 @@ const DEFAULT_OG_DATA = {
 
 const getCompiledIndex = (data) => {
   const indexFileStr = fs.readFileSync(path.join(staticDirPath, 'index.html'), 'utf8');
-  return compile(indexFileStr, data);
+  const compiled = compile(indexFileStr, data);
+  return compiled;
 };
 
 const getUrl = (pagePath) => {
-  if (PORT) {
+  if (PORT && TARGET_ENV !== 'production') {
     return `${HOST}:${PORT}${pagePath}`;
   }
   return `${HOST}${pagePath}`;
@@ -51,15 +52,15 @@ const indexMiddleware = async (req, res, next) => {
   next();
 };
 
-const postsMiddleware = async (req, res, next) => {
+const staticPostServer = async (req, res, next) => {
   const { postId } = req.params;
   const conn = await getConnection();
   try {
     const post = await getRecord(conn, 'posts', postId);
     const ogData = {
-      title: post.title,
-      url: getUrl(`/posts/${postId}`),
-      image: await getImageUrl(conn, post.uploadsId),
+      ogTitle: post.title,
+      ogUrl: getUrl(`/posts/${postId}`),
+      ogImage: await getImageUrl(conn, post.uploadsId),
     };
     res.send(getCompiledIndex(ogData));
   } catch (err) {
@@ -72,7 +73,7 @@ const postsMiddleware = async (req, res, next) => {
 /**
  * root or index.html
  */
-router.use('/posts/:postId', postsMiddleware);
+router.use('/posts/:postId', staticPostServer);
 router.use(indexMiddleware);
 
 /**
