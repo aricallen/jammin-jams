@@ -9,7 +9,7 @@
     "start": "yarn dev",
     "dev": "node --max-old-space-size=8192 node_modules/.bin/webpack-dev-server --mode development --hot",
     "build:local": "TARGET_ENV=local webpack --mode production",
-    "build:production": "TARGET_ENV=production yarn build:local",
+    "build:production": "TARGET_ENV=production webpack --mode production",
     "deploy": "sh scripts/deploy.sh",
     "deploy:local": "yarn clean && yarn build:production && yarn prepare-deploy",
     "deploy:production": "yarn deploy:local && yarn deploy",
