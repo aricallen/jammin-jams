@@ -24,14 +24,23 @@ export const Editor = ({ post, onChange }) => {
         <FormInput
           name="setLink"
           label="Soundcloud Link"
-          value={post.setLink}
+          value={post.setLink || ''}
           onChange={handleChange('setLink')}
         />
         <Fieldset>
+          <Label>Excerpt (shows in previews and when sharing links)</Label>
+          <TextArea
+            name="excerpt"
+            rows={3}
+            value={post.excerpt || ''}
+            onChange={handleChange('excerpt')}
+          />
+        </Fieldset>
+        <Fieldset>
           <Label>Hero Image</Label>
           <ImagePicker
-            onChange={(selectedOption) => onChange({ ...post, heroImgId: +selectedOption.value })}
-            selectedId={post.heroImgId}
+            onChange={(selectedOption) => onChange({ ...post, uploadsId: +selectedOption.value })}
+            selectedId={post.uploadsId}
           />
         </Fieldset>
       </Section>
@@ -45,16 +54,9 @@ export const Editor = ({ post, onChange }) => {
         </Button>
         <ContentWrapper>
           {isPreview ? (
-            <ReactMarkdown source={post.content} />
+            <ReactMarkdown source={post.content} escapeHtml={false} />
           ) : (
-            <TextArea
-              style={{
-                fontSize: font.size.regular,
-              }}
-              rows={30}
-              onChange={handleChange('content')}
-              value={post.content}
-            />
+            <TextArea rows={30} onChange={handleChange('content')} value={post.content || ''} />
           )}
         </ContentWrapper>
       </Section>

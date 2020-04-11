@@ -4,10 +4,11 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Blurb } from './Blurb';
 import { fetchMany as fetchPosts } from '../../../redux/posts/actions';
-import { isResolved } from '../../../redux/utils/meta-status';
+import { isResolved, isBusy, isInitial } from '../../../redux/utils/meta-status';
 import { Spinner } from '../../common/Spinner';
 import { Emoji, Emphasis } from '../../common/Structure';
 import { spacing } from '../../../constants/style-guide';
+import { isLive } from '../../../utils/post-helpers';
 
 const Wrapper = styled('div')``;
 
@@ -28,11 +29,7 @@ const BlurbIntro = () => {
   );
 };
 
-const BlurbList = ({ posts, isBusy }) => {
-  if (isBusy) {
-    return <Spinner />;
-  }
-
+const BlurbList = ({ posts }) => {
   if (posts.length === 0) {
     return (
       <Message>
@@ -47,9 +44,9 @@ export const LatestList = () => {
   const dispatch = useDispatch();
   const postsState = useSelector((state) => state.posts);
 
-  const latestPosts = postsState.data?.slice(0, 5);
+  const latestPosts = postsState.data.filter(isLive).slice(0, 5) || [];
   const _fetchPosts = () => {
-    if (!latestPosts || latestPosts.length === 0) {
+    if (isInitial(postsState.meta.many) && postsState.data.length === 0) {
       dispatch(fetchPosts());
     }
   };
@@ -58,7 +55,7 @@ export const LatestList = () => {
   return (
     <Wrapper>
       <BlurbIntro />
-      <BlurbList posts={latestPosts} isBusy={!isResolved(postsState.meta.many)} />
+      <BlurbList posts={latestPosts} />
     </Wrapper>
   );
 };

@@ -40,7 +40,7 @@ const PostContent = ({ post, isBusy }) => {
         <Header1>{post?.title}</Header1>
       </Section>
       <Section>
-        <SoundcloudPlayer setLink={post.setLink} title={post.title} />
+        {post.setLink && <SoundcloudPlayer setLink={post.setLink} title={post.title} />}
       </Section>
       <ContentSection>
         <ReactMarkdown source={post?.content} escapeHtml={false} />
@@ -59,7 +59,7 @@ export const Post = ({ match }) => {
   const { postId } = match.params;
 
   const post = postsState.data.find((p) => p.id === +postId);
-  const upload = uploadsState.data.find((u) => u.id === post?.heroImgId);
+  const upload = uploadsState.data.find((u) => u.id === post?.uploadsId);
 
   const _fetchPost = () => {
     if (!post) {

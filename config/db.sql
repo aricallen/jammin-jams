@@ -28,14 +28,14 @@ CREATE TABLE `posts` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(256) NOT NULL,
   `content` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `heroImgId` int(11) unsigned DEFAULT NULL,
+  `uploadsId` int(11) unsigned DEFAULT NULL,
   `setLink` varchar(256) NOT NULL DEFAULT '',
   `status` varchar(256) NOT NULL DEFAULT 'draft',
   `dateCreated` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `dateModified` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
-  KEY `uploadsId` (`heroImgId`),
-  CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`heroImgId`) REFERENCES `uploads` (`id`)
+  KEY `uploadsId` (`uploadsId`),
+  CONSTRAINT `posts_ibfk_1` FOREIGN KEY (`uploadsId`) REFERENCES `uploads` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
