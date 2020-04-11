@@ -47,7 +47,7 @@ export const HeroSection = () => {
           </ButtonWrapper>
         </CallToAction>
       </Overlay>
-      <Img src="/asset/images/hero-image.jpeg" />
+      <Img src="/assets/images/hero-image.jpeg" />
     </Wrapper>
   );
 };

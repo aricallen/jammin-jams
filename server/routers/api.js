@@ -50,4 +50,12 @@ router.post('/log-out', (req, res) => {
 
 router.post('/waitlist', waitlistController);
 
+router.all('*', (req, res) => {
+  res.status(404).send({
+    error: 'route not found',
+    message: `unable to ${req.method}`,
+    url: req.originalUrl,
+  });
+});
+
 module.exports = { router };
