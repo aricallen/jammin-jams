@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ReactMarkdown from 'react-markdown';
 import Color from 'color';
@@ -8,7 +8,7 @@ import { Row } from '../../common/Tables';
 import { Header2 } from '../../common/Structure';
 import { UnstyledLink, LinkLikeSpan } from '../../common/Links';
 import { Spinner } from '../../common/Spinner';
-import { getPostLink } from '../../../utils/post-helpers';
+import { getPostLink, getExcerpt } from '../../../utils/post-helpers';
 import { getSmallUploadSrc } from '../../../utils/upload-helpers';
 import { fetchOne } from '../../../redux/uploads/actions';
 
@@ -28,13 +28,35 @@ const ThumbnailWrapper = styled('div')`
   align-items: center;
   justify-content: center;
 `;
-const Thumbnail = styled('img')``;
+const Thumbnail = styled('img')`
+  width: 100%;
+  object-fit: cover;
+`;
+
+const FallbackWrapper = styled('div')`
+  width: 100%;
+  height: 100%;
+  padding: ${spacing.regular}px;
+`;
+
+const FallbackImg = styled('div')`
+  width: 100%;
+  height: 100%;
+  background-image: url('${(p) => p.url}');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+`;
 
 const TextWrapper = styled('div')`
   padding: 0 ${spacing.double}px;
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  flex-wrap: wrap;
+`;
+
+const TopSection = styled('div')`
+  flex-grow: 1;
 `;
 
 const Text = styled('div')`
@@ -46,31 +68,36 @@ const Text = styled('div')`
 
 const MoreLinkWrapper = styled('div')`
   text-align: right;
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
 `;
-
-const parseFirstParagraph = (content) => {
-  const paragraphs = content.split('\n').filter((str) => str !== '');
-  const contentParagraphs = paragraphs.filter((str) => /^\w/.test(str));
-  return contentParagraphs[0];
-};
 
 export const Blurb = ({ post }) => {
   const dispatch = useDispatch();
   const uploadsState = useSelector((state) => state.uploads);
-  const firstParagraph = parseFirstParagraph(post.content);
+  const firstParagraph = getExcerpt(post);
+  const [isFetching, setIsFetching] = useState(!!post.uploadsId);
 
-  const upload = uploadsState.data.find((u) => u.id === post.heroImgId);
-  const fetchUpload = () => {
-    if (!upload && post.heroImgId) {
-      dispatch(fetchOne(post.heroImgId));
+  const upload = uploadsState.data.find((u) => u.id === post.uploadsId);
+  const fetchUpload = async () => {
+    if (!upload && post.uploadsId) {
+      await dispatch(fetchOne(post.uploadsId));
+      setIsFetching(false);
     }
   };
-  useEffect(fetchUpload, []);
+  useEffect(() => {
+    fetchUpload();
+  }, []);
 
-  const placeholder = post.heroImgId ? (
+  const showSpinnerPlaceholder = !upload && isFetching;
+  const placeholder = showSpinnerPlaceholder ? (
     <Spinner />
   ) : (
-    <Thumbnail src="https://generative-placeholders.glitch.me/image?width=200&height=160" />
+    <FallbackWrapper>
+      <FallbackImg url="/assets/images/logo-pink.png" />
+    </FallbackWrapper>
   );
 
   return (
@@ -79,10 +106,12 @@ export const Blurb = ({ post }) => {
         {upload ? <Thumbnail src={getSmallUploadSrc(upload)} /> : placeholder}
       </ThumbnailWrapper>
       <TextWrapper>
-        <Header2>{post.title}</Header2>
-        <Text>
-          <ReactMarkdown source={firstParagraph} escapeHtml={false} />
-        </Text>
+        <TopSection>
+          <Header2>{post.title}</Header2>
+          <Text>
+            <ReactMarkdown source={firstParagraph} escapeHtml={false} />
+          </Text>
+        </TopSection>
         <MoreLinkWrapper>
           <LinkLikeSpan>Read more</LinkLikeSpan>
         </MoreLinkWrapper>

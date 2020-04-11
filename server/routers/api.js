@@ -9,6 +9,7 @@ const { getConnection } = require('../utils/db-helpers');
 const { router: uploadsRouter } = require('./uploads');
 const { router: appStatusRouter } = require('./app-status');
 const { router: usersRouter } = require('./users');
+const { router: cameraRollRouter } = require('./camera-roll');
 
 // /api
 const router = express.Router();
@@ -20,6 +21,7 @@ router.use('/session', sessionRouter);
 router.use('/email', emailRouter);
 router.use('/app-status', appStatusRouter);
 router.use('/users', usersRouter);
+router.use('/camera-roll', cameraRollRouter);
 
 // general api
 router.get('/status', async (req, res) => {

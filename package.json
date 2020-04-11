@@ -17,6 +17,7 @@
     "prepare-deploy": "sh scripts/prepare-deploy.sh",
     "run:local": "yarn build:local && yarn prepare-deploy && yarn serve:local",
     "serve:local": "TARGET_ENV=local yarn serve",
+    "serve:production": "TARGET_ENV=production yarn serve",
     "serve": "nodemon ./server/index.js",
     "prettify": "pretty-quick",
     "prettify:staged": "pretty-quick --staged",
