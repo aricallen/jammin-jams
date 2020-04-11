@@ -43,11 +43,18 @@ const meta = combineReducers({ one, many });
 
 const initialData = [];
 
-const replacePost = (allUpload, newUpload) => {
-  if (allUpload.length === 0) {
+const replaceOrAddOne = (allUploads, newUpload) => {
+  if (allUploads.length === 0) {
     return [newUpload];
   }
-  return allUpload.map((upload) => (upload.id === newUpload.id ? newUpload : upload));
+
+  // contains stale record
+  if (allUploads.some((u) => u.id === newUpload.id)) {
+    return allUploads.map((upload) => (upload.id === newUpload.id ? newUpload : upload));
+  }
+
+  // new record
+  return [...allUploads, newUpload];
 };
 
 const data = (state = initialData, action) => {
@@ -56,7 +63,7 @@ const data = (state = initialData, action) => {
       return action.uploads;
     case Type.FETCH_ONE_SUCCEEDED:
     case Type.UPDATE_ONE_SUCCEEDED:
-      return replacePost(state, action.upload);
+      return replaceOrAddOne(state, action.upload);
     case Type.DELETE_ONE_SUCCEEDED:
       return state.filter((item) => item.id !== action.id);
     case Type.CREATE_MANY_SUCCEEDED:

@@ -13,6 +13,7 @@ import { email } from './email/reducer';
 import { coupons } from './coupons/reducer';
 import { orders } from './orders/reducer';
 import { appStatus } from './app-status/reducer';
+import { cameraRoll } from './camera-roll/reducer';
 
 export const rootReducer = combineReducers({
   session,
@@ -29,4 +30,5 @@ export const rootReducer = combineReducers({
   coupons,
   orders,
   appStatus,
+  cameraRoll,
 });
