@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { pallet, spacing } from '../../../constants/style-guide';
-import { getLargeUploadSrc } from '../../../utils/upload-helpers';
 import { fontSizes } from '../../../utils/style-helpers';
 import { ButtonLink } from '../../common/Links';
 import { Overlay } from '../../common/Structure';
@@ -48,7 +47,7 @@ export const HeroSection = () => {
           </ButtonWrapper>
         </CallToAction>
       </Overlay>
-      <Img src={getLargeUploadSrc({ filename: 'hero-image.jpeg' })} />
+      <Img src="/assets/images/hero-image.jpeg" />
     </Wrapper>
   );
 };

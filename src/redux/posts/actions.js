@@ -82,10 +82,13 @@ export const createOne = (post) => {
 export const fetchPostContent = (postId) => {
   return async (dispatch) => {
     const post = await dispatch(fetchOne(postId));
-    const upload = await dispatch(fetchUpload(post.uploadsId));
-    return {
-      ...post,
-      upload,
-    };
+    if (post.uploadsId) {
+      const upload = await dispatch(fetchUpload(post.uploadsId));
+      return {
+        ...post,
+        upload,
+      };
+    }
+    return { post, upload: null };
   };
 };
