@@ -13,7 +13,7 @@ export const fetchMany = (customerId) => {
     try {
       const params = { key: 'customer', value: customerId };
       const queryString = new URLSearchParams(params).toString();
-      // because of way we setup the products, these are actually invoices rather than orders
+      // because of way we setup the products, these are actually paymentIntents rather than orders
       const response = await axios.get(`/api/stripe/paymentIntents?${queryString}`);
       const orders = response.data.data;
       dispatch({ type: Type.FETCH_MANY_SUCCEEDED, orders });

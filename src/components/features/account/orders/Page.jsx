@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useSelector, useDispatch } from 'react-redux';
 import * as MetaStatus from '../../../../redux/utils/meta-status';
-import { fetchSession } from '../../../../redux/session/actions';
 import { UserMessage } from '../../../common/UserMessage';
 import { Spinner } from '../../../common/Spinner';
 import { Header } from '../../admin/Header';
@@ -14,11 +13,6 @@ import { fontSizes } from '../../../../utils/style-helpers';
 
 const Wrapper = styled(Content)``;
 const Text = styled('div')``;
-
-const Message = styled('div')`
-  margin-bottom: ${spacing.double}px;
-  ${fontSizes('large')}
-`;
 
 const SignInMessage = () => {
   const action = {
@@ -55,13 +49,6 @@ export const Page = () => {
   const ordersState = useSelector((state) => state.orders);
 
   const sessionUser = sessionState.data?.user;
-  const fetchSessionUser = () => {
-    if (!sessionUser && MetaStatus.isInitial(sessionState.meta)) {
-      dispatch(fetchSession());
-    }
-  };
-  useEffect(fetchSessionUser, []);
-
   const _fetchOrders = () => {
     if (sessionUser && ordersState.data.length === 0 && MetaStatus.isInitial(ordersState.meta)) {
       dispatch(fetchOrders(sessionUser.paymentCustomerId));
@@ -79,13 +66,8 @@ export const Page = () => {
 
   return (
     <Wrapper>
-      <Message>
-        This section is still underdevelopment. Please reach out to us at{' '}
-        <a href="mailto:jam@jmnjams.com">jam@jmnjams.com</a> if you would like to update or cancel
-        your subscription.
-      </Message>
-      {/* <Header title="Past Orders" />
-      <OrdersList orders={ordersState.data} /> */}
+      <Header title="Past Orders" />
+      <OrdersList orders={ordersState.data} />
     </Wrapper>
   );
 };
