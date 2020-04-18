@@ -1,9 +1,9 @@
 const express = require('express');
-const axios = require('axios');
 const Stripe = require('stripe');
-const { pick } = require('lodash');
+const { omit, pick } = require('lodash');
 const { getConnection, updateRecord } = require('../utils/db-helpers');
-const { sendEmail, serializeForEmail } = require('../utils/email-helpers');
+const { sendEmail, serializeForEmail, addMember } = require('../utils/email-helpers');
+const { adapter } = require('../adapters/email-list');
 
 const {
   STRIPE_PUBLISHABLE_KEY,
@@ -40,10 +40,12 @@ const serializeLineItems = (cartItems, coupons) => {
 router.post('/', async (req, res) => {
   const { formValues, cartItems, sessionUser, coupons = [] } = req.body;
   const host = TARGET_ENV === 'production' ? HOST : `${HOST}:${PORT}`;
+  const customerValues = sessionUser.paymentCustomerId
+    ? { customer: sessionUser.paymentCustomerId }
+    : { customer_email: formValues.email };
   try {
-    const session = await stripe.checkout.sessions.create({
-      customer: sessionUser.paymentCustomerId,
-      customer_email: formValues.email,
+    const checkoutSession = await stripe.checkout.sessions.create({
+      ...customerValues,
       payment_method_types: ['card'],
       payment_intent_data: {
         setup_future_usage: 'off_session',
@@ -60,14 +62,14 @@ router.post('/', async (req, res) => {
     });
 
     const responseData = {
-      ...session,
-      formValues,
+      checkoutSession,
+      formValues: omit(formValues, ['password', 'confirmPassword']),
       cartItems,
       sessionKey: STRIPE_PUBLISHABLE_KEY,
     };
 
     // add to current session for FE
-    req.session[session.id] = responseData;
+    req.session[checkoutSession.id] = responseData;
 
     res.send({
       data: responseData,
@@ -100,6 +102,9 @@ const updateStripeCustomer = async (customerId, formValues, checkoutSessionRecor
         },
         name: shippingFullName,
       },
+      metadata: {
+        shipping_instructions: formValues.shippingInstructions,
+      },
     });
     return customerRecord;
   } catch (err) {
@@ -130,7 +135,7 @@ const updateJJUserRecord = async (sessionUser, customerId) => {
 
 const addToEmailLists = async (formValues) => {
   try {
-    return axios.post('/lists/add-member', formValues);
+    return addMember(formValues, adapter);
   } catch (err) {
     const subject = 'Unable to add user to email lists during checkout';
     console.error(subject, err);

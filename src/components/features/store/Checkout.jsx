@@ -16,9 +16,12 @@ import { CreateAccount } from './CreateAccount';
 import { createOne as createCheckoutSession } from '../../../redux/checkout-session/actions';
 import { isBusy, isResolved } from '../../../redux/utils/meta-status';
 import { fetchOne as fetchAppStatus } from '../../../redux/app-status/actions';
+import { isBetaTester } from '../../../utils/beta-testing';
+import * as SessionStorage from '../../../utils/session-storage';
 
 const STRIPE_SCRIPT_ID = 'STRIPE_SCRIPT_ID';
 const STRIPE_SRC = 'https://js.stripe.com/v3/';
+const BETA_CHECKOUT_SESSION_KEY = 'beta-checkout-values';
 
 const Grid = styled('div')`
   display: grid;
@@ -125,8 +128,16 @@ const SectionFooter = ({ activeSection, onEditPrev, isValid, isBusy: _isBusy }) 
   );
 };
 
+const getDefaultValues = () => {
+  if (isBetaTester()) {
+    return SessionStorage.getItem(BETA_CHECKOUT_SESSION_KEY, {});
+  }
+  return {};
+};
+
 export const Checkout = () => {
-  const [values, setValues] = useState({});
+  const defaultValues = getDefaultValues();
+  const [values, setValues] = useState(defaultValues);
   const [isStripeLoaded, setIsStripeLoaded] = useState(!!document.getElementById(STRIPE_SCRIPT_ID));
   const [activeSection, setActiveSection] = useState(SECTIONS[0]);
   const [_isValid, setIsValid] = useState(false);
@@ -135,20 +146,6 @@ export const Checkout = () => {
   const couponsState = useSelector((state) => state.coupons);
   const appStatusState = useSelector((state) => state.appStatus);
   const dispatch = useDispatch();
-
-  // fake add an item to cart
-  if (process.env.TARGET_ENV !== 'production' && cart.length === 0) {
-    const fakeItem = {
-      product: { name: 'developer product', id: 'temp' },
-      sku: {
-        id: '1234',
-        currency: 'usd',
-        price: 1299,
-        attributes: { interval: 'Bimonthly' },
-      },
-    };
-    cart.push(fakeItem);
-  }
 
   const loadStripe = () => {
     if (!isStripeLoaded && cart.length > 0) {
@@ -183,7 +180,11 @@ export const Checkout = () => {
   }
 
   const onUpdate = (name, value) => {
-    setValues({ ...values, [name]: value });
+    const newValues = { ...values, [name]: value };
+    setValues(newValues);
+    if (isBetaTester()) {
+      SessionStorage.setItem(BETA_CHECKOUT_SESSION_KEY, newValues);
+    }
   };
 
   const onEditPrev = () => {

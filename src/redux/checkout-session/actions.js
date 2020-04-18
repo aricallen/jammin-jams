@@ -24,8 +24,11 @@ export const createOne = (formValues) => {
         coupons,
         sessionUser,
       });
-      const checkoutSession = response.data.data;
-      dispatch({ type: Type.CREATE_ONE_SUCCEEDED, checkoutSession });
+      const { checkoutSession, sessionKey } = response.data.data;
+      dispatch({
+        type: Type.CREATE_ONE_SUCCEEDED,
+        checkoutSession: { ...checkoutSession, sessionKey },
+      });
       return checkoutSession;
     } catch (err) {
       dispatch({ type: Type.CREATE_ONE_FAILED, error: parseAxiosError(err) });
@@ -43,7 +46,7 @@ export const updateOne = (formValues, sessionId, sessionUser) => {
         sessionId,
         sessionUser,
       });
-      const checkoutSession = response.data.data;
+      const { checkoutSession } = response.data.data;
       dispatch({ type: Type.UPDATE_ONE_SUCCEEDED, checkoutSession });
       return checkoutSession;
     } catch (err) {

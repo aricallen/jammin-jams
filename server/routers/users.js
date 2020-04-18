@@ -15,7 +15,7 @@ router.post('/', async (req, res) => {
     const result = await upsertRecord(conn, 'users', values, 'email');
     // also "sign in" user by updating session
     const data = omit(result, ['password']);
-    updateSession(req, 'user');
+    updateSession(req, 'user', data);
     return res.send({ data });
   } catch (err) {
     return res.status(400).send({
