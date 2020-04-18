@@ -10,6 +10,7 @@ const { router: uploadsRouter } = require('./uploads');
 const { router: appStatusRouter } = require('./app-status');
 const { router: usersRouter } = require('./users');
 const { router: cameraRollRouter } = require('./camera-roll');
+const { router: checkoutRouter } = require('./checkout');
 
 // /api
 const router = express.Router();
@@ -17,6 +18,7 @@ const router = express.Router();
 router.use('/admin/uploads', uploadsRouter);
 router.use('/admin', crudRouter);
 router.use('/stripe', stripeRouter);
+router.use('/checkout', checkoutRouter);
 router.use('/session', sessionRouter);
 router.use('/email', emailRouter);
 router.use('/app-status', appStatusRouter);

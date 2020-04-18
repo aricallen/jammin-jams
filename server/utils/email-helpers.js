@@ -26,7 +26,11 @@ const serializeForEmail = (row) => {
   return Object.entries(row)
     .reduce((acc, curr) => {
       const [field, value] = curr;
-      acc.push(`${field}: ${value}`);
+      if (Object.keys(value).length > 0) {
+        acc.push(serializeForEmail(value));
+      } else {
+        acc.push(`${field}: ${value}`);
+      }
       return acc;
     }, [])
     .join('\n');
