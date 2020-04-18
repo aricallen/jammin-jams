@@ -25,17 +25,19 @@ const ContentSection = styled(Section)`
   }
 `;
 
-const PostContent = ({ post, isBusy }) => {
-  if (isBusy) {
+const PostContent = ({ post, upload, isBusy }) => {
+  if (isBusy || !post) {
     return <Spinner variant="large" />;
   }
 
   return (
     <Wrapper>
       <Header1 className="staatliches">#jamjourneys</Header1>
-      <HeroImageWrapper>
-        <ArticleImage upload={post.upload} />
-      </HeroImageWrapper>
+      {upload && (
+        <HeroImageWrapper>
+          <ArticleImage upload={upload} />
+        </HeroImageWrapper>
+      )}
       <Section>
         <Header1>{post?.title}</Header1>
       </Section>
@@ -79,7 +81,8 @@ export const Post = ({ match }) => {
     <Article
       Middle={() => (
         <PostContent
-          post={{ ...post, upload }}
+          post={post}
+          upload={upload}
           isBusy={!post && MetaStatus.isBusy(postsState.meta.one)}
         />
       )}

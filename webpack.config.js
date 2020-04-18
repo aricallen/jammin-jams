@@ -1,19 +1,24 @@
 require('dotenv').config();
 require('babel-polyfill');
+const fs = require('fs');
 const path = require('path');
 const DotEnv = require('dotenv-webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const getEnvPath = () => {
-  if (process.env.TARGET_ENV !== 'development') {
-    return `.env.${process.env.TARGET_ENV}`;
+  const envPath = `.env.${process.env.TARGET_ENV}`;
+  if (fs.existsSync(path.join(__dirname, envPath))) {
+    return envPath;
   }
   return '.env';
 };
 
+const envPath = getEnvPath();
+
 const apiProxyPath = `http://localhost:${process.env.API_PORT}`;
 if (process.env.TARGET_ENV !== 'production') {
   console.log(`proxying api requests to ${apiProxyPath}`);
+  console.log(`loaded env file ${envPath}`);
 }
 
 module.exports = {
@@ -102,7 +107,7 @@ module.exports = {
   },
 
   plugins: [
-    new DotEnv({ path: getEnvPath() }),
+    new DotEnv({ path: envPath }),
     new HtmlWebpackPlugin({
       template: './src/index.html',
       filename: 'index.html',
