@@ -8,8 +8,6 @@ import { Header } from '../../admin/Header';
 import { OrderItem } from './OrderItem';
 import { fetchMany as fetchOrders } from '../../../../redux/orders/actions';
 import { Content } from '../../../common/Structure';
-import { spacing } from '../../../../constants/style-guide';
-import { fontSizes } from '../../../../utils/style-helpers';
 
 const Wrapper = styled(Content)``;
 const Text = styled('div')``;
@@ -56,12 +54,12 @@ export const Page = () => {
   };
   useEffect(_fetchOrders, [sessionUser]);
 
-  if (MetaStatus.isResolved(sessionState.meta) && !sessionUser) {
-    return <SignInMessage />;
-  }
-
   if (MetaStatus.isBusy(sessionState.meta) || MetaStatus.isBusy(ordersState.meta)) {
     return <Spinner variant="large" />;
+  }
+
+  if (MetaStatus.isResolved(sessionState.meta) && !sessionUser) {
+    return <SignInMessage />;
   }
 
   return (

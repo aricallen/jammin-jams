@@ -1,5 +1,6 @@
 const express = require('express');
 const Stripe = require('stripe');
+const { get } = require('lodash');
 
 const { STRIPE_SECRET_KEY } = process.env;
 
@@ -18,6 +19,27 @@ router.get('/plans', async (req, res) => {
     });
   }
   res.send(plans);
+});
+
+router.get('/orders', async (req, res) => {
+  const { customerId } = req.query;
+  try {
+    // because of way we setup the products, these are actually paymentIntents rather than orders
+    const paymentIntents = await stripe.paymentIntents.list();
+    const forCustomer = paymentIntents.data.filter((pi) => pi.customer === customerId);
+    const customer = await stripe.customers.retrieve(customerId);
+    const discount = get(customer, 'discount.coupon.amount_off');
+    if (!discount) {
+      res.send({ data: forCustomer });
+    }
+    const data = forCustomer.map((order) => ({
+      ...order,
+      discount,
+    }));
+    res.send({ data });
+  } catch (err) {
+    console.error('unable to fetch payments for customer', err);
+  }
 });
 
 router.get('/coupons', async (req, res) => {
