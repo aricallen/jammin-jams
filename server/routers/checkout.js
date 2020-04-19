@@ -65,6 +65,7 @@ router.post('/', async (req, res) => {
       checkoutSession,
       formValues: omit(formValues, ['password', 'confirmPassword']),
       cartItems,
+      coupons,
       sessionKey: STRIPE_PUBLISHABLE_KEY,
     };
 
@@ -82,14 +83,21 @@ router.post('/', async (req, res) => {
   }
 });
 
-const updateStripeCustomer = async (customerId, formValues, checkoutSessionRecord, sessionUser) => {
+const updateStripeCustomer = async (
+  customerId,
+  formValues,
+  checkoutSessionRecord,
+  sessionUser,
+  coupons
+) => {
   const shippingFullName = `${formValues.firstName} ${formValues.lastName}`;
   const customerFullName = `${sessionUser.firstName} ${sessionUser.lastName}`;
   const { address, address2, zipCode } = formValues;
   const description = checkoutSessionRecord.display_items
     .map((item) => item.custom.description)
     .join(' - ');
-
+  const priceCoupon = coupons.find((c) => c.metadata.type === 'price');
+  const deliveryCoupon = coupons.find((c) => c.metadata.type === 'delivery');
   try {
     const customerRecord = await stripe.customers.update(customerId, {
       description,
@@ -104,7 +112,9 @@ const updateStripeCustomer = async (customerId, formValues, checkoutSessionRecor
       },
       metadata: {
         shipping_instructions: formValues.shippingInstructions,
+        deliveryCoupon: deliveryCoupon ? deliveryCoupon.name : 'n/a',
       },
+      coupon: priceCoupon.id,
     });
     return customerRecord;
   } catch (err) {
@@ -152,7 +162,7 @@ const addToEmailLists = async (formValues) => {
  */
 router.post('/success', async (req, res) => {
   const { formValues, sessionId, sessionUser } = req.body;
-
+  const appliedCoupons = req.session[sessionId].coupons;
   try {
     const checkoutSessionRecord = await stripe.checkout.sessions.retrieve(sessionId);
     const { customer: customerId } = checkoutSessionRecord;
@@ -160,7 +170,8 @@ router.post('/success', async (req, res) => {
       customerId,
       formValues,
       checkoutSessionRecord,
-      sessionUser
+      sessionUser,
+      appliedCoupons
     );
     const updatedSessionUser = await updateJJUserRecord(sessionUser, customerId);
     await addToEmailLists(formValues);
