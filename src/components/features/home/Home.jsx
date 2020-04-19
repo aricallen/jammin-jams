@@ -57,7 +57,14 @@ const CameraRollSection = () => {
   return (
     <CameraRollWrapper>
       <Text>
-        Follow us on Instagram! <a href="https://www.instagram.com/jmn_jams/">@jmn_jams</a>
+        Follow us on Instagram!{' '}
+        <a
+          href="https://www.instagram.com/jmnjamsoakland/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          @jmnjamsoakland
+        </a>
       </Text>
       <CameraRoll />
     </CameraRollWrapper>
@@ -99,8 +106,8 @@ const Actions = styled('div')`
 const Div = styled('div')``;
 
 const isLiveNow = () => {
-  const liveTimeFrom = new Date('2020-03-29 18:00:00').getTime();
-  const liveTimeTo = new Date('2020-03-29 19:30:00').getTime();
+  const liveTimeFrom = new Date('2020-04-19 12:00:00').getTime();
+  const liveTimeTo = new Date('2020-04-19 23:30:00').getTime();
   const currTime = Date.now();
   return currTime > liveTimeFrom && currTime < liveTimeTo;
 };
@@ -109,22 +116,32 @@ const ModalContent = () => {
   if (isLiveNow()) {
     return (
       <Div>
-        Hey there! We&apos;re streaming our jam making process live right now. Join us! The party is
-        jammin&apos; (obviously).
+        Hey there! We&apos;re{' '}
+        <a href="https://twitch.tv/jmnjams" target="_blank" rel="noopener noreferrer">
+          streaming our jam making process live right now.
+        </a>
+        Join us! The party is jammin&apos; (obviously).
       </Div>
     );
   }
   return (
     <Div>
-      Hey there! We&apos;ll be streaming our jam making process live at 6pm PST. Join us! The party
-      will be jammin&apos; (obviously).
+      Hey there! We&apos;ll be{' '}
+      <a
+        href="https://www.facebook.com/events/536632563722084"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        streaming our jam making process live Sunday 4/19 @ 6pm PST
+      </a>
+      . Join us! The party will be jammin&apos; (obviously).
     </Div>
   );
 };
 
 export const Home = () => {
   Modal.setAppElement('#app');
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(true);
   const [isBumping, setIsBumping] = useState(true);
   const [isAnimating, setIsAnimating] = useState(true);
   const heroRef = useRef();
@@ -185,12 +202,6 @@ export const Home = () => {
         }}
       >
         <ModalContent />
-        <Message>
-          <a href="https://twitch.tv/jmnjams" target="_blank" rel="noopener noreferrer">
-            Jammin&apos; Jams live on twitch
-          </a>
-          .
-        </Message>
         <Actions>
           <Button variant="secondary" onClick={() => setIsOpen(false)}>
             Dismiss
