@@ -129,7 +129,7 @@ const updateJJUserRecord = async (sessionUser, customerId) => {
   try {
     const conn = await getConnection();
     const updatedValues = {
-      ...sessionUser,
+      ...omit(sessionUser, ['isAdmin']),
       isActive: true,
       paymentCustomerId: customerId,
     };
@@ -154,6 +154,26 @@ const addToEmailLists = async (formValues) => {
   }
 };
 
+const updatePaymentIntent = async (checkoutSessionRecord, appliedCoupons) => {
+  const paymentIntentId = checkoutSessionRecord.payment_intent;
+  const priceCoupon = appliedCoupons.find((c) => c.metadata.type === 'price');
+  const product = checkoutSessionRecord.display_items
+    .map((item) => `${item.custom.name} (${item.custom.description})`.trim())
+    .join(' - ');
+  try {
+    const updated = await stripe.paymentIntents.update(paymentIntentId, {
+      metadata: {
+        couponName: priceCoupon.name,
+        discount: priceCoupon.amountOff,
+        product,
+      },
+    });
+    return updated;
+  } catch (err) {
+    console.error('unable to update payment intent', err);
+  }
+};
+
 /**
  * find customer for completed checkout
  * create jj user record with related customer.id
@@ -174,6 +194,7 @@ router.post('/success', async (req, res) => {
       appliedCoupons
     );
     const updatedSessionUser = await updateJJUserRecord(sessionUser, customerId);
+    await updatePaymentIntent(checkoutSessionRecord, appliedCoupons);
     await addToEmailLists(formValues);
     res.send({
       data: {

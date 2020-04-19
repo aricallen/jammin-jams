@@ -37,9 +37,11 @@ const Value = styled('span')`
 const parseOrder = (order) => {
   const createdDate = new Date(order.created * 1000);
   return {
-    status: order.status,
-    discount: `$${formatAmount(order.discount)}`,
+    ...(order.metadata.product && { product: order.metadata.product }),
+    ...(order.metadata.discount && { discount: `$${formatAmount(order.metadata.discount)}` }),
+    ...(order.metadata.couponName && { coupon: order.metadata.couponName }),
     total: `$${formatAmount(order.amount)}`,
+    status: order.status,
     completed: format(createdDate, 'MMM do HH:mm a'),
   };
 };
