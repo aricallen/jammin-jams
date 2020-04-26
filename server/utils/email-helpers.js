@@ -47,7 +47,7 @@ const sendDebugEmail = (data, subject, productionOnly = true) => {
   const message = serializeForEmail(data);
   console.log(message);
   if (productionOnly && process.env.TARGET_ENV === 'production') {
-    sendEmail({ message, subject: `JmnJams Error Debug -- subject`, to: DEBUG_EMAIL });
+    sendEmail({ message, subject: `JmnJams Error Debug -- ${subject}`, to: DEBUG_EMAIL });
   }
 };
 
