@@ -1,9 +1,7 @@
 /* eslint-disable camelcase */
 const express = require('express');
 const { adapter } = require('../adapters/email-list');
-const { sendEmail, serializeForEmail, addMember } = require('../utils/email-helpers');
-
-const { DEBUG_EMAIL } = process.env;
+const { sendDebugEmail, addMember } = require('../utils/email-helpers');
 
 const router = express.Router();
 
@@ -25,11 +23,7 @@ router.get('/lists', async (req, res) => {
 });
 
 router.post('/debug', (req, res) => {
-  const message = serializeForEmail(req.body);
-  console.log(message);
-  if (process.env.TARGET_ENV === 'production') {
-    sendEmail({ message, subject: 'JmnJams Error Debug', to: DEBUG_EMAIL });
-  }
+  sendDebugEmail(req.body);
   res.status(200).send({ ack: true });
 });
 

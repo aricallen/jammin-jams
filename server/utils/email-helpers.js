@@ -1,6 +1,6 @@
 const email = require('emailjs/email');
 
-const { EMAIL_USERNAME, EMAIL_PASSWORD, EMAIL_HOST, MAILCHIMP_LIST_ID } = process.env;
+const { EMAIL_USERNAME, EMAIL_PASSWORD, EMAIL_HOST, MAILCHIMP_LIST_ID, DEBUG_EMAIL } = process.env;
 
 const server = email.server.connect({
   user: EMAIL_USERNAME,
@@ -22,7 +22,7 @@ const sendEmail = ({ message, to, subject }) => {
   );
 };
 
-const serializeForEmail = (row) => {
+const serializeForEmail = (row = {}) => {
   return Object.entries(row)
     .reduce((acc, curr) => {
       const [field, value] = curr;
@@ -38,6 +38,17 @@ const serializeForEmail = (row) => {
       return acc;
     }, [])
     .join('\n');
+};
+
+/**
+ * serializes data to send to debug email
+ */
+const sendDebugEmail = (data, subject, productionOnly = true) => {
+  const message = serializeForEmail(data);
+  console.log(message);
+  if (productionOnly && process.env.TARGET_ENV === 'production') {
+    sendEmail({ message, subject: `JmnJams Error Debug -- subject`, to: DEBUG_EMAIL });
+  }
 };
 
 const addMember = async (values, adapter) => {
@@ -68,4 +79,4 @@ const addMember = async (values, adapter) => {
   }
 };
 
-module.exports = { sendEmail, serializeForEmail, addMember };
+module.exports = { sendEmail, serializeForEmail, addMember, sendDebugEmail };
