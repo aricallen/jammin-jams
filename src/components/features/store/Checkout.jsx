@@ -62,6 +62,10 @@ const SectionHeader = styled('div')`
   display: flex;
   align-items: center;
   padding: ${spacing.double}px;
+  &:hover {
+    cursor: ${(p) => (p.canSwitch ? 'pointer' : 'default')};
+    background-color: ${(p) => (p.canSwitch ? pallet.light.strawberry : 'initial')};
+  }
 `;
 
 const HeaderText = styled('span')`
@@ -139,6 +143,7 @@ export const Checkout = () => {
   const couponsState = useSelector((state) => state.coupons);
   const appStatusState = useSelector((state) => state.appStatus);
   const dispatch = useDispatch();
+  const activeIndex = SECTIONS.findIndex((section) => section === activeSection);
 
   const loadStripe = () => {
     if (!isStripeLoaded && cart.length > 0) {
@@ -181,14 +186,12 @@ export const Checkout = () => {
   };
 
   const onEditPrev = () => {
-    const activeIndex = SECTIONS.findIndex((section) => section === activeSection);
     const prevSection = SECTIONS[activeIndex - 1];
     setActiveSection(prevSection);
   };
 
   const onSubmit = (event) => {
     event.preventDefault();
-    const activeIndex = SECTIONS.findIndex((section) => section === activeSection);
     const nextSection = SECTIONS[activeIndex + 1];
     if (nextSection) {
       setActiveSection(nextSection);
@@ -206,9 +209,14 @@ export const Checkout = () => {
         <FormCol>
           {SECTIONS.map((section, i) => {
             const { header, Component } = section;
+            const canSwitchToNextSection = _isValid && activeIndex + 1 === i;
+            const canSwitchToSection = canSwitchToNextSection || activeIndex > i;
             return (
               <SectionWrapper key={section.header}>
-                <SectionHeader>
+                <SectionHeader
+                  canSwitch={canSwitchToSection}
+                  onClick={() => _isValid && setActiveSection(section)}
+                >
                   <StepCircle>{i + 1}</StepCircle>
                   <HeaderText>{header}</HeaderText>
                 </SectionHeader>
