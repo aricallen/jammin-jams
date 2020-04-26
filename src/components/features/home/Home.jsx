@@ -141,7 +141,7 @@ const ModalContent = () => {
 
 export const Home = () => {
   Modal.setAppElement('#app');
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [isBumping, setIsBumping] = useState(true);
   const [isAnimating, setIsAnimating] = useState(true);
   const heroRef = useRef();
