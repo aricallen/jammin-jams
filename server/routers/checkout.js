@@ -1,20 +1,11 @@
 const express = require('express');
-const Stripe = require('stripe');
 const { omit, pick } = require('lodash');
 const { getConnection, updateRecord } = require('../utils/db-helpers');
 const { sendEmail, serializeForEmail, addMember } = require('../utils/email-helpers');
-const { adapter } = require('../adapters/email-list');
+const { adapter: emailListAdapter } = require('../adapters/email-list');
+const { adapter: stripeAdapter } = require('../adapters/stripe');
 
-const {
-  STRIPE_PUBLISHABLE_KEY,
-  STRIPE_SECRET_KEY,
-  HOST,
-  PORT,
-  TARGET_ENV,
-  DEBUG_EMAIL,
-} = process.env;
-
-const stripe = Stripe(STRIPE_SECRET_KEY);
+const { STRIPE_PUBLISHABLE_KEY, HOST, PORT, TARGET_ENV, DEBUG_EMAIL } = process.env;
 
 const router = express.Router();
 
@@ -44,7 +35,7 @@ router.post('/', async (req, res) => {
     ? { customer: sessionUser.paymentCustomerId }
     : { customer_email: formValues.email };
   try {
-    const checkoutSession = await stripe.checkout.sessions.create({
+    const checkoutSession = await stripeAdapter.checkout.sessions.create({
       ...customerValues,
       payment_method_types: ['card'],
       payment_intent_data: {
@@ -99,7 +90,7 @@ const updateStripeCustomer = async (
   const priceCoupon = coupons.find((c) => c.metadata.type === 'price');
   const deliveryCoupon = coupons.find((c) => c.metadata.type === 'delivery');
   try {
-    const customerRecord = await stripe.customers.update(customerId, {
+    const customerRecord = await stripeAdapter.customers.update(customerId, {
       description,
       name: customerFullName,
       shipping: {
@@ -125,27 +116,27 @@ const updateStripeCustomer = async (
   }
 };
 
-const updateJJUserRecord = async (sessionUser, customerId) => {
+const updateJJUserRecord = async (sessionUserId, formValues, customerId) => {
   try {
     const conn = await getConnection();
     const updatedValues = {
-      ...omit(sessionUser, ['isAdmin']),
+      ...pick(formValues, ['firstName', 'lastName', 'email']),
       isActive: true,
       paymentCustomerId: customerId,
     };
-    const updated = await updateRecord(conn, 'users', sessionUser.id, updatedValues);
+    const updated = await updateRecord(conn, 'users', sessionUserId, updatedValues);
     return updated;
   } catch (err) {
     const subject = 'Unable to update JJ user record during checkout';
     console.error(subject, err);
-    const message = serializeForEmail({ err, sessionUser, customerId });
+    const message = serializeForEmail({ err, sessionUserId, formValues, customerId });
     sendEmail({ message, to: DEBUG_EMAIL, subject });
   }
 };
 
 const addToEmailLists = async (formValues) => {
   try {
-    return addMember(formValues, adapter);
+    return addMember(formValues, emailListAdapter);
   } catch (err) {
     const subject = 'Unable to add user to email lists during checkout';
     console.error(subject, err);
@@ -161,7 +152,7 @@ const updatePaymentIntent = async (checkoutSessionRecord, appliedCoupons) => {
     .map((item) => `${item.custom.name} (${item.custom.description})`.trim())
     .join(' - ');
   try {
-    const updated = await stripe.paymentIntents.update(paymentIntentId, {
+    const updated = await stripeAdapter.paymentIntents.update(paymentIntentId, {
       metadata: {
         couponName: priceCoupon.name,
         discount: priceCoupon.amountOff,
@@ -184,7 +175,7 @@ router.post('/success', async (req, res) => {
   const { formValues, sessionId, sessionUser } = req.body;
   const appliedCoupons = req.session[sessionId].coupons;
   try {
-    const checkoutSessionRecord = await stripe.checkout.sessions.retrieve(sessionId);
+    const checkoutSessionRecord = await stripeAdapter.checkout.sessions.retrieve(sessionId);
     const { customer: customerId } = checkoutSessionRecord;
     const customerRecord = await updateStripeCustomer(
       customerId,
@@ -193,7 +184,7 @@ router.post('/success', async (req, res) => {
       sessionUser,
       appliedCoupons
     );
-    const updatedSessionUser = await updateJJUserRecord(sessionUser, customerId);
+    const updatedSessionUser = await updateJJUserRecord(sessionUser.id, formValues, customerId);
     await updatePaymentIntent(checkoutSessionRecord, appliedCoupons);
     await addToEmailLists(formValues);
     res.send({

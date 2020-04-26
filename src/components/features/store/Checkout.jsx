@@ -18,6 +18,7 @@ import { isBusy, isResolved } from '../../../redux/utils/meta-status';
 import { fetchOne as fetchAppStatus } from '../../../redux/app-status/actions';
 import { isBetaTester } from '../../../utils/beta-testing';
 import * as SessionStorage from '../../../utils/session-storage';
+import { useCheckoutFormValues } from './hooks';
 
 const STRIPE_SCRIPT_ID = 'STRIPE_SCRIPT_ID';
 const STRIPE_SRC = 'https://js.stripe.com/v3/';
@@ -128,16 +129,8 @@ const SectionFooter = ({ activeSection, onEditPrev, isValid, isBusy: _isBusy }) 
   );
 };
 
-const getDefaultValues = () => {
-  if (isBetaTester()) {
-    return SessionStorage.getItem(BETA_CHECKOUT_SESSION_KEY, {});
-  }
-  return {};
-};
-
 export const Checkout = () => {
-  const defaultValues = getDefaultValues();
-  const [values, setValues] = useState(defaultValues);
+  const [values, setValues] = useCheckoutFormValues();
   const [isStripeLoaded, setIsStripeLoaded] = useState(!!document.getElementById(STRIPE_SCRIPT_ID));
   const [activeSection, setActiveSection] = useState(SECTIONS[0]);
   const [_isValid, setIsValid] = useState(false);

@@ -1,10 +1,5 @@
 const express = require('express');
-const Stripe = require('stripe');
-const { get } = require('lodash');
-
-const { STRIPE_SECRET_KEY } = process.env;
-
-const stripe = Stripe(STRIPE_SECRET_KEY);
+const { adapter: stripe } = require('../adapters/stripe');
 
 const router = express.Router();
 
