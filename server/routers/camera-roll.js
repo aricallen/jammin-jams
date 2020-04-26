@@ -9,9 +9,11 @@ const { INSTAGRAM_ACCESS_TOKEN } = process.env;
 const router = express.Router();
 
 const NAMESPACE = 'https://graph.instagram.com';
-
 const MEDIA_ENDPOINT = `${NAMESPACE}/me/media`;
 const REFRESH_ENDPOINT = `${NAMESPACE}/refresh_access_token`;
+const UPDATE_TIMEOUT = ms('10d');
+
+let _lastUpdatedMs = null;
 
 const parseError = (axiosError) => {
   try {
@@ -23,10 +25,25 @@ const parseError = (axiosError) => {
   }
 };
 
+const shouldRefreshToken = () => {
+  // server restarted
+  if (_lastUpdatedMs === null) {
+    return true;
+  }
+  // 10 days have passed
+  const msSinceLastUpdate = Date.now() - _lastUpdatedMs;
+  return msSinceLastUpdate > UPDATE_TIMEOUT;
+};
+
 /**
  * refreshes insta token
  */
 const refreshToken = async () => {
+  if (!shouldRefreshToken()) {
+    console.log('skipping token refresh');
+    return null;
+  }
+
   try {
     const queryParams = { grant_type: 'ig_refresh_token', access_token: INSTAGRAM_ACCESS_TOKEN };
     const queryString = new URLSearchParams(queryParams).toString();
@@ -37,6 +54,7 @@ const refreshToken = async () => {
     const expiredDate = new Date(Date.now() + expiresInMs);
     const humanExpiredDate = format(expiredDate, 'MM-dd HH:mm:ss');
     console.log(`token refreshed successfully. Expires in: ${humanExpires} -- ${humanExpiredDate}`);
+    _lastUpdatedMs = Date.now();
   } catch (err) {
     const { message, error } = parseError(err);
     console.log(`Unable to refresh token: ${error}`);
