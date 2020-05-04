@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { omit } from 'lodash';
 import { parseAxiosError } from '../utils/error';
 
 export const Type = {
@@ -34,7 +35,7 @@ export const updateOne = (values) => {
   return async (dispatch) => {
     dispatch({ type: Type.UPDATE_ONE_REQUESTED });
     try {
-      const response = await axios.put(`/api/admin/users/${values.id}`, values);
+      const response = await axios.put(`/api/admin/users/${values.id}`, omit(values, ['isAdmin']));
       const user = response.data.data;
       dispatch({ type: Type.UPDATE_ONE_SUCCEEDED, user });
       return user;

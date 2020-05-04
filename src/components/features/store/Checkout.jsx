@@ -16,9 +16,13 @@ import { CreateAccount } from './CreateAccount';
 import { createOne as createCheckoutSession } from '../../../redux/checkout-session/actions';
 import { isBusy, isResolved } from '../../../redux/utils/meta-status';
 import { fetchOne as fetchAppStatus } from '../../../redux/app-status/actions';
+import { isBetaTester } from '../../../utils/beta-testing';
+import * as SessionStorage from '../../../utils/session-storage';
+import { useCheckoutFormValues } from './hooks';
 
 const STRIPE_SCRIPT_ID = 'STRIPE_SCRIPT_ID';
 const STRIPE_SRC = 'https://js.stripe.com/v3/';
+const BETA_CHECKOUT_SESSION_KEY = 'beta-checkout-values';
 
 const Grid = styled('div')`
   display: grid;
@@ -58,6 +62,10 @@ const SectionHeader = styled('div')`
   display: flex;
   align-items: center;
   padding: ${spacing.double}px;
+  &:hover {
+    cursor: ${(p) => (p.canSwitch ? 'pointer' : 'default')};
+    background-color: ${(p) => (p.canSwitch ? pallet.light.strawberry : 'initial')};
+  }
 `;
 
 const HeaderText = styled('span')`
@@ -116,7 +124,7 @@ const SectionFooter = ({ activeSection, onEditPrev, isValid, isBusy: _isBusy }) 
           Edit Previous
         </Button>
       ) : (
-        <div />
+        <div /> // empty to maintain flex positioning
       )}
       <Button disabled={!isValid} isBusy={_isBusy} type="submit">
         {buttonText}
@@ -126,7 +134,7 @@ const SectionFooter = ({ activeSection, onEditPrev, isValid, isBusy: _isBusy }) 
 };
 
 export const Checkout = () => {
-  const [values, setValues] = useState({});
+  const [values, setValues] = useCheckoutFormValues();
   const [isStripeLoaded, setIsStripeLoaded] = useState(!!document.getElementById(STRIPE_SCRIPT_ID));
   const [activeSection, setActiveSection] = useState(SECTIONS[0]);
   const [_isValid, setIsValid] = useState(false);
@@ -135,20 +143,7 @@ export const Checkout = () => {
   const couponsState = useSelector((state) => state.coupons);
   const appStatusState = useSelector((state) => state.appStatus);
   const dispatch = useDispatch();
-
-  // fake add an item to cart
-  if (process.env.TARGET_ENV !== 'production' && cart.length === 0) {
-    const fakeItem = {
-      product: { name: 'developer product', id: 'temp' },
-      sku: {
-        id: '1234',
-        currency: 'usd',
-        price: 1299,
-        attributes: { interval: 'Bimonthly' },
-      },
-    };
-    cart.push(fakeItem);
-  }
+  const activeIndex = SECTIONS.findIndex((section) => section === activeSection);
 
   const loadStripe = () => {
     if (!isStripeLoaded && cart.length > 0) {
@@ -183,24 +178,27 @@ export const Checkout = () => {
   }
 
   const onUpdate = (name, value) => {
-    setValues({ ...values, [name]: value });
+    const newValues = { ...values, [name]: value };
+    setValues(newValues);
+    if (isBetaTester()) {
+      SessionStorage.setItem(BETA_CHECKOUT_SESSION_KEY, newValues);
+    }
   };
 
   const onEditPrev = () => {
-    const activeIndex = SECTIONS.findIndex((section) => section === activeSection);
     const prevSection = SECTIONS[activeIndex - 1];
     setActiveSection(prevSection);
   };
 
   const onSubmit = (event) => {
     event.preventDefault();
-    const activeIndex = SECTIONS.findIndex((section) => section === activeSection);
     const nextSection = SECTIONS[activeIndex + 1];
     if (nextSection) {
       setActiveSection(nextSection);
     } else {
       // create session and redirect
       dispatch(createCheckoutSession(values));
+      setIsValid(false);
     }
   };
 
@@ -212,9 +210,14 @@ export const Checkout = () => {
         <FormCol>
           {SECTIONS.map((section, i) => {
             const { header, Component } = section;
+            const canSwitchToNextSection = _isValid && activeIndex + 1 === i;
+            const canSwitchToSection = canSwitchToNextSection || activeIndex > i;
             return (
               <SectionWrapper key={section.header}>
-                <SectionHeader>
+                <SectionHeader
+                  canSwitch={canSwitchToSection}
+                  onClick={() => _isValid && setActiveSection(section)}
+                >
                   <StepCircle>{i + 1}</StepCircle>
                   <HeaderText>{header}</HeaderText>
                 </SectionHeader>
