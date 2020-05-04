@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import qs from 'query-string';
 import styled from '@emotion/styled';
 import { Header1, Section, Paragraph, Emphasis, Emoji } from '../../common/Structure';
 import { Button as BaseButton } from '../../common/Button';
@@ -40,7 +39,7 @@ const FormWrapper = styled('div')`
 
 const WaitlistContent = withRouter(({ history, location }) => {
   const dispatch = useDispatch();
-  const { open } = qs.parse(location.search);
+  const open = new URLSearchParams(location.search).get('open');
   const [isViewingForm, setIsViewingForm] = useState(open === 'true');
 
   const signupForNewsLetter = async (values) => {
