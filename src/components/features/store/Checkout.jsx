@@ -124,7 +124,7 @@ const SectionFooter = ({ activeSection, onEditPrev, isValid, isBusy: _isBusy }) 
           Edit Previous
         </Button>
       ) : (
-        <div />
+        <div /> // empty to maintain flex positioning
       )}
       <Button disabled={!isValid} isBusy={_isBusy} type="submit">
         {buttonText}
@@ -198,6 +198,7 @@ export const Checkout = () => {
     } else {
       // create session and redirect
       dispatch(createCheckoutSession(values));
+      setIsValid(false);
     }
   };
 
