@@ -97,7 +97,7 @@ export const App = () => {
           <AdminRoute exact path="/admin/qr-codes" component={QrCodes} />
           <AdminRoute exact path="/admin/uploads/:uploadId" component={EditPage} />
           <AdminRoute exact path="/admin/uploads" component={UploadsPage} />
-          <AdminRoute exact path="/admin" component={() => <Redirect to="/admin/dashboard" />} />
+          <AdminRoute path="/admin" component={() => <Redirect to="/admin/dashboard" />} />
 
           <Route exact path="/oh-noes" component={NotFound} />
           <Route exact path="/error" component={ErrorPage} />
