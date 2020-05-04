@@ -5,6 +5,7 @@ const { router: stripeRouter } = require('./stripe');
 const { router: emailRouter } = require('./email');
 const { controller: signInController } = require('../controllers/sign-in');
 const { controller: waitlistController } = require('../controllers/waitlist');
+const { controller: qrCodeController } = require('../controllers/qr-code');
 const { getConnection } = require('../utils/db-helpers');
 const { router: uploadsRouter } = require('./uploads');
 const { router: appStatusRouter } = require('./app-status');
@@ -51,6 +52,7 @@ router.post('/log-out', (req, res) => {
 });
 
 router.post('/waitlist', waitlistController);
+router.post('/qr-code/generate', qrCodeController);
 
 router.all('*', (req, res) => {
   res.status(404).send({

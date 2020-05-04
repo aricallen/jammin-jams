@@ -75,6 +75,17 @@ const LOGGED_IN_ITEMS = [
   },
 ];
 
+const LOGGED_IN_ADMIN_ITEMS = [
+  {
+    text: 'Admin',
+    path: '/admin/dashboard',
+  },
+  {
+    text: 'Sign out',
+    path: '/account/sign-out',
+  },
+];
+
 const LOGGED_OUT_ITEMS = [
   {
     text: 'Sign In',
@@ -84,7 +95,8 @@ const LOGGED_OUT_ITEMS = [
 
 const getNavItems = (navItems, sessionState) => {
   if (sessionState.data.user) {
-    return [...navItems, ...LOGGED_IN_ITEMS];
+    const items = sessionState.data.user.isAdmin ? LOGGED_IN_ADMIN_ITEMS : LOGGED_IN_ITEMS;
+    return [...navItems, ...items];
   }
   return [...navItems, ...LOGGED_OUT_ITEMS];
 };
