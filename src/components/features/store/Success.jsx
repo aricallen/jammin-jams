@@ -65,7 +65,6 @@ const ReceiptItem = ({ item }) => {
  */
 export const Success = ({ location }) => {
   const sessionState = useSelector((state) => state.session);
-  const usersState = useSelector((state) => state.users);
   const checkoutSessionState = useSelector((state) => state.checkoutSession);
   const dispatch = useDispatch();
   const sessionId = new URLSearchParams(location.search).get('session_id');
@@ -74,48 +73,20 @@ export const Success = ({ location }) => {
 
   // get session data from server
   const _fetchSession = () => {
-    if (!MetaStatus.isInitial(sessionState.meta)) {
+    if (!sessionUser) {
       dispatch(fetchSession());
     }
   };
 
   // update new customer with shipping info
   const _updateCheckoutSession = () => {
-    if (checkoutData) {
-      dispatch(fetchSessionUser(checkoutData.formValues.email));
-      dispatch(updateCheckoutSession(checkoutData.formValues, sessionId));
-    }
-  };
-
-  const _updateUser = () => {
-    if (sessionUser && !sessionUser.paymentCustomerId && checkoutData) {
-      const userRecord = {
-        ...sessionUser,
-        paymentCustomerId: checkoutData?.customer,
-        firstName: checkoutData.formValues.firstName,
-        lastName: checkoutData.formValues.lastName,
-        isActive: 1,
-      };
-      dispatch(updateUser(userRecord));
-    }
-  };
-
-  // add member to subscribers list and optionally to newsletter list
-  const _addMember = () => {
-    if (MetaStatus.isResolved(usersState.meta)) {
-      const { email, firstName, lastName, newsletterSignup } = checkoutData.formValues;
-      const tags = ['Subscriber'];
-      if (newsletterSignup) {
-        tags.push('Newsletter');
-      }
-      dispatch(addMember({ email, firstName, lastName, tags }));
+    if (checkoutData && sessionUser) {
+      dispatch(updateCheckoutSession(checkoutData.formValues, sessionId, sessionUser));
     }
   };
 
   useEffect(_fetchSession, []);
-  useEffect(_updateCheckoutSession, [checkoutData]);
-  useEffect(_updateUser, [sessionUser, checkoutData]);
-  useEffect(_addMember, [MetaStatus.isResolved(usersState.meta)]);
+  useEffect(_updateCheckoutSession, [checkoutData, sessionUser]);
 
   const requiredStates = [sessionState, checkoutSessionState];
 
@@ -123,15 +94,16 @@ export const Success = ({ location }) => {
 
   if (isAllResolved) {
     // show receipt
+    const receipt = checkoutData.checkoutSession;
     return (
       <Wrapper>
         <Content>
           <Header2>Your order has been processed successfully.</Header2>
           <ConfNumber>
             <Label>Confirmation #: </Label>
-            <Value>{checkoutData.payment_intent}</Value>
+            <Value>{receipt.payment_intent}</Value>
           </ConfNumber>
-          {checkoutData.display_items.map((item) => (
+          {receipt.display_items.map((item) => (
             <ReceiptItem item={item} key={item.custom.description} />
           ))}
           <ReceiptFooter>

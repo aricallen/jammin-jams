@@ -2,6 +2,19 @@ const { omit } = require('lodash');
 const { getConnection } = require('../utils/db-helpers');
 const { hashIt } = require('../utils/hash-it.js');
 const { updateSession } = require('../utils/session');
+const { adapter: stripe } = require('../adapters/stripe');
+
+const getStripeUserInfo = async (user) => {
+  if (!user.paymentCustomerId) {
+    return {};
+  }
+  try {
+    const stripeUser = await stripe.customers.retrieve(user.paymentCustomerId);
+    return stripeUser;
+  } catch (err) {
+    console.log('Unable to fetch stripe customer', err);
+  }
+};
 
 const controller = async (req, res) => {
   const { email, password: rawPassword, key } = req.body;
@@ -14,8 +27,10 @@ const controller = async (req, res) => {
     ]);
     if (rawPassword && rawPassword.length && results.length === 1) {
       const user = omit(results[0], 'password');
+      const stripeUser = await getStripeUserInfo(user);
       const data = {
         ...user,
+        paymentCustomer: stripeUser,
         isAdmin: user.userRolesId === 1,
       };
       updateSession(req, key, data);

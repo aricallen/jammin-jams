@@ -15,11 +15,20 @@ export const createOne = (formValues) => {
   return async (dispatch, getState) => {
     const cartItems = getState().cart.data;
     const coupons = getState().coupons.data;
+    const sessionUser = getState().session.data.user;
     dispatch({ type: Type.CREATE_ONE_REQUESTED });
     try {
-      const response = await axios.post(`/api/stripe/checkout`, { formValues, cartItems, coupons });
-      const checkoutSession = response.data.data;
-      dispatch({ type: Type.CREATE_ONE_SUCCEEDED, checkoutSession });
+      const response = await axios.post(`/api/checkout`, {
+        formValues,
+        cartItems,
+        coupons,
+        sessionUser,
+      });
+      const { checkoutSession, sessionKey } = response.data.data;
+      dispatch({
+        type: Type.CREATE_ONE_SUCCEEDED,
+        checkoutSession: { ...checkoutSession, sessionKey },
+      });
       return checkoutSession;
     } catch (err) {
       dispatch({ type: Type.CREATE_ONE_FAILED, error: parseAxiosError(err) });
@@ -28,12 +37,16 @@ export const createOne = (formValues) => {
   };
 };
 
-export const updateOne = (formValues, sessionId) => {
+export const updateOne = (formValues, sessionId, sessionUser) => {
   return async (dispatch) => {
     dispatch({ type: Type.UPDATE_ONE_REQUESTED });
     try {
-      const response = await axios.post(`/api/stripe/checkout/success`, { formValues, sessionId });
-      const checkoutSession = response.data.data;
+      const response = await axios.post(`/api/checkout/success`, {
+        formValues,
+        sessionId,
+        sessionUser,
+      });
+      const { checkoutSession } = response.data.data;
       dispatch({ type: Type.UPDATE_ONE_SUCCEEDED, checkoutSession });
       return checkoutSession;
     } catch (err) {

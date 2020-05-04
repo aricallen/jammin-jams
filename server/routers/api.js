@@ -5,11 +5,13 @@ const { router: stripeRouter } = require('./stripe');
 const { router: emailRouter } = require('./email');
 const { controller: signInController } = require('../controllers/sign-in');
 const { controller: waitlistController } = require('../controllers/waitlist');
+const { controller: qrCodeController } = require('../controllers/qr-code');
 const { getConnection } = require('../utils/db-helpers');
 const { router: uploadsRouter } = require('./uploads');
 const { router: appStatusRouter } = require('./app-status');
 const { router: usersRouter } = require('./users');
 const { router: cameraRollRouter } = require('./camera-roll');
+const { router: checkoutRouter } = require('./checkout');
 
 // /api
 const router = express.Router();
@@ -17,6 +19,7 @@ const router = express.Router();
 router.use('/admin/uploads', uploadsRouter);
 router.use('/admin', crudRouter);
 router.use('/stripe', stripeRouter);
+router.use('/checkout', checkoutRouter);
 router.use('/session', sessionRouter);
 router.use('/email', emailRouter);
 router.use('/app-status', appStatusRouter);
@@ -49,6 +52,7 @@ router.post('/log-out', (req, res) => {
 });
 
 router.post('/waitlist', waitlistController);
+router.post('/qr-code/generate', qrCodeController);
 
 router.all('*', (req, res) => {
   res.status(404).send({

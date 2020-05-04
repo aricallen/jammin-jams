@@ -1,5 +1,6 @@
 import React from 'react';
 import { startCase } from 'lodash';
+import { format } from 'date-fns';
 import styled from '@emotion/styled';
 import { Label } from '../../../common/Forms';
 import { spacing, border } from '../../../../constants/style-guide';
@@ -34,10 +35,14 @@ const Value = styled('span')`
  */
 
 const parseOrder = (order) => {
+  const createdDate = new Date(order.created * 1000);
   return {
-    status: order.status,
+    ...(order.metadata.product && { product: order.metadata.product }),
+    ...(order.metadata.discount && { discount: `$${formatAmount(order.metadata.discount)}` }),
+    ...(order.metadata.couponName && { coupon: order.metadata.couponName }),
     total: `$${formatAmount(order.amount)}`,
-    completed: new Date(order.created * 1000).toString(),
+    status: order.status,
+    completed: format(createdDate, 'MMM do HH:mm a'),
   };
 };
 
