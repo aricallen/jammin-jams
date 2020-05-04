@@ -2,8 +2,13 @@ const SESSION_KEY = 'jmnjams_session_storage';
 
 const getStorage = () => {
   const currStorage = sessionStorage.getItem(SESSION_KEY);
-  if (currStorage) {
+  if (!currStorage) {
+    return null;
+  }
+  try {
     return JSON.parse(currStorage);
+  } catch (err) {
+    return null;
   }
 };
 
@@ -18,10 +23,10 @@ export const setItem = (key, value) => {
   setStorage(newState);
 };
 
-export const getItem = (key) => {
+export const getItem = (key, defaultValue) => {
   const currStorage = getStorage();
   if (currStorage) {
-    return currStorage[key];
+    return currStorage[key] || defaultValue;
   }
-  return null;
+  return defaultValue;
 };

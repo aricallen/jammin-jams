@@ -40,7 +40,7 @@ export const FollowUs = (props) => {
   const { isInline = false } = props;
   return (
     <Wrapper isInline={isInline}>
-      <IconLink target="_blank" href="https://www.instagram.com/jmn_jams/">
+      <IconLink target="_blank" href="https://www.instagram.com/jmnjamsoakland/">
         <InstagramIcon />
       </IconLink>
       <IconLink target="_blank" href="https://www.facebook.com/jmnjamsoakland/">
