@@ -142,22 +142,44 @@ export const LogoBuilder = () => {
     }
   };
 
-  const triggerDownload = (xmlNode) => {
+  const triggerDownload = (dataUrl) => {
     const a = document.createElement('a');
-    a.download = 'jj-custom-logo.svg';
-    a.href = `data:application/octet-stream;base64,${btoa(xmlNode)}`;
+    a.download = `jj-custom-logo.${selectedFormatOption.value}`;
+    a.href = dataUrl;
     a.style.display = 'none';
     document.body.appendChild(a);
     a.click();
     a.remove();
   };
 
-  const exportPng = () => {};
+  const exportPng = () => {
+    const svgNode = document.querySelector('svg[name="logo-filled"]');
+    const serializedXml = new XMLSerializer().serializeToString(svgNode); // convert node to xml string
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const svgNodeBox = svgNode.getBBox();
+    canvas.width = svgNodeBox.width * 10;
+    canvas.height = svgNodeBox.height * 10;
+    canvas.style.display = 'none';
+    document.body.appendChild(canvas);
+
+    const image = new Image();
+    const svgBlob = new Blob([serializedXml], { type: 'image/svg+xml;charset=utf-8' });
+    const url = URL.createObjectURL(svgBlob);
+    image.onload = () => {
+      ctx.drawImage(image, 0, 0);
+      URL.revokeObjectURL(url);
+      const imgUrl = canvas.toDataURL('image/png').replace('image/png', 'image/octet-stream');
+      triggerDownload(imgUrl);
+      canvas.remove();
+    };
+    image.src = url;
+  };
 
   const exportSvg = () => {
     const svgNode = document.querySelector('svg[name="logo-filled"]');
-    const xmlNode = new XMLSerializer().serializeToString(svgNode); // convert node to xml string
-    triggerDownload(xmlNode);
+    const serializedXml = new XMLSerializer().serializeToString(svgNode); // convert node to xml string
+    triggerDownload(`data:application/octet-stream;base64,${btoa(serializedXml)}`);
   };
 
   const onClickExport = selectedFormatOption.value === 'svg' ? exportSvg : exportPng;
