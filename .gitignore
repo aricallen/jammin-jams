@@ -5,6 +5,7 @@ dev-scripts/
 node_modules/
 *.log
 .vscode/
+data/
 
 # sensitive stuffs
 .env

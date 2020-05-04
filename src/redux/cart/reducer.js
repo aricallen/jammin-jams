@@ -1,5 +1,16 @@
 import { combineReducers } from 'redux';
 import { Type } from './actions';
+import { isBetaTester } from '../../utils/beta-testing';
+import * as SessionStorage from '../../utils/session-storage';
+
+const BETA_CART_KEY = 'beta-tester-cart';
+
+const getInitialData = () => {
+  if (!isBetaTester()) {
+    return [];
+  }
+  return SessionStorage.getItem(BETA_CART_KEY, []);
+};
 
 const meta = (state = {}, action) => {
   switch (action.type) {
@@ -8,9 +19,10 @@ const meta = (state = {}, action) => {
   }
 };
 
-const initialData = [];
+const initialData = getInitialData();
 
 const data = (state = initialData, action) => {
+  SessionStorage.setItem(BETA_CART_KEY, state);
   switch (action.type) {
     case Type.ADD_TO_CART:
       return [...state, action.cartItem];
