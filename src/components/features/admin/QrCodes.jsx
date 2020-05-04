@@ -9,6 +9,36 @@ import { Spinner } from '../../common/Spinner';
 
 const Image = styled('img')``;
 
+const OutputWrapper = styled('div')``;
+
+const Output = (props) => {
+  const { isBusy, dataUrl } = props;
+  if (isBusy) {
+    return <Spinner variant="large" />;
+  }
+
+  const downloadFile = () => {
+    const a = document.createElement('a');
+    a.download = `jj-qr-code.png`;
+    a.href = dataUrl;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  };
+
+  if (dataUrl) {
+    return (
+      <OutputWrapper>
+        <Image src={dataUrl} />
+        <Button onClick={downloadFile}>Download</Button>
+      </OutputWrapper>
+    );
+  }
+
+  return null;
+};
+
 export const QrCodes = () => {
   const [url, setUrl] = useState('');
   const [isBusy, setIsBusy] = useState(false);
@@ -41,8 +71,7 @@ export const QrCodes = () => {
 
       <Section>
         <Header2>Output will appear below</Header2>
-        {isBusy && <Spinner variante="large" />}
-        {dataUrl && <Image src={dataUrl} />}
+        <Output dataUrl={dataUrl} isBusy={isBusy} />
       </Section>
     </Content>
   );
