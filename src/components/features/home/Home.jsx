@@ -1,14 +1,13 @@
 import React, { useState, useRef, useLayoutEffect } from 'react';
 import styled from '@emotion/styled';
-import Modal from 'react-modal';
 import { LogoFilled } from '../../common/LogoFilled';
 import { FullPageWrapper } from '../../common/Structure';
 import { CameraRoll } from '../../common/CameraRoll';
-import { Button } from '../../common/Button';
 import { AboutSwitcher } from './AboutSwitcher';
 import { HeroSection } from './HeroSection';
 import * as SessionStorage from '../../../utils/session-storage';
 import { NewsletterBlock } from '../../common/NewsletterBlock';
+import { AlertManager } from '../../common/AlertManager';
 import { media } from '../../../utils/media';
 import { spacing, pallet } from '../../../constants/style-guide';
 
@@ -93,55 +92,7 @@ const shouldAnimate = () => {
   return Date.now() > +disabledUntil;
 };
 
-const Message = styled('div')`
-  padding: ${spacing.quadruple}px;
-  text-align: center;
-`;
-
-const Actions = styled('div')`
-  display: flex;
-  justify-content: flex-end;
-`;
-
-const Div = styled('div')``;
-
-const isLiveNow = () => {
-  const liveTimeFrom = new Date('2020-04-19 12:00:00').getTime();
-  const liveTimeTo = new Date('2020-04-19 23:30:00').getTime();
-  const currTime = Date.now();
-  return currTime > liveTimeFrom && currTime < liveTimeTo;
-};
-
-const ModalContent = () => {
-  if (isLiveNow()) {
-    return (
-      <Div>
-        Hey there! We&apos;re{' '}
-        <a href="https://twitch.tv/jmnjams" target="_blank" rel="noopener noreferrer">
-          streaming our jam making process live right now.
-        </a>
-        Join us! The party is jammin&apos; (obviously).
-      </Div>
-    );
-  }
-  return (
-    <Div>
-      Hey there! We&apos;ll be{' '}
-      <a
-        href="https://www.facebook.com/events/536632563722084"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        streaming our jam making process live Sunday 4/19 @ 6pm PST
-      </a>
-      . Join us! The party will be jammin&apos; (obviously).
-    </Div>
-  );
-};
-
 export const Home = () => {
-  Modal.setAppElement('#app');
-  const [isOpen, setIsOpen] = useState(false);
   const [isBumping, setIsBumping] = useState(true);
   const [isAnimating, setIsAnimating] = useState(true);
   const heroRef = useRef();
@@ -184,30 +135,7 @@ export const Home = () => {
         </FullPageWrapper>
         <CameraRollSection />
       </MainContentWrapper>
-      <Modal
-        isOpen={isOpen}
-        onRequestClose={() => setIsOpen(false)}
-        contentLabel="Live Alert!"
-        style={{
-          content: {
-            zIndex: 1000,
-            margin: 'auto',
-            marginTop: '64px',
-            height: 'min-content',
-            maxWidth: '48%',
-          },
-          overlay: {
-            backgroundColor: 'rgba(0, 0, 0, 0.36)',
-          },
-        }}
-      >
-        <ModalContent />
-        <Actions>
-          <Button variant="secondary" onClick={() => setIsOpen(false)}>
-            Dismiss
-          </Button>
-        </Actions>
-      </Modal>
+      <AlertManager />
     </Wrapper>
   );
 };

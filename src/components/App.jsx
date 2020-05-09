@@ -38,6 +38,7 @@ import { LogoBuilder } from './features/admin/LogoBuilder';
 import { QrCodes } from './features/admin/QrCodes';
 import { Page as UploadsPage } from './features/admin/uploads/Page';
 import { EditPage } from './features/admin/uploads/EditPage';
+import { Page as AlertsPage } from './features/admin/alerts/Page';
 
 // blog
 import { Blog } from './features/blog/Blog';
@@ -97,6 +98,7 @@ export const App = () => {
           <AdminRoute exact path="/admin/qr-codes" component={QrCodes} />
           <AdminRoute exact path="/admin/uploads/:uploadId" component={EditPage} />
           <AdminRoute exact path="/admin/uploads" component={UploadsPage} />
+          <AdminRoute exact path="/admin/alerts" component={AlertsPage} />
           <AdminRoute path="/admin" component={() => <Redirect to="/admin/dashboard" />} />
 
           <Route exact path="/oh-noes" component={NotFound} />

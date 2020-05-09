@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Editor } from './Editor';
 import { Button } from '../../../common/Button';
 import { Header } from '../Header';
-import { isBusy, isResolved } from '../../../../redux/utils/meta-status';
+import { isBusy, isResolved } from '../../../../utils/meta-status';
 import { createOne, updateOne, fetchOne } from '../../../../redux/posts/actions';
 import { Spinner } from '../../../common/Spinner';
 

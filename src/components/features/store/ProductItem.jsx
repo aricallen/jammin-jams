@@ -5,7 +5,7 @@ import { spacing, font } from '../../../constants/style-guide';
 import { Button as BaseButton } from '../../common/Button';
 import { Select } from '../../common/Select';
 import { Spinner } from '../../common/Spinner';
-import { isResolved, isBusy } from '../../../redux/utils/meta-status';
+import { isResolved, isBusy } from '../../../utils/meta-status';
 import { media } from '../../../utils/media';
 import { formatAmount } from '../../../utils/format-helpers';
 

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useSelector, useDispatch } from 'react-redux';
-import * as MetaStatus from '../../../../redux/utils/meta-status';
+import * as MetaStatus from '../../../../utils/meta-status';
 import { UserMessage } from '../../../common/UserMessage';
 import { Spinner } from '../../../common/Spinner';
 import { Header } from '../../admin/Header';

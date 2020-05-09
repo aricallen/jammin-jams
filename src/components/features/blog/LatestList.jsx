@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Blurb } from './Blurb';
 import { fetchMany as fetchPosts } from '../../../redux/posts/actions';
-import { isResolved, isBusy, isInitial } from '../../../redux/utils/meta-status';
+import { isResolved, isBusy, isInitial } from '../../../utils/meta-status';
 import { Spinner } from '../../common/Spinner';
 import { Emoji, Emphasis } from '../../common/Structure';
 import { spacing } from '../../../constants/style-guide';
