@@ -12,7 +12,7 @@ const { HOST, PORT, TARGET_ENV } = process.env;
 const staticDir = TARGET_ENV === 'local' ? 'dist' : 'src';
 const staticDirPath = path.resolve(__dirname, '..', '..', staticDir);
 
-const DEFAULT_TITLE = `Jammin' Jams`;
+const DEFAULT_TITLE = `Jammin' Jams | Jam. Music. Delivered | Jam Subscription Service`;
 const DEFAULT_URL = 'https://jmnjams.com';
 const DEFAULT_IMAGE = 'https://jmnjams.com/assets/images/logo-pink.png';
 

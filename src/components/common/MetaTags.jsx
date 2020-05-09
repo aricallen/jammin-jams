@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-const cleanPath = (path) => path.replace(/^\//, '').replace(/^https:\/\/jmnjams.com\//, '');
+const cleanPath = (path) => path.replace(/^\/|\/$/, '').replace(/^https:\/\/jmnjams.com\//, '');
 
 const fullUrl = (path) => `https://jmnjams.com/${cleanPath(path)}`;
 
