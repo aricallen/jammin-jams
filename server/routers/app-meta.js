@@ -17,12 +17,11 @@ router.get('/', async (req, res) => {
     acc[row.key] = row.value;
     return acc;
   }, {});
-  res.send({
-    data: {
-      ...omit(appMeta, ['maxSubscribers']),
-      isFull: users.length >= +maxSubscribers.value,
-    },
-  });
+  const data = {
+    ...omit(appMeta, ['maxSubscribers']),
+    isFull: users.length >= +maxSubscribers.value,
+  };
+  res.send({ data });
 });
 
 /**

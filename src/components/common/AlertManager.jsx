@@ -28,16 +28,20 @@ export const AlertManager = () => {
   const dispatch = useDispatch();
   const appMetaState = useSelector((state) => state.appMeta);
 
+  const fetchAndUpdate = async () => {
+    const { alertStart, alertEnd } = await dispatch(fetchAppMeta());
+    if (isLiveNow(alertStart, alertEnd) && isOpen === false) {
+      setIsOpen(true);
+    }
+  };
+
   useEffect(() => {
     if (!isResolved(appMetaState.meta)) {
-      dispatch(fetchAppMeta());
+      fetchAndUpdate();
     }
   }, []);
 
-  const { alertStart, alertEnd } = appMetaState.data;
-  if (isLiveNow(alertStart, alertEnd) && isOpen === false) {
-    setIsOpen(true);
-  }
+  const { alertMessage } = appMetaState.data;
 
   return (
     <Modal
@@ -57,7 +61,7 @@ export const AlertManager = () => {
         },
       }}
     >
-      <AlertMessage content="hello" />
+      <AlertMessage content={alertMessage} />
       <Actions>
         <Button variant="secondary" onClick={() => setIsOpen(false)}>
           Dismiss
