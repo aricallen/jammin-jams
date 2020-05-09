@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { Header1 } from '../../common/Structure';
 import { logOutUser } from '../../../redux/session/actions';
 import { Button } from '../../common/Button';
-import { isBusy, isResolved } from '../../../redux/utils/meta-status';
+import { isBusy, isResolved } from '../../../utils/meta-status';
 import { spacing } from '../../../constants/style-guide';
 
 const Wrapper = styled('div')`

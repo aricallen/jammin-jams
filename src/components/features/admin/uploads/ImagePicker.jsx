@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { Select } from '../../../common/Select';
 import { fetchMany } from '../../../../redux/uploads/actions';
 import { Spinner } from '../../../common/Spinner';
-import { isResolved } from '../../../../redux/utils/meta-status';
+import { isResolved } from '../../../../utils/meta-status';
 
 const Wrapper = styled('div')``;
 

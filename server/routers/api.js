@@ -8,7 +8,7 @@ const { controller: waitlistController } = require('../controllers/waitlist');
 const { controller: qrCodeController } = require('../controllers/qr-code');
 const { getConnection } = require('../utils/db-helpers');
 const { router: uploadsRouter } = require('./uploads');
-const { router: appStatusRouter } = require('./app-status');
+const { router: appMetaRouter } = require('./app-meta');
 const { router: usersRouter } = require('./users');
 const { router: cameraRollRouter } = require('./camera-roll');
 const { router: checkoutRouter } = require('./checkout');
@@ -22,7 +22,7 @@ router.use('/stripe', stripeRouter);
 router.use('/checkout', checkoutRouter);
 router.use('/session', sessionRouter);
 router.use('/email', emailRouter);
-router.use('/app-status', appStatusRouter);
+router.use('/app-meta', appMetaRouter);
 router.use('/users', usersRouter);
 router.use('/camera-roll', cameraRollRouter);
 
