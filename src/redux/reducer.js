@@ -12,7 +12,7 @@ import { users } from './users/reducer';
 import { email } from './email/reducer';
 import { coupons } from './coupons/reducer';
 import { orders } from './orders/reducer';
-import { appStatus } from './app-status/reducer';
+import { appMeta } from './app-meta/reducer';
 import { cameraRoll } from './camera-roll/reducer';
 
 export const rootReducer = combineReducers({
@@ -29,6 +29,6 @@ export const rootReducer = combineReducers({
   email,
   coupons,
   orders,
-  appStatus,
+  appMeta,
   cameraRoll,
 });

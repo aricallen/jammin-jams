@@ -72,6 +72,11 @@ const TOOLBAR_ITEMS = [
     Icon: QrCode,
     path: '/admin/qr-codes',
   },
+  {
+    text: 'Alerts',
+    Icon: QrCode,
+    path: '/admin/alerts',
+  },
 ];
 
 const SidebarItem = ({ item }) => {

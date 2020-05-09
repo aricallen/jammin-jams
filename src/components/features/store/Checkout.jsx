@@ -15,7 +15,7 @@ import { CartPreview } from './CartPreview';
 import { CreateAccount } from './CreateAccount';
 import { createOne as createCheckoutSession } from '../../../redux/checkout-session/actions';
 import { isBusy, isResolved } from '../../../redux/utils/meta-status';
-import { fetchOne as fetchAppStatus } from '../../../redux/app-status/actions';
+import { fetch as fetchAppMeta } from '../../../redux/app-meta/actions';
 import { isBetaTester } from '../../../utils/beta-testing';
 import * as SessionStorage from '../../../utils/session-storage';
 import { useCheckoutFormValues } from './hooks';
@@ -141,7 +141,7 @@ export const Checkout = () => {
   const cart = useSelector((state) => state.cart.data);
   const checkoutSessionState = useSelector((state) => state.checkoutSession);
   const couponsState = useSelector((state) => state.coupons);
-  const appStatusState = useSelector((state) => state.appStatus);
+  const appMetaState = useSelector((state) => state.appStatus);
   const dispatch = useDispatch();
   const activeIndex = SECTIONS.findIndex((section) => section === activeSection);
 
@@ -159,8 +159,8 @@ export const Checkout = () => {
   useEffect(loadStripe, []);
 
   const _fetchAppStatus = () => {
-    if (!isResolved(appStatusState.meta)) {
-      dispatch(fetchAppStatus());
+    if (!isResolved(appMetaState.meta)) {
+      dispatch(fetchAppMeta());
     }
   };
   useEffect(_fetchAppStatus, []);
@@ -169,11 +169,11 @@ export const Checkout = () => {
     return <Redirect to="/store" />;
   }
 
-  if (!isStripeLoaded || !isResolved(appStatusState.meta)) {
+  if (!isStripeLoaded || !isResolved(appMetaState.meta)) {
     return <Spinner variant="large" />;
   }
 
-  if (appStatusState.data.isFull) {
+  if (appMetaState.data.isFull) {
     return <Redirect to="/at-capacity" />;
   }
 

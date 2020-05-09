@@ -59,7 +59,7 @@ const getRecords = async (conn, tableName) => {
 
 const getRecord = async (conn, tableName, resourceId) => {
   try {
-    const results = await conn.query(`SELECT * FROM ${tableName} WHERE id = ?`, resourceId);
+    const results = await conn.query(`SELECT * FROM ${tableName} WHERE \`id\` = ?`, resourceId);
     return results[0];
   } catch (err) {
     console.log(err);
@@ -69,7 +69,7 @@ const getRecord = async (conn, tableName, resourceId) => {
 
 const getRecordBy = async (conn, tableName, key, value) => {
   try {
-    const results = await conn.query(`SELECT * FROM ${tableName} WHERE ${key} = ?`, value);
+    const results = await conn.query(`SELECT * FROM ${tableName} WHERE \`${key}\` = ?`, value);
     return results[0];
   } catch (err) {
     console.log(err);
@@ -83,7 +83,23 @@ const updateRecord = async (conn, tableName, resourceId, values) => {
       `UPDATE ${tableName} SET ? WHERE id = ${resourceId}`,
       omit(values, ['id', 'dateCreated', 'dateModified'])
     );
-    const updated = await conn.query(`SELECT * FROM ${tableName} WHERE id = ${resourceId}`);
+    const updated = await conn.query(`SELECT * FROM ${tableName} WHERE \`id\` = ${resourceId}`);
+    return updated[0];
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+};
+
+const updateRecordBy = async (conn, tableName, whereKey, whereValue, values) => {
+  try {
+    await conn.query(
+      `UPDATE ${tableName} SET ? WHERE ${whereKey} = ${whereValue}`,
+      omit(values, ['id', 'dateCreated', 'dateModified'])
+    );
+    const updated = await conn.query(
+      `SELECT * FROM ${tableName} WHERE ${whereKey} = ${whereValue}`
+    );
     return updated[0];
   } catch (err) {
     console.log(err);
@@ -112,6 +128,15 @@ const upsertRecord = async (conn, tableName, values, uniqueBy = 'id') => {
     return updateRecord(conn, tableName, existing[0].id, values);
   }
   return insertRecord(conn, tableName, values);
+};
+
+const upsertRecordBy = async (conn, tableName, key, value, updatedValue) => {
+  // check for existance first
+  const existing = await conn.query(`SELECT * FROM ${tableName} WHERE ${key} = ?`, value);
+  if (existing.length > 0) {
+    return updateRecord(conn, tableName, existing[0].id, { value: updatedValue });
+  }
+  return insertRecord(conn, tableName, { value: updatedValue });
 };
 
 const deleteRecord = async (conn, tableName, resourceId) => {
@@ -146,4 +171,6 @@ module.exports = {
   upsertRecord,
   deleteRecord,
   getRecordBy,
+  updateRecordBy,
+  upsertRecordBy,
 };

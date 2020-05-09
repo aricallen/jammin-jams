@@ -4,6 +4,7 @@ import { Route, Redirect } from 'react-router-dom';
 import { fetchSession } from '../../redux/session/actions';
 import { isResolved } from '../../redux/utils/meta-status';
 import { Page } from '../features/admin/Page';
+import { isBetaTester } from '../../utils/beta-testing';
 
 const { TARGET_ENV } = process.env;
 const IS_PRODUCTION = TARGET_ENV === 'production';
@@ -17,7 +18,7 @@ const renderRouteComponent = (routeProps, Component) => {
 };
 
 const handleRouting = (routeProps, Component, sessionState) => {
-  if (isResolved(sessionState.meta) && !sessionState.data.user) {
+  if (isResolved(sessionState.meta) && !sessionState.data.user && !isBetaTester()) {
     return (
       <Redirect
         to={{
@@ -28,7 +29,7 @@ const handleRouting = (routeProps, Component, sessionState) => {
     );
   }
 
-  if (isResolved(sessionState.meta) && !sessionState.data.user.isAdmin) {
+  if (isResolved(sessionState.meta) && !sessionState.data.user?.isAdmin && !isBetaTester()) {
     return (
       <Redirect
         to={{

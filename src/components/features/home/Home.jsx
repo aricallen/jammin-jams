@@ -9,6 +9,7 @@ import { AboutSwitcher } from './AboutSwitcher';
 import { HeroSection } from './HeroSection';
 import * as SessionStorage from '../../../utils/session-storage';
 import { NewsletterBlock } from '../../common/NewsletterBlock';
+import { AlertMessage } from '../../common/AlertMessage';
 import { media } from '../../../utils/media';
 import { spacing, pallet } from '../../../constants/style-guide';
 
@@ -93,51 +94,10 @@ const shouldAnimate = () => {
   return Date.now() > +disabledUntil;
 };
 
-const Message = styled('div')`
-  padding: ${spacing.quadruple}px;
-  text-align: center;
-`;
-
 const Actions = styled('div')`
   display: flex;
   justify-content: flex-end;
 `;
-
-const Div = styled('div')``;
-
-const isLiveNow = () => {
-  const liveTimeFrom = new Date('2020-04-19 12:00:00').getTime();
-  const liveTimeTo = new Date('2020-04-19 23:30:00').getTime();
-  const currTime = Date.now();
-  return currTime > liveTimeFrom && currTime < liveTimeTo;
-};
-
-const ModalContent = () => {
-  if (isLiveNow()) {
-    return (
-      <Div>
-        Hey there! We&apos;re{' '}
-        <a href="https://twitch.tv/jmnjams" target="_blank" rel="noopener noreferrer">
-          streaming our jam making process live right now.
-        </a>
-        Join us! The party is jammin&apos; (obviously).
-      </Div>
-    );
-  }
-  return (
-    <Div>
-      Hey there! We&apos;ll be{' '}
-      <a
-        href="https://www.facebook.com/events/536632563722084"
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        streaming our jam making process live Sunday 4/19 @ 6pm PST
-      </a>
-      . Join us! The party will be jammin&apos; (obviously).
-    </Div>
-  );
-};
 
 export const Home = () => {
   Modal.setAppElement('#app');
@@ -201,7 +161,7 @@ export const Home = () => {
           },
         }}
       >
-        <ModalContent />
+        <AlertMessage content="hello" />
         <Actions>
           <Button variant="secondary" onClick={() => setIsOpen(false)}>
             Dismiss
