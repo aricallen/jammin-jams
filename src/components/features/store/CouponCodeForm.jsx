@@ -4,7 +4,7 @@ import { startCase } from 'lodash';
 import { spacing, pallet } from '../../../constants/style-guide';
 import { Button } from '../../common/Button';
 import { Input } from '../../common/Forms';
-import { isResolved, isBusy } from '../../../redux/utils/meta-status';
+import { isResolved, isBusy } from '../../../utils/meta-status';
 
 const CouponMessage = styled('div')`
   margin-top: ${spacing.double}px;

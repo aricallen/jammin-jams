@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
 import { fetchSession } from '../../redux/session/actions';
-import { isResolved } from '../../redux/utils/meta-status';
+import { isResolved } from '../../utils/meta-status';
 import { Page } from '../features/admin/Page';
 import { isBetaTester } from '../../utils/beta-testing';
 

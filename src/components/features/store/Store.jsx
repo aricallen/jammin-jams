@@ -8,7 +8,7 @@ import { Spinner } from '../../common/Spinner';
 import { ProductItem } from './ProductItem';
 import { CartPreview } from './CartPreview';
 import { Content } from '../../common/Structure';
-import { isResolved } from '../../../redux/utils/meta-status';
+import { isResolved } from '../../../utils/meta-status';
 
 const Wrapper = styled('div')`
   display: grid;

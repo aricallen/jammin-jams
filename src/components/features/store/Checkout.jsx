@@ -14,7 +14,7 @@ import { Payment } from './Payment';
 import { CartPreview } from './CartPreview';
 import { CreateAccount } from './CreateAccount';
 import { createOne as createCheckoutSession } from '../../../redux/checkout-session/actions';
-import { isBusy, isResolved } from '../../../redux/utils/meta-status';
+import { isBusy, isResolved } from '../../../utils/meta-status';
 import { fetch as fetchAppMeta } from '../../../redux/app-meta/actions';
 import { isBetaTester } from '../../../utils/beta-testing';
 import * as SessionStorage from '../../../utils/session-storage';

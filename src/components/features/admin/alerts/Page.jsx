@@ -2,7 +2,7 @@ import React, { useEffect, Fragment, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { pick } from 'lodash';
 import styled from '@emotion/styled';
-import { isResolved } from '../../../../redux/utils/meta-status';
+import { isResolved } from '../../../../utils/meta-status';
 import { Spinner } from '../../../common/Spinner';
 import { fetch as fetchAppMeta, update as updateAppMeta } from '../../../../redux/app-meta/actions';
 import { Section } from '../../../common/Structure';

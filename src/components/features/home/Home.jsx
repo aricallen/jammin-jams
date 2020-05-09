@@ -1,15 +1,13 @@
 import React, { useState, useRef, useLayoutEffect } from 'react';
 import styled from '@emotion/styled';
-import Modal from 'react-modal';
 import { LogoFilled } from '../../common/LogoFilled';
 import { FullPageWrapper } from '../../common/Structure';
 import { CameraRoll } from '../../common/CameraRoll';
-import { Button } from '../../common/Button';
 import { AboutSwitcher } from './AboutSwitcher';
 import { HeroSection } from './HeroSection';
 import * as SessionStorage from '../../../utils/session-storage';
 import { NewsletterBlock } from '../../common/NewsletterBlock';
-import { AlertMessage } from '../../common/AlertMessage';
+import { AlertManager } from '../../common/AlertManager';
 import { media } from '../../../utils/media';
 import { spacing, pallet } from '../../../constants/style-guide';
 
@@ -94,14 +92,7 @@ const shouldAnimate = () => {
   return Date.now() > +disabledUntil;
 };
 
-const Actions = styled('div')`
-  display: flex;
-  justify-content: flex-end;
-`;
-
 export const Home = () => {
-  Modal.setAppElement('#app');
-  const [isOpen, setIsOpen] = useState(false);
   const [isBumping, setIsBumping] = useState(true);
   const [isAnimating, setIsAnimating] = useState(true);
   const heroRef = useRef();
@@ -144,30 +135,7 @@ export const Home = () => {
         </FullPageWrapper>
         <CameraRollSection />
       </MainContentWrapper>
-      <Modal
-        isOpen={isOpen}
-        onRequestClose={() => setIsOpen(false)}
-        contentLabel="Live Alert!"
-        style={{
-          content: {
-            zIndex: 1000,
-            margin: 'auto',
-            marginTop: '64px',
-            height: 'min-content',
-            maxWidth: '48%',
-          },
-          overlay: {
-            backgroundColor: 'rgba(0, 0, 0, 0.36)',
-          },
-        }}
-      >
-        <AlertMessage content="hello" />
-        <Actions>
-          <Button variant="secondary" onClick={() => setIsOpen(false)}>
-            Dismiss
-          </Button>
-        </Actions>
-      </Modal>
+      <AlertManager />
     </Wrapper>
   );
 };

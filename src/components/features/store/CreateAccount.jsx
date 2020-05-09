@@ -8,7 +8,7 @@ import { Spinner } from '../../common/Spinner';
 import { Button } from '../../common/Button';
 import { Emphasis } from '../../common/Structure';
 import { spacing } from '../../../constants/style-guide';
-import * as MetaStatus from '../../../redux/utils/meta-status';
+import * as MetaStatus from '../../../utils/meta-status';
 import { fetchSession } from '../../../redux/session/actions';
 import { createOne as createUser } from '../../../redux/users/actions';
 

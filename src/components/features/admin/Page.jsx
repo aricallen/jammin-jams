@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Sidebar } from './Sidebar';
 import { spacing } from '../../../constants/style-guide';
 import { Content } from '../../common/Structure';
-import { isResolved } from '../../../redux/utils/meta-status';
+import { isResolved } from '../../../utils/meta-status';
 import { Spinner } from '../../common/Spinner';
 
 const TOOLBAR_WIDTH = spacing.quadruple * 3;
