@@ -6,7 +6,7 @@ import { Button } from '../../common/Button';
 import { spacing } from '../../../constants/style-guide';
 import { media } from '../../../utils/media';
 import { logInUser } from '../../../redux/session/actions';
-import { isBusy } from '../../../redux/utils/meta-status';
+import { isBusy } from '../../../utils/meta-status';
 
 const Wrapper = styled('div')`
   width: 100%;

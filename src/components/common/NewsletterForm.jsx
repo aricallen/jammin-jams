@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from './Button';
 import { Input, FormError } from './Forms';
-import { isBusy, isResolved } from '../../redux/utils/meta-status';
+import { isBusy, isResolved } from '../../utils/meta-status';
 import { addMember } from '../../redux/email/actions';
 import { spacing } from '../../constants/style-guide';
 

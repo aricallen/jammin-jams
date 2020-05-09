@@ -6,7 +6,7 @@ import { Article } from '../../common/Article';
 import { Section, Header1 } from '../../common/Structure';
 import { ArticleImage } from '../../common/ArticleImage';
 import { fetchPostContent } from '../../../redux/posts/actions';
-import * as MetaStatus from '../../../redux/utils/meta-status';
+import * as MetaStatus from '../../../utils/meta-status';
 import { Spinner } from '../../common/Spinner';
 import { spacing } from '../../../constants/style-guide';
 import { PostsNav } from './PostsNav';

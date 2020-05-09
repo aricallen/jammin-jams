@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import styled from '@emotion/styled';
 import { media } from '../../utils/media';
 import { spacing } from '../../constants/style-guide';
-import * as MetaStatus from '../../redux/utils/meta-status';
+import * as MetaStatus from '../../utils/meta-status';
 import { fetchMany } from '../../redux/camera-roll/actions';
 import { Spinner } from './Spinner';
 

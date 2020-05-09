@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { fetchMany as fetchManyPosts } from '../../../redux/posts/actions';
-import * as MetaStatus from '../../../redux/utils/meta-status';
+import * as MetaStatus from '../../../utils/meta-status';
 import { DisabledLink } from '../../common/Links';
 import { getPostLink } from '../../../utils/post-helpers';
 import { Spinner } from '../../common/Spinner';
