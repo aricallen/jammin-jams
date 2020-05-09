@@ -4,8 +4,7 @@ import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Blurb } from './Blurb';
 import { fetchMany as fetchPosts } from '../../../redux/posts/actions';
-import { isResolved, isBusy, isInitial } from '../../../utils/meta-status';
-import { Spinner } from '../../common/Spinner';
+import { isInitial } from '../../../utils/meta-status';
 import { Emoji, Emphasis } from '../../common/Structure';
 import { spacing } from '../../../constants/style-guide';
 import { isLive } from '../../../utils/post-helpers';
@@ -22,7 +21,7 @@ const Message = styled('div')`
 const BlurbIntro = () => {
   return (
     <BlurbIntroText>
-      Here is the latest from <Link to="/posts">Jam Journeys</Link> featuring the latest{' '}
+      Here is the latest from <Link to="/jam-journeys">Jam Journeys</Link> featuring the latest{' '}
       <Link to="/store">Jam of the Month</Link> DJ set. <br />
       Enjoy <Emoji label="headphones">🎧</Emoji>.
     </BlurbIntroText>

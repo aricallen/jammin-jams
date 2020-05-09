@@ -59,7 +59,7 @@ const staticPostServer = async (req, res, next) => {
     const post = await getRecord(conn, 'posts', postId);
     const ogData = {
       ogTitle: post.title,
-      ogUrl: getUrl(`/posts/${postId}`),
+      ogUrl: getUrl(`/jam-journeys/${postId}`),
       ogImage: await getImageUrl(conn, post.uploadsId),
     };
     res.send(getCompiledIndex(ogData));
@@ -73,7 +73,7 @@ const staticPostServer = async (req, res, next) => {
 /**
  * root or index.html
  */
-router.use('/posts/:postId', staticPostServer);
+router.use('/jam-journeys/:postId', staticPostServer);
 router.use(indexMiddleware);
 
 /**

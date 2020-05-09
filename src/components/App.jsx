@@ -74,8 +74,8 @@ export const App = () => {
           <Route exact path="/about/faqs" component={FreqAsked} />
           <Route exact path="/about" component={About} />
 
-          <Route exact path="/posts/:postId" component={BlogPost} />
-          <Route exact path="/posts" component={Blog} />
+          <Route exact path="/jam-journeys/:postId" component={BlogPost} />
+          <Route exact path="/jam-journeys" component={Blog} />
 
           <Route exact path="/account/sign-in" component={SignIn} />
           <Route exact path="/account/sign-out" component={SignOut} />
