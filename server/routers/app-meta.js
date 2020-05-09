@@ -1,5 +1,5 @@
 const express = require('express');
-const { getConnection, getRecords, getRecordBy, upsertRecordBy } = require('../utils/db-helpers');
+const { getConnection, getRecords, upsertRecordBy } = require('../utils/db-helpers');
 
 const router = express.Router();
 
@@ -33,7 +33,7 @@ router.post('/', async (req, res) => {
   const entries = Object.entries(data);
   for (const entry of entries) {
     const [key, value] = entry;
-    await upsertRecordBy(conn, 'appMeta', 'key', key, { value });
+    await upsertRecordBy(conn, 'appMeta', 'key', key, { key, value });
   }
   const all = await getRecords(conn, 'appMeta');
   res.send({

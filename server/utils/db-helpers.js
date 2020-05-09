@@ -94,11 +94,11 @@ const updateRecord = async (conn, tableName, resourceId, values) => {
 const updateRecordBy = async (conn, tableName, whereKey, whereValue, values) => {
   try {
     await conn.query(
-      `UPDATE ${tableName} SET ? WHERE ${whereKey} = ${whereValue}`,
+      `UPDATE ${tableName} SET ? WHERE \`${whereKey}\` = ${whereValue}`,
       omit(values, ['id', 'dateCreated', 'dateModified'])
     );
     const updated = await conn.query(
-      `SELECT * FROM ${tableName} WHERE ${whereKey} = ${whereValue}`
+      `SELECT * FROM ${tableName} WHERE \`${whereKey}\` = ${whereValue}`
     );
     return updated[0];
   } catch (err) {
@@ -121,7 +121,7 @@ const insertRecord = async (conn, tableName, values) => {
 const upsertRecord = async (conn, tableName, values, uniqueBy = 'id') => {
   // check for existance first
   const existing = await conn.query(
-    `SELECT * FROM ${tableName} WHERE ${uniqueBy} = ?`,
+    `SELECT * FROM ${tableName} WHERE \`${uniqueBy}\` = ?`,
     values[uniqueBy]
   );
   if (existing.length > 0) {
@@ -130,13 +130,13 @@ const upsertRecord = async (conn, tableName, values, uniqueBy = 'id') => {
   return insertRecord(conn, tableName, values);
 };
 
-const upsertRecordBy = async (conn, tableName, key, value, updatedValue) => {
+const upsertRecordBy = async (conn, tableName, key, value, updatedValues) => {
   // check for existance first
-  const existing = await conn.query(`SELECT * FROM ${tableName} WHERE ${key} = ?`, value);
+  const existing = await conn.query(`SELECT * FROM ${tableName} WHERE \`${key}\` = ?`, value);
   if (existing.length > 0) {
-    return updateRecord(conn, tableName, existing[0].id, { value: updatedValue });
+    return updateRecord(conn, tableName, existing[0].id, updatedValues);
   }
-  return insertRecord(conn, tableName, { value: updatedValue });
+  return insertRecord(conn, tableName, updatedValues);
 };
 
 const deleteRecord = async (conn, tableName, resourceId) => {
@@ -145,7 +145,7 @@ const deleteRecord = async (conn, tableName, resourceId) => {
     if (!existing) {
       throw new Error(`Unknown '${tableName}' record with id '${resourceId}'`);
     }
-    const result = await conn.query(`DELETE FROM ${tableName} WHERE id = ?`, [resourceId]);
+    const result = await conn.query(`DELETE FROM ${tableName} WHERE \`id\` = ?`, [resourceId]);
     if (result.affectedRows) {
       return existing;
     }

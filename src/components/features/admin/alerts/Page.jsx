@@ -1,6 +1,7 @@
 import React, { useEffect, Fragment, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { pick } from 'lodash';
+import styled from '@emotion/styled';
 import { isResolved } from '../../../../redux/utils/meta-status';
 import { Spinner } from '../../../common/Spinner';
 import { fetch as fetchAppMeta, update as updateAppMeta } from '../../../../redux/app-meta/actions';
@@ -9,6 +10,15 @@ import { Header } from '../Header';
 import { Button } from '../../../common/Button';
 import { AlertMessage } from '../../../common/AlertMessage';
 import { TextArea, Label, FormInput } from '../../../common/Forms';
+import { boxShadow } from '../../../../utils/style-helpers';
+import { spacing, pallet } from '../../../../constants/style-guide';
+
+const PreviewWrapper = styled('div')`
+  width: 50%;
+  margin: auto;
+  padding: ${spacing.double}px;
+  box-shadow: ${boxShadow(pallet.light.charcoal)};
+`;
 
 export const Page = () => {
   const dispatch = useDispatch();
@@ -54,12 +64,15 @@ export const Page = () => {
         <TextArea
           name="alertMessage"
           value={values.alertMessage || ''}
+          rows={10}
           onChange={handleChange('alertMessage')}
         />
       </Section>
       <Section>
         <Label>Alert Preview</Label>
-        <AlertMessage content={values.alertMessage} />
+        <PreviewWrapper>
+          <AlertMessage content={values.alertMessage} />
+        </PreviewWrapper>
       </Section>
     </Fragment>
   );
