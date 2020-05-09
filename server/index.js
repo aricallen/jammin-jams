@@ -8,11 +8,11 @@ const { notify } = require('./middleware/notify');
 const { router: apiRouter } = require('./routers/api');
 const { router: staticRouter } = require('./routers/static');
 
-const { TARGET_ENV, SENTRY_PUBLIC_KEY, SENTRY_PROJECT_ID } = process.env;
+const { TARGET_ENV, SENTRY_URL } = process.env;
 
 if (TARGET_ENV === 'production') {
   const Sentry = require('@sentry/node');
-  const dsn = `https://${SENTRY_PUBLIC_KEY}@sentry.io/${SENTRY_PROJECT_ID}`;
+  const dsn = SENTRY_URL;
   Sentry.init({ dsn });
 }
 
