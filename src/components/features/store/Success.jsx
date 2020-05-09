@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { Redirect, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Content, Header2 } from '../../common/Structure';
-import * as MetaStatus from '../../../redux/utils/meta-status';
+import * as MetaStatus from '../../../utils/meta-status';
 import { updateOne as updateUser } from '../../../redux/users/actions';
 import { Spinner } from '../../common/Spinner';
 import { Button } from '../../common/Button';

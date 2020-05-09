@@ -1,4 +1,4 @@
-import { MetaStatus } from '../../constants/meta-status';
+import { MetaStatus } from '../constants/meta-status';
 
 export const isResolved = (metaState) => {
   return metaState.status === MetaStatus.RESOLVED;

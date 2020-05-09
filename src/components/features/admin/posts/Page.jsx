@@ -1,7 +1,7 @@
 import React, { useEffect, Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
-import { isResolved } from '../../../../redux/utils/meta-status';
+import { isResolved } from '../../../../utils/meta-status';
 import { Spinner } from '../../../common/Spinner';
 import { fetchMany } from '../../../../redux/posts/actions';
 import { Section } from '../../../common/Structure';

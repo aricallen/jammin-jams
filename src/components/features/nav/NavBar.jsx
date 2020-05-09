@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { sizes, pallet, spacing } from '../../../constants/style-guide';
-import { isInitial } from '../../../redux/utils/meta-status';
+import { isInitial } from '../../../utils/meta-status';
 import { fetchSession } from '../../../redux/session/actions';
 import CartIcon from '../../../assets/icons/shopping_cart.svg';
 import { DesktopOnly, MobileOnly } from '../../common/Structure';

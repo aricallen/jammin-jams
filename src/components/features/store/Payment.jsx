@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
 import { sum } from 'lodash';
-import { isResolved, isErrored, isInitial } from '../../../redux/utils/meta-status';
+import { isResolved, isErrored, isInitial } from '../../../utils/meta-status';
 import { fetchCoupon } from '../../../redux/coupons/actions';
 import { formatAmount } from '../../../utils/format-helpers';
 import { CouponCodeForm } from './CouponCodeForm';

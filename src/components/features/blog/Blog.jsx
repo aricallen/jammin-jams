@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchMany as fetchPosts } from '../../../redux/posts/actions';
-import { isBusy, isInitial } from '../../../redux/utils/meta-status';
+import { isBusy, isInitial } from '../../../utils/meta-status';
 import { Spinner } from '../../common/Spinner';
 import { Blurb } from './Blurb';
 import { Header1, Emoji } from '../../common/Structure';
