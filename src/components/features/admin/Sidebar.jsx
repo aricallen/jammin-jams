@@ -6,6 +6,7 @@ import PostsIcon from '../../../assets/icons/web.svg';
 import BuildIcon from '../../../assets/icons/build.svg';
 import QrCode from '../../../assets/icons/memory.svg';
 import WallpaperIcon from '../../../assets/icons/wallpaper.svg';
+import AlertIcon from '../../../assets/icons/announcement.svg';
 
 const Wrapper = styled('div')`
   height: 100%;
@@ -74,7 +75,7 @@ const TOOLBAR_ITEMS = [
   },
   {
     text: 'Alerts',
-    Icon: QrCode,
+    Icon: AlertIcon,
     path: '/admin/alerts',
   },
 ];

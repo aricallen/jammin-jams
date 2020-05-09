@@ -1,4 +1,5 @@
 const express = require('express');
+const { omit } = require('lodash');
 const { getConnection, getRecords, upsertRecordBy } = require('../utils/db-helpers');
 
 const router = express.Router();
@@ -18,7 +19,7 @@ router.get('/', async (req, res) => {
   }, {});
   res.send({
     data: {
-      ...appMeta,
+      ...omit(appMeta, ['maxSubscribers']),
       isFull: users.length >= +maxSubscribers.value,
     },
   });
