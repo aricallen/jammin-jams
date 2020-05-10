@@ -5,6 +5,7 @@ import { Header1, Emphasis, UnorderedList, ListItem } from '../../common/Structu
 import { Article } from '../../common/Article';
 import { spacing, border } from '../../../constants/style-guide';
 import { fontSizes } from '../../../utils/style-helpers';
+import { MetaTags } from '../../common/MetaTags';
 
 const SignUp = () => (
   <Fragment>
@@ -102,6 +103,11 @@ const ContentHeader = styled(Header1)`
 const HowItWorksMiddle = () => {
   return (
     <Fragment>
+      <MetaTags
+        title="How It Works"
+        description="Sign up for our jam subscription service and wait for sweet and tarty goodness to come straight to you."
+        path="/about/how-it-works"
+      />
       <ContentHeader>How It Works</ContentHeader>
       <ContentList />
     </Fragment>

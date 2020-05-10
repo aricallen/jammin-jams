@@ -4,10 +4,8 @@ import { Route, Redirect } from 'react-router-dom';
 import { fetchSession } from '../../redux/session/actions';
 import { isResolved } from '../../utils/meta-status';
 import { Page } from '../features/admin/Page';
+import { Spinner } from './Spinner';
 import { isBetaTester } from '../../utils/beta-testing';
-
-const { TARGET_ENV } = process.env;
-const IS_PRODUCTION = TARGET_ENV === 'production';
 
 const renderRouteComponent = (routeProps, Component) => {
   return (
@@ -18,7 +16,7 @@ const renderRouteComponent = (routeProps, Component) => {
 };
 
 const handleRouting = (routeProps, Component, sessionState) => {
-  if (isResolved(sessionState.meta) && !sessionState.data.user && !isBetaTester()) {
+  if (!sessionState.data.user && !isBetaTester()) {
     return (
       <Redirect
         to={{
@@ -29,7 +27,7 @@ const handleRouting = (routeProps, Component, sessionState) => {
     );
   }
 
-  if (isResolved(sessionState.meta) && !sessionState.data.user?.isAdmin && !isBetaTester()) {
+  if (!sessionState.data.user?.isAdmin && !isBetaTester()) {
     return (
       <Redirect
         to={{
@@ -53,6 +51,10 @@ export const AdminRoute = ({ component: Component, ...rest }) => {
     }
   };
   useEffect(fetch, []);
+
+  if (!isResolved(sessionState.meta)) {
+    return <Spinner variant="large" />;
+  }
 
   return (
     <Route {...rest} render={(routeProps) => handleRouting(routeProps, Component, sessionState)} />

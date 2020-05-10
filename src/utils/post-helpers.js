@@ -1,8 +1,8 @@
 /**
- * currently will be `/posts/${post.id}` but may change later to a date or live date etc.
+ * currently will be `/jam-journeys/${post.id}` but may change later to a date or live date etc.
  */
 export const getPostLink = (post) => {
-  return `/posts/${post?.id}`;
+  return `/jam-journeys/${post?.id}`;
 };
 
 const PostStatus = {

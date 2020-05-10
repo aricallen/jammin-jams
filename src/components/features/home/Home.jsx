@@ -8,6 +8,7 @@ import { HeroSection } from './HeroSection';
 import * as SessionStorage from '../../../utils/session-storage';
 import { NewsletterBlock } from '../../common/NewsletterBlock';
 import { AlertManager } from '../../common/AlertManager';
+import { MetaTags } from '../../common/MetaTags';
 import { media } from '../../../utils/media';
 import { spacing, pallet } from '../../../constants/style-guide';
 
@@ -70,6 +71,17 @@ const CameraRollSection = () => {
   );
 };
 
+const DefaultMetaTags = () => {
+  return (
+    <MetaTags
+      title="Jammin' Jams | Jam. Music. Delivered | Jam Subscription Service"
+      description="Jam. Music. Delivered. Celebrating all that is happy in life by doing what we love: transform the best seasonal fruits into sweet-tart-oh-so-tasty jam through the power of high heat and bass."
+      path="/"
+      ogImage="/assets/images/logo-pink.png"
+    />
+  );
+};
+
 const SignUpSection = styled('div')`
   width: 50%;
   margin: 0 auto;
@@ -114,6 +126,7 @@ export const Home = () => {
   if (shouldAnimate() && isAnimating) {
     return (
       <Wrapper>
+        <DefaultMetaTags />
         <AnimatedLogo ref={heroRef} className={isBumping ? 'is-bumping' : 'done-bumping'}>
           <LogoWrapper>
             <LogoFilled className="grooving" />
@@ -126,6 +139,7 @@ export const Home = () => {
   return (
     <Wrapper>
       <MainContentWrapper>
+        <DefaultMetaTags />
         <HeroSection />
         <FullPageWrapper>
           <AboutSwitcher />

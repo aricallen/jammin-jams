@@ -4,6 +4,7 @@ import { Section, Paragraph, Emoji, Emphasis } from '../../common/Structure';
 import { font, spacing } from '../../../constants/style-guide';
 import { fontSizes } from '../../../utils/style-helpers';
 import { Article } from '../../common/Article';
+import { MetaTags } from '../../common/MetaTags';
 
 const Question = styled('h4')`
   ${fontSizes('regular')}
@@ -19,6 +20,11 @@ const MailToLink = () => {
 export const Questions = () => {
   return (
     <Fragment>
+      <MetaTags
+        title="FAQs"
+        description="Learn more about our jam subscription service, and why we do what we do."
+        path="/about/faqs"
+      />
       <Section style={{ marginTop: 0 }}>
         <Question>I want to change my subscription delivery frequency.</Question>
         <Question>I am moving! Will you deliver to my new address?!</Question>

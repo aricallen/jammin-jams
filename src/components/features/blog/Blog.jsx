@@ -10,6 +10,7 @@ import { Header1, Emoji } from '../../common/Structure';
 import { Article } from '../../common/Article';
 import { spacing } from '../../../constants/style-guide';
 import { isLive } from '../../../utils/post-helpers';
+import { MetaTags } from '../../common/MetaTags';
 
 const Wrapper = styled('div')``;
 const IntroText = styled('div')`
@@ -21,7 +22,7 @@ const Intro = () => {
     <Fragment>
       <Header1>Jam Journeys</Header1>
       <IntroText>
-        Here is the latest from <Link to="/posts">Jam Journeys</Link> featuring the latest{' '}
+        Here is the latest from <Link to="/jam-journeys">Jam Journeys</Link> featuring the latest{' '}
         <Link to="/store">Jam of the Month</Link> DJ set. <br />
         Enjoy <Emoji label="headphones">🎧</Emoji>.
       </IntroText>
@@ -50,6 +51,11 @@ export const Blog = () => {
     <Article
       Middle={() => (
         <Wrapper>
+          <MetaTags
+            title="#jamjourneys Blog"
+            description="Follow along with us as we chronicle our journeys with jam and music. Get a link to the latest DJ set recorded while making our Jam of the Month."
+            path="/jam-journeys"
+          />
           <Intro />
           {livePosts.map((post) => (
             <Blurb key={post.id} post={post} />
