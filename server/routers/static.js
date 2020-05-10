@@ -59,7 +59,7 @@ const getAssetData = () => {
 
 const indexMiddleware = async (req, res, next) => {
   const { originalUrl } = req;
-  if (originalUrl === '/' || originalUrl === 'index.html') {
+  if (/\.[a-z0-9]{1,5}$/.test(originalUrl) === false) {
     const data = {
       ...DEFAULT_OG_DATA,
       ...getAssetData(),
@@ -93,7 +93,7 @@ const staticPostServer = async (req, res, next) => {
  * root or index.html
  */
 router.use('/jam-journeys/:postId', staticPostServer);
-router.use(indexMiddleware);
+router.use('/', indexMiddleware);
 
 /**
  * default file server for assets etc
