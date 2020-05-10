@@ -10,5 +10,7 @@ cp -R src/styles dist/
 cp -R server $BUILD_DIR/
 cp -R dist $BUILD_DIR/src
 cp Procfile $BUILD_DIR/
+cp src/robots.txt $BUILD_DIR/
+cp src/sitemap.xml $BUILD_DIR/
 cp scripts/_package.json $BUILD_DIR/package.json
 set +x
