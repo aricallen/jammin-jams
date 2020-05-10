@@ -11,6 +11,9 @@ import { Spinner } from '../../common/Spinner';
 import { spacing } from '../../../constants/style-guide';
 import { PostsNav } from './PostsNav';
 import { SoundcloudPlayer } from '../../common/SoundcloudPlayer';
+import { getPostLink, getExcerpt } from '../../../utils/post-helpers';
+import { getMediumUploadSrc } from '../../../utils/upload-helpers';
+import { MetaTags } from '../../common/MetaTags';
 
 const Wrapper = styled('div')``;
 
@@ -30,8 +33,18 @@ const PostContent = ({ post, upload, isBusy }) => {
     return <Spinner variant="large" />;
   }
 
+  const metaTitle = `#jamjourneys - ${post?.title || ''}`;
+  const metaDescription = getExcerpt(post);
+  const path = getPostLink(post);
+
   return (
     <Wrapper>
+      <MetaTags
+        title={metaTitle}
+        description={metaDescription}
+        path={path}
+        ogImage={upload && getMediumUploadSrc(upload)}
+      />
       <Header1 className="staatliches">#jamjourneys</Header1>
       {upload && (
         <HeroImageWrapper>

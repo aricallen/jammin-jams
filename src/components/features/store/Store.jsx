@@ -8,6 +8,7 @@ import { Spinner } from '../../common/Spinner';
 import { ProductItem } from './ProductItem';
 import { CartPreview } from './CartPreview';
 import { Content } from '../../common/Structure';
+import { MetaTags } from '../../common/MetaTags';
 import { isResolved } from '../../../utils/meta-status';
 
 const Wrapper = styled('div')`
@@ -52,6 +53,11 @@ export const Store = ({ history }) => {
 
   return (
     <Wrapper hasCart={cart.length > 0}>
+      <MetaTags
+        title="Jam Store"
+        description="Sign up for our jam subscription service. Special jam every month delivered to your mouth."
+        path="/about/faqs"
+      />
       <List>
         {products.map((product) => (
           <ProductItem

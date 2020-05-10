@@ -55,7 +55,7 @@ export const PostsNav = ({ currentPostId }) => {
     <Wrapper>
       <NavLink post={prevPost} text="View Previous" />
       <LinkWrapper>
-        <Link to="/posts">View All</Link>
+        <Link to="/jam-journeys">View All</Link>
       </LinkWrapper>
       <NavLink post={nextPost} text="View Next" />
     </Wrapper>

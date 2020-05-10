@@ -48,7 +48,7 @@ const MobileListPortal = styled('div')``;
 const NAV_ITEMS = [
   {
     text: 'Blog',
-    path: '/posts',
+    path: '/jam-journeys',
   },
   {
     text: 'How It Works',

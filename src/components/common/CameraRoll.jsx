@@ -33,7 +33,9 @@ const ImageWrapper = styled('div')`
   }
 `;
 
-const Image = styled('img')``;
+const Image = styled('img')`
+  object-fit: cover;
+`;
 
 const getImgUrls = (cameraRollState) => {
   if (cameraRollState.meta.error) {
