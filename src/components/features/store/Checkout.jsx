@@ -141,7 +141,7 @@ export const Checkout = () => {
   const cart = useSelector((state) => state.cart.data);
   const checkoutSessionState = useSelector((state) => state.checkoutSession);
   const couponsState = useSelector((state) => state.coupons);
-  const appMetaState = useSelector((state) => state.appStatus);
+  const appMetaState = useSelector((state) => state.appMeta);
   const dispatch = useDispatch();
   const activeIndex = SECTIONS.findIndex((section) => section === activeSection);
 
