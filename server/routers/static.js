@@ -59,7 +59,7 @@ const getAssetData = () => {
 
 const indexMiddleware = async (req, res, next) => {
   const { originalUrl } = req;
-  if (/\.[a-z0-9]{1,5}$/.test(originalUrl) === false) {
+  if (/\.[a-zA-Z0-9]{1,5}$/.test(originalUrl) === false) {
     const data = {
       ...DEFAULT_OG_DATA,
       ...getAssetData(),
