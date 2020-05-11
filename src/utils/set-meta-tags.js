@@ -11,7 +11,7 @@ let _loadedPagesMeta = null;
  * sets meta tags for currently viewed page according to records in db
  * @param {String} pageUrl e.g. /p/about
  */
-export const setMetaTags = async (pageUrl) => {
+export const setMetaTags = async (pageUrl, overrides = {}) => {
   // already set pageUrl
   if (_lastUpdatedUrl === pageUrl) {
     return;
@@ -34,7 +34,8 @@ export const setMetaTags = async (pageUrl) => {
     console.error('no page record for index');
   }
 
-  const { title, description, image, url } = pageRecord;
+  const combinedRecord = { ...pageRecord, ...overrides };
+  const { title, description, image, url } = combinedRecord;
   document.head.querySelector('title').innerText = title;
 
   document.head.querySelector('meta[property="og:title"]').setAttribute('content', title);

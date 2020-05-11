@@ -8,7 +8,7 @@ import { Spinner } from '../../common/Spinner';
 import { ProductItem } from './ProductItem';
 import { CartPreview } from './CartPreview';
 import { Content } from '../../common/Structure';
-import { MetaTags } from '../../common/MetaTags';
+import { setMetaTags } from '../../../utils/set-meta-tags';
 import { isResolved } from '../../../utils/meta-status';
 
 const Wrapper = styled('div')`

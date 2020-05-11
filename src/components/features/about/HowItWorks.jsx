@@ -1,12 +1,12 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { Header1, Emphasis, UnorderedList, ListItem } from '../../common/Structure';
 import { Article } from '../../common/Article';
 import { spacing, border } from '../../../constants/style-guide';
 import { fontSizes } from '../../../utils/style-helpers';
-import { MetaTags } from '../../common/MetaTags';
 import { media } from '../../../utils/media';
+import { setMetaTags } from '../../../utils/set-meta-tags';
 
 const SignUp = () => (
   <Fragment>
@@ -104,13 +104,11 @@ const ContentHeader = styled(Header1)`
 `;
 
 const HowItWorksMiddle = () => {
+  useEffect(() => {
+    setMetaTags('/p/about/how-it-works');
+  }, []);
   return (
     <Fragment>
-      <MetaTags
-        title="How It Works"
-        description="Sign up for our jam subscription service and wait for sweet and tarty goodness to come straight to you."
-        path="/about/how-it-works"
-      />
       <ContentHeader>How It Works</ContentHeader>
       <ContentList />
     </Fragment>

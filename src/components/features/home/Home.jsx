@@ -1,4 +1,4 @@
-import React, { useState, useRef, useLayoutEffect } from 'react';
+import React, { useState, useRef, useLayoutEffect, useEffect } from 'react';
 import styled from '@emotion/styled';
 import { LogoFilled } from '../../common/LogoFilled';
 import { FullPageWrapper, MobileOnly } from '../../common/Structure';
@@ -9,7 +9,7 @@ import { ButtonLink } from '../../common/Links';
 import * as SessionStorage from '../../../utils/session-storage';
 import { NewsletterBlock } from '../../common/NewsletterBlock';
 import { AlertManager } from '../../common/AlertManager';
-import { MetaTags } from '../../common/MetaTags';
+import { setMetaTags } from '../../../utils/set-meta-tags';
 import { media } from '../../../utils/media';
 import { spacing, pallet } from '../../../constants/style-guide';
 
@@ -72,17 +72,6 @@ const CameraRollSection = () => {
   );
 };
 
-const DefaultMetaTags = () => {
-  return (
-    <MetaTags
-      title="Jmn Jams | Jam. Music. Delivered | Jam Subscription Service"
-      description="Jam. Music. Delivered. Celebrating all that is happy in life by doing what we love: transform the best seasonal fruits into sweet-tart-oh-so-tasty jam through the power of high heat and bass."
-      path="/"
-      ogImage="/assets/images/logo-pink.png"
-    />
-  );
-};
-
 const SignUpSection = styled('div')`
   width: 50%;
   margin: 0 auto;
@@ -122,6 +111,10 @@ export const Home = () => {
   const [isAnimating, setIsAnimating] = useState(true);
   const heroRef = useRef();
 
+  useEffect(() => {
+    setMetaTags('/');
+  }, []);
+
   const initAnimationListeners = () => {
     if (shouldAnimate()) {
       heroRef.current.addEventListener('animationend', () => {
@@ -139,7 +132,6 @@ export const Home = () => {
   if (shouldAnimate() && isAnimating) {
     return (
       <Wrapper>
-        <DefaultMetaTags />
         <AnimatedLogo ref={heroRef} className={isBumping ? 'is-bumping' : 'done-bumping'}>
           <LogoWrapper>
             <LogoFilled className="grooving" />
@@ -152,7 +144,6 @@ export const Home = () => {
   return (
     <Wrapper>
       <MainContentWrapper>
-        <DefaultMetaTags />
         <HeroSection />
         <FullPageWrapper>
           <MobileOnly>

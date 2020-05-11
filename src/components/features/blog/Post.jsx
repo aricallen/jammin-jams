@@ -13,7 +13,7 @@ import { PostsNav } from './PostsNav';
 import { SoundcloudPlayer } from '../../common/SoundcloudPlayer';
 import { getPostLink, getExcerpt } from '../../../utils/post-helpers';
 import { getMediumUploadSrc } from '../../../utils/upload-helpers';
-import { MetaTags } from '../../common/MetaTags';
+import { setMetaTags } from '../../../utils/set-meta-tags';
 
 const Wrapper = styled('div')``;
 
@@ -33,18 +33,16 @@ const PostContent = ({ post, upload, isBusy }) => {
     return <Spinner variant="large" />;
   }
 
-  const metaTitle = `#jamjourneys - ${post?.title || ''}`;
-  const metaDescription = getExcerpt(post);
-  const path = getPostLink(post);
+  const title = `#jamjourneys - ${post?.title || ''}`;
+  const desciption = getExcerpt(post);
+  const url = getPostLink(post);
+  const image = upload && getMediumUploadSrc(upload);
+  useEffect(() => {
+    setMetaTags(url, { title, desciption, url, image });
+  }, []);
 
   return (
     <Wrapper>
-      <MetaTags
-        title={metaTitle}
-        description={metaDescription}
-        path={path}
-        ogImage={upload && getMediumUploadSrc(upload)}
-      />
       <Header1 className="staatliches">#jamjourneys</Header1>
       {upload && (
         <HeroImageWrapper>
