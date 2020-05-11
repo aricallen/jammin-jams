@@ -16,7 +16,7 @@ const DEFAULT_TITLE = `Jmn Jams | Jam. Music. Delivered | Jam Subscription Servi
 const DEFAULT_URL = 'https://jmnjams.com';
 const DEFAULT_IMAGE = 'https://jmnjams.com/assets/images/logo-pink.png';
 const DEFAULT_DESCRIPTION =
-  'Sign up for a Oakland based Jam Subscription Service. We transform the best seasonal fruits into sweet & tasty jam through the power of high heat and bass.';
+  'Oakland based Jam Subscription Service. We transform the best seasonal fruits into sweet & tasty jam through the power of high heat and bass.';
 
 const DEFAULT_DATA = {
   title: DEFAULT_TITLE,
@@ -94,10 +94,12 @@ const staticPostServer = async (req, res, next) => {
 };
 
 /**
- * root or index.html
+ * pages with meta data associated
  */
 router.use('/jam-journeys/:postId', staticPostServer);
 router.use('/p/*', staticPageServer);
+router.use('/', staticPageServer);
+router.use('/index.html', staticPageServer);
 
 /**
  * default file server for assets etc

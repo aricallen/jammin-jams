@@ -26,7 +26,7 @@ const SignUp = () => (
 const Delivery = () => (
   <Fragment>
     You will receive an email that notifies you of the upcoming delivery at least one week in
-    advance - We also have a <Link to="/about/delivery-calendar">delivery calendar</Link> you can
+    advance - We also have a <Link to="/p/about/delivery-calendar">delivery calendar</Link> you can
     access any time.
   </Fragment>
 );

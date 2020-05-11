@@ -126,7 +126,7 @@ export const Success = ({ location }) => {
 
   // landed on page without session data returned from checkout
   if (MetaStatus.isResolved(sessionState.meta) && !checkoutData) {
-    return <Redirect to="/store" />;
+    return <Redirect to="/p/store" />;
   }
 
   // still processing

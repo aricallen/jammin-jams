@@ -33,6 +33,10 @@ export const Store = ({ history }) => {
   };
   useEffect(fetch, []);
 
+  useEffect(() => {
+    setMetaTags('/store');
+  }, []);
+
   const onAddItem = (item) => {
     dispatch(addToCart(item));
   };
@@ -53,11 +57,6 @@ export const Store = ({ history }) => {
 
   return (
     <Wrapper hasCart={cart.length > 0}>
-      <MetaTags
-        title="Jam Store"
-        description="Sign up for our jam subscription service. Special jam every month delivered to your mouth."
-        path="/about/faqs"
-      />
       <List>
         {products.map((product) => (
           <ProductItem

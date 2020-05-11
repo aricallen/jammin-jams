@@ -52,11 +52,11 @@ const NAV_ITEMS = [
   },
   {
     text: 'How It Works',
-    path: '/about/how-it-works',
+    path: '/p/about/how-it-works',
   },
   {
     text: 'FAQs',
-    path: '/about/faqs',
+    path: '/p/about/faqs',
   },
   {
     text: 'Store',

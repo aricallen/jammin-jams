@@ -64,22 +64,14 @@ export const App = () => {
       <Router basename="/">
         <NavBar />
         <Switch>
-          <Route exact path="/waitlist" component={Waitlist} />
-          <Route exact path="/thank-you" component={ThankYou} />
-          <Route exact path="/at-capacity" component={AtCapacity} />
-          <Route exact path="/covid-waitlist" component={CovidWaitlist} />
+          <Route exact path="/p/waitlist" component={Waitlist} />
+          <Route exact path="/p/at-capacity" component={AtCapacity} />
+          <Route exact path="/p/covid-waitlist" component={CovidWaitlist} />
 
-          <Route exact path="/about/how-it-works" component={HowItWorks} />
-          <Route exact path="/about/delivery-calendar" component={DeliveryCalendar} />
-          <Route exact path="/about/faqs" component={FreqAsked} />
-          <Route exact path="/about" component={About} />
-
-          <Route exact path="/jam-journeys/:postId" component={BlogPost} />
-          <Route exact path="/jam-journeys" component={Blog} />
-
-          <Route exact path="/account/sign-in" component={SignIn} />
-          <Route exact path="/account/sign-out" component={SignOut} />
-          <Route exact path="/account/orders" component={Orders} />
+          <Route exact path="/p/about/how-it-works" component={HowItWorks} />
+          <Route exact path="/p/about/delivery-calendar" component={DeliveryCalendar} />
+          <Route exact path="/p/about/faqs" component={FreqAsked} />
+          <Route exact path="/p/about" component={About} />
 
           {isBetaTester() && <Route exact path="/store" component={Store} />}
           {isBetaTester() && <Route exact path="/store/checkout" component={Checkout} />}
@@ -87,8 +79,15 @@ export const App = () => {
           {isBetaTester() && <Route exact path="/store/cancel" component={Cancel} />}
           {/* non beta */}
           {!isBetaTester() && (
-            <Route exact path="/store" component={() => <Redirect to="/covid-waitlist" />} />
+            <Route exact path="/store" component={() => <Redirect to="/p/covid-waitlist" />} />
           )}
+
+          <Route exact path="/jam-journeys/:postId" component={BlogPost} />
+          <Route exact path="/jam-journeys" component={Blog} />
+
+          <Route exact path="/account/sign-in" component={SignIn} />
+          <Route exact path="/account/sign-out" component={SignOut} />
+          <Route exact path="/account/orders" component={Orders} />
 
           <AdminRoute exact path="/admin/dashboard" component={Dashboard} />
           <AdminRoute exact path="/admin/logo-builder" component={LogoBuilder} />
@@ -103,6 +102,7 @@ export const App = () => {
 
           <Route exact path="/oh-noes" component={NotFound} />
           <Route exact path="/error" component={ErrorPage} />
+          <Route exact path="/thank-you" component={ThankYou} />
           <Route exact path="/" component={Home} />
           <Route component={NotFound} />
         </Switch>
