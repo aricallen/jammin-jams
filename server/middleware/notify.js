@@ -12,7 +12,7 @@ const notify = (req, res, next) => {
       sendEmail({
         message: serializeForEmail(req.body),
         to,
-        subject: 'Someone Joined the waitlist for Jammin Jams!',
+        subject: 'Someone Joined the waitlist for Jmn Jams!',
       });
     });
   }

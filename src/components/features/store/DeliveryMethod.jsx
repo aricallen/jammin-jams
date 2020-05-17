@@ -64,7 +64,7 @@ const RequestZipCode = ({ zipError, zipCode }) => {
   }
 
   const subject = `Please expand to cover my zip code: ${zipCode}`;
-  const body = `Hi Jammin' Jams, can you start servicing zip code ${zipCode}&#63; K Thanks.<p>Your friend,</p><br />[INSERT_NAME_HERE]`;
+  const body = `Hi Jmn Jams, can you start servicing zip code ${zipCode}&#63; K Thanks.<p>Your friend,</p><br />[INSERT_NAME_HERE]`;
   const mailTo = `mailto:jam@jmnjams.com?subject=${subject}&body=${body}`;
 
   return (

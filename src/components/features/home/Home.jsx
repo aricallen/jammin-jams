@@ -74,7 +74,7 @@ const CameraRollSection = () => {
 const DefaultMetaTags = () => {
   return (
     <MetaTags
-      title="Jammin' Jams | Jam. Music. Delivered | Jam Subscription Service"
+      title="Jmn Jams | Jam. Music. Delivered | Jam Subscription Service"
       description="Jam. Music. Delivered. Celebrating all that is happy in life by doing what we love: transform the best seasonal fruits into sweet-tart-oh-so-tasty jam through the power of high heat and bass."
       path="/"
       ogImage="/assets/images/logo-pink.png"

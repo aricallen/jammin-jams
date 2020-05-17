@@ -38,7 +38,7 @@ export const Payment = (props) => {
     return (
       <Wrapper>
         <Message>
-          Jammin&apos; Jams{' '}
+          Jmn Jams{' '}
           <em>
             <b>never collects or stores any payment information directly</b>
           </em>{' '}

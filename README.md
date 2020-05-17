@@ -1,4 +1,4 @@
-# Jammin Jams
+# Jmn Jams
 
 ## Requirements
 
