@@ -18,6 +18,7 @@ const ANIMATION_STORAGE_KEY = 'homeAnimationDisabledUntil';
 
 const Wrapper = styled('div')`
   height: 100%;
+  width: 100%;
 `;
 
 const AnimatedLogo = styled('div')`
@@ -38,6 +39,9 @@ const LogoWrapper = styled('div')`
   height: 256px;
   width: 100%;
   animation: bumping 0.5s 4;
+  ${media.mobile()} {
+    animation: mobile-bumping 0.5s 4;
+  }
 `;
 
 const MainContentWrapper = styled('div')`

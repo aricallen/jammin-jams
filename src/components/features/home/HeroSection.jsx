@@ -12,7 +12,7 @@ const Wrapper = styled('div')`
   justify-content: center;
   position: relative;
   background-color: ${pallet.charcoal};
-  max-height: ${PICTURE_HEIGHT}px;
+  height: ${PICTURE_HEIGHT}px;
 `;
 
 const CallToAction = styled('div')`
