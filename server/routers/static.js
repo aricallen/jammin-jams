@@ -69,7 +69,7 @@ const staticPageServer = async (req, res, next) => {
   const pageData = await getPageData(originalUrl);
   const data = {
     ...DEFAULT_DATA,
-    pageData,
+    ...pageData,
   };
   return res.send(getCompiledIndex(data));
 };
