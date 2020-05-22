@@ -6,6 +6,7 @@ import { Article } from '../../common/Article';
 import { spacing, border } from '../../../constants/style-guide';
 import { fontSizes } from '../../../utils/style-helpers';
 import { MetaTags } from '../../common/MetaTags';
+import { media } from '../../../utils/media';
 
 const SignUp = () => (
   <Fragment>
@@ -70,7 +71,9 @@ const Title = styled('div')``;
 const CardContent = styled('div')`
   flex-grow: 2;
   padding: ${spacing.double}px;
-  padding-left: ${spacing.quadruple * 2}px;
+  ${media.desktop()} {
+    padding-left: ${spacing.quadruple * 2}px;
+  }
 `;
 
 const ContentCard = ({ title, index, Content }) => {

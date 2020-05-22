@@ -32,6 +32,7 @@ export const Grid = styled('div')`
   grid-template-areas: 'left middle right';
 
   ${media.mobile()} {
+    grid-gap: ${spacing.double}px;
     grid-template-columns: auto;
   }
 `;

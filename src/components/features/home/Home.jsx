@@ -1,10 +1,11 @@
 import React, { useState, useRef, useLayoutEffect } from 'react';
 import styled from '@emotion/styled';
 import { LogoFilled } from '../../common/LogoFilled';
-import { FullPageWrapper } from '../../common/Structure';
+import { FullPageWrapper, MobileOnly } from '../../common/Structure';
 import { CameraRoll } from '../../common/CameraRoll';
 import { AboutSwitcher } from './AboutSwitcher';
 import { HeroSection } from './HeroSection';
+import { ButtonLink } from '../../common/Links';
 import * as SessionStorage from '../../../utils/session-storage';
 import { NewsletterBlock } from '../../common/NewsletterBlock';
 import { AlertManager } from '../../common/AlertManager';
@@ -74,7 +75,7 @@ const CameraRollSection = () => {
 const DefaultMetaTags = () => {
   return (
     <MetaTags
-      title="Jammin' Jams | Jam. Music. Delivered | Jam Subscription Service"
+      title="Jmn Jams | Jam. Music. Delivered | Jam Subscription Service"
       description="Jam. Music. Delivered. Celebrating all that is happy in life by doing what we love: transform the best seasonal fruits into sweet-tart-oh-so-tasty jam through the power of high heat and bass."
       path="/"
       ogImage="/assets/images/logo-pink.png"
@@ -88,6 +89,18 @@ const SignUpSection = styled('div')`
   ${media.mobile()} {
     width: 100%;
     padding: ${spacing.double}px;
+  }
+`;
+
+const CtaWrapper = styled('div')`
+  display: flex;
+  align-items: center;
+  padding: ${spacing.double}px 0;
+  text-align: center;
+  justify-content: center;
+  & button,
+  & a {
+    width: 100%;
   }
 `;
 
@@ -142,6 +155,11 @@ export const Home = () => {
         <DefaultMetaTags />
         <HeroSection />
         <FullPageWrapper>
+          <MobileOnly>
+            <CtaWrapper>
+              <ButtonLink to="/store">Sign up</ButtonLink>
+            </CtaWrapper>
+          </MobileOnly>
           <AboutSwitcher />
           <SignUpSection>
             <NewsletterBlock />

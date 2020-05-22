@@ -7,7 +7,7 @@ import { HowItWorks } from './HowItWorks';
 import { LatestList as JamJourneys } from '../blog/LatestList';
 import { LogoFilled } from '../../common/LogoFilled';
 import { fontSizes, boxShadow } from '../../../utils/style-helpers';
-import { Header1 } from '../../common/Structure';
+import { Header1, MobileOnly, DesktopOnly } from '../../common/Structure';
 
 const SECTIONS = [
   {
@@ -93,11 +93,25 @@ const AboutWrapper = styled('div')`
   margin-bottom: ${spacing.double}px;
 `;
 
+const HeaderWrapper = styled('div')`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: ${spacing.double}px;
+`;
+
 const About = ({ section }) => {
-  const { title, Content } = section;
+  const { title, Content, color } = section;
   return (
     <AboutWrapper>
-      <Header1>{title}</Header1>
+      <HeaderWrapper>
+        <Header1 style={{ marginBottom: 0 }}>{title}</Header1>
+        <MobileOnly>
+          <LogoWrapper style={{ width: 80 }}>
+            <LogoFilled colorMap={createColorMap(color)} />
+          </LogoWrapper>
+        </MobileOnly>
+      </HeaderWrapper>
       <Content />
     </AboutWrapper>
   );
@@ -108,17 +122,24 @@ export const AboutSwitcher = () => {
 
   return (
     <Wrapper>
-      <SelectorSection>
-        {SECTIONS.map((section) => (
-          <Selector
-            key={section.title}
-            onClick={() => setSelected(section)}
-            section={section}
-            isSelected={section === selected}
-          />
-        ))}
-      </SelectorSection>
-      <About section={selected} />
+      <MobileOnly>
+        <About section={SECTIONS[0]} />
+        <About section={SECTIONS[1]} />
+        <About section={SECTIONS[2]} />
+      </MobileOnly>
+      <DesktopOnly>
+        <SelectorSection>
+          {SECTIONS.map((section) => (
+            <Selector
+              key={section.title}
+              onClick={() => setSelected(section)}
+              section={section}
+              isSelected={section === selected}
+            />
+          ))}
+        </SelectorSection>
+        <About section={selected} />
+      </DesktopOnly>
     </Wrapper>
   );
 };

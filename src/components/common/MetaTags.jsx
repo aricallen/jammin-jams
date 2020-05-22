@@ -6,7 +6,7 @@ const fullUrl = (path) => `https://jmnjams.com/${cleanPath(path)}`;
 
 export const MetaTags = (props) => {
   const { title, description, path, ogImage } = props;
-  const computedTitle = `${title} | Jam Subscription Service | Jammin' Jams`;
+  const computedTitle = `${title} | Jam Subscription Service | Jmn Jams`;
   document.head.querySelector('title').innerText = computedTitle;
 
   document.head.querySelector('meta[property="og:title"]').setAttribute('content', computedTitle);

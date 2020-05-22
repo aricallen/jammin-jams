@@ -10,8 +10,7 @@ const Wrapper = styled('div')`
   border-radius: ${spacing.regular}px;
   overflow: hidden;
   ${media.mobile()} {
-    width: 64%;
-    margin: 0 auto;
+    width: 100%;
     margin-bottom: ${spacing.quadruple}px;
   }
 `;

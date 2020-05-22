@@ -11,6 +11,9 @@ import { Spinner } from '../../common/Spinner';
 import { getPostLink, getExcerpt } from '../../../utils/post-helpers';
 import { getSmallUploadSrc } from '../../../utils/upload-helpers';
 import { fetchOne } from '../../../redux/uploads/actions';
+import { media } from '../../../utils/media';
+
+const IMG_MIN_HEIGHT = 160;
 
 const Wrapper = styled(Row)`
   &:hover {
@@ -19,14 +22,22 @@ const Wrapper = styled(Row)`
       .toString()};
   }
   align-items: initial;
+  ${media.mobile()} {
+    display: block;
+  }
 `;
 
 const ThumbnailWrapper = styled('div')`
   min-width: 200px;
-  height: 160px;
+  height: ${IMG_MIN_HEIGHT}px;
   display: flex;
   align-items: center;
   justify-content: center;
+  ${media.mobile()} {
+    height: auto;
+    min-height: ${IMG_MIN_HEIGHT}px;
+    width: 100%;
+  }
 `;
 const Thumbnail = styled('img')`
   width: 100%;
@@ -36,12 +47,14 @@ const Thumbnail = styled('img')`
 const FallbackWrapper = styled('div')`
   width: 100%;
   height: 100%;
+  min-height: ${IMG_MIN_HEIGHT}px;
   padding: ${spacing.regular}px;
 `;
 
 const FallbackImg = styled('div')`
   width: 100%;
   height: 100%;
+  min-height: ${IMG_MIN_HEIGHT}px;
   background-image: url('${(p) => p.url}');
   background-repeat: no-repeat;
   background-position: center;
@@ -60,10 +73,12 @@ const TopSection = styled('div')`
 `;
 
 const Text = styled('div')`
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+  ${media.desktop()} {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
 `;
 
 const MoreLinkWrapper = styled('div')`
