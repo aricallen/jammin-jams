@@ -9,7 +9,6 @@ import { media } from '../../../utils/media';
 import { Select } from '../../common/Select';
 import { pallet, spacing, font, border } from '../../../constants/style-guide';
 import { Article } from '../../common/Article';
-import { setMetaTags } from '../../../utils/set-meta-tags';
 import { DeliveryType, CALENDAR_DATA } from '../../../utils/delivery-helpers';
 
 const ContentWrapper = styled('div')``;
@@ -152,9 +151,6 @@ export const DeliveryCalendarContent = () => {
   const handleChange = (option) => {
     setContentDeliveryType(option.value);
   };
-  useEffect(() => {
-    setMetaTags('/p/about/delivery-calendar');
-  }, []);
 
   return (
     <ContentWrapper>

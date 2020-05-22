@@ -1,4 +1,4 @@
-import React, { useState, useRef, useLayoutEffect, useEffect } from 'react';
+import React, { useState, useRef, useLayoutEffect } from 'react';
 import styled from '@emotion/styled';
 import { LogoFilled } from '../../common/LogoFilled';
 import { FullPageWrapper, MobileOnly } from '../../common/Structure';
@@ -9,7 +9,6 @@ import { ButtonLink } from '../../common/Links';
 import * as SessionStorage from '../../../utils/session-storage';
 import { NewsletterBlock } from '../../common/NewsletterBlock';
 import { AlertManager } from '../../common/AlertManager';
-import { setMetaTags } from '../../../utils/set-meta-tags';
 import { media } from '../../../utils/media';
 import { spacing, pallet } from '../../../constants/style-guide';
 import { FollowUs } from '../../common/FollowUs';
@@ -115,10 +114,6 @@ export const Home = () => {
   const [isBumping, setIsBumping] = useState(true);
   const [isAnimating, setIsAnimating] = useState(true);
   const heroRef = useRef();
-
-  useEffect(() => {
-    setMetaTags('/');
-  }, []);
 
   const initAnimationListeners = () => {
     if (shouldAnimate()) {

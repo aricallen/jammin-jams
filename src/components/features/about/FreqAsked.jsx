@@ -1,10 +1,9 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment } from 'react';
 import styled from '@emotion/styled';
 import { Section, Paragraph, Emoji, Emphasis } from '../../common/Structure';
 import { font, spacing } from '../../../constants/style-guide';
 import { fontSizes } from '../../../utils/style-helpers';
 import { Article } from '../../common/Article';
-import { setMetaTags } from '../../../utils/set-meta-tags';
 
 const Question = styled('h4')`
   ${fontSizes('regular')}
@@ -18,10 +17,6 @@ const MailToLink = () => {
 };
 
 export const Questions = () => {
-  useEffect(() => {
-    setMetaTags('/p/about/faqs');
-  }, []);
-
   return (
     <Fragment>
       <Section style={{ marginTop: 0 }}>

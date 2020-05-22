@@ -10,7 +10,6 @@ import { Header1, Emoji } from '../../common/Structure';
 import { Article } from '../../common/Article';
 import { spacing } from '../../../constants/style-guide';
 import { isLive } from '../../../utils/post-helpers';
-import { setMetaTags } from '../../../utils/set-meta-tags';
 
 const Wrapper = styled('div')``;
 const IntroText = styled('div')`
@@ -40,10 +39,6 @@ export const Blog = () => {
     }
   };
   useEffect(_fetchPosts, []);
-
-  useEffect(() => {
-    setMetaTags('/jam-journeys');
-  }, []);
 
   const livePosts = postsState.data.filter(isLive);
 

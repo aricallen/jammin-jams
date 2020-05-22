@@ -18,9 +18,9 @@ export const setMetaTags = async (pageUrl, overrides = {}) => {
   }
 
   // not loaded yet
-  if (_loadedPagesMeta?.length === null) {
-    const pages = await axios.get('/api/admin/pages');
-    _loadedPagesMeta = pages;
+  if (_loadedPagesMeta === null) {
+    const response = await axios.get('/api/admin/pages');
+    _loadedPagesMeta = response.data.data;
   }
 
   // update to check for next time

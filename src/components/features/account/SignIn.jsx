@@ -7,6 +7,7 @@ import { spacing } from '../../../constants/style-guide';
 import { media } from '../../../utils/media';
 import { logInUser } from '../../../redux/session/actions';
 import { isBusy } from '../../../utils/meta-status';
+import { useHistory } from 'react-router-dom';
 
 const Wrapper = styled('div')`
   width: 100%;
@@ -34,7 +35,8 @@ const ButtonWrapper = styled('div')`
   margin-top: ${spacing.double}px;
 `;
 
-export const SignIn = ({ history }) => {
+export const SignIn = () => {
+  const history = useHistory();
   const [values, setValues] = useState({});
   const sessionState = useSelector((state) => state.session);
   const loginError = useSelector((state) => state.session.meta.error);

@@ -1,5 +1,6 @@
 import React, { useEffect, Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { Header1 } from '../../common/Structure';
 import { logOutUser } from '../../../redux/session/actions';
@@ -21,7 +22,8 @@ const ButtonWrapper = styled('div')`
   justify-content: center;
 `;
 
-export const SignOut = ({ history }) => {
+export const SignOut = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const sessionState = useSelector((state) => state.session);
 

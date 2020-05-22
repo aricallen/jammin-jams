@@ -14,6 +14,7 @@ import { SoundcloudPlayer } from '../../common/SoundcloudPlayer';
 import { getPostLink, getExcerpt } from '../../../utils/post-helpers';
 import { getMediumUploadSrc } from '../../../utils/upload-helpers';
 import { setMetaTags } from '../../../utils/set-meta-tags';
+import { useRouteMatch } from 'react-router-dom';
 
 const Wrapper = styled('div')``;
 
@@ -65,7 +66,8 @@ const PostContent = ({ post, upload, isBusy }) => {
   );
 };
 
-export const Post = ({ match }) => {
+export const Post = () => {
+  const match = useRouteMatch();
   const dispatch = useDispatch();
   const postsState = useSelector((state) => state.posts);
   const uploadsState = useSelector((state) => state.uploads);

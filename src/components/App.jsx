@@ -65,14 +65,28 @@ export const App = () => {
       <Router basename="/">
         <NavBar />
         <Switch>
-          <PageRoute exact path="/p/waitlist" component={Waitlist} />
-          <PageRoute exact path="/p/at-capacity" component={AtCapacity} />
-          <PageRoute exact path="/p/covid-waitlist" component={CovidWaitlist} />
+          <PageRoute exact path="/p/waitlist">
+            <Waitlist />
+          </PageRoute>
+          <PageRoute exact path="/p/at-capacity">
+            <AtCapacity />
+          </PageRoute>
+          <PageRoute exact path="/p/covid-waitlist">
+            <CovidWaitlist />
+          </PageRoute>
 
-          <PageRoute exact path="/p/about/how-it-works" component={HowItWorks} />
-          <PageRoute exact path="/p/about/delivery-calendar" component={DeliveryCalendar} />
-          <PageRoute exact path="/p/about/faqs" component={FreqAsked} />
-          <PageRoute exact path="/p/about" component={About} />
+          <PageRoute exact path="/p/about/how-it-works">
+            <HowItWorks />
+          </PageRoute>
+          <PageRoute exact path="/p/about/delivery-calendar">
+            <DeliveryCalendar />
+          </PageRoute>
+          <PageRoute exact path="/p/about/faqs">
+            <FreqAsked />
+          </PageRoute>
+          <PageRoute exact path="/p/about">
+            <About />
+          </PageRoute>
 
           {isBetaTester() && <PageRoute exact path="/store" component={Store} />}
           {isBetaTester() && <Route exact path="/store/checkout" component={Checkout} />}
@@ -83,8 +97,12 @@ export const App = () => {
             <Route exact path="/store" component={() => <Redirect to="/p/covid-waitlist" />} />
           )}
 
-          <Route exact path="/jam-journeys/:postId" component={BlogPost} />
-          <Route exact path="/jam-journeys" component={Blog} />
+          <Route exact path="/jam-journeys/:postId">
+            <BlogPost />
+          </Route>
+          <PageRoute exact path="/jam-journeys">
+            <Blog />
+          </PageRoute>
 
           <Route exact path="/account/sign-in" component={SignIn} />
           <Route exact path="/account/sign-out" component={SignOut} />
@@ -104,7 +122,9 @@ export const App = () => {
           <Route exact path="/oh-noes" component={NotFound} />
           <Route exact path="/error" component={ErrorPage} />
           <Route exact path="/thank-you" component={ThankYou} />
-          <Route exact path="/" component={Home} />
+          <PageRoute exact path="/">
+            <Home />
+          </PageRoute>
           <Route component={NotFound} />
         </Switch>
         <Footer />

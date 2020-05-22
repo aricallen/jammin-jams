@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { fetchProducts } from '../../../redux/products/actions';
 import { fetchSkus } from '../../../redux/skus/actions';
 import { addToCart, removeFromCart } from '../../../redux/cart/actions';
@@ -8,7 +9,6 @@ import { Spinner } from '../../common/Spinner';
 import { ProductItem } from './ProductItem';
 import { CartPreview } from './CartPreview';
 import { Content } from '../../common/Structure';
-import { setMetaTags } from '../../../utils/set-meta-tags';
 import { isResolved } from '../../../utils/meta-status';
 
 const Wrapper = styled('div')`
@@ -22,8 +22,9 @@ const List = styled(Content)`
   justify-content: center;
 `;
 
-export const Store = ({ history }) => {
+export const Store = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const productsState = useSelector((state) => state.products);
   const cart = useSelector((state) => state.cart.data);
 
@@ -32,10 +33,6 @@ export const Store = ({ history }) => {
     dispatch(fetchSkus());
   };
   useEffect(fetch, []);
-
-  useEffect(() => {
-    setMetaTags('/store');
-  }, []);
 
   const onAddItem = (item) => {
     dispatch(addToCart(item));

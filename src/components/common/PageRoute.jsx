@@ -1,10 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route } from 'react-router-dom';
 import { setMetaTags } from '../../utils/set-meta-tags';
 
 export const PageRoute = (props) => {
-  const { children, ...rest } = props;
-  setMetaTags(rest.path);
+  const { children, path, ...rest } = props;
+  useEffect(() => {
+    setMetaTags(path);
+  }, [path]);
 
-  return <Route {...rest} />;
+  return (
+    <Route path={path} {...rest}>
+      {children}
+    </Route>
+  );
 };

@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect } from 'react';
+import React, { Fragment } from 'react';
 import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { Header1, Emphasis, UnorderedList, ListItem } from '../../common/Structure';
@@ -6,7 +6,6 @@ import { Article } from '../../common/Article';
 import { spacing, border } from '../../../constants/style-guide';
 import { fontSizes } from '../../../utils/style-helpers';
 import { media } from '../../../utils/media';
-import { setMetaTags } from '../../../utils/set-meta-tags';
 
 const SignUp = () => (
   <Fragment>
@@ -104,9 +103,6 @@ const ContentHeader = styled(Header1)`
 `;
 
 const HowItWorksMiddle = () => {
-  useEffect(() => {
-    setMetaTags('/p/about/how-it-works');
-  }, []);
   return (
     <Fragment>
       <ContentHeader>How It Works</ContentHeader>
