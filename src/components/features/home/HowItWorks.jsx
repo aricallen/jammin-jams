@@ -11,6 +11,9 @@ const StepWrapper = styled('div')`
   &:last-of-type {
     border-right: none;
   }
+  ${media.mobile()} {
+    border-right: none;
+  }
 `;
 
 const SignUp = () => (
@@ -46,8 +49,6 @@ const GetASpoon = () => (
 );
 
 const Wrapper = styled('div')`
-  ${media.mobile()} {
-  }
   ${media.desktop()} {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
