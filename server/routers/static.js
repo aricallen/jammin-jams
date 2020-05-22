@@ -47,7 +47,7 @@ const getImageUrl = async (conn, uploadsId) => {
   return url;
 };
 
-const cleanPath = (p) => p.replace(/^https:\/\/jmnjams.com\//, '').replace(/^\/|\/$/, '');
+const cleanPath = (p) => p.replace(/^https:\/\/jmnjams.com\//, '').replace(/\/$/, '');
 
 const getPageData = async (reqUrl) => {
   const conn = await getConnection();
