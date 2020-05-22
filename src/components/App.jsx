@@ -56,6 +56,7 @@ const Wrapper = styled('div')`
   grid-template-rows: ${sizes.rowHeight}px auto min-content;
   min-height: 100vh;
   height: 100%;
+  position: relative;
 `;
 
 export const App = () => {

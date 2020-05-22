@@ -31,6 +31,9 @@ const D3Wrapper = styled('div')`
 
   & > .calendar {
     width: 80%;
+    ${media.mobile()} {
+      width: 100%;
+    }
     height: 200px;
     border: ${border};
     border-radius: ${spacing.regular}px;
