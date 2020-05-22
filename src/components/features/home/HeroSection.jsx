@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { pallet, spacing } from '../../../constants/style-guide';
 import { fontSizes } from '../../../utils/style-helpers';
 import { ButtonLink } from '../../common/Links';
-import { Overlay } from '../../common/Structure';
+import { Overlay, DesktopOnly } from '../../common/Structure';
 
 const PICTURE_HEIGHT = 600;
 
@@ -40,11 +40,13 @@ export const HeroSection = () => {
       <Overlay>
         <CallToAction>
           <Text>Jam. Music. Delivered.</Text>
-          <ButtonWrapper>
-            <ButtonLink variant="secondary" to="/store">
-              Sign up
-            </ButtonLink>
-          </ButtonWrapper>
+          <DesktopOnly>
+            <ButtonWrapper>
+              <ButtonLink variant="secondary" to="/store">
+                Sign up
+              </ButtonLink>
+            </ButtonWrapper>
+          </DesktopOnly>
         </CallToAction>
       </Overlay>
       <Img src="/assets/images/hero-image.jpeg" />

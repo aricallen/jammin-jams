@@ -1,10 +1,11 @@
 import React, { useState, useRef, useLayoutEffect } from 'react';
 import styled from '@emotion/styled';
 import { LogoFilled } from '../../common/LogoFilled';
-import { FullPageWrapper } from '../../common/Structure';
+import { FullPageWrapper, MobileOnly } from '../../common/Structure';
 import { CameraRoll } from '../../common/CameraRoll';
 import { AboutSwitcher } from './AboutSwitcher';
 import { HeroSection } from './HeroSection';
+import { ButtonLink } from '../../common/Links';
 import * as SessionStorage from '../../../utils/session-storage';
 import { NewsletterBlock } from '../../common/NewsletterBlock';
 import { AlertManager } from '../../common/AlertManager';
@@ -91,6 +92,18 @@ const SignUpSection = styled('div')`
   }
 `;
 
+const CtaWrapper = styled('div')`
+  display: flex;
+  align-items: center;
+  padding: ${spacing.double}px 0;
+  text-align: center;
+  justify-content: center;
+  & button,
+  & a {
+    width: 100%;
+  }
+`;
+
 const disableAnimation = () => {
   const disabledUntil = Date.now() + ANIMATION_TIMEOUT;
   SessionStorage.setItem(ANIMATION_STORAGE_KEY, disabledUntil);
@@ -142,6 +155,11 @@ export const Home = () => {
         <DefaultMetaTags />
         <HeroSection />
         <FullPageWrapper>
+          <MobileOnly>
+            <CtaWrapper>
+              <ButtonLink to="/store">Sign up</ButtonLink>
+            </CtaWrapper>
+          </MobileOnly>
           <AboutSwitcher />
           <SignUpSection>
             <NewsletterBlock />
