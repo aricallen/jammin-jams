@@ -3,6 +3,7 @@ import styled from '@emotion/styled';
 import { Link } from 'react-router-dom';
 import { Emphasis, Emoji } from '../../common/Structure';
 import { spacing, border } from '../../../constants/style-guide';
+import { media } from '../../../utils/media';
 
 const StepWrapper = styled('div')`
   padding: ${spacing.double}px;
@@ -45,8 +46,12 @@ const GetASpoon = () => (
 );
 
 const Wrapper = styled('div')`
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  ${media.mobile()} {
+  }
+  ${media.desktop()} {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
 `;
 
 export const HowItWorks = () => {
