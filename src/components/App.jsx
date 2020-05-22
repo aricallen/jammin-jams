@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 import styled from '@emotion/styled';
 import { Global } from '@emotion/core';
 import { AdminRoute } from './common/AdminRoute';
+import { PageRoute } from './common/PageRoute';
 import { Home } from './features/home/Home';
 import { NotFound } from './features/NotFound';
 import { ErrorPage } from './features/ErrorPage';
@@ -64,16 +65,16 @@ export const App = () => {
       <Router basename="/">
         <NavBar />
         <Switch>
-          <Route exact path="/p/waitlist" component={Waitlist} />
-          <Route exact path="/p/at-capacity" component={AtCapacity} />
-          <Route exact path="/p/covid-waitlist" component={CovidWaitlist} />
+          <PageRoute exact path="/p/waitlist" component={Waitlist} />
+          <PageRoute exact path="/p/at-capacity" component={AtCapacity} />
+          <PageRoute exact path="/p/covid-waitlist" component={CovidWaitlist} />
 
-          <Route exact path="/p/about/how-it-works" component={HowItWorks} />
-          <Route exact path="/p/about/delivery-calendar" component={DeliveryCalendar} />
-          <Route exact path="/p/about/faqs" component={FreqAsked} />
-          <Route exact path="/p/about" component={About} />
+          <PageRoute exact path="/p/about/how-it-works" component={HowItWorks} />
+          <PageRoute exact path="/p/about/delivery-calendar" component={DeliveryCalendar} />
+          <PageRoute exact path="/p/about/faqs" component={FreqAsked} />
+          <PageRoute exact path="/p/about" component={About} />
 
-          {isBetaTester() && <Route exact path="/store" component={Store} />}
+          {isBetaTester() && <PageRoute exact path="/store" component={Store} />}
           {isBetaTester() && <Route exact path="/store/checkout" component={Checkout} />}
           {isBetaTester() && <Route exact path="/store/success" component={Success} />}
           {isBetaTester() && <Route exact path="/store/cancel" component={Cancel} />}

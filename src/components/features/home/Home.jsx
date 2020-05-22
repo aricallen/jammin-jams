@@ -12,6 +12,7 @@ import { AlertManager } from '../../common/AlertManager';
 import { setMetaTags } from '../../../utils/set-meta-tags';
 import { media } from '../../../utils/media';
 import { spacing, pallet } from '../../../constants/style-guide';
+import { FollowUs } from '../../common/FollowUs';
 
 const ANIMATION_TIMEOUT = 1000 * 60 * 15; // 15 mins
 const ANIMATION_STORAGE_KEY = 'homeAnimationDisabledUntil';
@@ -93,6 +94,10 @@ const CtaWrapper = styled('div')`
   }
 `;
 
+const FollowUsWrapper = styled('div')`
+  margin-bottom: ${spacing.regular}px;
+`;
+
 const disableAnimation = () => {
   const disabledUntil = Date.now() + ANIMATION_TIMEOUT;
   SessionStorage.setItem(ANIMATION_STORAGE_KEY, disabledUntil);
@@ -150,6 +155,9 @@ export const Home = () => {
             <CtaWrapper>
               <ButtonLink to="/store">Sign up</ButtonLink>
             </CtaWrapper>
+            <FollowUsWrapper>
+              <FollowUs isInline={true} />
+            </FollowUsWrapper>
           </MobileOnly>
           <AboutSwitcher />
           <SignUpSection>

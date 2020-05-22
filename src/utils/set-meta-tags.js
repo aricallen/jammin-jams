@@ -18,7 +18,7 @@ export const setMetaTags = async (pageUrl, overrides = {}) => {
   }
 
   // not loaded yet
-  if (_loadedPagesMeta.length === null) {
+  if (_loadedPagesMeta?.length === null) {
     const pages = await axios.get('/api/admin/pages');
     _loadedPagesMeta = pages;
   }
@@ -26,12 +26,13 @@ export const setMetaTags = async (pageUrl, overrides = {}) => {
   // update to check for next time
   _lastUpdatedUrl = pageUrl;
 
-  const pageForUrl = _loadedPagesMeta.find((p) => p.url === pageUrl);
+  const pageForUrl = _loadedPagesMeta?.find((p) => p.url === pageUrl);
   // record doesn't exist in db yet... use default index
-  const pageRecord = pageForUrl || _loadedPagesMeta.find((p) => p.url === '/');
+  const pageRecord = pageForUrl || _loadedPagesMeta?.find((p) => p.url === '/');
 
   if (!pageRecord) {
-    console.error('no page record for index');
+    console.error(`no page record for ${pageUrl}`);
+    return;
   }
 
   const combinedRecord = { ...pageRecord, ...overrides };
