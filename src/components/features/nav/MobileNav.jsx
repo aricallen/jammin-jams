@@ -25,6 +25,7 @@ const ToggleBar = styled('div')`
 const ToggleButton = styled('div')`
   cursor: pointer;
   width: ${spacing.quadruple}px;
+  margin-right: ${spacing.double}px;
   &.is-expanded {
     .toggle-bar {
       width: 110%;

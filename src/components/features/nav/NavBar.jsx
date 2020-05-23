@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, Fragment } from 'react';
 import styled from '@emotion/styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -18,11 +18,12 @@ import {
   BrandLinkWrapper,
   IconWrapper,
 } from './Nav';
+import { media } from '../../../utils/media';
 
-// first column is mobile nav list
+// column is mobile nav list
 const Wrapper = styled('nav')`
   display: grid;
-  grid-template-columns: 0px 3fr 1fr 3fr;
+  grid-template-columns: 3fr 1fr 3fr 0px;
   position: sticky;
   top: 0;
   z-index: 10;
@@ -31,6 +32,10 @@ const Wrapper = styled('nav')`
   background-color: ${pallet.strawberry};
   padding-left: ${spacing.quadruple}px;
   padding-right: ${spacing.quadruple}px;
+  ${media.mobile()} {
+    padding-left: ${spacing.double}px;
+    padding-right: 0;
+  }
 `;
 
 const BarSection = styled('div')`
@@ -43,7 +48,12 @@ const MobileWrapper = styled('div')`
   align-items: center;
 `;
 
-const MobileListPortal = styled('div')``;
+const MobileListPortal = styled('div')`
+  position: absolute;
+  left: ${spacing.double}px;
+  top: 0;
+  width: calc(100vw + ${spacing.double}px);
+`;
 
 const NAV_ITEMS = [
   {
@@ -52,11 +62,11 @@ const NAV_ITEMS = [
   },
   {
     text: 'How It Works',
-    path: '/about/how-it-works',
+    path: '/p/about/how-it-works',
   },
   {
     text: 'FAQs',
-    path: '/about/faqs',
+    path: '/p/about/faqs',
   },
   {
     text: 'Store',
@@ -143,39 +153,41 @@ export const NavBar = () => {
   const navItems = getNavItems(NAV_ITEMS, sessionState);
 
   return (
-    <Wrapper>
-      <MobileListPortal ref={portalRef} />
-      <BarSection>
-        <Brand>
-          <NavLink to="/">
-            <BrandLinkWrapper className="staatliches">Jmn Jams</BrandLinkWrapper>
-          </NavLink>
-        </Brand>
-      </BarSection>
-      <BarSection style={{ justifyContent: 'center' }}>
-        <NavLogo />
-      </BarSection>
-      <BarSection style={{ justifyContent: 'flex-end' }}>
-        {/* desktop nav */}
-        <DesktopOnly>
-          <NavList>
-            {navItems.map(renderNavItem)}
-            <NavItem style={{ marginLeft: 0 }}>
-              <Cart cart={cart} />
-            </NavItem>
-          </NavList>
-        </DesktopOnly>
+    <Fragment>
+      <Wrapper>
+        <BarSection>
+          <Brand>
+            <NavLink to="/">
+              <BrandLinkWrapper className="staatliches">Jmn Jams</BrandLinkWrapper>
+            </NavLink>
+          </Brand>
+        </BarSection>
+        <BarSection style={{ justifyContent: 'center' }}>
+          <NavLogo />
+        </BarSection>
+        <BarSection style={{ justifyContent: 'flex-end' }}>
+          {/* desktop nav */}
+          <DesktopOnly>
+            <NavList>
+              {navItems.map(renderNavItem)}
+              <NavItem style={{ marginLeft: 0 }}>
+                <Cart cart={cart} />
+              </NavItem>
+            </NavList>
+          </DesktopOnly>
 
-        {/* mobile nav */}
-        <MobileOnly>
-          <MobileWrapper>
-            <NavItem>
-              <Cart cart={cart} />
-            </NavItem>
-            <MobileNav navItems={navItems} portalRef={portalRef} />
-          </MobileWrapper>
-        </MobileOnly>
-      </BarSection>
-    </Wrapper>
+          {/* mobile nav */}
+          <MobileOnly>
+            <MobileWrapper>
+              <NavItem>
+                <Cart cart={cart} />
+              </NavItem>
+              <MobileNav navItems={navItems} portalRef={portalRef} />
+            </MobileWrapper>
+          </MobileOnly>
+        </BarSection>
+        <MobileListPortal ref={portalRef} />
+      </Wrapper>
+    </Fragment>
   );
 };

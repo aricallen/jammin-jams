@@ -2,7 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const express = require('express');
 const { compile } = require('../utils/compile');
-const { getConnection, getRecord } = require('../utils/db-helpers');
+const { getConnection, getRecord, getRecords } = require('../utils/db-helpers');
 const { parseError } = require('../utils/api-helpers');
 
 const router = express.Router();
@@ -16,13 +16,13 @@ const DEFAULT_TITLE = `Jmn Jams | Jam. Music. Delivered | Jam Subscription Servi
 const DEFAULT_URL = 'https://jmnjams.com';
 const DEFAULT_IMAGE = 'https://jmnjams.com/assets/images/logo-pink.png';
 const DEFAULT_DESCRIPTION =
-  'Jam. Music. Delivered. Celebrating all that is happy in life by doing what we love: transform the best seasonal fruits into sweet-tart-oh-so-tasty jam through the power of high heat and bass.';
+  'Oakland based Jam Subscription Service. We transform the best seasonal fruits into sweet & tasty jam through the power of high heat and bass.';
 
-const DEFAULT_OG_DATA = {
-  ogTitle: DEFAULT_TITLE,
-  ogUrl: DEFAULT_URL,
-  ogImage: DEFAULT_IMAGE,
-  ogDescription: DEFAULT_DESCRIPTION,
+const DEFAULT_DATA = {
+  title: DEFAULT_TITLE,
+  url: DEFAULT_URL,
+  image: DEFAULT_IMAGE,
+  description: DEFAULT_DESCRIPTION,
 };
 
 const getCompiledIndex = (data) => {
@@ -47,26 +47,31 @@ const getImageUrl = async (conn, uploadsId) => {
   return url;
 };
 
-const getAssetData = () => {
-  const rootFiles = fs.readdirSync(staticDirPath);
-  const staticJsSrc = rootFiles.find((fileName) => /.js$/.test(fileName));
-  const staticStyleHref = path.join(staticDirPath, 'styles', 'index.scss');
-  return {
-    staticJsSrc,
-    staticStyleHref,
-  };
+const cleanPath = (p) => p.replace(/^https:\/\/jmnjams.com\//, '').replace(/\/$/, '');
+
+const getPageData = async (reqUrl) => {
+  const conn = await getConnection();
+  const pageRows = await getRecords(conn, 'pages');
+  const cleaned = cleanPath(reqUrl);
+  const matchingPage = pageRows.find((row) => row.url && row.url === cleaned);
+  if (matchingPage) {
+    return matchingPage;
+  }
+  return {};
 };
 
-const indexMiddleware = async (req, res, next) => {
+const staticPageServer = async (req, res, next) => {
   const { originalUrl } = req;
-  if (/\.[a-zA-Z0-9]{1,5}$/.test(originalUrl) === false) {
-    const data = {
-      ...DEFAULT_OG_DATA,
-      ...getAssetData(),
-    };
-    return res.send(getCompiledIndex(data));
+  if (/\.[a-zA-Z0-9]{1,5}$/.test(originalUrl)) {
+    return next();
   }
-  next();
+
+  const pageData = await getPageData(originalUrl);
+  const data = {
+    ...DEFAULT_DATA,
+    ...pageData,
+  };
+  return res.send(getCompiledIndex(data));
 };
 
 const staticPostServer = async (req, res, next) => {
@@ -75,11 +80,10 @@ const staticPostServer = async (req, res, next) => {
   try {
     const post = await getRecord(conn, 'posts', postId);
     const ogData = {
-      ogTitle: post.title,
-      ogUrl: getUrl(`/jam-journeys/${postId}`),
-      ogImage: await getImageUrl(conn, post.uploadsId),
-      ogDescription: post.excerpt,
-      ...getAssetData(),
+      title: post.title,
+      url: getUrl(`/jam-journeys/${postId}`),
+      image: await getImageUrl(conn, post.uploadsId),
+      description: post.excerpt,
     };
     res.send(getCompiledIndex(ogData));
   } catch (err) {
@@ -90,10 +94,12 @@ const staticPostServer = async (req, res, next) => {
 };
 
 /**
- * root or index.html
+ * pages with meta data associated
  */
 router.use('/jam-journeys/:postId', staticPostServer);
-router.use('/', indexMiddleware);
+router.use('/p/*', staticPageServer);
+router.use('/', staticPageServer);
+router.use('/index.html', staticPageServer);
 
 /**
  * default file server for assets etc

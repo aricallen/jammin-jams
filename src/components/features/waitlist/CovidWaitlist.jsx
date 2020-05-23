@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Header1, Section, Paragraph, Emphasis, Emoji } from '../../common/Structure';
 import { spacing } from '../../../constants/style-guide';
@@ -29,7 +29,8 @@ const ItemContent = styled('div')`
   margin-bottom: ${spacing.double}px;
 `;
 
-export const CovidWaitlistContent = withRouter(({ history }) => {
+export const CovidWaitlistContent = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const signupForNewsLetter = (values) => {
@@ -82,7 +83,7 @@ export const CovidWaitlistContent = withRouter(({ history }) => {
       </Section>
     </ContentWrapper>
   );
-});
+};
 
 export const CovidWaitlist = () => {
   return <Article Middle={CovidWaitlistContent} />;

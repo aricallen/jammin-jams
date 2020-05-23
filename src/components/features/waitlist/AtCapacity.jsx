@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from '@emotion/styled';
-import { withRouter } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { Header1, Section, Paragraph, Emphasis, Emoji } from '../../common/Structure';
 import { spacing } from '../../../constants/style-guide';
@@ -20,7 +20,8 @@ const FormWrapper = styled('div')`
   }
 `;
 
-export const AtCapacityContent = withRouter(({ history }) => {
+export const AtCapacityContent = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
 
   const signupForNewsLetter = (values) => {
@@ -68,7 +69,7 @@ export const AtCapacityContent = withRouter(({ history }) => {
       </Section>
     </ContentWrapper>
   );
-});
+};
 
 export const AtCapacity = () => {
   return <Article Middle={AtCapacityContent} />;

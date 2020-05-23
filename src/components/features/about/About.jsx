@@ -8,5 +8,5 @@ import { Redirect } from 'react-router-dom';
  */
 
 export const About = () => {
-  return <Redirect to="/about/how-it-works" />;
+  return <Redirect to="/p/about/how-it-works" />;
 };

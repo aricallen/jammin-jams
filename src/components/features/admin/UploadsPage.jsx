@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import styled from '@emotion/styled';
+import { useHistory } from 'react-router-dom';
 import { isResolved } from '../../../utils/meta-status';
 import { Spinner } from '../../common/Spinner';
 import { fetchMany, createMany } from '../../../redux/uploads/actions';
@@ -55,7 +56,8 @@ const UploadsList = ({ uploads, isUploading, inputRef }) => {
   );
 };
 
-export const UploadsPage = ({ history }) => {
+export const UploadsPage = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const uploadsState = useSelector((state) => state.uploads);
   const [selectedFiles, setSelectedFiles] = useState([]);

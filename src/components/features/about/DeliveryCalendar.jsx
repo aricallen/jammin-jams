@@ -9,7 +9,6 @@ import { media } from '../../../utils/media';
 import { Select } from '../../common/Select';
 import { pallet, spacing, font, border } from '../../../constants/style-guide';
 import { Article } from '../../common/Article';
-import { MetaTags } from '../../common/MetaTags';
 import { DeliveryType, CALENDAR_DATA } from '../../../utils/delivery-helpers';
 
 const ContentWrapper = styled('div')``;
@@ -32,6 +31,9 @@ const D3Wrapper = styled('div')`
 
   & > .calendar {
     width: 80%;
+    ${media.mobile()} {
+      width: 100%;
+    }
     height: 200px;
     border: ${border};
     border-radius: ${spacing.regular}px;
@@ -155,11 +157,6 @@ export const DeliveryCalendarContent = () => {
 
   return (
     <ContentWrapper>
-      <MetaTags
-        title="Delivery Dates Calendar"
-        description="Find out when will be delivering our sweet jams to you. Dates are estimates and may change."
-        path="/about/delivery-calendar"
-      />
       <Header1>Delivery Dates Calendar</Header1>
       <Section>
         <Paragraph>

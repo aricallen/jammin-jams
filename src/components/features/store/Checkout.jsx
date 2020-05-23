@@ -166,7 +166,7 @@ export const Checkout = () => {
   useEffect(_fetchAppStatus, []);
 
   if (cart.length === 0) {
-    return <Redirect to="/store" />;
+    return <Redirect to="/p/store" />;
   }
 
   if (!isStripeLoaded || !isResolved(appMetaState.meta)) {
@@ -174,7 +174,7 @@ export const Checkout = () => {
   }
 
   if (appMetaState.data.isFull) {
-    return <Redirect to="/at-capacity" />;
+    return <Redirect to="/p/at-capacity" />;
   }
 
   const onUpdate = (name, value) => {

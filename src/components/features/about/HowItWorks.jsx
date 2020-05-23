@@ -5,7 +5,6 @@ import { Header1, Emphasis, UnorderedList, ListItem } from '../../common/Structu
 import { Article } from '../../common/Article';
 import { spacing, border } from '../../../constants/style-guide';
 import { fontSizes } from '../../../utils/style-helpers';
-import { MetaTags } from '../../common/MetaTags';
 import { media } from '../../../utils/media';
 
 const SignUp = () => (
@@ -26,7 +25,7 @@ const SignUp = () => (
 const Delivery = () => (
   <Fragment>
     You will receive an email that notifies you of the upcoming delivery at least one week in
-    advance - We also have a <Link to="/about/delivery-calendar">delivery calendar</Link> you can
+    advance - We also have a <Link to="/p/about/delivery-calendar">delivery calendar</Link> you can
     access any time.
   </Fragment>
 );
@@ -106,11 +105,6 @@ const ContentHeader = styled(Header1)`
 const HowItWorksMiddle = () => {
   return (
     <Fragment>
-      <MetaTags
-        title="How It Works"
-        description="Sign up for our jam subscription service and wait for sweet and tarty goodness to come straight to you."
-        path="/about/how-it-works"
-      />
       <ContentHeader>How It Works</ContentHeader>
       <ContentList />
     </Fragment>

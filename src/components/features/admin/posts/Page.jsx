@@ -1,5 +1,6 @@
 import React, { useEffect, Fragment } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { isResolved } from '../../../../utils/meta-status';
 import { Spinner } from '../../../common/Spinner';
@@ -23,7 +24,8 @@ const ListItem = ({ post }) => {
   );
 };
 
-export const Page = ({ history }) => {
+export const Page = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const postsState = useSelector((state) => state.posts);
 

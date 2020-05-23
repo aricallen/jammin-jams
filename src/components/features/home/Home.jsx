@@ -9,15 +9,16 @@ import { ButtonLink } from '../../common/Links';
 import * as SessionStorage from '../../../utils/session-storage';
 import { NewsletterBlock } from '../../common/NewsletterBlock';
 import { AlertManager } from '../../common/AlertManager';
-import { MetaTags } from '../../common/MetaTags';
 import { media } from '../../../utils/media';
 import { spacing, pallet } from '../../../constants/style-guide';
+import { FollowUs } from '../../common/FollowUs';
 
 const ANIMATION_TIMEOUT = 1000 * 60 * 15; // 15 mins
 const ANIMATION_STORAGE_KEY = 'homeAnimationDisabledUntil';
 
 const Wrapper = styled('div')`
   height: 100%;
+  width: 100%;
 `;
 
 const AnimatedLogo = styled('div')`
@@ -38,6 +39,9 @@ const LogoWrapper = styled('div')`
   height: 256px;
   width: 100%;
   animation: bumping 0.5s 4;
+  ${media.mobile()} {
+    animation: mobile-bumping 0.5s 4;
+  }
 `;
 
 const MainContentWrapper = styled('div')`
@@ -72,17 +76,6 @@ const CameraRollSection = () => {
   );
 };
 
-const DefaultMetaTags = () => {
-  return (
-    <MetaTags
-      title="Jmn Jams | Jam. Music. Delivered | Jam Subscription Service"
-      description="Jam. Music. Delivered. Celebrating all that is happy in life by doing what we love: transform the best seasonal fruits into sweet-tart-oh-so-tasty jam through the power of high heat and bass."
-      path="/"
-      ogImage="/assets/images/logo-pink.png"
-    />
-  );
-};
-
 const SignUpSection = styled('div')`
   width: 50%;
   margin: 0 auto;
@@ -102,6 +95,10 @@ const CtaWrapper = styled('div')`
   & a {
     width: 100%;
   }
+`;
+
+const FollowUsWrapper = styled('div')`
+  margin-bottom: ${spacing.regular}px;
 `;
 
 const disableAnimation = () => {
@@ -139,7 +136,6 @@ export const Home = () => {
   if (shouldAnimate() && isAnimating) {
     return (
       <Wrapper>
-        <DefaultMetaTags />
         <AnimatedLogo ref={heroRef} className={isBumping ? 'is-bumping' : 'done-bumping'}>
           <LogoWrapper>
             <LogoFilled className="grooving" />
@@ -152,13 +148,15 @@ export const Home = () => {
   return (
     <Wrapper>
       <MainContentWrapper>
-        <DefaultMetaTags />
         <HeroSection />
         <FullPageWrapper>
           <MobileOnly>
             <CtaWrapper>
               <ButtonLink to="/store">Sign up</ButtonLink>
             </CtaWrapper>
+            <FollowUsWrapper>
+              <FollowUs isInline={true} />
+            </FollowUsWrapper>
           </MobileOnly>
           <AboutSwitcher />
           <SignUpSection>
