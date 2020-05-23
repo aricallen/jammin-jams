@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import { useRouteMatch } from 'react-router-dom';
+import { useRouteMatch, useHistory } from 'react-router-dom';
 import { useCrudState } from '../../../../utils/useCrudState';
 import * as MetaStatus from '../../../../utils/meta-status';
 import { Spinner } from '../../../common/Spinner';
@@ -22,24 +22,32 @@ const LabelWithCounter = (props) => {
 };
 
 export const Page = () => {
-  const { fetch, update, state } = useCrudState(null);
+  const { fetch, update, create, state } = useCrudState(null);
   const { params } = useRouteMatch();
+  const history = useHistory();
   const { pageId } = params;
+  const isNewPageMeta = pageId === 'new';
 
   const [values, setValues] = useState({});
 
   useEffect(() => {
-    fetch(`/api/admin/pages/${pageId}`).then((pageData) => {
-      setValues(pageData);
-    });
+    if (!isNewPageMeta) {
+      fetch(`/api/admin/pages/${pageId}`).then((pageData) => {
+        setValues(pageData);
+      });
+    }
   }, [pageId]);
 
-  if (!MetaStatus.isResolved(state.meta)) {
+  if (!isNewPageMeta && !MetaStatus.isResolved(state.meta)) {
     return <Spinner />;
   }
 
   const onClickSave = () => {
-    update(`/api/admin/pages/${pageId}`, values).then((updated) => setValues(updated));
+    if (isNewPageMeta) {
+      create(`/api/admin/pages`, values).then((created) => setValues(created));
+    } else {
+      update(`/api/admin/pages/${pageId}`, values).then((updated) => setValues(updated));
+    }
   };
 
   const handleChange = (name) => (e) => {
@@ -48,7 +56,17 @@ export const Page = () => {
 
   return (
     <Fragment>
-      <Header title="Page Meta" Controls={() => <Button onClick={onClickSave}>Save</Button>} />
+      <Header
+        title="Page Meta"
+        Controls={() => (
+          <Fragment>
+            <Button onClick={() => history.push('/admin/pages')} variant="secondary">
+              Go Back
+            </Button>
+            <Button onClick={onClickSave}>Save</Button>
+          </Fragment>
+        )}
+      />
       <Section>
         <FormInput
           label={

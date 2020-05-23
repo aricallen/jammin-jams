@@ -33,5 +33,17 @@ export const useCrudState = (defaultState = {}) => {
     }
   };
 
-  return { fetch, update, state };
+  const create = async (createUrl, values) => {
+    setState({ ...state, meta: { status: MetaStatus.BUSY } });
+    try {
+      const response = await axios.post(createUrl, values);
+      const updatedState = response.data.data;
+      setState({ data: updatedState, meta: { status: MetaStatus.RESOLVED } });
+      return updatedState;
+    } catch (error) {
+      setState({ ...state, meta: { status: MetaStatus.ERRORED }, error });
+    }
+  };
+
+  return { fetch, update, create, state };
 };
