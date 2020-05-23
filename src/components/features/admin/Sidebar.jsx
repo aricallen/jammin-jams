@@ -7,6 +7,7 @@ import BuildIcon from '../../../assets/icons/build.svg';
 import QrCode from '../../../assets/icons/memory.svg';
 import WallpaperIcon from '../../../assets/icons/wallpaper.svg';
 import AlertIcon from '../../../assets/icons/announcement.svg';
+import PagesIcon from '../../../assets/icons/description.svg';
 
 const Wrapper = styled('div')`
   height: 100%;
@@ -80,7 +81,7 @@ const TOOLBAR_ITEMS = [
   },
   {
     text: 'Page Meta',
-    Icon: AlertIcon,
+    Icon: PagesIcon,
     path: '/admin/pages',
   },
 ];
