@@ -1,5 +1,6 @@
 import React, { useEffect, useLayoutEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useRouteMatch } from 'react-router-dom';
 import styled from '@emotion/styled';
 import ReactMarkdown from 'react-markdown';
 import { Article } from '../../common/Article';
@@ -14,7 +15,6 @@ import { SoundcloudPlayer } from '../../common/SoundcloudPlayer';
 import { getPostLink, getExcerpt } from '../../../utils/post-helpers';
 import { getMediumUploadSrc } from '../../../utils/upload-helpers';
 import { setMetaTags } from '../../../utils/set-meta-tags';
-import { useRouteMatch } from 'react-router-dom';
 
 const Wrapper = styled('div')``;
 

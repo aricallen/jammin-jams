@@ -78,6 +78,11 @@ const TOOLBAR_ITEMS = [
     Icon: AlertIcon,
     path: '/admin/alerts',
   },
+  {
+    text: 'Page Meta',
+    Icon: AlertIcon,
+    path: '/admin/pages',
+  },
 ];
 
 const SidebarItem = ({ item }) => {
