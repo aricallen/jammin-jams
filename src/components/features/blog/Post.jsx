@@ -2,8 +2,8 @@ import React, { useEffect, useLayoutEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouteMatch } from 'react-router-dom';
 import styled from '@emotion/styled';
-import ReactMarkdown from 'react-markdown';
 import { Article } from '../../common/Article';
+import { JJMarkdown } from '../../common/JJMarkdown';
 import { Section, Header1 } from '../../common/Structure';
 import { ArticleImage } from '../../common/ArticleImage';
 import { fetchPostContent } from '../../../redux/posts/actions';
@@ -57,7 +57,7 @@ const PostContent = ({ post, upload, isBusy }) => {
         {post.setLink && <SoundcloudPlayer setLink={post.setLink} title={post.title} />}
       </Section>
       <ContentSection>
-        <ReactMarkdown source={post?.content} escapeHtml={false} />
+        <JJMarkdown source={post?.content} escapeHtml={false} />
       </ContentSection>
       <Section>
         <PostsNav currentPostId={post.id} />
