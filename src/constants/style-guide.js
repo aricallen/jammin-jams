@@ -8,6 +8,7 @@ const basePallet = {
   plum: '#C41EC4',
   sky: '#D2EFF7',
   charcoal: '#323232',
+  disabled: `rgba(50, 50, 50, 0.6)`,
 };
 
 const palletLight = Object.entries(basePallet).reduce((acc, curr) => {

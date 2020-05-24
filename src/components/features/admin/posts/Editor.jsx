@@ -1,11 +1,11 @@
 import React, { Fragment, useState } from 'react';
-import ReactMarkdown from 'react-markdown';
 import styled from '@emotion/styled';
 import { Label, TextArea, FormInput, Fieldset } from '../../../common/Forms';
 import { Section } from '../../../common/Structure';
+import { JJMarkdown } from '../../../common/JJMarkdown';
 import { Button } from '../../../common/Button';
 import { ImagePicker } from '../uploads/ImagePicker';
-import { spacing, font } from '../../../../constants/style-guide';
+import { spacing } from '../../../../constants/style-guide';
 
 const ContentWrapper = styled('div')`
   margin-top: ${spacing.double}px;
@@ -54,7 +54,7 @@ export const Editor = ({ post, onChange }) => {
         </Button>
         <ContentWrapper>
           {isPreview ? (
-            <ReactMarkdown source={post.content} escapeHtml={false} />
+            <JJMarkdown source={post.content} escapeHtml={false} />
           ) : (
             <TextArea rows={30} onChange={handleChange('content')} value={post.content || ''} />
           )}
