@@ -13,6 +13,13 @@ const Wrapper = styled('div')`
     padding-left: 1em;
     color: ${pallet.disabled};
     border-left: 0.25em solid #dfe2e5;
+    font-style: italic;
+  }
+
+  .ingredients {
+    margin-left: 2em;
+    padding-left: 1em;
+    border-left: 0.25em solid;
   }
 `;
 
