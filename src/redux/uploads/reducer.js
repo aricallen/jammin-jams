@@ -43,7 +43,7 @@ const meta = combineReducers({ one, many });
 
 const initialData = [];
 
-const replaceOrAddOne = (allUploads, newUpload) => {
+const replaceOrAddOne = (allUploads, newUpload = {}) => {
   if (allUploads.length === 0) {
     return [newUpload];
   }

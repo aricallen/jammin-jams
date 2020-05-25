@@ -1,18 +1,32 @@
 import React, { Fragment, useState } from 'react';
-import ReactMarkdown from 'react-markdown';
 import styled from '@emotion/styled';
 import { Label, TextArea, FormInput, Fieldset } from '../../../common/Forms';
 import { Section } from '../../../common/Structure';
+import { JJMarkdown } from '../../../common/JJMarkdown';
 import { Button } from '../../../common/Button';
+import { Select } from '../../../common/Select';
 import { ImagePicker } from '../uploads/ImagePicker';
-import { spacing, font } from '../../../../constants/style-guide';
+import { spacing } from '../../../../constants/style-guide';
 
 const ContentWrapper = styled('div')`
   margin-top: ${spacing.double}px;
 `;
 
+const STATUS_OPTIONS = [
+  {
+    label: 'DRAFT',
+    value: 'DRAFT',
+  },
+  {
+    label: 'LIVE',
+    value: 'LIVE',
+  },
+];
+
 export const Editor = ({ post, onChange }) => {
   const [isPreview, setIsPreview] = useState(false);
+  const selectedStatus = STATUS_OPTIONS.find((option) => option.value === post.status);
+
   const handleChange = (name) => (event) => {
     onChange({ ...post, [name]: event.target.value });
   };
@@ -36,11 +50,20 @@ export const Editor = ({ post, onChange }) => {
             onChange={handleChange('excerpt')}
           />
         </Fieldset>
-        <Fieldset>
+        <Fieldset style={{ width: '50%' }}>
           <Label>Hero Image</Label>
           <ImagePicker
             onChange={(selectedOption) => onChange({ ...post, uploadsId: +selectedOption.value })}
             selectedId={post.uploadsId}
+          />
+        </Fieldset>
+        <Fieldset style={{ width: '50%' }}>
+          <Label>Live Status</Label>
+          <Select
+            name="status"
+            options={STATUS_OPTIONS}
+            value={selectedStatus}
+            onChange={(selectedOption) => onChange({ ...post, status: selectedOption.value })}
           />
         </Fieldset>
       </Section>
@@ -54,7 +77,7 @@ export const Editor = ({ post, onChange }) => {
         </Button>
         <ContentWrapper>
           {isPreview ? (
-            <ReactMarkdown source={post.content} escapeHtml={false} />
+            <JJMarkdown source={post.content} escapeHtml={false} />
           ) : (
             <TextArea rows={30} onChange={handleChange('content')} value={post.content || ''} />
           )}

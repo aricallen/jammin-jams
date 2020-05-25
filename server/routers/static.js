@@ -74,7 +74,17 @@ const staticPageServer = async (req, res, next) => {
   return res.send(getCompiledIndex(data));
 };
 
-const staticPostServer = async (req, res, next) => {
+const getExcerpt = (post) => {
+  const { content = '', excerpt = '' } = post;
+  if (excerpt !== '') {
+    return excerpt;
+  }
+  const paragraphs = content.split('\n').filter((str) => str !== '');
+  const contentParagraphs = paragraphs.filter((str) => /^\w/.test(str));
+  return contentParagraphs[0].trim();
+};
+
+const staticPostServer = async (req, res) => {
   const { postId } = req.params;
   const conn = await getConnection();
   try {
@@ -83,14 +93,13 @@ const staticPostServer = async (req, res, next) => {
       title: post.title,
       url: getUrl(`/jam-journeys/${postId}`),
       image: await getImageUrl(conn, post.uploadsId),
-      description: post.excerpt,
+      description: getExcerpt(post),
     };
     res.send(getCompiledIndex(ogData));
   } catch (err) {
     res.status(400).send(parseError(err, req));
   }
   conn.end();
-  next();
 };
 
 /**
