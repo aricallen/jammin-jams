@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import ReactMarkdown from 'react-markdown';
 import Color from 'color';
+import { useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { spacing, pallet } from '../../../constants/style-guide';
 import { Row } from '../../common/Tables';
 import { Header2 } from '../../common/Structure';
-import { UnstyledLink, LinkLikeSpan } from '../../common/Links';
+import { LinkLikeSpan } from '../../common/Links';
 import { Spinner } from '../../common/Spinner';
+import { JJMarkdown } from '../../common/JJMarkdown';
 import { getPostLink, getExcerpt } from '../../../utils/post-helpers';
 import { getSmallUploadSrc } from '../../../utils/upload-helpers';
 import { fetchOne } from '../../../redux/uploads/actions';
@@ -91,6 +92,7 @@ const MoreLinkWrapper = styled('div')`
 
 export const Blurb = ({ post }) => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const uploadsState = useSelector((state) => state.uploads);
   const firstParagraph = getExcerpt(post);
   const [isFetching, setIsFetching] = useState(!!post.uploadsId);
@@ -116,7 +118,7 @@ export const Blurb = ({ post }) => {
   );
 
   return (
-    <Wrapper as={UnstyledLink} to={getPostLink(post)}>
+    <Wrapper onClick={() => history.push(getPostLink(post))}>
       <ThumbnailWrapper>
         {upload ? <Thumbnail src={getSmallUploadSrc(upload)} /> : placeholder}
       </ThumbnailWrapper>
@@ -124,7 +126,7 @@ export const Blurb = ({ post }) => {
         <TopSection>
           <Header2>{post.title}</Header2>
           <Text>
-            <ReactMarkdown source={firstParagraph} escapeHtml={false} />
+            <JJMarkdown source={firstParagraph} escapeHtml={false} />
           </Text>
         </TopSection>
         <MoreLinkWrapper>
