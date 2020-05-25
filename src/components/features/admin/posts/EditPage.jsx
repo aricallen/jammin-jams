@@ -10,7 +10,14 @@ import { Spinner } from '../../../common/Spinner';
 export const EditPage = ({ history, match }) => {
   const dispatch = useDispatch();
   const postsState = useSelector((state) => state.posts);
-  const defaultPost = { title: '', content: '' };
+  const defaultPost = {
+    title: '',
+    content: '',
+    status: 'DRAFT',
+    excerpt: '',
+    setLink: '',
+    uploadsId: null,
+  };
   const [post, setPost] = useState(defaultPost);
 
   const { postId } = match.params;
