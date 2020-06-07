@@ -3,7 +3,7 @@ import styled from '@emotion/styled';
 import { omit } from 'lodash';
 import ReactSelect from 'react-select';
 import Color from 'color';
-import { spacing, pallet } from '../../constants/style-guide';
+import { spacing, pallet, basePallet } from '../../constants/style-guide';
 
 export const SelectElem = styled(ReactSelect)`
   border-radius: ${spacing.regular}px;
@@ -31,12 +31,12 @@ export const SelectElem = styled(ReactSelect)`
     box-shadow: 0 0 4px ${pallet.strawberry};
   }
   .react-select__option--is-selected {
-    background-color: ${Color(pallet.strawberry)
+    background-color: ${Color(basePallet.strawberry)
       .lighten(0.2)
       .toString()};
   }
   .react-select__option--is-selected:hover {
-    background-color: ${Color(pallet.strawberry)
+    background-color: ${Color(basePallet.strawberry)
       .lighten(0.4)
       .toString()};
   }

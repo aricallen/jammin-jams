@@ -1,7 +1,7 @@
 import React from 'react';
 import Color from 'color';
 import styled from '@emotion/styled';
-import { pallet } from '../../constants/style-guide';
+import { basePallet } from '../../constants/style-guide';
 
 const Wrapper = styled('div')``;
 
@@ -12,7 +12,7 @@ const Overlay = styled('div')`
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: ${Color(pallet.charcoal)
+  background-color: ${Color(basePallet.charcoal)
     .alpha(0.1)
     .toString()};
   pointer-events: none;

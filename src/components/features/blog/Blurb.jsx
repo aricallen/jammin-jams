@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Color from 'color';
 import { useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
-import { spacing, pallet } from '../../../constants/style-guide';
+import { spacing, basePallet } from '../../../constants/style-guide';
 import { Row } from '../../common/Tables';
 import { Header2 } from '../../common/Structure';
 import { LinkLikeSpan } from '../../common/Links';
@@ -18,7 +18,7 @@ const IMG_MIN_HEIGHT = 160;
 
 const Wrapper = styled(Row)`
   &:hover {
-    background-color: ${Color(pallet.strawberry)
+    background-color: ${Color(basePallet.strawberry)
       .alpha(0.1)
       .toString()};
   }
