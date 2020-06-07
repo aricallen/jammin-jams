@@ -8,6 +8,8 @@ export const basePallet = {
   plum: '#C41EC4',
   sky: '#D2EFF7',
   charcoal: '#323232',
+  background: 'white',
+  text: 'black',
   disabled: `rgba(50, 50, 50, 0.6)`,
 };
 

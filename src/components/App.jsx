@@ -50,7 +50,7 @@ import { Post as BlogPost } from './features/blog/Post';
 import { Footer } from './common/Footer';
 import { NavBar } from './features/nav/NavBar';
 import { globalStyles } from '../constants/global-styles';
-import { sizes } from '../constants/style-guide';
+import { sizes, pallet } from '../constants/style-guide';
 import { isBetaTester } from '../utils/beta-testing';
 
 const Wrapper = styled('div')`
@@ -59,6 +59,8 @@ const Wrapper = styled('div')`
   min-height: 100vh;
   height: 100%;
   position: relative;
+  background-color: ${pallet.background};
+  color: ${pallet.text};
 `;
 
 export const App = () => {

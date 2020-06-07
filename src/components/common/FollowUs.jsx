@@ -24,6 +24,7 @@ const Wrapper = styled('div')`
 const IconLink = styled('a')`
   svg circle,
   svg g.circle-fill {
+    fill: ${pallet.strawberry};
     transition: fill ${animation};
   }
 
