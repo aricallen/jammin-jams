@@ -17,6 +17,22 @@ export const BrandLinkWrapper = styled('div')`
 `;
 
 export const NavLogo = styled(Logo)`
+  cursor: pointer;
+  g,
+  use,
+  g#logo-peach-alone * {
+    transition: fill ${animation};
+  }
+
+  &:hover {
+    g,
+    use {
+      fill: ${pallet.light.strawberry};
+    }
+    g#logo-peach-alone * {
+      fill: ${pallet.strawberry};
+    }
+  }
   width: ${spacing.quadruple}px;
   height: ${spacing.quadruple}px;
 `;

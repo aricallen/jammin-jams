@@ -157,7 +157,9 @@ export const NavBar = () => {
     <Fragment>
       <Wrapper>
         <BarSection style={{ justifyContent: 'flex-start' }}>
-          <NavLogo />
+          <NavLink to="/">
+            <NavLogo />
+          </NavLink>
         </BarSection>
         <BarSection />
         <BarSection style={{ justifyContent: 'flex-end' }}>
