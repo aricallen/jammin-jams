@@ -12,7 +12,7 @@ export const globalStyles = css`
 
   :root {
     --blueberry: #7a7db5;
-    --strawberry: #fa5c66;
+    --strawberry: #e71768;
     --peach: #ffa69e;
     --apricot: #f0941c;
     --plum: #c41ec4;

@@ -2,7 +2,7 @@ import React, { useEffect, useRef, Fragment } from 'react';
 import styled from '@emotion/styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import { sizes, pallet, spacing } from '../../../constants/style-guide';
+import { sizes, pallet, spacing, font, border } from '../../../constants/style-guide';
 import { isInitial } from '../../../utils/meta-status';
 import { fetchSession } from '../../../redux/session/actions';
 import CartIcon from '../../../assets/icons/shopping_cart.svg';
@@ -24,14 +24,15 @@ import { media } from '../../../utils/media';
 const Wrapper = styled('nav')`
   display: grid;
   grid-template-columns: 3fr 1fr 3fr 0px;
-  position: sticky;
   top: 0;
   z-index: 10;
   align-items: center;
   min-height: ${sizes.rowHeight}px;
-  background-color: ${pallet.strawberry};
+  background-color: transparent;
+  font-weight: ${font.weight.bold};
   padding-left: ${spacing.quadruple}px;
   padding-right: ${spacing.quadruple}px;
+  border-bottom: ${border};
   ${media.mobile()} {
     padding-left: ${spacing.double}px;
     padding-right: 0;
@@ -116,7 +117,7 @@ const renderNavItem = (item) => (
     <NavLink
       to={item.path}
       activeStyle={{
-        color: 'white',
+        color: pallet.strawberry,
       }}
     >
       {item.text}
@@ -155,16 +156,10 @@ export const NavBar = () => {
   return (
     <Fragment>
       <Wrapper>
-        <BarSection>
-          <Brand>
-            <NavLink to="/">
-              <BrandLinkWrapper className="staatliches">Jmn Jams</BrandLinkWrapper>
-            </NavLink>
-          </Brand>
-        </BarSection>
-        <BarSection style={{ justifyContent: 'center' }}>
+        <BarSection style={{ justifyContent: 'flex-start' }}>
           <NavLogo />
         </BarSection>
+        <BarSection />
         <BarSection style={{ justifyContent: 'flex-end' }}>
           {/* desktop nav */}
           <DesktopOnly>

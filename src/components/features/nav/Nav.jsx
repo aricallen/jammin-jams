@@ -69,7 +69,7 @@ export const NavLink = styled(BaseNavLink)`
   }
 
   &:hover {
-    color: white;
+    color: ${pallet.light.strawberry};
   }
 `;
 
@@ -89,7 +89,7 @@ export const IconWrapper = styled('div')`
 
   &:hover {
     svg {
-      fill: white;
+      fill: ${pallet.light.strawberry};
     }
   }
 `;

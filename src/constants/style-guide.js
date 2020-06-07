@@ -1,8 +1,10 @@
 import Color from 'color';
 
+// magenta: #ff0e63
+
 export const basePallet = {
   blueberry: '#7A7DB5',
-  strawberry: '#FA5C66',
+  strawberry: '#f05994',
   peach: '#FFA69E',
   apricot: '#F0941C',
   plum: '#C41EC4',

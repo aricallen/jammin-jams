@@ -166,7 +166,7 @@ export const Checkout = () => {
   useEffect(_fetchAppStatus, []);
 
   if (cart.length === 0) {
-    return <Redirect to="/p/store" />;
+    return <Redirect to="/store" />;
   }
 
   if (!isStripeLoaded || !isResolved(appMetaState.meta)) {
