@@ -14,7 +14,7 @@ import { media } from '../../../utils/media';
 // column is mobile nav list
 const Wrapper = styled('nav')`
   display: grid;
-  grid-template-columns: 3fr 1fr 3fr 0px;
+  grid-template-columns: 1fr auto 0px;
   top: 0;
   z-index: 10;
   align-items: center;
@@ -157,7 +157,6 @@ export const NavBar = () => {
             <NavLogo isHomePage={isHomePage} />
           </NavLink>
         </BarSection>
-        <BarSection />
         <BarSection style={{ justifyContent: 'flex-end' }}>
           {/* desktop nav */}
           <DesktopOnly>
@@ -175,7 +174,7 @@ export const NavBar = () => {
               <NavItem>
                 <Cart cart={cart} />
               </NavItem>
-              <MobileNav navItems={navItems} portalRef={portalRef} />
+              <MobileNav navItems={navItems} portalRef={portalRef} isHomePage={isHomePage} />
             </MobileWrapper>
           </MobileOnly>
         </BarSection>

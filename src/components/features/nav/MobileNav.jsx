@@ -8,7 +8,7 @@ import { expandSection, collapseSection } from '../../../utils/expandable-helper
 const NavItem = styled(BaseNavItem)`
   display: block;
   padding: ${spacing.regular}px ${spacing.double}px;
-  border-bottom: 1px solid white;
+  border-bottom: 1px solid black;
   &:last-of-type {
     border-bottom: none;
   }
@@ -18,7 +18,7 @@ const ToggleBar = styled('div')`
   width: 100%;
   margin-top: ${spacing.regular / 2}px;
   min-height: 4px;
-  background-color: white;
+  background-color: ${(p) => (p.isHomePage ? 'white' : 'black')};
   transition: all ${animation};
 `;
 
@@ -45,15 +45,16 @@ const ToggleButton = styled('div')`
   }
 `;
 
-const NavList = ({ navItems }) => {
+const NavList = ({ navItems, setIsExpanded }) => {
   return (
     <NavListWrapper>
       {navItems?.map((item) => (
         <NavItem key={item.path}>
           <NavLink
             to={item.path}
+            onClick={() => setIsExpanded(false)}
             activeStyle={{
-              color: 'white',
+              color: pallet.strawberr,
             }}
           >
             {item.text}
@@ -69,7 +70,7 @@ const ExpandableWrapper = styled('div')`
   position: absolute;
   top: ${sizes.rowHeight}px;
   width: 100%;
-  background-color: ${pallet.strawberry};
+  background-color: white;
   margin-left: -32px;
   z-index: 10;
   transition: height ${animation};
@@ -79,7 +80,7 @@ const ExpandableWrapper = styled('div')`
   overflow: ${(p) => (p.isExpanded ? 'auto' : 'hidden')};
 `;
 
-const ExpandableList = ({ isExpanded, navItems, portalRef }) => {
+const ExpandableList = ({ isExpanded, navItems, portalRef, setIsExpanded }) => {
   const wrapperRef = useRef();
 
   const handleExpandedChange = () => {
@@ -104,7 +105,7 @@ const ExpandableList = ({ isExpanded, navItems, portalRef }) => {
       isExpanded={isExpanded}
       height={wrapperRef.current?.scrollHeight}
     >
-      <NavList navItems={navItems} />
+      <NavList navItems={navItems} setIsExpanded={setIsExpanded} />
     </ExpandableWrapper>
   );
 
@@ -115,7 +116,7 @@ const ExpandableList = ({ isExpanded, navItems, portalRef }) => {
   return null;
 };
 
-export const MobileNav = ({ navItems, portalRef }) => {
+export const MobileNav = ({ navItems, portalRef, isHomePage }) => {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const onClick = () => {
@@ -125,11 +126,16 @@ export const MobileNav = ({ navItems, portalRef }) => {
   return (
     <Fragment>
       <ToggleButton className={isExpanded ? 'is-expanded' : 'is-collapsed'} onClick={onClick}>
-        <ToggleBar className="toggle-bar" />
-        <ToggleBar className="toggle-bar" />
-        <ToggleBar className="toggle-bar" />
+        <ToggleBar isHomePage={isHomePage} className="toggle-bar" />
+        <ToggleBar isHomePage={isHomePage} className="toggle-bar" />
+        <ToggleBar isHomePage={isHomePage} className="toggle-bar" />
       </ToggleButton>
-      <ExpandableList isExpanded={isExpanded} portalRef={portalRef} navItems={navItems} />
+      <ExpandableList
+        isExpanded={isExpanded}
+        portalRef={portalRef}
+        navItems={navItems}
+        setIsExpanded={setIsExpanded}
+      />
     </Fragment>
   );
 };
