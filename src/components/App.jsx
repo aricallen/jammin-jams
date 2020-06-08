@@ -93,10 +93,11 @@ export const App = () => {
             <About />
           </PageRoute>
 
-          {isBetaTester() && <PageRoute exact path="/store" component={Store} />}
-          {isBetaTester() && <Route exact path="/store/checkout" component={Checkout} />}
-          {isBetaTester() && <Route exact path="/store/success" component={Success} />}
-          {isBetaTester() && <Route exact path="/store/cancel" component={Cancel} />}
+          {/* live beta store */}
+          <PageRoute exact path="/store" component={Store} />
+          <Route exact path="/store/checkout" component={Checkout} />
+          <Route exact path="/store/success" component={Success} />
+          <Route exact path="/store/cancel" component={Cancel} />
           {/* non beta */}
           {!isBetaTester() && (
             <Route exact path="/store" component={() => <Redirect to="/p/covid-waitlist" />} />

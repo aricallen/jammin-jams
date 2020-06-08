@@ -27,6 +27,7 @@ export const TextArea = styled('textarea')`
   border-color: ${pallet.sky};
   width: 100%;
   padding: ${spacing.regular}px;
+  font: inherit;
   ${fontSizes('regular')}
   &:active,
   &:focus,

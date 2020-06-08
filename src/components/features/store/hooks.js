@@ -1,12 +1,17 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { pick } from 'lodash';
+import { useLocation } from 'react-router-dom';
+import { isBetaTester } from '../../../utils/beta-testing';
 
-const getDefaultValues = () => {
-  if (isBetaTester()) {
-    return SessionStorage.getItem(BETA_CHECKOUT_SESSION_KEY, {});
-  }
-  return {};
+const { BETA_STORE_ACCESS_CODE } = process.env;
+
+export const useIsAllowedStoreAccess = () => {
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const isAllowed =
+    isBetaTester() || searchParams.get('superSecretCode') === BETA_STORE_ACCESS_CODE;
+  return isAllowed;
 };
 
 /**

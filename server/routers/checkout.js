@@ -104,8 +104,8 @@ const updateStripeCustomer = async (
       metadata: {
         shipping_instructions: formValues.shippingInstructions,
         deliveryCoupon: deliveryCoupon ? deliveryCoupon.name : 'n/a',
+        priceCoupon: priceCoupon ? priceCoupon.name : 'n/a',
       },
-      coupon: priceCoupon.id,
     });
     return customerRecord;
   } catch (err) {
@@ -154,8 +154,8 @@ const updatePaymentIntent = async (checkoutSessionRecord, appliedCoupons) => {
   try {
     const updated = await stripeAdapter.paymentIntents.update(paymentIntentId, {
       metadata: {
-        couponName: priceCoupon.name,
-        discount: priceCoupon.amountOff,
+        couponName: priceCoupon ? priceCoupon.name : 'n/a',
+        discount: priceCoupon ? priceCoupon.amountOff : 'n/a',
         product,
       },
     });
