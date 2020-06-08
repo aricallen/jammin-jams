@@ -18,6 +18,14 @@ export const BrandLinkWrapper = styled('div')`
 
 export const NavLogo = styled(Logo)`
   cursor: pointer;
+  width: ${sizes.logo}px;
+  height: ${sizes.logo}px;
+
+  g,
+  use {
+    fill: ${(p) => (p.isHomePage ? 'white' : 'black')};
+  }
+
   g,
   use,
   g#logo-peach-alone * {
@@ -33,8 +41,6 @@ export const NavLogo = styled(Logo)`
       fill: ${pallet.strawberry};
     }
   }
-  width: ${sizes.logo}px;
-  height: ${sizes.logo}px;
 `;
 
 export const NavList = styled('ul')`
@@ -49,7 +55,7 @@ export const NavItem = styled('li')`
   margin-left: ${spacing.double}px;
   display: inline-block;
   position: relative;
-  ${fontSizes('large')}
+  ${fontSizes('header1')}
   .sub-nav {
     display: none;
   }
@@ -77,11 +83,11 @@ export const SubNav = styled('nav')`
 
 export const NavLink = styled(BaseNavLink)`
   text-decoration: none;
-  color: black;
+  color: ${(p) => (p.isHomePage ? 'white' : 'black')};
   transition: color ${animation};
 
   &:active {
-    color: black;
+    color: ${pallet.strawberry};
   }
 
   &:hover {

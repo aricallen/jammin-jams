@@ -2,7 +2,7 @@ import React, { useEffect, useRef, Fragment } from 'react';
 import styled from '@emotion/styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useHistory } from 'react-router-dom';
-import { sizes, pallet, spacing, font, border } from '../../../constants/style-guide';
+import { sizes, pallet, spacing, border } from '../../../constants/style-guide';
 import { isInitial } from '../../../utils/meta-status';
 import { fetchSession } from '../../../redux/session/actions';
 import CartIcon from '../../../assets/icons/shopping_cart.svg';
@@ -20,11 +20,11 @@ const Wrapper = styled('nav')`
   align-items: center;
   min-height: ${sizes.rowHeight}px;
   max-height: ${sizes.rowHeight}px;
+  font-weight: 700;
   background-color: transparent;
-  font-weight: ${font.weight.bold};
   padding-left: ${spacing.quadruple}px;
   padding-right: ${spacing.quadruple}px;
-  border-bottom: ${(p) => (p.isHome ? 'none' : border)};
+  border-bottom: ${(p) => (p.isHomePage ? 'none' : border)};
   ${media.mobile()} {
     padding-left: ${spacing.double}px;
     padding-right: 0;
@@ -104,10 +104,11 @@ const getNavItems = (navItems, sessionState) => {
   return [...navItems, ...LOGGED_OUT_ITEMS];
 };
 
-const renderNavItem = (item) => (
+const renderNavItem = (item, isHomePage) => (
   <NavItem key={item.path}>
     <NavLink
       to={item.path}
+      isHomePage={isHomePage}
       activeStyle={{
         color: pallet.strawberry,
       }}
@@ -137,6 +138,7 @@ export const NavBar = () => {
   const portalRef = useRef();
   const dispatch = useDispatch();
   const location = useLocation();
+  const isHomePage = location.pathname === '/';
 
   const fetch = () => {
     if (isInitial(sessionState.meta)) {
@@ -149,10 +151,10 @@ export const NavBar = () => {
 
   return (
     <Fragment>
-      <Wrapper isHome={location.pathname === '/'}>
+      <Wrapper isHomePage={isHomePage}>
         <BarSection style={{ justifyContent: 'flex-start' }}>
           <NavLink to="/">
-            <NavLogo />
+            <NavLogo isHomePage={isHomePage} />
           </NavLink>
         </BarSection>
         <BarSection />
@@ -160,7 +162,7 @@ export const NavBar = () => {
           {/* desktop nav */}
           <DesktopOnly>
             <NavList>
-              {navItems.map(renderNavItem)}
+              {navItems.map((item) => renderNavItem(item, isHomePage))}
               <NavItem style={{ marginLeft: 0 }}>
                 <Cart cart={cart} />
               </NavItem>
