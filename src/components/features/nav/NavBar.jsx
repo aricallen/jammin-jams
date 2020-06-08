@@ -19,6 +19,7 @@ const Wrapper = styled('nav')`
   z-index: 10;
   align-items: center;
   min-height: ${sizes.rowHeight}px;
+  max-height: ${sizes.rowHeight}px;
   background-color: transparent;
   font-weight: ${font.weight.bold};
   padding-left: ${spacing.quadruple}px;

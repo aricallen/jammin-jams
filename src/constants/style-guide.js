@@ -55,6 +55,7 @@ export const spacing = {
 
 export const sizes = {
   rowHeight: 64,
+  logo: 60,
   thumbnailWidth: 200,
   phoneWidth: 768,
   tabletWidth: 1024,

@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { NavLink as BaseNavLink } from 'react-router-dom';
 import { Logo } from '../../common/Logo';
-import { pallet, spacing, animation, font } from '../../../constants/style-guide';
+import { pallet, spacing, animation, font, sizes } from '../../../constants/style-guide';
 import { fontSizes } from '../../../utils/style-helpers';
 import { media } from '../../../utils/media';
 
@@ -29,12 +29,12 @@ export const NavLogo = styled(Logo)`
     use {
       fill: ${pallet.light.strawberry};
     }
-    g#logo-peach-alone * {
+    #logo-peach-alone path {
       fill: ${pallet.strawberry};
     }
   }
-  width: ${spacing.quadruple}px;
-  height: ${spacing.quadruple}px;
+  width: ${sizes.logo}px;
+  height: ${sizes.logo}px;
 `;
 
 export const NavList = styled('ul')`
