@@ -64,7 +64,7 @@ const D3Wrapper = styled('div')`
   }
 
   & td.delivery-day-cell {
-    background-color: ${pallet.plum};
+    background-color: ${pallet.strawberry};
     background-image: url('/assets/favicons/favicon.ico');
     background-repeat: no-repeat;
     background-position: center;
