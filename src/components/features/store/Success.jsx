@@ -4,14 +4,12 @@ import { Redirect, Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { Content, Header2 } from '../../common/Structure';
 import * as MetaStatus from '../../../utils/meta-status';
-import { updateOne as updateUser } from '../../../redux/users/actions';
 import { Spinner } from '../../common/Spinner';
 import { Button } from '../../common/Button';
 import { spacing } from '../../../constants/style-guide';
 import { boxShadow } from '../../../utils/style-helpers';
-import { fetchSession, fetchSessionUser } from '../../../redux/session/actions';
+import { fetchSession } from '../../../redux/session/actions';
 import { updateOne as updateCheckoutSession } from '../../../redux/checkout-session/actions';
-import { addMember } from '../../../redux/email/actions';
 import { ErrorPage } from '../ErrorPage';
 import { formatAmount } from '../../../utils/format-helpers';
 

@@ -136,7 +136,11 @@ const updateJJUserRecord = async (sessionUserId, formValues, customerId) => {
 
 const addToEmailLists = async (formValues) => {
   try {
-    return addMember(formValues, emailListAdapter);
+    const tags = ['active_subscription'];
+    if (formValues.newsletterSignup) {
+      tags.push('Newsletter');
+    }
+    return addMember({ ...formValues, tags }, emailListAdapter);
   } catch (err) {
     const subject = 'Unable to add user to email lists during checkout';
     console.error(subject, err);
