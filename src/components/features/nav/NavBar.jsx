@@ -1,23 +1,14 @@
 import React, { useEffect, useRef, Fragment } from 'react';
 import styled from '@emotion/styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { withRouter } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import { sizes, pallet, spacing, font, border } from '../../../constants/style-guide';
 import { isInitial } from '../../../utils/meta-status';
 import { fetchSession } from '../../../redux/session/actions';
 import CartIcon from '../../../assets/icons/shopping_cart.svg';
 import { DesktopOnly, MobileOnly } from '../../common/Structure';
 import { MobileNav } from './MobileNav';
-import {
-  NavLogo,
-  NavList,
-  NavLink,
-  NavItem,
-  SubNav,
-  Brand,
-  BrandLinkWrapper,
-  IconWrapper,
-} from './Nav';
+import { NavLogo, NavList, NavLink, NavItem, SubNav, IconWrapper } from './Nav';
 import { media } from '../../../utils/media';
 
 // column is mobile nav list
@@ -32,7 +23,7 @@ const Wrapper = styled('nav')`
   font-weight: ${font.weight.bold};
   padding-left: ${spacing.quadruple}px;
   padding-right: ${spacing.quadruple}px;
-  border-bottom: ${border};
+  border-bottom: ${(p) => (p.isHome ? 'none' : border)};
   ${media.mobile()} {
     padding-left: ${spacing.double}px;
     padding-right: 0;
@@ -126,7 +117,8 @@ const renderNavItem = (item) => (
   </NavItem>
 );
 
-const Cart = withRouter(({ cart, history }) => {
+const Cart = ({ cart }) => {
+  const history = useHistory();
   if (cart.length === 0) {
     return null;
   }
@@ -136,13 +128,14 @@ const Cart = withRouter(({ cart, history }) => {
       <CartIcon />
     </IconWrapper>
   );
-});
+};
 
 export const NavBar = () => {
   const sessionState = useSelector((state) => state.session);
   const cart = useSelector((state) => state.cart.data);
   const portalRef = useRef();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const fetch = () => {
     if (isInitial(sessionState.meta)) {
@@ -155,7 +148,7 @@ export const NavBar = () => {
 
   return (
     <Fragment>
-      <Wrapper>
+      <Wrapper isHome={location.pathname === '/'}>
         <BarSection style={{ justifyContent: 'flex-start' }}>
           <NavLink to="/">
             <NavLogo />
