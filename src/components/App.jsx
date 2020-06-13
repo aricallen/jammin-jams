@@ -92,6 +92,9 @@ export const App = () => {
           <PageRoute exact path="/p/about">
             <About />
           </PageRoute>
+          <PageRoute path="/about">
+            <About />
+          </PageRoute>
 
           {/* live beta store */}
           <PageRoute exact path="/store" component={Store} />
