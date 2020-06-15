@@ -56,7 +56,7 @@ const Price = styled('span')``;
 const CartItem = ({ item }) => {
   const dispatch = useDispatch();
   const { product, sku } = item;
-  const title = `${product.name} - ${sku.attributes.interval.replace(/-/g, '')}`;
+  const title = `${product.name} - ${sku?.attributes.interval.replace(/-/g, '')}`;
 
   const onClick = () => {
     dispatch(removeFromCart(item));
@@ -67,7 +67,7 @@ const CartItem = ({ item }) => {
       <ItemInfo>
         <Title>{title}</Title>
         <Price>
-          <Label>Price:</Label> ${formatAmount(item.sku.price)}
+          <Label>Price:</Label> ${formatAmount(sku?.price || product.price)}
         </Price>
       </ItemInfo>
       <Action>
@@ -90,7 +90,8 @@ export const CartPreview = ({ onCheckout }) => {
   const totalDiscount = sum(
     coupons.filter((coupon) => coupon.metadata.type === 'price').map((coupon) => coupon.amountOff)
   );
-  const totalAmount = sum(cart.map((item) => item.sku.price)) - totalDiscount;
+  const prices = cart.map((item) => (item.sku ? item.sku.price : item.product.price));
+  const totalAmount = sum(prices) - totalDiscount;
 
   return (
     <Wrapper>

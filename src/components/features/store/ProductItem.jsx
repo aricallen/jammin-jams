@@ -52,9 +52,12 @@ export const ProductItem = (props) => {
   const isSubscription = isResolved(skusState.meta) && skusOptions.length > 0;
   const isInCart = cart.find((item) => item.product.id === product.id);
 
+  const imageSrc = product.images?.[0] || '/assets/images/jotm.jpeg';
+  const showAddButton = isSubscription ? !!selectedSkuOption : true;
+
   return (
     <Wrapper>
-      <Picture src="/assets/images/jotm.jpeg" />
+      <Picture src={imageSrc} />
       <ItemContent>
         <Name>{product.name}</Name>
       </ItemContent>
@@ -69,14 +72,14 @@ export const ProductItem = (props) => {
       ) : (
         isBusy(skusState.meta) && <Spinner />
       )}
-      {selectedSkuOption && (
+      {showAddButton && (
         <SubscribeWrapper>
           {isInCart ? (
-            <Button onClick={() => onRemoveItem({ product, sku: selectedSkuOption.sku })}>
+            <Button onClick={() => onRemoveItem({ product, sku: selectedSkuOption?.sku })}>
               Remove from cart
             </Button>
           ) : (
-            <Button onClick={() => onAddItem({ product, sku: selectedSkuOption.sku })}>
+            <Button onClick={() => onAddItem({ product, sku: selectedSkuOption?.sku })}>
               Add to cart
             </Button>
           )}

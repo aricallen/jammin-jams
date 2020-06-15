@@ -26,6 +26,9 @@ import { Success } from './features/store/Success';
 import { Cancel } from './features/store/Cancel';
 import { Checkout } from './features/store/Checkout';
 
+// fundraiser
+import { Fundraiser } from './features/store/Fundraiser';
+
 // account
 import { SignIn } from './features/account/SignIn';
 import { SignOut } from './features/account/SignOut';
@@ -112,6 +115,10 @@ export const App = () => {
           <PageRoute exact path="/jam-journeys">
             <Blog />
           </PageRoute>
+
+          <Route exact path="/fundraiser">
+            <Fundraiser />
+          </Route>
 
           <Route exact path="/account/sign-in" component={SignIn} />
           <Route exact path="/account/sign-out" component={SignOut} />
