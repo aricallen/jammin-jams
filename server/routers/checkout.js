@@ -1,5 +1,5 @@
 const express = require('express');
-const { omit, pick } = require('lodash');
+const { omit, pick, get } = require('lodash');
 const { getConnection, updateRecord } = require('../utils/db-helpers');
 const { sendEmail, serializeForEmail, addMember } = require('../utils/email-helpers');
 const { adapter: emailListAdapter } = require('../adapters/email-list');
@@ -14,12 +14,13 @@ const serializeLineItems = (cartItems, coupons) => {
   const fractionalDiscount = Math.ceil(discount / cartItems.length);
   return cartItems.map((item) => {
     const { product, sku } = item;
+    const price = get(sku, 'price') || product.price;
     return {
       ...pick(product, ['name', 'description']),
-      ...pick(sku, ['currency']),
+      currency: 'usd',
       quantity: 1,
-      amount: sku.price - fractionalDiscount,
-      description: sku.attributes.interval,
+      amount: price - fractionalDiscount,
+      description: get(sku, 'attributes.interval'),
     };
   });
 };
