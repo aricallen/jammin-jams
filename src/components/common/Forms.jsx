@@ -9,7 +9,7 @@ export const Input = styled('input')`
   padding: ${spacing.regular}px;
   border-radius: ${spacing.regular}px;
   border-width: 1px;
-  border-color: ${pallet.strawberry};
+  border-color: ${pallet.sky};
   width: 100%;
   ${fontSizes('regular')}
   &:active,
@@ -17,23 +17,24 @@ export const Input = styled('input')`
   &:focus-within,
   &:hover {
     outline: none;
-    box-shadow: 0 0 4px ${pallet.strawberry};
+    box-shadow: 0 0 4px ${pallet.sky};
   }
 `;
 
 export const TextArea = styled('textarea')`
   border-radius: ${spacing.regular}px;
   border-width: 1px;
-  border-color: ${pallet.strawberry};
+  border-color: ${pallet.sky};
   width: 100%;
   padding: ${spacing.regular}px;
+  font: inherit;
   ${fontSizes('regular')}
   &:active,
   &:focus,
   &:focus-within,
   &:hover {
     outline: none;
-    box-shadow: 0 0 4px ${pallet.strawberry};
+    box-shadow: 0 0 4px ${pallet.sky};
   }
 `;
 

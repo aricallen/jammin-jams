@@ -1,14 +1,27 @@
 import Color from 'color';
 
-const basePallet = {
+// magenta: #ff0e63
+
+export const basePallet = {
   blueberry: '#7A7DB5',
-  strawberry: '#FA5C66',
+  strawberry: '#f05994',
   peach: '#FFA69E',
   apricot: '#F0941C',
   plum: '#C41EC4',
   sky: '#D2EFF7',
   charcoal: '#323232',
+  background: 'white',
+  text: 'black',
   disabled: `rgba(50, 50, 50, 0.6)`,
+};
+
+const makeVar = (pallet, prefix = '') => {
+  const asVar = Object.entries(pallet).reduce((acc, curr) => {
+    const [key, val] = curr;
+    acc[key] = `var(--${prefix}${key}, ${val})`;
+    return acc;
+  }, {});
+  return asVar;
 };
 
 const palletLight = Object.entries(basePallet).reduce((acc, curr) => {
@@ -28,9 +41,9 @@ const palletDark = Object.entries(basePallet).reduce((acc, curr) => {
 }, {});
 
 export const pallet = {
-  ...basePallet,
-  light: palletLight,
-  dark: palletDark,
+  ...makeVar(basePallet),
+  light: makeVar(palletLight, 'light-'),
+  dark: makeVar(palletDark, 'dark-'),
 };
 
 export const spacing = {
@@ -42,6 +55,7 @@ export const spacing = {
 
 export const sizes = {
   rowHeight: 64,
+  logo: 60,
   thumbnailWidth: 200,
   phoneWidth: 768,
   tabletWidth: 1024,
@@ -84,6 +98,6 @@ export const font = {
 
 export const animation = '0.3s ease-in-out';
 
-export const border = `1px solid ${Color(pallet.charcoal)
+export const border = `1px solid ${Color(basePallet.charcoal)
   .alpha(0.2)
   .toString()}`;

@@ -12,17 +12,17 @@ import { Header1, MobileOnly, DesktopOnly } from '../../common/Structure';
 const SECTIONS = [
   {
     title: 'What it is',
-    color: pallet.sky,
+    color: pallet.light.apricot,
     Content: WhatItIs,
   },
   {
     title: 'How it works',
-    color: pallet.light.blueberry,
+    color: pallet.light.apricot,
     Content: HowItWorks,
   },
   {
     title: '#jamjourneys',
-    color: pallet.peach,
+    color: pallet.light.apricot,
     Content: JamJourneys,
   },
 ];
@@ -50,7 +50,7 @@ const SelectorWrapper = styled('div')`
   outline: ${(p) => (p.isSelected ? `1px solid ${pallet.sky}` : 'none')};
   box-shadow: ${(p) => (p.isSelected ? boxShadow(pallet.strawberry) : 'none')};
   &:hover {
-    background-color: ${pallet.light.strawberry};
+    background-color: ${pallet.sky};
   }
 `;
 

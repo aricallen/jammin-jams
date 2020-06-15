@@ -18,9 +18,7 @@ const IMG_MIN_HEIGHT = 160;
 
 const Wrapper = styled(Row)`
   &:hover {
-    background-color: ${Color(pallet.strawberry)
-      .alpha(0.1)
-      .toString()};
+    background-color: ${pallet.sky};
   }
   align-items: initial;
   ${media.mobile()} {

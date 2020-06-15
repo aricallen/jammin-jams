@@ -22,7 +22,7 @@ const BlurbIntro = () => {
   return (
     <BlurbIntroText>
       Here is the latest from <Link to="/jam-journeys">Jam Journeys</Link> featuring the latest{' '}
-      <Link to="/p/store">Jam of the Month</Link> DJ set. <br />
+      <Link to="/store">Jam of the Month</Link> DJ set. <br />
       Enjoy <Emoji label="headphones">🎧</Emoji>.
     </BlurbIntroText>
   );

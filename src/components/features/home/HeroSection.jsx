@@ -13,6 +13,7 @@ const Wrapper = styled('div')`
   position: relative;
   background-color: ${pallet.charcoal};
   height: ${PICTURE_HEIGHT}px;
+  margin-top: -64px;
 `;
 
 const CallToAction = styled('div')`
@@ -42,7 +43,7 @@ export const HeroSection = () => {
           <Text>Jam. Music. Delivered.</Text>
           <DesktopOnly>
             <ButtonWrapper>
-              <ButtonLink variant="secondary" to="/store">
+              <ButtonLink variant="secondary" to="/store" style={{ fontWeight: 700 }}>
                 Sign up
               </ButtonLink>
             </ButtonWrapper>

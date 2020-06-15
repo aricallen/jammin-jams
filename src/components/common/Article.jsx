@@ -41,7 +41,7 @@ export const ColLeft = styled('div')`
   grid-area: left;
   & > div {
     position: sticky;
-    top: ${sizes.rowHeight + spacing.double}px;
+    top: ${spacing.quadruple}px;
   }
   ${media.mobile()} {
     display: none;
@@ -57,7 +57,7 @@ export const ColRight = styled('div')`
   grid-area: right;
   & > div {
     position: sticky;
-    top: ${sizes.rowHeight + spacing.double}px;
+    top: ${spacing.quadruple}px;
   }
   ${media.mobile()} {
     display: none;

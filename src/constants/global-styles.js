@@ -10,6 +10,18 @@ export const globalStyles = css`
     font-weight: 300;
   }
 
+  :root {
+    --blueberry: #7a7db5;
+    --strawberry: #e71768;
+    --peach: #ffa69e;
+    --apricot: #f0941c;
+    --plum: #c41ec4;
+    --sky: #d2eff7;
+    --charcoal: #323232;
+    --background: white;
+    --text: black;
+  }
+
   body,
   h1,
   h2,

@@ -1,37 +1,30 @@
 import React, { useEffect, useRef, Fragment } from 'react';
 import styled from '@emotion/styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { withRouter } from 'react-router-dom';
-import { sizes, pallet, spacing } from '../../../constants/style-guide';
+import { useLocation, useHistory } from 'react-router-dom';
+import { sizes, pallet, spacing, border } from '../../../constants/style-guide';
 import { isInitial } from '../../../utils/meta-status';
 import { fetchSession } from '../../../redux/session/actions';
 import CartIcon from '../../../assets/icons/shopping_cart.svg';
 import { DesktopOnly, MobileOnly } from '../../common/Structure';
 import { MobileNav } from './MobileNav';
-import {
-  NavLogo,
-  NavList,
-  NavLink,
-  NavItem,
-  SubNav,
-  Brand,
-  BrandLinkWrapper,
-  IconWrapper,
-} from './Nav';
+import { NavLogo, NavList, NavLink, NavItem, SubNav, IconWrapper } from './Nav';
 import { media } from '../../../utils/media';
 
 // column is mobile nav list
 const Wrapper = styled('nav')`
   display: grid;
-  grid-template-columns: 3fr 1fr 3fr 0px;
-  position: sticky;
+  grid-template-columns: 1fr auto 0px;
   top: 0;
   z-index: 10;
   align-items: center;
   min-height: ${sizes.rowHeight}px;
-  background-color: ${pallet.strawberry};
+  max-height: ${sizes.rowHeight}px;
+  font-weight: 700;
+  background-color: transparent;
   padding-left: ${spacing.quadruple}px;
   padding-right: ${spacing.quadruple}px;
+  border-bottom: ${(p) => (p.isHomePage ? 'none' : border)};
   ${media.mobile()} {
     padding-left: ${spacing.double}px;
     padding-right: 0;
@@ -111,12 +104,13 @@ const getNavItems = (navItems, sessionState) => {
   return [...navItems, ...LOGGED_OUT_ITEMS];
 };
 
-const renderNavItem = (item) => (
+const renderNavItem = (item, isHomePage) => (
   <NavItem key={item.path}>
     <NavLink
       to={item.path}
+      isHomePage={isHomePage}
       activeStyle={{
-        color: 'white',
+        color: pallet.strawberry,
       }}
     >
       {item.text}
@@ -125,7 +119,8 @@ const renderNavItem = (item) => (
   </NavItem>
 );
 
-const Cart = withRouter(({ cart, history }) => {
+const Cart = ({ cart }) => {
+  const history = useHistory();
   if (cart.length === 0) {
     return null;
   }
@@ -135,13 +130,15 @@ const Cart = withRouter(({ cart, history }) => {
       <CartIcon />
     </IconWrapper>
   );
-});
+};
 
 export const NavBar = () => {
   const sessionState = useSelector((state) => state.session);
   const cart = useSelector((state) => state.cart.data);
   const portalRef = useRef();
   const dispatch = useDispatch();
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
 
   const fetch = () => {
     if (isInitial(sessionState.meta)) {
@@ -154,22 +151,17 @@ export const NavBar = () => {
 
   return (
     <Fragment>
-      <Wrapper>
-        <BarSection>
-          <Brand>
-            <NavLink to="/">
-              <BrandLinkWrapper className="staatliches">Jmn Jams</BrandLinkWrapper>
-            </NavLink>
-          </Brand>
-        </BarSection>
-        <BarSection style={{ justifyContent: 'center' }}>
-          <NavLogo />
+      <Wrapper isHomePage={isHomePage}>
+        <BarSection style={{ justifyContent: 'flex-start' }}>
+          <NavLink to="/">
+            <NavLogo isHomePage={isHomePage} />
+          </NavLink>
         </BarSection>
         <BarSection style={{ justifyContent: 'flex-end' }}>
           {/* desktop nav */}
           <DesktopOnly>
             <NavList>
-              {navItems.map(renderNavItem)}
+              {navItems.map((item) => renderNavItem(item, isHomePage))}
               <NavItem style={{ marginLeft: 0 }}>
                 <Cart cart={cart} />
               </NavItem>
@@ -182,7 +174,7 @@ export const NavBar = () => {
               <NavItem>
                 <Cart cart={cart} />
               </NavItem>
-              <MobileNav navItems={navItems} portalRef={portalRef} />
+              <MobileNav navItems={navItems} portalRef={portalRef} isHomePage={isHomePage} />
             </MobileWrapper>
           </MobileOnly>
         </BarSection>

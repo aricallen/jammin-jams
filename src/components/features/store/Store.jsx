@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import styled from '@emotion/styled';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Redirect, useLocation } from 'react-router-dom';
 import { fetchProducts } from '../../../redux/products/actions';
 import { fetchSkus } from '../../../redux/skus/actions';
 import { addToCart, removeFromCart } from '../../../redux/cart/actions';
@@ -10,6 +10,7 @@ import { ProductItem } from './ProductItem';
 import { CartPreview } from './CartPreview';
 import { Content } from '../../common/Structure';
 import { isResolved } from '../../../utils/meta-status';
+import { useIsAllowedStoreAccess } from './hooks';
 
 const Wrapper = styled('div')`
   display: grid;
@@ -25,6 +26,12 @@ const List = styled(Content)`
 export const Store = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const location = useLocation();
+  const isAllowed = useIsAllowedStoreAccess();
+  if (!isAllowed) {
+    return <Redirect to="/p/covid-waitlist" />;
+  }
+  const searchParams = new URLSearchParams(location.search);
   const productsState = useSelector((state) => state.products);
   const cart = useSelector((state) => state.cart.data);
 
@@ -43,7 +50,7 @@ export const Store = () => {
   };
 
   const onCheckout = () => {
-    history.push('/store/checkout');
+    history.push({ pathname: '/store/checkout', search: searchParams.toString() });
   };
 
   if (!isResolved(productsState.meta)) {

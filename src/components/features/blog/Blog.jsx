@@ -19,10 +19,10 @@ const IntroText = styled('div')`
 const Intro = () => {
   return (
     <Fragment>
-      <Header1>Jam Journeys</Header1>
+      <Header1>#jamjourneys</Header1>
       <IntroText>
-        Here is the latest from <Link to="/jam-journeys">Jam Journeys</Link> featuring the latest{' '}
-        <Link to="/p/store">Jam of the Month</Link> DJ set. <br />
+        Here is the latest from <Link to="/jam-journeys">#jamjourneys</Link> featuring the latest{' '}
+        <Link to="/store">Jam of the Month</Link> DJ set. <br />
         Enjoy <Emoji label="headphones">🎧</Emoji>.
       </IntroText>
     </Fragment>

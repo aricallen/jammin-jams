@@ -24,6 +24,7 @@ const Wrapper = styled('div')`
 const IconLink = styled('a')`
   svg circle,
   svg g.circle-fill {
+    fill: ${pallet.blueberry};
     transition: fill ${animation};
   }
 
@@ -31,7 +32,7 @@ const IconLink = styled('a')`
     cursor: pointer;
     svg circle,
     svg g.circle-fill {
-      fill: ${pallet.light.strawberry};
+      fill: ${pallet.light.blueberry};
     }
   }
 `;

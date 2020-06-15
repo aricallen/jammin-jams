@@ -6,7 +6,6 @@ export const DeliveryType = {
 };
 
 export const CALENDAR_DATA = [
-  { month: 'May', num: 4, [DeliveryType.BICYCLE]: [29, 30, 31], [DeliveryType.OTHER]: 23 },
   { month: 'June', num: 5, [DeliveryType.BICYCLE]: [26, 27, 28], [DeliveryType.OTHER]: 23 },
   { month: 'July', num: 6, [DeliveryType.BICYCLE]: [24, 25, 26], [DeliveryType.OTHER]: 23 },
   { month: 'August', num: 7, [DeliveryType.BICYCLE]: [21, 22, 23], [DeliveryType.OTHER]: 23 },

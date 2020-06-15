@@ -7,12 +7,18 @@ export const Type = {
   FETCH_MANY_FAILED: 'orders/FETCH_MANY_FAILED',
 };
 
-export const fetchMany = (customerId) => {
+export const fetchMany = (sessionUser) => {
   return async (dispatch) => {
     dispatch({ type: Type.FETCH_MANY_REQUESTED });
     try {
+      let customerId = sessionUser.paymentCustomerId;
+      // may be stale from store
+      if (!customerId) {
+        const user = await axios.get(`/api/admin/users/${sessionUser.id}`);
+        customerId = user.data.data.paymentCustomerId;
+      }
       // because of way we setup the products, these are actually paymentIntents rather than orders
-      const response = await axios.get(`/api/stripe/orders?customerId=${customerId}`);
+      const response = await axios.get(`/api/stripe/paymentIntents?customerId=${customerId}`);
       const orders = response.data.data;
       dispatch({ type: Type.FETCH_MANY_SUCCEEDED, orders });
       return orders;

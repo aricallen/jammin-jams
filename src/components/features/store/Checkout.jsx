@@ -16,9 +16,9 @@ import { CreateAccount } from './CreateAccount';
 import { createOne as createCheckoutSession } from '../../../redux/checkout-session/actions';
 import { isBusy, isResolved } from '../../../utils/meta-status';
 import { fetch as fetchAppMeta } from '../../../redux/app-meta/actions';
-import { isBetaTester } from '../../../utils/beta-testing';
 import * as SessionStorage from '../../../utils/session-storage';
-import { useCheckoutFormValues } from './hooks';
+import { isBetaTester } from '../../../utils/beta-testing';
+import { useCheckoutFormValues, useIsAllowedStoreAccess } from './hooks';
 
 const STRIPE_SCRIPT_ID = 'STRIPE_SCRIPT_ID';
 const STRIPE_SRC = 'https://js.stripe.com/v3/';
@@ -165,8 +165,13 @@ export const Checkout = () => {
   };
   useEffect(_fetchAppStatus, []);
 
+  const isAllowed = useIsAllowedStoreAccess();
+  if (!isAllowed) {
+    return <Redirect to="/p/covid-waitlist" />;
+  }
+
   if (cart.length === 0) {
-    return <Redirect to="/p/store" />;
+    return <Redirect to="/store" />;
   }
 
   if (!isStripeLoaded || !isResolved(appMetaState.meta)) {

@@ -104,8 +104,8 @@ const updateStripeCustomer = async (
       metadata: {
         shipping_instructions: formValues.shippingInstructions,
         deliveryCoupon: deliveryCoupon ? deliveryCoupon.name : 'n/a',
+        priceCoupon: priceCoupon ? priceCoupon.name : 'n/a',
       },
-      coupon: priceCoupon.id,
     });
     return customerRecord;
   } catch (err) {
@@ -136,7 +136,11 @@ const updateJJUserRecord = async (sessionUserId, formValues, customerId) => {
 
 const addToEmailLists = async (formValues) => {
   try {
-    return addMember(formValues, emailListAdapter);
+    const tags = ['active_subscription'];
+    if (formValues.newsletterSignup) {
+      tags.push('Newsletter');
+    }
+    return addMember({ ...formValues, tags }, emailListAdapter);
   } catch (err) {
     const subject = 'Unable to add user to email lists during checkout';
     console.error(subject, err);
@@ -154,8 +158,8 @@ const updatePaymentIntent = async (checkoutSessionRecord, appliedCoupons) => {
   try {
     const updated = await stripeAdapter.paymentIntents.update(paymentIntentId, {
       metadata: {
-        couponName: priceCoupon.name,
-        discount: priceCoupon.amountOff,
+        couponName: priceCoupon ? priceCoupon.name : 'n/a',
+        discount: priceCoupon ? priceCoupon.amountOff : 'n/a',
         product,
       },
     });

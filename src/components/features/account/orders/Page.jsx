@@ -49,7 +49,7 @@ export const Page = () => {
   const sessionUser = sessionState.data?.user;
   const _fetchOrders = () => {
     if (sessionUser && ordersState.data.length === 0 && MetaStatus.isInitial(ordersState.meta)) {
-      dispatch(fetchOrders(sessionUser.paymentCustomerId));
+      dispatch(fetchOrders(sessionUser));
     }
   };
   useEffect(_fetchOrders, [sessionUser]);

@@ -50,7 +50,7 @@ import { Post as BlogPost } from './features/blog/Post';
 import { Footer } from './common/Footer';
 import { NavBar } from './features/nav/NavBar';
 import { globalStyles } from '../constants/global-styles';
-import { sizes } from '../constants/style-guide';
+import { sizes, pallet } from '../constants/style-guide';
 import { isBetaTester } from '../utils/beta-testing';
 
 const Wrapper = styled('div')`
@@ -59,6 +59,8 @@ const Wrapper = styled('div')`
   min-height: 100vh;
   height: 100%;
   position: relative;
+  background-color: ${pallet.background};
+  color: ${pallet.text};
 `;
 
 export const App = () => {
@@ -90,11 +92,15 @@ export const App = () => {
           <PageRoute exact path="/p/about">
             <About />
           </PageRoute>
+          <PageRoute path="/about">
+            <About />
+          </PageRoute>
 
-          {isBetaTester() && <PageRoute exact path="/store" component={Store} />}
-          {isBetaTester() && <Route exact path="/store/checkout" component={Checkout} />}
-          {isBetaTester() && <Route exact path="/store/success" component={Success} />}
-          {isBetaTester() && <Route exact path="/store/cancel" component={Cancel} />}
+          {/* live beta store */}
+          <PageRoute exact path="/store" component={Store} />
+          <Route exact path="/store/checkout" component={Checkout} />
+          <Route exact path="/store/success" component={Success} />
+          <Route exact path="/store/cancel" component={Cancel} />
           {/* non beta */}
           {!isBetaTester() && (
             <Route exact path="/store" component={() => <Redirect to="/p/covid-waitlist" />} />

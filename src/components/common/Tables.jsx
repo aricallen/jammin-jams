@@ -9,7 +9,7 @@ export const Row = styled('div')`
   cursor: pointer;
   transition: background-color ${animation};
   &:hover {
-    background-color: ${pallet.light.strawberry};
+    background-color: ${pallet.sky};
   }
   &:last-child {
     border-bottom: 0;

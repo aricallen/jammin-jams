@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import { NavLink as BaseNavLink } from 'react-router-dom';
 import { Logo } from '../../common/Logo';
-import { pallet, spacing, animation, font } from '../../../constants/style-guide';
+import { pallet, spacing, animation, font, sizes } from '../../../constants/style-guide';
 import { fontSizes } from '../../../utils/style-helpers';
 import { media } from '../../../utils/media';
 
@@ -17,8 +17,30 @@ export const BrandLinkWrapper = styled('div')`
 `;
 
 export const NavLogo = styled(Logo)`
-  width: ${spacing.quadruple}px;
-  height: ${spacing.quadruple}px;
+  cursor: pointer;
+  width: ${sizes.logo}px;
+  height: ${sizes.logo}px;
+
+  g,
+  use {
+    fill: ${(p) => (p.isHomePage ? 'white' : 'black')};
+  }
+
+  g,
+  use,
+  g#logo-peach-alone * {
+    transition: fill ${animation};
+  }
+
+  &:hover {
+    g,
+    use {
+      fill: ${pallet.light.strawberry};
+    }
+    #logo-peach-alone path {
+      fill: ${pallet.strawberry};
+    }
+  }
 `;
 
 export const NavList = styled('ul')`
@@ -33,7 +55,7 @@ export const NavItem = styled('li')`
   margin-left: ${spacing.double}px;
   display: inline-block;
   position: relative;
-  ${fontSizes('large')}
+  ${fontSizes('header1')}
   .sub-nav {
     display: none;
   }
@@ -61,15 +83,15 @@ export const SubNav = styled('nav')`
 
 export const NavLink = styled(BaseNavLink)`
   text-decoration: none;
-  color: black;
+  color: ${(p) => (p.isHomePage ? 'white' : 'black')};
   transition: color ${animation};
 
   &:active {
-    color: black;
+    color: ${pallet.strawberry};
   }
 
   &:hover {
-    color: white;
+    color: ${pallet.light.strawberry};
   }
 `;
 
@@ -89,7 +111,7 @@ export const IconWrapper = styled('div')`
 
   &:hover {
     svg {
-      fill: white;
+      fill: ${pallet.light.strawberry};
     }
   }
 `;
