@@ -119,6 +119,9 @@ export const App = () => {
           <Route exact path="/fundraiser">
             <Fundraiser />
           </Route>
+          <Route exact path="/fundraiser/checkout">
+            <Checkout />
+          </Route>
 
           <Route exact path="/account/sign-in" component={SignIn} />
           <Route exact path="/account/sign-out" component={SignOut} />

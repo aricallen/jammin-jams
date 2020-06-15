@@ -166,7 +166,7 @@ export const Checkout = () => {
   useEffect(_fetchAppStatus, []);
 
   const isAllowed = useIsAllowedStoreAccess();
-  if (!isAllowed) {
+  if (!isAllowed && !location.pathname.includes('fundraiser')) {
     return <Redirect to="/p/covid-waitlist" />;
   }
 

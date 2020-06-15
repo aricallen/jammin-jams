@@ -40,7 +40,7 @@ export const Fundraiser = () => {
   };
 
   const onCheckout = () => {
-    history.push({ pathname: '/store/checkout' });
+    history.push({ pathname: '/fundraiser/checkout' });
   };
 
   if (!isResolved(productsState.meta)) {

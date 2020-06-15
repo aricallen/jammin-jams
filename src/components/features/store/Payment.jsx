@@ -21,7 +21,7 @@ export const Payment = (props) => {
   const { couponCode } = values;
 
   const foundCoupon = couponsState.data.find((coupon) => coupon.name === couponCode);
-  const preDiscountAmount = sum(cart.map((item) => item.sku.price));
+  const preDiscountAmount = sum(cart.map((item) => item.sku?.price || item.product.price));
   const discount = foundCoupon ? foundCoupon.amountOff : 0;
   const totalAmount = preDiscountAmount - discount;
 
