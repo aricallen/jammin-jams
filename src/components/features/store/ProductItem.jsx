@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
 import styled from '@emotion/styled';
 import { useSelector } from 'react-redux';
 import { spacing, font } from '../../../constants/style-guide';
@@ -21,13 +21,13 @@ const Picture = styled('img')``;
 
 const ItemContent = styled('div')``;
 
-const Name = styled('div')`
+const Label = styled('div')`
   text-align: center;
   font-size: ${font.size.large}px;
   padding: ${spacing.regular}px;
 `;
 
-const SubscribeWrapper = styled('div')`
+const ActionWrapper = styled('div')`
   margin-top: ${spacing.double}px;
 `;
 
@@ -35,11 +35,63 @@ const Button = styled(BaseButton)`
   width: 100%;
 `;
 
-export const ProductItem = (props) => {
+const JotmItem = (props) => {
   const [selectedSkuOption, setSelectedSkuOption] = useState(null);
+  const { onAddItem, onRemoveItem, product, skusOptions, isInCart, imageSrc } = props;
+
+  return (
+    <Fragment>
+      <Picture src={imageSrc} />
+      <ItemContent>
+        <Label>{product.name}</Label>
+      </ItemContent>
+      <Select
+        onChange={setSelectedSkuOption}
+        options={skusOptions}
+        value={selectedSkuOption}
+        placeholder="Subscription Interval..."
+        isSearchable={false}
+      />
+      <ActionWrapper>
+        {isInCart ? (
+          <Button onClick={() => onRemoveItem({ product, sku: selectedSkuOption?.sku })}>
+            Remove from cart
+          </Button>
+        ) : (
+          <Button onClick={() => onAddItem({ product, sku: selectedSkuOption?.sku })}>
+            Add to cart
+          </Button>
+        )}
+      </ActionWrapper>
+    </Fragment>
+  );
+};
+
+const Product = (props) => {
+  const { onAddItem, onRemoveItem, product, isInCart, imageSrc } = props;
+
+  return (
+    <Fragment>
+      <Picture src={imageSrc} />
+      <ItemContent>
+        <Label>{product.name}</Label>
+        <Label>${formatAmount(product.price)}</Label>
+      </ItemContent>
+      <ActionWrapper>
+        {isInCart ? (
+          <Button onClick={() => onRemoveItem({ product })}>Remove from cart</Button>
+        ) : (
+          <Button onClick={() => onAddItem({ product })}>Add to cart</Button>
+        )}
+      </ActionWrapper>
+    </Fragment>
+  );
+};
+
+export const ProductItem = (props) => {
   const skusState = useSelector((state) => state.skus);
   const cart = useSelector((state) => state.cart.data);
-  const { onAddItem, onRemoveItem, product } = props;
+  const { product } = props;
 
   const skusOptions = skusState.data
     .filter((sku) => sku.product === product.id)
@@ -53,37 +105,13 @@ export const ProductItem = (props) => {
   const isInCart = cart.find((item) => item.product.id === product.id);
 
   const imageSrc = product.images?.[0] || '/assets/images/jotm.jpeg';
-  const showAddButton = isSubscription ? !!selectedSkuOption : true;
 
   return (
     <Wrapper>
-      <Picture src={imageSrc} />
-      <ItemContent>
-        <Name>{product.name}</Name>
-      </ItemContent>
       {isSubscription ? (
-        <Select
-          onChange={setSelectedSkuOption}
-          options={skusOptions}
-          value={selectedSkuOption}
-          placeholder="Subscription Interval..."
-          isSearchable={false}
-        />
+        <JotmItem {...props} imageSrc={imageSrc} isInCart={isInCart} />
       ) : (
-        isBusy(skusState.meta) && <Spinner />
-      )}
-      {showAddButton && (
-        <SubscribeWrapper>
-          {isInCart ? (
-            <Button onClick={() => onRemoveItem({ product, sku: selectedSkuOption?.sku })}>
-              Remove from cart
-            </Button>
-          ) : (
-            <Button onClick={() => onAddItem({ product, sku: selectedSkuOption?.sku })}>
-              Add to cart
-            </Button>
-          )}
-        </SubscribeWrapper>
+        <Product {...props} imageSrc={imageSrc} isInCart={isInCart} />
       )}
     </Wrapper>
   );

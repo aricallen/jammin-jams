@@ -56,7 +56,10 @@ const Price = styled('span')``;
 const CartItem = ({ item }) => {
   const dispatch = useDispatch();
   const { product, sku } = item;
-  const title = `${product.name} - ${sku?.attributes.interval.replace(/-/g, '')}`;
+  let title = `${product.name}`;
+  if (sku) {
+    title += ` - ${sku?.attributes.interval.replace(/-/g, '')}`;
+  }
 
   const onClick = () => {
     dispatch(removeFromCart(item));
@@ -100,10 +103,12 @@ export const CartPreview = ({ onCheckout }) => {
           <CartItem item={item} key={item.product.id} />
         ))}
         <TotalWrapper>
-          <TotalRow>
-            <Label>Discount: </Label>
-            <Price>${formatAmount(totalDiscount)}</Price>
-          </TotalRow>
+          {totalDiscount > 0 && (
+            <TotalRow>
+              <Label>Discount: </Label>
+              <Price>${formatAmount(totalDiscount)}</Price>
+            </TotalRow>
+          )}
           <TotalRow>
             <Label>Total: </Label>
             <Price>${formatAmount(totalAmount)}</Price>
