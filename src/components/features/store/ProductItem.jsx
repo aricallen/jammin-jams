@@ -33,6 +33,7 @@ const ActionWrapper = styled('div')`
 
 const Button = styled(BaseButton)`
   width: 100%;
+  opacity: ${(p) => (p.isInCart ? 0.6 : 1)};
 `;
 
 const JotmItem = (props) => {
@@ -54,7 +55,10 @@ const JotmItem = (props) => {
       />
       <ActionWrapper>
         {isInCart ? (
-          <Button onClick={() => onRemoveItem({ product, sku: selectedSkuOption?.sku })}>
+          <Button
+            onClick={() => onRemoveItem({ product, sku: selectedSkuOption?.sku })}
+            isInCart={true}
+          >
             Remove from cart
           </Button>
         ) : (
@@ -79,7 +83,9 @@ const Product = (props) => {
       </ItemContent>
       <ActionWrapper>
         {isInCart ? (
-          <Button onClick={() => onRemoveItem({ product })}>Remove from cart</Button>
+          <Button onClick={() => onRemoveItem({ product })} isInCart={true}>
+            Remove from cart
+          </Button>
         ) : (
           <Button onClick={() => onAddItem({ product })}>Add to cart</Button>
         )}
@@ -105,6 +111,10 @@ export const ProductItem = (props) => {
   const isInCart = cart.find((item) => item.product.id === product.id);
 
   const imageSrc = product.images?.[0] || '/assets/images/jotm.jpeg';
+
+  if (isBusy(skusState.meta)) {
+    return <Spinner />;
+  }
 
   return (
     <Wrapper>
