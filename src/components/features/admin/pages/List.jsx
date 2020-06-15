@@ -8,7 +8,7 @@ import { Header } from '../Header';
 import { Button } from '../../../common/Button';
 import { spacing } from '../../../../constants/style-guide';
 import { Row } from '../../../common/Tables';
-import { useCrudState } from '../../../../utils/useCrudState';
+import { useCrudState } from '../../../../hooks/useCrudState';
 
 const Cell = styled('div')`
   margin-right: ${spacing.regular}px;

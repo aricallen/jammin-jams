@@ -8,7 +8,7 @@ import { Spinner } from '../../common/Spinner';
 import { Content } from '../../common/Structure';
 import { CartPreview } from './CartPreview';
 import { ProductItem } from './ProductItem';
-import { fetchProducts } from '../../../redux/products/actions';
+import { useCrudState } from '../../../hooks/useCrudState';
 
 const Wrapper = styled('div')`
   display: grid;
@@ -23,12 +23,12 @@ const List = styled(Content)`
 
 export const Fundraiser = () => {
   const dispatch = useDispatch();
+  const { fetch: fetchProducts, state: productsState } = useCrudState();
   const history = useHistory();
-  const productsState = useSelector((state) => state.products);
   const cart = useSelector((state) => state.cart.data);
 
   useEffect(() => {
-    dispatch(fetchProducts());
+    fetchProducts('/api/fundraiser/products');
   }, []);
 
   const onAddItem = (item) => {
@@ -40,19 +40,17 @@ export const Fundraiser = () => {
   };
 
   const onCheckout = () => {
-    history.push({ pathname: '/fundraiser/checkout' });
+    history.push({ pathname: '/store/checkout' });
   };
 
   if (!isResolved(productsState.meta)) {
     return <Spinner variant="large" />;
   }
 
-  const products = productsState.data.filter((p) => p.metadata?.type === 'fundraiser');
-
   return (
     <Wrapper hasCart={cart.length > 0}>
       <List>
-        {products.map((product) => (
+        {productsState.data.map((product) => (
           <ProductItem
             key={product.id}
             product={product}

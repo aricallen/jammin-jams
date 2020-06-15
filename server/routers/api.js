@@ -12,6 +12,7 @@ const { router: appMetaRouter } = require('./app-meta');
 const { router: usersRouter } = require('./users');
 const { router: cameraRollRouter } = require('./camera-roll');
 const { router: checkoutRouter } = require('./checkout');
+const { router: fundraiserRouter } = require('./fundraiser');
 
 // /api
 const router = express.Router();
@@ -25,6 +26,7 @@ router.use('/email', emailRouter);
 router.use('/app-meta', appMetaRouter);
 router.use('/users', usersRouter);
 router.use('/camera-roll', cameraRollRouter);
+router.use('/fundraiser', fundraiserRouter);
 
 // general api
 router.get('/status', async (req, res) => {
