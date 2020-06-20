@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import Color from 'color';
 import { omit } from 'lodash';
 import styled from '@emotion/styled';
-import { spacing, pallet, font } from '../../constants/style-guide';
+import { spacing, pallet, font, basePallet } from '../../constants/style-guide';
 import { Spinner } from './Spinner';
 
 const getBackgroundColor = (props) => {
@@ -13,7 +13,7 @@ const getBackgroundColor = (props) => {
   }
 
   if (disabled && variant === 'secondary') {
-    return Color(pallet.charcoal)
+    return Color(basePallet.charcoal)
       .alpha(0.05)
       .toString();
   }
