@@ -11,7 +11,7 @@ import { MobileNav } from './MobileNav';
 import { NavLogo, NavList, NavLink, NavItem, SubNav, IconWrapper } from './Nav';
 import { media } from '../../../utils/media';
 
-// column is mobile nav list
+// last column is mobile nav list
 const Wrapper = styled('nav')`
   display: grid;
   grid-template-columns: 1fr auto 0px;
