@@ -45,6 +45,7 @@ import { EditPage } from './features/admin/uploads/EditPage';
 import { Page as AlertsPage } from './features/admin/alerts/Page';
 import { Page as PageMetaPage } from './features/admin/pages/Page';
 import { List as PagesListPage } from './features/admin/pages/List';
+import { Page as InventoryPage } from './features/admin/inventory/Page';
 
 // blog
 import { Blog } from './features/blog/Blog';
@@ -136,6 +137,7 @@ export const App = () => {
           <AdminRoute exact path="/admin/uploads/:uploadId" component={EditPage} />
           <AdminRoute exact path="/admin/uploads" component={UploadsPage} />
           <AdminRoute exact path="/admin/alerts" component={AlertsPage} />
+          <AdminRoute exact path="/admin/inventory" component={InventoryPage} />
           <AdminRoute exact path="/admin/pages" component={PagesListPage} />
           <AdminRoute exact path="/admin/pages/:pageId" component={PageMetaPage} />
           <AdminRoute path="/admin" component={() => <Redirect to="/admin/dashboard" />} />

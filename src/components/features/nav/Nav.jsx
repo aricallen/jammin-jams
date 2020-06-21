@@ -16,7 +16,7 @@ export const BrandLinkWrapper = styled('div')`
   align-items: center;
 `;
 
-const shouldForwardProp = (p) => p !== 'isHomePage';
+const shouldForwardProp = (p) => p !== 'isHomePage' && p !== 'isAdminPage';
 
 export const NavLogo = styled(Logo, { shouldForwardProp })`
   cursor: pointer;
@@ -85,7 +85,7 @@ export const SubNav = styled('nav')`
 
 export const NavLink = styled(BaseNavLink, { shouldForwardProp })`
   text-decoration: none;
-  color: ${(p) => (p.isHomePage ? 'white' : 'black')};
+  color: ${(p) => (p.isHomePage || p.isAdminPage ? 'white' : 'black')};
   transition: color ${animation};
 
   &:active {

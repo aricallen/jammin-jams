@@ -21,7 +21,7 @@ const Wrapper = styled('nav')`
   min-height: ${sizes.rowHeight}px;
   max-height: ${sizes.rowHeight}px;
   font-weight: 700;
-  background-color: transparent;
+  background-color: ${(p) => (p.isAdminPage ? pallet.charcoal : 'transparent')};
   padding-left: ${spacing.quadruple}px;
   padding-right: ${spacing.quadruple}px;
   border-bottom: ${(p) => (p.isHomePage ? 'none' : border)};
@@ -104,18 +104,18 @@ const getNavItems = (navItems, sessionState) => {
   return [...navItems, ...LOGGED_OUT_ITEMS];
 };
 
-const renderNavItem = (item, isHomePage) => (
+const renderNavItem = (item, isHomePage, isAdminPage) => (
   <NavItem key={item.path}>
     <NavLink
       to={item.path}
       isHomePage={isHomePage}
+      isAdminPage={isAdminPage}
       activeStyle={{
         color: pallet.strawberry,
       }}
     >
       {item.text}
     </NavLink>
-    {item.children ? <SubNav className="sub-nav">{item.children.map(renderNavItem)}</SubNav> : null}
   </NavItem>
 );
 
@@ -139,6 +139,7 @@ export const NavBar = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const isHomePage = location.pathname === '/';
+  const isAdminPage = location.pathname.includes('admin');
 
   const fetch = () => {
     if (isInitial(sessionState.meta)) {
@@ -151,7 +152,7 @@ export const NavBar = () => {
 
   return (
     <Fragment>
-      <Wrapper isHomePage={isHomePage}>
+      <Wrapper isHomePage={isHomePage} isAdminPage={isAdminPage}>
         <BarSection style={{ justifyContent: 'flex-start' }}>
           <NavLink to="/">
             <NavLogo isHomePage={isHomePage} />
@@ -161,7 +162,7 @@ export const NavBar = () => {
           {/* desktop nav */}
           <DesktopOnly>
             <NavList>
-              {navItems.map((item) => renderNavItem(item, isHomePage))}
+              {navItems.map((item) => renderNavItem(item, isHomePage, isAdminPage))}
               <NavItem style={{ marginLeft: 0 }}>
                 <Cart cart={cart} />
               </NavItem>
