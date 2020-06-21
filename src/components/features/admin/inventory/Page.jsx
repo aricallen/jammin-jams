@@ -4,7 +4,7 @@ import { useCrudState } from '../../../../hooks/useCrudState';
 import { Spinner, Row, Section, Button, Input } from '../../../common';
 import { Header } from '../Header';
 // import { spacing } from '../../../../constants/style-guide';
-import { isResolved } from '../../../../utils/meta-status';
+import { isResolved, isInitial, isBusy } from '../../../../utils/meta-status';
 
 const Name = styled('div')`
   min-width: 25%;
@@ -28,7 +28,7 @@ const ListItem = ({ product, onChange }) => {
 
 export const Page = () => {
   const [products, setProducts] = useState([]);
-  const { fetch, state } = useCrudState();
+  const { fetch, update, state } = useCrudState();
 
   useEffect(() => {
     if (products.length === 0) {
@@ -38,12 +38,12 @@ export const Page = () => {
     }
   }, []);
 
-  if (!isResolved(state.meta)) {
+  if (isInitial(state.meta)) {
     return <Spinner />;
   }
 
   const onClickSave = () => {
-    console.log('update products', products);
+    update('/api/fundraiser/inventory', products).then((res) => setProducts(res));
   };
 
   const handleChange = (productId) => (e) => {
@@ -59,7 +59,14 @@ export const Page = () => {
 
   return (
     <React.Fragment>
-      <Header title="Inventory" Controls={() => <Button onClick={onClickSave}>Save</Button>} />
+      <Header
+        title="Inventory"
+        Controls={() => (
+          <Button isBusy={isBusy(state.meta)} onClick={onClickSave}>
+            Save
+          </Button>
+        )}
+      />
       <Section>
         {products.map((p) => (
           <ListItem product={p} key={p.id} onChange={handleChange(p.id)} />
