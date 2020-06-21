@@ -21,7 +21,6 @@ const ItemContent = styled('div')``;
 const Price = styled('div')`
   text-align: center;
   font-size: ${font.size.largest}px;
-  padding: ${spacing.regular}px;
 `;
 
 const Name = styled(Price)``;
@@ -45,7 +44,6 @@ const NameRow = styled(Row)`
 
 const Label = styled('div')`
   width: 50%;
-  font-weight: ${font.weight.bold};
   margin-right: ${spacing.half}px;
 `;
 
@@ -59,11 +57,12 @@ const Button = styled(BaseButton)`
 `;
 
 const ActionButton = (props) => {
-  const { isInCart, onAddItem, onRemoveItem, product, isSoldOut } = props;
-  const text = isInCart ? 'Remove from cart' : isSoldOut ? 'Sold out' : 'Add to cart';
-  const onClick = isInCart ? onRemoveItem : isSoldOut ? null : onAddItem;
+  const { isInCart, onAddItem, product, isSoldOut, selectedQty } = props;
+  const text =
+    isInCart || selectedQty === 0 ? 'Update quantity' : isSoldOut ? 'Sold out' : 'Add to cart';
+  const onClick = isSoldOut ? null : onAddItem;
   return (
-    <Button isDisabled={isSoldOut} onClick={() => onClick({ product })}>
+    <Button isDisabled={isSoldOut} onClick={() => onClick({ product, selectedQty })}>
       {text}
     </Button>
   );
@@ -104,13 +103,20 @@ const JotmItem = (props) => {
   );
 };
 
-const createOptions = (selectedQty) => {
-  return Array.from(new Array(selectedQty), (_, i) => {
-    return {
+const createOptions = (availableQty) => {
+  if (availableQty === 0) {
+    return [];
+  }
+
+  const options = [];
+  // include 0 as option
+  for (let i = 0; i <= availableQty; i += 1) {
+    options.push({
       value: i,
       label: i,
-    };
-  });
+    });
+  }
+  return options;
 };
 
 const Product = (props) => {
@@ -131,7 +137,7 @@ const Product = (props) => {
           <Value>
             <Select
               style={{ width: '50%' }}
-              options={createOptions(product.quantity)}
+              options={createOptions(product.quantity, selectedQty)}
               value={{ value: selectedQty, label: selectedQty }}
               onChange={onSelectQty}
             />
@@ -148,10 +154,10 @@ const Product = (props) => {
 export const ProductItem = (props) => {
   const skusState = useSelector((state) => state.skus);
   const cart = useSelector((state) => state.cart.data);
-  const [selectedQty, setSelectedQty] = useState(0);
   const { product } = props;
   const inventoryCount = product.quantity;
   const isSoldOut = inventoryCount === 0;
+  const [selectedQty, setSelectedQty] = useState(isSoldOut ? 0 : 1);
 
   const skusOptions = skusState.data
     .filter((sku) => sku.product === product.id)

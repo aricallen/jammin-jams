@@ -51,11 +51,11 @@ const Label = styled('span')`
   margin-right: ${spacing.regular}px;
 `;
 
-const Price = styled('span')``;
+const LabelRow = styled('div')``;
 
 const CartItem = ({ item }) => {
   const dispatch = useDispatch();
-  const { product, sku } = item;
+  const { product, sku, selectedQty } = item;
   let title = `${product.name}`;
   if (sku) {
     title += ` - ${sku?.attributes.interval.replace(/-/g, '')}`;
@@ -69,9 +69,12 @@ const CartItem = ({ item }) => {
     <Row>
       <ItemInfo>
         <Title>{title}</Title>
-        <Price>
+        <LabelRow>
           <Label>Price:</Label> ${formatAmount(sku?.price || product.price)}
-        </Price>
+        </LabelRow>
+        <LabelRow>
+          <Label>Quantity:</Label> {selectedQty || 1}
+        </LabelRow>
       </ItemInfo>
       <Action>
         <Button variant="secondary" onClick={onClick}>
@@ -93,7 +96,10 @@ export const CartPreview = ({ onCheckout }) => {
   const totalDiscount = sum(
     coupons.filter((coupon) => coupon.metadata.type === 'price').map((coupon) => coupon.amountOff)
   );
-  const prices = cart.map((item) => (item.sku ? item.sku.price : item.product.price));
+  const prices = cart.map((item) => {
+    const { product, selectedQty } = item;
+    return product.price * selectedQty;
+  });
   const totalAmount = sum(prices) - totalDiscount;
 
   return (
@@ -106,12 +112,12 @@ export const CartPreview = ({ onCheckout }) => {
           {totalDiscount > 0 && (
             <TotalRow>
               <Label>Discount: </Label>
-              <Price>${formatAmount(totalDiscount)}</Price>
+              <Label>${formatAmount(totalDiscount)}</Label>
             </TotalRow>
           )}
           <TotalRow>
             <Label>Total: </Label>
-            <Price>${formatAmount(totalAmount)}</Price>
+            <Label>${formatAmount(totalAmount)}</Label>
           </TotalRow>
         </TotalWrapper>
       </Rows>
