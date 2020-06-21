@@ -3,7 +3,6 @@ import styled from '@emotion/styled';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory, Redirect, useLocation } from 'react-router-dom';
 import { fetchProducts } from '../../../redux/products/actions';
-import { fetchSkus } from '../../../redux/skus/actions';
 import { addToCart, removeFromCart } from '../../../redux/cart/actions';
 import { Spinner } from '../../common/Spinner';
 import { ProductItem } from './ProductItem';
@@ -37,7 +36,6 @@ export const Store = () => {
 
   const fetch = () => {
     dispatch(fetchProducts());
-    dispatch(fetchSkus());
   };
   useEffect(fetch, []);
 

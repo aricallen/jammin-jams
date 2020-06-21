@@ -8,7 +8,7 @@ import { Spinner } from '../../common/Spinner';
 import { Content } from '../../common/Structure';
 import { CartPreview } from './CartPreview';
 import { ProductItem } from './ProductItem';
-import { useCrudState } from '../../../hooks/useCrudState';
+import { fetchProducts } from '../../../redux/products/actions';
 
 const Wrapper = styled('div')`
   display: grid;
@@ -23,12 +23,12 @@ const List = styled(Content)`
 
 export const Fundraiser = () => {
   const dispatch = useDispatch();
-  const { fetch: fetchProducts, state: productsState } = useCrudState();
   const history = useHistory();
+  const productsState = useSelector((state) => state.products);
   const cart = useSelector((state) => state.cart.data);
 
   useEffect(() => {
-    fetchProducts('/api/fundraiser/products');
+    dispatch(fetchProducts());
   }, []);
 
   const onAddItem = (item) => {

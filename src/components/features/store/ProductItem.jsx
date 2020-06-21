@@ -1,11 +1,10 @@
-import React, { useState, Fragment } from 'react';
 import styled from '@emotion/styled';
+import React, { Fragment, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { spacing, font } from '../../../constants/style-guide';
-import { Button as BaseButton, Spinner, Select } from '../../common';
-import { isResolved, isBusy } from '../../../utils/meta-status';
-import { media } from '../../../utils/media';
+import { font, spacing } from '../../../constants/style-guide';
 import { formatAmount } from '../../../utils/format-helpers';
+import { media } from '../../../utils/media';
+import { Button as BaseButton, Select } from '../../common';
 import { ProductPicture } from './ProductPicture';
 
 const Wrapper = styled('div')`
@@ -69,8 +68,13 @@ const ActionButton = (props) => {
 };
 
 const JotmItem = (props) => {
-  const [selectedSkuOption, setSelectedSkuOption] = useState(null);
-  const { onAddItem, onRemoveItem, product, skusOptions, isInCart, imageSrc } = props;
+  const [selectedPriceOption, setSelectedPriceOption] = useState(null);
+  const { onAddItem, onRemoveItem, product, isInCart, imageSrc } = props;
+
+  const priceOptions = product.prices.map((price) => ({
+    label: `$${formatAmount(price.amount)} -- ${price.description}`,
+    value: price.amount,
+  }));
 
   return (
     <Fragment>
@@ -79,24 +83,19 @@ const JotmItem = (props) => {
         <Label>{product.name}</Label>
       </ItemContent>
       <Select
-        onChange={setSelectedSkuOption}
-        options={skusOptions}
-        value={selectedSkuOption}
+        onChange={setSelectedPriceOption}
+        options={priceOptions}
+        value={selectedPriceOption}
         placeholder="Subscription Interval..."
         isSearchable={false}
       />
       <ActionWrapper>
         {isInCart ? (
-          <Button
-            onClick={() => onRemoveItem({ product, sku: selectedSkuOption?.sku })}
-            isInCart={true}
-          >
+          <Button onClick={() => onRemoveItem({ product })} isInCart={true}>
             Remove from cart
           </Button>
         ) : (
-          <Button onClick={() => onAddItem({ product, sku: selectedSkuOption?.sku })}>
-            Add to cart
-          </Button>
+          <Button onClick={() => onAddItem({ product })}>Add to cart</Button>
         )}
       </ActionWrapper>
     </Fragment>
@@ -152,29 +151,16 @@ const Product = (props) => {
 };
 
 export const ProductItem = (props) => {
-  const skusState = useSelector((state) => state.skus);
   const cart = useSelector((state) => state.cart.data);
   const { product } = props;
   const inventoryCount = product.quantity;
   const isSoldOut = inventoryCount === 0;
   const [selectedQty, setSelectedQty] = useState(isSoldOut ? 0 : 1);
 
-  const skusOptions = skusState.data
-    .filter((sku) => sku.product === product.id)
-    .map((sku) => ({
-      label: `${sku.attributes.interval} -- $${formatAmount(sku.price)}`,
-      value: sku.id,
-      sku,
-    }));
-
-  const isSubscription = isResolved(skusState.meta) && skusOptions.length > 0;
+  const isSubscription = product.metadata.type === 'subscription';
   const isInCart = cart.find((item) => item.product.id === product.id);
 
   const imageSrc = product.images?.[0] || '/assets/images/jotm.jpeg';
-
-  if (isBusy(skusState.meta)) {
-    return <Spinner />;
-  }
 
   const onSelectQty = (option) => {
     const quantity = +option.value;

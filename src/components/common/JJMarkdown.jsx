@@ -1,7 +1,7 @@
-import React from 'react';
 import styled from '@emotion/styled';
+import React from 'react';
 import ReactMarkdown from 'react-markdown';
-import { spacing, pallet, border } from '../../constants/style-guide';
+import { pallet, spacing } from '../../constants/style-guide';
 
 const Wrapper = styled('div')`
   ul {

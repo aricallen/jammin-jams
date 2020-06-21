@@ -11,7 +11,7 @@ export const fetchProducts = () => {
   return async (dispatch) => {
     dispatch({ type: Type.FETCH_REQUESTED });
     try {
-      const response = await axios.get(`/api/stripe/products`);
+      const response = await axios.get(`/api/products`);
       const products = response.data.data;
       dispatch({ type: Type.FETCH_SUCCEEDED, products });
       return products;

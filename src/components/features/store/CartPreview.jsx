@@ -55,11 +55,7 @@ const LabelRow = styled('div')``;
 
 const CartItem = ({ item }) => {
   const dispatch = useDispatch();
-  const { product, sku, selectedQty } = item;
-  let title = `${product.name}`;
-  if (sku) {
-    title += ` - ${sku?.attributes.interval.replace(/-/g, '')}`;
-  }
+  const { product, selectedQty } = item;
 
   const onClick = () => {
     dispatch(removeFromCart(item));
@@ -68,9 +64,9 @@ const CartItem = ({ item }) => {
   return (
     <Row>
       <ItemInfo>
-        <Title>{title}</Title>
+        <Title>{product.name}</Title>
         <LabelRow>
-          <Label>Price:</Label> ${formatAmount(sku?.price || product.price)}
+          <Label>Price:</Label> ${formatAmount(product.price)}
         </LabelRow>
         <LabelRow>
           <Label>Quantity:</Label> {selectedQty || 1}

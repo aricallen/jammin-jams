@@ -13,14 +13,13 @@ const serializeLineItems = (cartItems, coupons) => {
   const discount = coupons.map((coupon) => coupon.amountOff);
   const fractionalDiscount = Math.ceil(discount / cartItems.length);
   return cartItems.map((item) => {
-    const { product, sku } = item;
-    const price = get(sku, 'price') || product.price;
+    const { product } = item;
     return {
       ...pick(product, ['name', 'description']),
       currency: 'usd',
       quantity: 1,
-      amount: price - fractionalDiscount,
-      description: get(sku, 'attributes.interval'),
+      amount: product.price - fractionalDiscount,
+      description: product.name,
     };
   });
 };
@@ -174,7 +173,7 @@ const updatePaymentIntent = async (checkoutSessionRecord, appliedCoupons) => {
  * find customer for completed checkout
  * create jj user record with related customer.id
  * add shipping info to customer record
- * update customer description with sku interval info e.g. "Bimonthly"
+ * update customer description with product info e.g. "Bimonthly"
  */
 router.post('/success', async (req, res) => {
   const { formValues, sessionId, sessionUser } = req.body;

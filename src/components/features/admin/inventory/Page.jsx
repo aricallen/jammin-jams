@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useCrudState } from '../../../../hooks/useCrudState';
 import { Spinner, Row, Section, Button, Input } from '../../../common';
 import { Header } from '../Header';
-// import { spacing } from '../../../../constants/style-guide';
-import { isResolved, isInitial, isBusy } from '../../../../utils/meta-status';
+import { isInitial, isBusy } from '../../../../utils/meta-status';
+import { fetchProducts } from '../../../../redux/products/actions';
 
 const Name = styled('div')`
   min-width: 25%;
@@ -27,23 +28,23 @@ const ListItem = ({ product, onChange }) => {
  */
 
 export const Page = () => {
-  const [products, setProducts] = useState([]);
-  const { fetch, update, state } = useCrudState();
+  const dispatch = useDispatch();
+  const [formValues, setFormValues] = useState([]);
+  const productsState = useSelector((state) => state.products);
+  const { update, state } = useCrudState();
 
   useEffect(() => {
-    if (products.length === 0) {
-      fetch('/api/fundraiser/products').then((res) => {
-        setProducts(res);
-      });
-    }
+    dispatch(fetchProducts());
   }, []);
 
-  if (isInitial(state.meta)) {
+  if (isInitial(productsState.meta)) {
     return <Spinner />;
   }
 
+  const { data: products } = productsState;
+
   const onClickSave = () => {
-    update('/api/fundraiser/inventory', products).then((res) => setProducts(res));
+    update('/api/inventory', products);
   };
 
   const handleChange = (productId) => (e) => {
@@ -54,7 +55,7 @@ export const Page = () => {
       }
       return p;
     });
-    setProducts(updated);
+    setFormValues(updated);
   };
 
   return (
@@ -68,7 +69,7 @@ export const Page = () => {
         )}
       />
       <Section>
-        {products.map((p) => (
+        {formValues.map((p) => (
           <ListItem product={p} key={p.id} onChange={handleChange(p.id)} />
         ))}
       </Section>
