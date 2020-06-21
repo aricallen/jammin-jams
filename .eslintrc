@@ -13,6 +13,7 @@
   },
   "rules": {
     "babel/semi": 1,
+    "no-nested-ternary": 0,
     "semi": ["error", "always"],
     "no-console": 0,
     "no-bitwise": "off",

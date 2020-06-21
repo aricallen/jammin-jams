@@ -11,7 +11,7 @@ const Wrapper = styled('div')`
   blockquote {
     margin: ${spacing.double}px;
     padding-left: 1em;
-    color: ${pallet.disabled};
+    color: ${pallet.isDisabled};
     border-left: 0.25em solid #dfe2e5;
     font-style: italic;
   }

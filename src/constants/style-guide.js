@@ -12,7 +12,7 @@ export const basePallet = {
   charcoal: '#323232',
   background: 'white',
   text: 'black',
-  disabled: `rgba(50, 50, 50, 0.6)`,
+  isDisabled: `rgba(50, 50, 50, 0.6)`,
 };
 
 const makeVar = (pallet, prefix = '') => {

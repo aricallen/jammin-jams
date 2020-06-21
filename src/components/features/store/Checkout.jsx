@@ -126,7 +126,7 @@ const SectionFooter = ({ activeSection, onEditPrev, isValid, isBusy: _isBusy }) 
       ) : (
         <div /> // empty to maintain flex positioning
       )}
-      <Button disabled={!isValid} isBusy={_isBusy} type="submit">
+      <Button isDisabled={!isValid} isBusy={_isBusy} type="submit">
         {buttonText}
       </Button>
     </SectionFooterWrapper>

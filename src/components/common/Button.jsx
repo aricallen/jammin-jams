@@ -6,13 +6,13 @@ import { spacing, pallet, font, basePallet } from '../../constants/style-guide';
 import { Spinner } from './Spinner';
 
 const getBackgroundColor = (props) => {
-  const { variant = 'primary', disabled = false } = props;
+  const { variant = 'primary', isDisabled = false } = props;
 
-  if (disabled && variant === 'primary') {
+  if (isDisabled && variant === 'primary') {
     return pallet.light.strawberry;
   }
 
-  if (disabled && variant === 'secondary') {
+  if (isDisabled && variant === 'secondary') {
     return Color(basePallet.charcoal)
       .alpha(0.05)
       .toString();
@@ -61,13 +61,13 @@ const TextWrapper = styled('span')`
 `;
 
 export const Button = (props) => {
-  const { children, isBusy } = props;
+  const { children, isBusy, isDisabled } = props;
   const buttonProps = omit(props, ['children', 'isBusy']);
   const buttonRef = useRef();
   const width = buttonRef.current && buttonRef.current.width;
   const height = buttonRef.current && buttonRef.current.height;
   return (
-    <ButtonElem ref={buttonRef} {...buttonProps}>
+    <ButtonElem ref={buttonRef} disabled={isDisabled} {...buttonProps}>
       {isBusy ? (
         <SpinnerWrapper width={width} height={height}>
           <Spinner fill="white" variant="small" />

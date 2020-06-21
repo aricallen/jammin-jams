@@ -36,6 +36,18 @@ const Button = styled(BaseButton)`
   opacity: ${(p) => (p.isInCart ? 0.6 : 1)};
 `;
 
+const ActionButton = (props) => {
+  const { isInCart, onAddItem, onRemoveItem, product } = props;
+  const text = isInCart ? 'Remove from cart' : product.quantity === 0 ? 'Sold out' : 'Add to cart';
+  const isDisabled = product.quantity === 0;
+  const onClick = isInCart ? onRemoveItem : isDisabled ? null : onAddItem;
+  return (
+    <Button isDisabled={isDisabled} onClick={() => onClick({ product })}>
+      {text}
+    </Button>
+  );
+};
+
 const JotmItem = (props) => {
   const [selectedSkuOption, setSelectedSkuOption] = useState(null);
   const { onAddItem, onRemoveItem, product, skusOptions, isInCart, imageSrc } = props;
@@ -82,13 +94,7 @@ const Product = (props) => {
         <Label>${formatAmount(product.price)}</Label>
       </ItemContent>
       <ActionWrapper>
-        {isInCart ? (
-          <Button onClick={() => onRemoveItem({ product })} isInCart={true}>
-            Remove from cart
-          </Button>
-        ) : (
-          <Button onClick={() => onAddItem({ product })}>Add to cart</Button>
-        )}
+        <ActionButton {...props} />
       </ActionWrapper>
     </Fragment>
   );
