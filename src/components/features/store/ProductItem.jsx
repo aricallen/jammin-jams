@@ -8,16 +8,15 @@ import { Spinner } from '../../common/Spinner';
 import { isResolved, isBusy } from '../../../utils/meta-status';
 import { media } from '../../../utils/media';
 import { formatAmount } from '../../../utils/format-helpers';
+import { ProductPicture } from './ProductPicture';
 
 const Wrapper = styled('div')`
   padding: ${spacing.quadruple}px;
-  max-width: 30%;
+  width: 30%;
   ${media.mobile()} {
     max-width: 80%;
   }
 `;
-
-const Picture = styled('img')``;
 
 const ItemContent = styled('div')``;
 
@@ -54,7 +53,7 @@ const JotmItem = (props) => {
 
   return (
     <Fragment>
-      <Picture src={imageSrc} />
+      <ProductPicture imageSrc={imageSrc} />
       <ItemContent>
         <Label>{product.name}</Label>
       </ItemContent>
@@ -84,11 +83,11 @@ const JotmItem = (props) => {
 };
 
 const Product = (props) => {
-  const { onAddItem, onRemoveItem, product, isInCart, imageSrc } = props;
+  const { product, imageSrc } = props;
 
   return (
     <Fragment>
-      <Picture src={imageSrc} />
+      <ProductPicture imageSrc={imageSrc} />
       <ItemContent>
         <Label>{product.name}</Label>
         <Label>${formatAmount(product.price)}</Label>
