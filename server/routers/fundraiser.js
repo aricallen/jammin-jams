@@ -27,7 +27,7 @@ router.get('/products', async (req, res) => {
         return {
           ...product,
           price: get(priceForProduct, 'unit_amount'), // in cents
-          quantity: qtyForProduct,
+          quantity: qtyForProduct ? qtyForProduct.quantity : 0,
         };
       });
     return res.send({ data: records });
