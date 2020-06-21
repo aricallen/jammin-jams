@@ -11,27 +11,22 @@ const router = express.Router();
  * stripe products are not tied to prices, but prices have a `product` prop which
  * is the product.id
  */
-router.get('/products', async (req, res) => {
+router.get('/', async (req, res) => {
   try {
     const { data: prices } = await adapter.prices.list();
     const { data: products } = await adapter.products.list();
     const conn = await getConnection();
-    const productIds = products.map((p) => p.id);
-    await updateProductInventory(conn, productIds);
+    await updateProductInventory(conn, products);
     const inventory = await getRecords(conn, 'inventory');
     const records = products
-      .filter((product) => get(product, 'metadata.type') === 'fundraiser')
+      .filter((product) => get(product, 'metadata.isActive') === 'true')
       .map((product) => {
-        const pricesForProduct = prices
-          .filter((price) => price.product === product.id)
-          .map((price) => ({
-            amount: get(price, 'unit_amount'),
-            description: get(price, 'nickname'),
-          }));
+        const price = prices.find((p) => p.product === product.id);
         const qtyForProduct = inventory.find((item) => item.productId === product.id);
         return {
           ...product,
-          prices: pricesForProduct,
+          price: get(price, 'unit_amount'),
+          priceDescription: get(price, 'nickname'),
           quantity: qtyForProduct ? qtyForProduct.quantity : 0,
         };
       });

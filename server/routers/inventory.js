@@ -4,7 +4,7 @@ const { getConnection, updateRecordBy } = require('../utils/db-helpers');
 
 const router = express.Router();
 
-router.put('/inventory', async (req, res) => {
+router.put('/', async (req, res) => {
   const { body: newRows } = req;
   try {
     const conn = await getConnection();

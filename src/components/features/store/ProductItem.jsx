@@ -15,7 +15,7 @@ const Wrapper = styled('div')`
   }
 `;
 
-const ItemContent = styled('div')``;
+const ItemContentWrapper = styled('div')``;
 
 const Price = styled('div')`
   text-align: center;
@@ -67,49 +67,20 @@ const ActionButton = (props) => {
   );
 };
 
-const JotmItem = (props) => {
-  const [selectedPriceOption, setSelectedPriceOption] = useState(null);
-  const { onAddItem, onRemoveItem, product, isInCart, imageSrc } = props;
+const createOptions = (product, isJotm) => {
+  if (isJotm) {
+    return [
+      { value: 0, label: 0 },
+      { value: 1, label: 1 },
+    ];
+  }
 
-  const priceOptions = product.prices.map((price) => ({
-    label: `$${formatAmount(price.amount)} -- ${price.description}`,
-    value: price.amount,
-  }));
-
-  return (
-    <Fragment>
-      <ProductPicture imageSrc={imageSrc} />
-      <ItemContent>
-        <Label>{product.name}</Label>
-      </ItemContent>
-      <Select
-        onChange={setSelectedPriceOption}
-        options={priceOptions}
-        value={selectedPriceOption}
-        placeholder="Subscription Interval..."
-        isSearchable={false}
-      />
-      <ActionWrapper>
-        {isInCart ? (
-          <Button onClick={() => onRemoveItem({ product })} isInCart={true}>
-            Remove from cart
-          </Button>
-        ) : (
-          <Button onClick={() => onAddItem({ product })}>Add to cart</Button>
-        )}
-      </ActionWrapper>
-    </Fragment>
-  );
-};
-
-const createOptions = (availableQty) => {
-  if (availableQty === 0) {
+  if (product.quantity === 0) {
     return [];
   }
 
   const options = [];
-  // include 0 as option
-  for (let i = 0; i <= availableQty; i += 1) {
+  for (let i = 0; i <= product.quantity; i += 1) {
     options.push({
       value: i,
       label: i,
@@ -118,31 +89,38 @@ const createOptions = (availableQty) => {
   return options;
 };
 
+const ItemContent = (props) => {
+  const { product, onSelectQty, selectedQty } = props;
+  return (
+    <ItemContentWrapper>
+      <NameRow>
+        <Name>{product.name}</Name>
+      </NameRow>
+      <Row>
+        <Price>${formatAmount(product.price)}</Price>
+      </Row>
+      <Row>
+        <Label>Quantity: </Label>
+        <Value>
+          <Select
+            style={{ width: '50%' }}
+            options={createOptions(product)}
+            value={{ value: selectedQty, label: selectedQty }}
+            onChange={onSelectQty}
+          />
+        </Value>
+      </Row>
+    </ItemContentWrapper>
+  );
+};
+
 const Product = (props) => {
   const { product, imageSrc, onSelectQty, isSoldOut, selectedQty } = props;
 
   return (
     <Fragment>
       <ProductPicture imageSrc={imageSrc} />
-      <ItemContent>
-        <NameRow>
-          <Name>{product.name}</Name>
-        </NameRow>
-        <Row>
-          <Price>${formatAmount(product.price)}</Price>
-        </Row>
-        <Row>
-          <Label>Quantity: </Label>
-          <Value>
-            <Select
-              style={{ width: '50%' }}
-              options={createOptions(product.quantity, selectedQty)}
-              value={{ value: selectedQty, label: selectedQty }}
-              onChange={onSelectQty}
-            />
-          </Value>
-        </Row>
-      </ItemContent>
+      <ItemContent product={product} onSelectQty={onSelectQty} selectedQty={selectedQty} />
       <ActionWrapper>
         <ActionButton {...props} isSoldOut={isSoldOut} />
       </ActionWrapper>
@@ -153,11 +131,11 @@ const Product = (props) => {
 export const ProductItem = (props) => {
   const cart = useSelector((state) => state.cart.data);
   const { product } = props;
+  const isJotm = product.name.toLowerCase().includes('of the month');
   const inventoryCount = product.quantity;
   const isSoldOut = inventoryCount === 0;
   const [selectedQty, setSelectedQty] = useState(isSoldOut ? 0 : 1);
 
-  const isSubscription = product.metadata.type === 'subscription';
   const isInCart = cart.find((item) => item.product.id === product.id);
 
   const imageSrc = product.images?.[0] || '/assets/images/jotm.jpeg';
@@ -169,19 +147,16 @@ export const ProductItem = (props) => {
 
   return (
     <Wrapper>
-      {isSubscription ? (
-        <JotmItem {...props} imageSrc={imageSrc} isInCart={isInCart} />
-      ) : (
-        <Product
-          {...props}
-          product={product}
-          isSoldOut={isSoldOut}
-          imageSrc={imageSrc}
-          isInCart={isInCart}
-          onSelectQty={onSelectQty}
-          selectedQty={selectedQty}
-        />
-      )}
+      <Product
+        {...props}
+        product={product}
+        isSoldOut={isSoldOut}
+        imageSrc={imageSrc}
+        isInCart={isInCart}
+        isJotm={isJotm}
+        onSelectQty={onSelectQty}
+        selectedQty={selectedQty}
+      />
     </Wrapper>
   );
 };

@@ -26,9 +26,6 @@ import { Success } from './features/store/Success';
 import { Cancel } from './features/store/Cancel';
 import { Checkout } from './features/store/Checkout';
 
-// fundraiser
-import { Fundraiser } from './features/store/Fundraiser';
-
 // account
 import { SignIn } from './features/account/SignIn';
 import { SignOut } from './features/account/SignOut';
@@ -55,7 +52,6 @@ import { Footer } from './common/Footer';
 import { NavBar } from './features/nav/NavBar';
 import { globalStyles } from '../constants/global-styles';
 import { sizes, pallet } from '../constants/style-guide';
-import { isBetaTester } from '../utils/beta-testing';
 
 const Wrapper = styled('div')`
   display: grid;
@@ -105,10 +101,6 @@ export const App = () => {
           <Route exact path="/store/checkout" component={Checkout} />
           <Route exact path="/store/success" component={Success} />
           <Route exact path="/store/cancel" component={Cancel} />
-          {/* non beta */}
-          {!isBetaTester() && (
-            <Route exact path="/store" component={() => <Redirect to="/p/covid-waitlist" />} />
-          )}
 
           <Route exact path="/jam-journeys/:postId">
             <BlogPost />
@@ -116,13 +108,6 @@ export const App = () => {
           <PageRoute exact path="/jam-journeys">
             <Blog />
           </PageRoute>
-
-          <Route exact path="/fundraiser">
-            <Fundraiser />
-          </Route>
-          <Route exact path="/fundraiser/checkout">
-            <Checkout />
-          </Route>
 
           <Route exact path="/account/sign-in" component={SignIn} />
           <Route exact path="/account/sign-out" component={SignOut} />

@@ -17,7 +17,7 @@ const ListItem = ({ product, onChange }) => {
     <Row>
       <Name>{product.name}</Name>
       <Count>
-        <Input name="count" value={product.quantity} type="number" onChange={onChange} />
+        <Input name="count" value={product.quantity} type="number" min="-1" onChange={onChange} />
       </Count>
     </Row>
   );
@@ -34,7 +34,7 @@ export const Page = () => {
   const { update, state } = useCrudState();
 
   useEffect(() => {
-    dispatch(fetchProducts());
+    dispatch(fetchProducts()).then((products) => setFormValues(products));
   }, []);
 
   if (isInitial(productsState.meta)) {
@@ -44,7 +44,7 @@ export const Page = () => {
   const { data: products } = productsState;
 
   const onClickSave = () => {
-    update('/api/inventory', products);
+    update('/api/inventory', formValues);
   };
 
   const handleChange = (productId) => (e) => {
