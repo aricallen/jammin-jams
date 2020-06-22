@@ -29,6 +29,11 @@ router.get('/', async (req, res) => {
           priceDescription: get(price, 'nickname'),
           quantity: qtyForProduct ? qtyForProduct.quantity : 0,
         };
+      })
+      .sort((a, b) => {
+        const aPos = a.metadata.sortPosition || 0;
+        const bPos = b.metadata.sortPosition || 0;
+        return aPos < bPos ? -1 : 1;
       });
     return res.send({ data: records });
   } catch (err) {

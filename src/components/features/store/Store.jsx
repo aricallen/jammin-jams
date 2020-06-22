@@ -97,7 +97,7 @@ export const Store = () => {
     <Wrapper>
       <Top>
         <TopContent>
-          <Img src="/assets/images/cantaloupe.jpeg" />
+          <Img src="/assets/uploads/large/cantaloupe.jpeg" />
           <Credit>Art by Shireen Tofig</Credit>
           <TextBlock>Dear Friends,</TextBlock>
 
@@ -133,7 +133,7 @@ export const Store = () => {
           </TextBlock>
           <OrgLinkWrapper>
             <a href="artogether.org" target="_blank" rel="noopener noreferrer">
-              <Img src="/assets/images/arttogether.png" />
+              <Img src="/assets/uploads/medium/artogether.png" />
             </a>
           </OrgLinkWrapper>
         </TopContent>
