@@ -32,17 +32,19 @@ export const SelectElem = styled(ReactSelect)`
   }
   .react-select__option--is-selected {
     background-color: ${Color(basePallet.sky)
-      .lighten(0.2)
+      .lighten(0.8)
       .toString()};
+    color: ${basePallet.text};
   }
   .react-select__option--is-selected:hover {
     background-color: ${Color(basePallet.sky)
-      .lighten(0.4)
+      .lighten(0.6)
       .toString()};
   }
   .react-select__option:hover,
   .react-select__option--is-focused {
     background-color: ${pallet.sky};
+    color: ${basePallet.text};
   }
 
   .react-select__single-value {

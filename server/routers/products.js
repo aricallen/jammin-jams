@@ -13,8 +13,8 @@ const router = express.Router();
  */
 router.get('/', async (req, res) => {
   try {
-    const { data: prices } = await adapter.prices.list();
-    const { data: products } = await adapter.products.list();
+    const { data: prices } = await adapter.prices.list({ limit: 100 });
+    const { data: products } = await adapter.products.list({ limit: 100 });
     const conn = await getConnection();
     await updateProductInventory(conn, products);
     const inventory = await getRecords(conn, 'inventory');

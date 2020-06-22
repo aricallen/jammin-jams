@@ -22,7 +22,7 @@ const updateProductInventory = async (conn, products) => {
         insertRecord(conn, 'inventory', {
           productId: product.id,
           productName: product.name,
-          quantity: -1,
+          quantity: 0,
         });
       }
     });

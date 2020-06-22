@@ -41,15 +41,13 @@ export const Page = () => {
     return <Spinner />;
   }
 
-  const { data: products } = productsState;
-
   const onClickSave = () => {
     update('/api/inventory', formValues);
   };
 
   const handleChange = (productId) => (e) => {
     const { value } = e.target;
-    const updated = products.map((p) => {
+    const updated = formValues.map((p) => {
       if (p.id === productId) {
         return { ...p, quantity: +value };
       }

@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { sum } from 'lodash';
 import { Content } from '../../common/Structure';
 import { Button as BaseButton } from '../../common/Button';
-import { spacing, border, font } from '../../../constants/style-guide';
+import { spacing, border, font, pallet } from '../../../constants/style-guide';
 import { removeFromCart } from '../../../redux/cart/actions';
 import { formatAmount } from '../../../utils/format-helpers';
 import { boxShadow } from '../../../utils/style-helpers';
@@ -51,6 +51,10 @@ const Label = styled('span')`
   margin-right: ${spacing.regular}px;
 `;
 
+const Description = styled('div')`
+  color: ${pallet.textAlt};
+`;
+
 const LabelRow = styled('div')``;
 
 const CartItem = ({ item }) => {
@@ -65,6 +69,7 @@ const CartItem = ({ item }) => {
     <Row>
       <ItemInfo>
         <Title>{product.name}</Title>
+        {product.description && <Description>{product.description}</Description>}
         <LabelRow>
           <Label>Price:</Label> ${formatAmount(product.price)}
         </LabelRow>

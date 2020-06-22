@@ -119,7 +119,11 @@ const renderNavItem = (item, isHomePage, isAdminPage) => (
   </NavItem>
 );
 
-const Cart = ({ cart }) => {
+const StyledCartIcon = styled(CartIcon, { shouldForwardProp: (p) => p !== 'isHomePage' })`
+  fill: ${(p) => (p.isHomePage ? 'white' : 'black')};
+`;
+
+const Cart = ({ cart, isHomePage }) => {
   const history = useHistory();
   if (cart.length === 0) {
     return null;
@@ -127,7 +131,7 @@ const Cart = ({ cart }) => {
 
   return (
     <IconWrapper onClick={() => history.push('/store/checkout')}>
-      <CartIcon />
+      <StyledCartIcon isHomePage={isHomePage} />
     </IconWrapper>
   );
 };
@@ -164,7 +168,7 @@ export const NavBar = () => {
             <NavList>
               {navItems.map((item) => renderNavItem(item, isHomePage, isAdminPage))}
               <NavItem style={{ marginLeft: 0 }}>
-                <Cart cart={cart} />
+                <Cart cart={cart} isHomePage={isHomePage} />
               </NavItem>
             </NavList>
           </DesktopOnly>

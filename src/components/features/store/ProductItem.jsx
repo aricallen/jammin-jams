@@ -9,6 +9,7 @@ import { ProductPicture } from './ProductPicture';
 
 const Wrapper = styled('div')`
   padding: ${spacing.quadruple}px;
+  padding-top: 0;
   width: 30%;
   ${media.mobile()} {
     max-width: 80%;
@@ -22,8 +23,6 @@ const Price = styled('div')`
   font-size: ${font.size.largest}px;
 `;
 
-const Name = styled(Price)``;
-
 const Value = styled('div')`
   width: 50%;
 `;
@@ -32,13 +31,7 @@ const Row = styled('div')`
   width: 100%;
   display: flex;
   align-items: center;
-  margin-bottom: ${spacing.regular}px;
-`;
-
-const NameRow = styled(Row)`
-  justify-content: center;
-  margin: ${spacing.double}px 0;
-  font-weight: ${font.weight.bold};
+  padding-top: ${spacing.double}px;
 `;
 
 const Label = styled('div')`
@@ -57,8 +50,7 @@ const Button = styled(BaseButton)`
 
 const ActionButton = (props) => {
   const { isInCart, onAddItem, product, isSoldOut, selectedQty } = props;
-  const text =
-    isInCart || selectedQty === 0 ? 'Update quantity' : isSoldOut ? 'Sold out' : 'Add to cart';
+  const text = isSoldOut ? 'Sold out' : isInCart ? 'Update quantity' : 'Add to cart';
   const onClick = isSoldOut ? null : onAddItem;
   return (
     <Button isDisabled={isSoldOut} onClick={() => onClick({ product, selectedQty })}>
@@ -90,12 +82,9 @@ const createOptions = (product, isJotm) => {
 };
 
 const ItemContent = (props) => {
-  const { product, onSelectQty, selectedQty } = props;
+  const { product, onSelectQty, selectedQty, isJotm, isSoldOut } = props;
   return (
     <ItemContentWrapper>
-      <NameRow>
-        <Name>{product.name}</Name>
-      </NameRow>
       <Row>
         <Price>${formatAmount(product.price)}</Price>
       </Row>
@@ -104,9 +93,11 @@ const ItemContent = (props) => {
         <Value>
           <Select
             style={{ width: '50%' }}
-            options={createOptions(product)}
+            options={createOptions(product, isJotm)}
             value={{ value: selectedQty, label: selectedQty }}
             onChange={onSelectQty}
+            isDisabled={isSoldOut}
+            isSearchable={false}
           />
         </Value>
       </Row>
@@ -115,12 +106,18 @@ const ItemContent = (props) => {
 };
 
 const Product = (props) => {
-  const { product, imageSrc, onSelectQty, isSoldOut, selectedQty } = props;
+  const { product, imageSrc, onSelectQty, isSoldOut, selectedQty, isJotm } = props;
 
   return (
     <Fragment>
       <ProductPicture imageSrc={imageSrc} />
-      <ItemContent product={product} onSelectQty={onSelectQty} selectedQty={selectedQty} />
+      <ItemContent
+        product={product}
+        onSelectQty={onSelectQty}
+        selectedQty={selectedQty}
+        isJotm={isJotm}
+        isSoldOut={isSoldOut}
+      />
       <ActionWrapper>
         <ActionButton {...props} isSoldOut={isSoldOut} />
       </ActionWrapper>
@@ -131,7 +128,7 @@ const Product = (props) => {
 export const ProductItem = (props) => {
   const cart = useSelector((state) => state.cart.data);
   const { product } = props;
-  const isJotm = product.name.toLowerCase().includes('of the month');
+  const isJotm = product.name.toLowerCase().includes('subscription');
   const inventoryCount = product.quantity;
   const isSoldOut = inventoryCount === 0;
   const [selectedQty, setSelectedQty] = useState(isSoldOut ? 0 : 1);

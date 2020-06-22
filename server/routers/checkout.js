@@ -1,5 +1,5 @@
 const express = require('express');
-const { omit, pick, get } = require('lodash');
+const { omit, pick } = require('lodash');
 const { getConnection, updateRecord } = require('../utils/db-helpers');
 const { sendEmail, serializeForEmail, addMember } = require('../utils/email-helpers');
 const { adapter: emailListAdapter } = require('../adapters/email-list');
@@ -13,12 +13,12 @@ const serializeLineItems = (cartItems, coupons) => {
   const discount = coupons.map((coupon) => coupon.amountOff);
   const fractionalDiscount = Math.ceil(discount / cartItems.length);
   return cartItems.map((item) => {
-    const { product } = item;
+    const { product, selectedQty } = item;
     return {
       ...pick(product, ['name', 'description']),
       currency: 'usd',
-      quantity: 1,
-      amount: product.price - fractionalDiscount,
+      quantity: selectedQty,
+      amount: Math.round(product.price - fractionalDiscount),
       description: product.name,
     };
   });
@@ -31,7 +31,7 @@ const serializeLineItems = (cartItems, coupons) => {
 router.post('/', async (req, res) => {
   const { formValues, cartItems, sessionUser, coupons = [] } = req.body;
   const host = TARGET_ENV === 'production' ? HOST : `${HOST}:${PORT}`;
-  const customerValues = sessionUser.paymentCustomerId
+  const customerValues = sessionUser?.paymentCustomerId
     ? { customer: sessionUser.paymentCustomerId }
     : { customer_email: formValues.email };
   try {
