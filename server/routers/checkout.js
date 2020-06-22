@@ -1,5 +1,5 @@
 const express = require('express');
-const { omit, pick } = require('lodash');
+const { omit, pick, sum } = require('lodash');
 const { getConnection, updateRecord } = require('../utils/db-helpers');
 const { sendEmail, serializeForEmail, addMember } = require('../utils/email-helpers');
 const { adapter: emailListAdapter } = require('../adapters/email-list');
@@ -10,8 +10,9 @@ const { STRIPE_PUBLISHABLE_KEY, HOST, PORT, TARGET_ENV, DEBUG_EMAIL } = process.
 const router = express.Router();
 
 const serializeLineItems = (cartItems, coupons) => {
-  const discount = coupons.map((coupon) => coupon.amountOff);
-  const fractionalDiscount = Math.ceil(discount / cartItems.length);
+  const discounts = coupons.map((coupon) => Math.round(coupon.amountOff / 100));
+  const totalDiscount = sum(discounts);
+  const fractionalDiscount = Math.round(totalDiscount / cartItems.length);
   return cartItems.map((item) => {
     const { product, selectedQty } = item;
     return {
