@@ -3,18 +3,10 @@ import React, { Fragment, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { font, spacing } from '../../../constants/style-guide';
 import { formatAmount } from '../../../utils/format-helpers';
-import { media } from '../../../utils/media';
 import { Button as BaseButton, Select } from '../../common';
 import { ProductPicture } from './ProductPicture';
 
-const Wrapper = styled('div')`
-  padding: ${spacing.quadruple}px;
-  padding-top: 0;
-  width: 30%;
-  ${media.mobile()} {
-    max-width: 80%;
-  }
-`;
+const Wrapper = styled('div')``;
 
 const ItemContentWrapper = styled('div')``;
 
