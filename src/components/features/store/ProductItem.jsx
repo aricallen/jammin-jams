@@ -65,7 +65,7 @@ const createOptions = (product) => {
   }
 
   const options = [];
-  for (let i = 0; i <= product.quantity; i += 1) {
+  for (let i = 0; i <= Math.min(product.quantity, 3); i += 1) {
     options.push({
       value: i,
       label: i,

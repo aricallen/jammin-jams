@@ -1,5 +1,5 @@
 import styled from '@emotion/styled';
-import { sum } from 'lodash';
+// import { sum } from 'lodash';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCoupon } from '../../../redux/coupons/actions';
@@ -12,7 +12,7 @@ const Message = styled('div')``;
 
 export const Payment = (props) => {
   const checkoutSessionState = useSelector((state) => state.checkoutSession);
-  const cart = useSelector((state) => state.cart.data);
+  // const cart = useSelector((state) => state.cart.data);
   const couponsState = useSelector((state) => state.coupons);
   const dispatch = useDispatch();
 
@@ -20,9 +20,9 @@ export const Payment = (props) => {
   const { couponCode } = values;
 
   const foundCoupon = couponsState.data.find((coupon) => coupon.name === couponCode);
-  const preDiscountAmount = sum(cart.map((item) => item.product.price));
-  const discount = foundCoupon ? foundCoupon.amountOff : 0;
-  const totalAmount = preDiscountAmount - discount;
+  // const preDiscountAmount = sum(cart.map((item) => item.product.price));
+  // const discount = foundCoupon ? foundCoupon.amountOff : 0;
+  // // const totalAmount = preDiscountAmount - discount;
 
   // has entered a code and validated as a real coupon
   const isEmptyCouponCode = couponCode === undefined || couponCode.length === 0;
