@@ -101,6 +101,15 @@ const Bold = styled('b')`
   color: ${pallet.strawberry};
 `;
 
+const Counter = styled('span')`
+  display: inline-block;
+  border-radius: 50%;
+  background: ${pallet.strawberry};
+  color: ${pallet.background};
+  margin-left: ${spacing.regular}px;
+  padding: 2px 6px;
+`;
+
 const Bottom = styled('div')``;
 
 export const Store = () => {
@@ -132,6 +141,8 @@ export const Store = () => {
     return <Spinner variant="large" />;
   }
 
+  const totalItems = cart.reduce((total, curr) => total + curr.selectedQty, 0);
+
   return (
     <Wrapper>
       <Top>
@@ -142,7 +153,7 @@ export const Store = () => {
               className={showFloatingCheckout ? 'in-view' : 'not-in-view'}
             >
               <Button onClick={onCheckout} variant="secondary">
-                Checkout
+                Checkout <Counter>{totalItems}</Counter>
               </Button>
             </FloatingButton>
           )}
