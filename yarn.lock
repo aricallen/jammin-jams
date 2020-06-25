@@ -10367,6 +10367,13 @@ react-input-autosize@^2.2.2:
   dependencies:
     prop-types "^15.5.8"
 
+react-intersection-observer@^8.26.2:
+  version "8.26.2"
+  resolved "https://registry.yarnpkg.com/react-intersection-observer/-/react-intersection-observer-8.26.2.tgz#0562ff0c06b2b10e809190c2fa9b6ded656e6e16"
+  integrity sha512-GmSjLNK+oV7kS+BHfrJSaA4wF61ELA33gizKHmN+tk59UT6/aW8kkqvlrFGPwxGoaIzLKS2evfG5fgkw5MIIsg==
+  dependencies:
+    tiny-invariant "^1.1.0"
+
 react-is@^16.12.0, react-is@^16.8.6:
   version "16.12.0"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-16.12.0.tgz#2cc0fe0fba742d97fd527c42a13bec4eeb06241c"
@@ -11854,10 +11861,10 @@ strip-json-comments@~2.0.1:
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-2.0.1.tgz#3c531942e908c2697c0ec344858c286c7ca0a60a"
   integrity sha1-PFMZQukIwml8DsNEhYwobHygpgo=
 
-stripe@^8.18.0:
-  version "8.63.0"
-  resolved "https://registry.yarnpkg.com/stripe/-/stripe-8.63.0.tgz#44926a492ebec0723c4a7d293fcaea130ada92ee"
-  integrity sha512-IjT4c9sPy/hNA4VKLRZq1+bUnL8V3nqCGSGnEA2ueCZi9CDS1ev8Q3t/6gh9lrgJ23ps+Z5MC29WLn4EZvIuBQ==
+stripe@^8.63.0:
+  version "8.67.0"
+  resolved "https://registry.yarnpkg.com/stripe/-/stripe-8.67.0.tgz#df87de805de944ff16c90323598c84a6b3a87540"
+  integrity sha512-MncFtlNtMPYlian/Za7jgPeC7YJegZjWkfdxcSC5DCgZLO69/za6ORI2M3dwZ50tfqh6BCYkRIcsrK5vkpSUHQ==
   dependencies:
     "@types/node" ">=8.1.0"
     qs "^6.6.0"
@@ -12089,6 +12096,11 @@ tiny-invariant@^1.0.2:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/tiny-invariant/-/tiny-invariant-1.0.6.tgz#b3f9b38835e36a41c843a3b0907a5a7b3755de73"
   integrity sha512-FOyLWWVjG+aC0UqG76V53yAWdXfH8bO6FNmyZOuUrzDzK8DI3/JRY25UD7+g49JWM1LXwymsKERB+DzI0dTEQA==
+
+tiny-invariant@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/tiny-invariant/-/tiny-invariant-1.1.0.tgz#634c5f8efdc27714b7f386c35e6760991d230875"
+  integrity sha512-ytxQvrb1cPc9WBEI/HSeYYoGD0kWnGEOR8RY6KomWLBVhqz0RgTwVO9dLrGz7dC+nN9llyI7OKAgRq8Vq4ZBSw==
 
 tiny-warning@^1.0.0, tiny-warning@^1.0.2:
   version "1.0.3"

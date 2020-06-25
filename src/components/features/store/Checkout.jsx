@@ -18,7 +18,7 @@ import { isBusy, isResolved } from '../../../utils/meta-status';
 import { fetch as fetchAppMeta } from '../../../redux/app-meta/actions';
 import * as SessionStorage from '../../../utils/session-storage';
 import { isBetaTester } from '../../../utils/beta-testing';
-import { useCheckoutFormValues, useIsAllowedStoreAccess } from './hooks';
+import { useCheckoutFormValues } from './hooks';
 
 const STRIPE_SCRIPT_ID = 'STRIPE_SCRIPT_ID';
 const STRIPE_SRC = 'https://js.stripe.com/v3/';
@@ -32,6 +32,12 @@ const Grid = styled('div')`
   ${media.mobile()} {
     width: 100%;
     grid-template-columns: auto;
+  }
+`;
+
+const Wrapper = styled(Content)`
+  ${media.mobile()} {
+    padding: 0;
   }
 `;
 
@@ -205,7 +211,7 @@ export const Checkout = () => {
   const _isBusy = isBusy(checkoutSessionState.meta) || isBusy(couponsState.meta);
 
   return (
-    <Content>
+    <Wrapper>
       <Grid>
         <FormCol>
           {SECTIONS.map((section, i) => {
@@ -242,6 +248,6 @@ export const Checkout = () => {
           <CartPreview />
         </CartCol>
       </Grid>
-    </Content>
+    </Wrapper>
   );
 };

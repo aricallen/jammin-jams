@@ -1,10 +1,11 @@
 import styled from '@emotion/styled';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useInView } from 'react-intersection-observer';
 import { useHistory } from 'react-router-dom';
 import { addToCart, removeFromCart } from '../../../redux/cart/actions';
 import { isResolved } from '../../../utils/meta-status';
-import { Spinner, Content } from '../../common';
+import { Spinner, Content, MobileOnly, Button } from '../../common';
 import { CartPreview } from './CartPreview';
 import { ProductItem } from './ProductItem';
 import { fetchProducts } from '../../../redux/products/actions';
@@ -15,6 +16,27 @@ import { spacing, pallet } from '../../../constants/style-guide';
 const Wrapper = styled('div')``;
 
 const ListWrapper = styled('div')``;
+
+// only for mobile
+const FloatingButton = styled('div')`
+  position: fixed;
+  top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: ${spacing.double}px;
+  padding-bottom: ${spacing.double}px;
+  z-index: 2;
+  background-color: ${pallet.strawberry};
+  opacity: 0;
+  animation: fade-in 0.3s 1;
+  &.in-view {
+    opacity: 1;
+  }
+  & button {
+    width: 80%;
+  }
+`;
 
 const ItemWrapper = styled('div')`
   padding: ${spacing.quadruple}px;
@@ -40,6 +62,7 @@ const Img = styled('img')`
 const Top = styled('div')`
   display: flex;
   justify-content: center;
+  position: relative;
 `;
 
 const TopContent = styled('div')`
@@ -83,8 +106,11 @@ const Bottom = styled('div')``;
 export const Store = () => {
   const dispatch = useDispatch();
   const history = useHistory();
+  const [ref, inView] = useInView();
   const productsState = useSelector((state) => state.products);
   const cart = useSelector((state) => state.cart.data);
+  const hasItems = cart.length > 0;
+  const showFloatingCheckout = hasItems && inView;
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -109,6 +135,18 @@ export const Store = () => {
   return (
     <Wrapper>
       <Top>
+        <MobileOnly>
+          {hasItems && (
+            <FloatingButton
+              inView={inView}
+              className={showFloatingCheckout ? 'in-view' : 'not-in-view'}
+            >
+              <Button onClick={onCheckout} variant="secondary">
+                Checkout
+              </Button>
+            </FloatingButton>
+          )}
+        </MobileOnly>
         <TopContent>
           <Img src="/assets/uploads/large/cantaloupe.jpeg" />
           <TextWrapper>
@@ -168,7 +206,7 @@ export const Store = () => {
           </OrgLinkWrapper>
         </TopContent>
       </Top>
-      <Bottom>
+      <Bottom ref={ref}>
         <ListWrapper hasCart={cart.length > 0}>
           <List>
             {productsState.data.map((product) => (
