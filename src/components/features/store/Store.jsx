@@ -101,11 +101,11 @@ export const Store = () => {
           <Credit>
             Art by Shireen Tofig{' '}
             <a
-              href="https://www.instagram.com/shireenshmofig"
+              href="https://www.instagram.com/lesbaobabs"
               target="_blank"
               rel="noopener noreferrer"
             >
-              @shireenshmofig
+              @lesbaobabs
             </a>
           </Credit>
           <TextBlock>Dear Friends,</TextBlock>
