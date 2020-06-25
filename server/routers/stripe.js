@@ -46,7 +46,8 @@ router.get('/:resource', async (req, res) => {
   const { key, value } = req.query;
   try {
     const results = await stripe[req.params.resource].list({ limit: 100 });
-    const filteredData = results.data && results.data.filter((item) => item[key] === value);
+    const filteredData =
+      key && value ? results.data && results.data.filter((item) => item[key] === value) : results;
     res.send({ ...results, data: filteredData || [] });
   } catch (err) {
     res.status(400).send({
