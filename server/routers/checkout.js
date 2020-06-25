@@ -43,9 +43,10 @@ const serializeLineItems = (cartItems, coupons) => {
 router.post('/', async (req, res) => {
   const { formValues, cartItems, sessionUser, coupons = [] } = req.body;
   const host = TARGET_ENV === 'production' ? HOST : `${HOST}:${PORT}`;
-  const customerValues = sessionUser?.paymentCustomerId
-    ? { customer: sessionUser.paymentCustomerId }
-    : { customer_email: formValues.email };
+  const customerValues =
+    sessionUser && sessionUser.paymentCustomerId
+      ? { customer: sessionUser.paymentCustomerId }
+      : { customer_email: formValues.email };
   try {
     const checkoutSession = await stripeAdapter.checkout.sessions.create({
       ...customerValues,

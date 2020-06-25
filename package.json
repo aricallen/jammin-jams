@@ -108,7 +108,7 @@
     "stripe": "^8.63.0"
   },
   "engines": {
-    "node": "^14.3.0"
+    "node": ">=14.3.0"
   },
   "husky": {
     "hooks": {
