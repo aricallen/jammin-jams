@@ -70,8 +70,8 @@ const RequestZipCode = ({ zipError, zipCode }) => {
   return (
     <MailToWrapper>
       <ErrorMessage>
-        Unfortunately, we do not service this zip code at the moment. We make some exceptions for
-        folks in the Bay Area, send us an email to request a code.{' '}
+        Unfortunately, we do not service this zip code at the moment. We are actively making
+        exceptions for folks in the Bay Area, so send us an email to request an exception code.{' '}
         <a href={mailTo}>jam@jmnjams.com</a>.
       </ErrorMessage>
     </MailToWrapper>

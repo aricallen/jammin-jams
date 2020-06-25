@@ -107,6 +107,9 @@
     "redux-thunk": "^2.3.0",
     "stripe": "^8.63.0"
   },
+  "engines": {
+    "node": "^14.3.0"
+  },
   "husky": {
     "hooks": {
       "pre-commit": "npm run prettify:staged"

@@ -86,6 +86,16 @@ const CartItem = ({ item }) => {
   );
 };
 
+const getAmountOff = (coupon, price, qty) => {
+  if (!coupon) {
+    return 0;
+  }
+  if (coupon.amountOff) {
+    return coupon.amountOff / qty;
+  }
+  return (coupon.percent_off / 100) * price;
+};
+
 export const CartPreview = ({ onCheckout }) => {
   const cart = useSelector((state) => state.cart.data);
   const coupons = useSelector((state) => state.coupons.data);
@@ -94,28 +104,37 @@ export const CartPreview = ({ onCheckout }) => {
     return null;
   }
 
-  const totalDiscount = sum(
-    coupons.filter((coupon) => coupon.metadata.type === 'price').map((coupon) => coupon.amountOff)
-  );
-  const prices = cart.map((item) => {
-    const { product, selectedQty } = item;
-    return product.price * selectedQty;
+  const coupon = coupons.find((c) => c.metadata.type === 'price');
+  const totalQty = sum(cart.map(({ selectedQty }) => selectedQty));
+  const updatedCart = cart.map(({ product, selectedQty }) => {
+    const amountOff = getAmountOff(coupon, product.price, totalQty);
+    const discountedPrice = product.price - amountOff;
+    return {
+      product: {
+        ...product,
+        price: discountedPrice,
+      },
+      selectedQty,
+    };
   });
-  const totalAmount = sum(prices) - totalDiscount;
+
+  const totalAmount = sum(
+    updatedCart.map(({ product, selectedQty }) => product.price * selectedQty)
+  );
 
   return (
     <Wrapper>
       <Rows>
-        {cart.map((item) => (
+        {updatedCart.map((item) => (
           <CartItem item={item} key={item.product.id} />
         ))}
         <TotalWrapper>
-          {totalDiscount > 0 && (
+          {/* {coupon && (
             <TotalRow>
               <Label>Discount: </Label>
               <Label>${formatAmount(totalDiscount)}</Label>
             </TotalRow>
-          )}
+          )} */}
           <TotalRow>
             <Label>Total: </Label>
             <Label>${formatAmount(totalAmount)}</Label>

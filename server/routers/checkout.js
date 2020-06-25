@@ -1,6 +1,6 @@
 const express = require('express');
 const { omit, pick, sum } = require('lodash');
-const { getConnection, updateRecord } = require('../utils/db-helpers');
+const { getConnection, updateRecord, updateRecordBy } = require('../utils/db-helpers');
 const { sendEmail, serializeForEmail, addMember } = require('../utils/email-helpers');
 const { adapter: emailListAdapter } = require('../adapters/email-list');
 const { adapter: stripeAdapter } = require('../adapters/stripe');
@@ -9,17 +9,28 @@ const { STRIPE_PUBLISHABLE_KEY, HOST, PORT, TARGET_ENV, DEBUG_EMAIL } = process.
 
 const router = express.Router();
 
+const getAmountOff = (coupon, price, qty) => {
+  if (!coupon) {
+    return 0;
+  }
+  if (coupon.amountOff) {
+    return coupon.amountOff / qty;
+  }
+  return (coupon.percent_off / 100) * price;
+};
+
 const serializeLineItems = (cartItems, coupons) => {
-  const discounts = coupons.map((coupon) => Math.round(coupon.amountOff / 100));
-  const totalDiscount = sum(discounts);
-  const fractionalDiscount = Math.round(totalDiscount / cartItems.length);
+  const coupon = coupons.find(({ metadata }) => metadata.type === 'price');
+  const totalQty = sum(cartItems.map(({ selectedQty }) => selectedQty));
   return cartItems.map((item) => {
     const { product, selectedQty } = item;
+    const amountOff = getAmountOff(coupon, product.price, totalQty);
+    const discountedPrice = Math.round(product.price - amountOff);
     return {
       ...pick(product, ['name', 'description']),
       currency: 'usd',
       quantity: selectedQty,
-      amount: Math.round(product.price - fractionalDiscount),
+      amount: +discountedPrice,
       description: product.name,
     };
   });
@@ -170,6 +181,21 @@ const updatePaymentIntent = async (checkoutSessionRecord, appliedCoupons) => {
   }
 };
 
+const updateInventory = async (cartItems) => {
+  const conn = await getConnection();
+  const newInventoryRows = cartItems.map((item) => {
+    const { product, selectedQty } = item;
+    return {
+      productId: product.id,
+      productName: product.name,
+      quantity: product.quantity - selectedQty,
+    };
+  });
+  newInventoryRows.forEach(async (row) => {
+    await updateRecordBy(conn, 'inventory', 'productId', row.productId, row);
+  });
+};
+
 /**
  * find customer for completed checkout
  * create jj user record with related customer.id
@@ -178,7 +204,7 @@ const updatePaymentIntent = async (checkoutSessionRecord, appliedCoupons) => {
  */
 router.post('/success', async (req, res) => {
   const { formValues, sessionId, sessionUser } = req.body;
-  const appliedCoupons = req.session[sessionId].coupons;
+  const { coupons: appliedCoupons, cartItems } = req.session[sessionId];
   try {
     const checkoutSessionRecord = await stripeAdapter.checkout.sessions.retrieve(sessionId);
     const { customer: customerId } = checkoutSessionRecord;
@@ -190,8 +216,10 @@ router.post('/success', async (req, res) => {
       appliedCoupons
     );
     const updatedSessionUser = await updateJJUserRecord(sessionUser.id, formValues, customerId);
+    // const updatedInventory = await updateInventory(formValues);
     await updatePaymentIntent(checkoutSessionRecord, appliedCoupons);
     await addToEmailLists(formValues);
+    await updateInventory(cartItems);
     res.send({
       data: {
         checkoutSession: checkoutSessionRecord,

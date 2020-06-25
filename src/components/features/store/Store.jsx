@@ -98,12 +98,27 @@ export const Store = () => {
       <Top>
         <TopContent>
           <Img src="/assets/uploads/large/cantaloupe.jpeg" />
-          <Credit>Art by Shireen Tofig</Credit>
+          <Credit>
+            Art by Shireen Tofig{' '}
+            <a
+              href="https://www.instagram.com/shireenshmofig"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              @shireenshmofig
+            </a>
+          </Credit>
           <TextBlock>Dear Friends,</TextBlock>
 
           <TextBlock>
-            For the whole month of July we are donating <Bold>100% of our sales</Bold> to
-            ARTogether&apos;s #InUnison campaign!
+            For the whole month of July we are donating 100% of our sales to{' '}
+            <a
+              href="https://artogether.givingfuel.com/inunison"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              ARTogether&apos;s #InUnison campaign!
+            </a>
           </TextBlock>
 
           <TextBlock>
@@ -126,7 +141,7 @@ export const Store = () => {
           </TextBlock>
           <TextBlock>
             Click on the link below or visit{' '}
-            <a href="artogether.org" target="_blank" rel="noopener noreferrer">
+            <a href="https://artogether.org" target="_blank" rel="noopener noreferrer">
               artogether.org
             </a>{' '}
             to learn more.

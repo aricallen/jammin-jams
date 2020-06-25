@@ -59,14 +59,7 @@ const ActionButton = (props) => {
   );
 };
 
-const createOptions = (product, isJotm) => {
-  if (isJotm) {
-    return [
-      { value: 0, label: 0 },
-      { value: 1, label: 1 },
-    ];
-  }
-
+const createOptions = (product) => {
   if (product.quantity === 0) {
     return [];
   }
@@ -82,7 +75,7 @@ const createOptions = (product, isJotm) => {
 };
 
 const ItemContent = (props) => {
-  const { product, onSelectQty, selectedQty, isJotm, isSoldOut } = props;
+  const { product, onSelectQty, selectedQty, isSoldOut } = props;
   return (
     <ItemContentWrapper>
       <Row>
@@ -93,7 +86,7 @@ const ItemContent = (props) => {
         <Value>
           <Select
             style={{ width: '50%' }}
-            options={createOptions(product, isJotm)}
+            options={createOptions(product)}
             value={{ value: selectedQty, label: selectedQty }}
             onChange={onSelectQty}
             isDisabled={isSoldOut}
@@ -106,7 +99,7 @@ const ItemContent = (props) => {
 };
 
 const Product = (props) => {
-  const { product, imageSrc, onSelectQty, isSoldOut, selectedQty, isJotm } = props;
+  const { product, imageSrc, onSelectQty, isSoldOut, selectedQty } = props;
 
   return (
     <Fragment>
@@ -115,7 +108,6 @@ const Product = (props) => {
         product={product}
         onSelectQty={onSelectQty}
         selectedQty={selectedQty}
-        isJotm={isJotm}
         isSoldOut={isSoldOut}
       />
       <ActionWrapper>
