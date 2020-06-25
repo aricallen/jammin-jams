@@ -93,7 +93,7 @@ const getAmountOff = (coupon, price, qty) => {
   if (coupon.amountOff) {
     return coupon.amountOff / qty;
   }
-  return (coupon.percent_off / 100) * price;
+  return (coupon.percentOff / 100) * price;
 };
 
 export const CartPreview = ({ onCheckout }) => {
