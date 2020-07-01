@@ -18,7 +18,9 @@ export const fetchMany = (sessionUser) => {
         customerId = user.data.data.paymentCustomerId;
       }
       // because of way we setup the products, these are actually paymentIntents rather than orders
-      const response = await axios.get(`/api/stripe/paymentIntents?customerId=${customerId}`);
+      const response = await axios.get(
+        `/api/stripe/paymentIntents?key=customer&value=${customerId}`
+      );
       const orders = response.data.data;
       dispatch({ type: Type.FETCH_MANY_SUCCEEDED, orders });
       return orders;

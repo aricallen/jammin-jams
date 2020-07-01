@@ -8,6 +8,7 @@ import QrCode from '../../../assets/icons/memory.svg';
 import WallpaperIcon from '../../../assets/icons/wallpaper.svg';
 import AlertIcon from '../../../assets/icons/announcement.svg';
 import PagesIcon from '../../../assets/icons/description.svg';
+import InventoryIcon from '../../../assets/icons/inventory.svg';
 
 const Wrapper = styled('div')`
   height: 100%;
@@ -78,6 +79,11 @@ const TOOLBAR_ITEMS = [
     text: 'Alerts',
     Icon: AlertIcon,
     path: '/admin/alerts',
+  },
+  {
+    text: 'Inventory',
+    Icon: InventoryIcon,
+    path: '/admin/inventory',
   },
   {
     text: 'Page Meta',

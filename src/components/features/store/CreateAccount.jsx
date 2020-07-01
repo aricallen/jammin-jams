@@ -88,7 +88,7 @@ const CreateForm = ({ values, handleChange, errors, onSubmitCreate, isBusy }) =>
         isRequired={true}
       />
       <ButtonWrapper>
-        <Button onClick={onSubmitCreate} type="button" isBusy={isBusy} disabled={hasErrors}>
+        <Button onClick={onSubmitCreate} type="button" isBusy={isBusy} isDisabled={hasErrors}>
           Create Account
         </Button>
       </ButtonWrapper>

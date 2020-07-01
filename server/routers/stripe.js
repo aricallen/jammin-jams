@@ -45,8 +45,9 @@ router.get('/coupons', async (req, res) => {
 router.get('/:resource', async (req, res) => {
   const { key, value } = req.query;
   try {
-    const results = await stripe[req.params.resource].list();
-    const filteredData = results.data && results.data.filter((item) => item[key] === value);
+    const results = await stripe[req.params.resource].list({ limit: 100 });
+    const filteredData =
+      key && value ? results.data && results.data.filter((item) => item[key] === value) : results;
     res.send({ ...results, data: filteredData || [] });
   } catch (err) {
     res.status(400).send({

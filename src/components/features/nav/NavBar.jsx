@@ -11,7 +11,7 @@ import { MobileNav } from './MobileNav';
 import { NavLogo, NavList, NavLink, NavItem, SubNav, IconWrapper } from './Nav';
 import { media } from '../../../utils/media';
 
-// column is mobile nav list
+// last column is mobile nav list
 const Wrapper = styled('nav')`
   display: grid;
   grid-template-columns: 1fr auto 0px;
@@ -21,7 +21,7 @@ const Wrapper = styled('nav')`
   min-height: ${sizes.rowHeight}px;
   max-height: ${sizes.rowHeight}px;
   font-weight: 700;
-  background-color: transparent;
+  background-color: ${(p) => (p.isAdminPage ? pallet.charcoal : 'transparent')};
   padding-left: ${spacing.quadruple}px;
   padding-right: ${spacing.quadruple}px;
   border-bottom: ${(p) => (p.isHomePage ? 'none' : border)};
@@ -104,22 +104,26 @@ const getNavItems = (navItems, sessionState) => {
   return [...navItems, ...LOGGED_OUT_ITEMS];
 };
 
-const renderNavItem = (item, isHomePage) => (
+const renderNavItem = (item, isHomePage, isAdminPage) => (
   <NavItem key={item.path}>
     <NavLink
       to={item.path}
       isHomePage={isHomePage}
+      isAdminPage={isAdminPage}
       activeStyle={{
         color: pallet.strawberry,
       }}
     >
       {item.text}
     </NavLink>
-    {item.children ? <SubNav className="sub-nav">{item.children.map(renderNavItem)}</SubNav> : null}
   </NavItem>
 );
 
-const Cart = ({ cart }) => {
+const StyledCartIcon = styled(CartIcon, { shouldForwardProp: (p) => p !== 'isHomePage' })`
+  fill: ${(p) => (p.isHomePage ? 'white' : 'black')};
+`;
+
+const Cart = ({ cart, isHomePage }) => {
   const history = useHistory();
   if (cart.length === 0) {
     return null;
@@ -127,7 +131,7 @@ const Cart = ({ cart }) => {
 
   return (
     <IconWrapper onClick={() => history.push('/store/checkout')}>
-      <CartIcon />
+      <StyledCartIcon isHomePage={isHomePage} />
     </IconWrapper>
   );
 };
@@ -139,6 +143,7 @@ export const NavBar = () => {
   const dispatch = useDispatch();
   const location = useLocation();
   const isHomePage = location.pathname === '/';
+  const isAdminPage = location.pathname.includes('admin');
 
   const fetch = () => {
     if (isInitial(sessionState.meta)) {
@@ -151,7 +156,7 @@ export const NavBar = () => {
 
   return (
     <Fragment>
-      <Wrapper isHomePage={isHomePage}>
+      <Wrapper isHomePage={isHomePage} isAdminPage={isAdminPage}>
         <BarSection style={{ justifyContent: 'flex-start' }}>
           <NavLink to="/">
             <NavLogo isHomePage={isHomePage} />
@@ -161,9 +166,9 @@ export const NavBar = () => {
           {/* desktop nav */}
           <DesktopOnly>
             <NavList>
-              {navItems.map((item) => renderNavItem(item, isHomePage))}
+              {navItems.map((item) => renderNavItem(item, isHomePage, isAdminPage))}
               <NavItem style={{ marginLeft: 0 }}>
-                <Cart cart={cart} />
+                <Cart cart={cart} isHomePage={isHomePage} />
               </NavItem>
             </NavList>
           </DesktopOnly>

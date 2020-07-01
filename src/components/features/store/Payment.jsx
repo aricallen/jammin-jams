@@ -1,10 +1,9 @@
+import styled from '@emotion/styled';
+// import { sum } from 'lodash';
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import styled from '@emotion/styled';
-import { sum } from 'lodash';
-import { isResolved, isErrored, isInitial } from '../../../utils/meta-status';
 import { fetchCoupon } from '../../../redux/coupons/actions';
-import { formatAmount } from '../../../utils/format-helpers';
+import { isErrored, isInitial, isResolved } from '../../../utils/meta-status';
 import { CouponCodeForm } from './CouponCodeForm';
 
 const Wrapper = styled('div')``;
@@ -13,7 +12,7 @@ const Message = styled('div')``;
 
 export const Payment = (props) => {
   const checkoutSessionState = useSelector((state) => state.checkoutSession);
-  const cart = useSelector((state) => state.cart.data);
+  // const cart = useSelector((state) => state.cart.data);
   const couponsState = useSelector((state) => state.coupons);
   const dispatch = useDispatch();
 
@@ -21,9 +20,9 @@ export const Payment = (props) => {
   const { couponCode } = values;
 
   const foundCoupon = couponsState.data.find((coupon) => coupon.name === couponCode);
-  const preDiscountAmount = sum(cart.map((item) => item.sku.price));
-  const discount = foundCoupon ? foundCoupon.amountOff : 0;
-  const totalAmount = preDiscountAmount - discount;
+  // const preDiscountAmount = sum(cart.map((item) => item.product.price));
+  // const discount = foundCoupon ? foundCoupon.amountOff : 0;
+  // // const totalAmount = preDiscountAmount - discount;
 
   // has entered a code and validated as a real coupon
   const isEmptyCouponCode = couponCode === undefined || couponCode.length === 0;
@@ -50,10 +49,8 @@ export const Payment = (props) => {
           >
             Stripe security
           </a>{' '}
-          to learn more. You will be charged with a one time payment of{' '}
-          <b>${formatAmount(totalAmount)}</b> which also covers the cost of your first order. We
-          will then charge you for every subsequent order. Confirmation emails will be sent every
-          step of the way. 😊
+          to learn more. If you signed up for a subscription, we will charge you every month for all
+          subsequent orders. Confirmation emails will be sent every step of the way. 😊
         </Message>
         <CouponCodeForm
           {...props}

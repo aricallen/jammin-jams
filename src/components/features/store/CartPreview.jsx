@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { sum } from 'lodash';
 import { Content } from '../../common/Structure';
 import { Button as BaseButton } from '../../common/Button';
-import { spacing, border, font } from '../../../constants/style-guide';
+import { spacing, border, font, pallet } from '../../../constants/style-guide';
 import { removeFromCart } from '../../../redux/cart/actions';
 import { formatAmount } from '../../../utils/format-helpers';
 import { boxShadow } from '../../../utils/style-helpers';
@@ -51,12 +51,15 @@ const Label = styled('span')`
   margin-right: ${spacing.regular}px;
 `;
 
-const Price = styled('span')``;
+const Description = styled('div')`
+  color: ${pallet.textAlt};
+`;
+
+const LabelRow = styled('div')``;
 
 const CartItem = ({ item }) => {
   const dispatch = useDispatch();
-  const { product, sku } = item;
-  const title = `${product.name} - ${sku.attributes.interval.replace(/-/g, '')}`;
+  const { product, selectedQty } = item;
 
   const onClick = () => {
     dispatch(removeFromCart(item));
@@ -65,10 +68,14 @@ const CartItem = ({ item }) => {
   return (
     <Row>
       <ItemInfo>
-        <Title>{title}</Title>
-        <Price>
-          <Label>Price:</Label> ${formatAmount(item.sku.price)}
-        </Price>
+        <Title>{product.name}</Title>
+        {product.description && <Description>{product.description}</Description>}
+        <LabelRow>
+          <Label>Price:</Label> ${formatAmount(product.price)}
+        </LabelRow>
+        <LabelRow>
+          <Label>Quantity:</Label> {selectedQty || 1}
+        </LabelRow>
       </ItemInfo>
       <Action>
         <Button variant="secondary" onClick={onClick}>
@@ -79,6 +86,16 @@ const CartItem = ({ item }) => {
   );
 };
 
+const getAmountOff = (coupon, price, qty) => {
+  if (!coupon) {
+    return 0;
+  }
+  if (coupon.amountOff) {
+    return coupon.amountOff / qty;
+  }
+  return (coupon.percentOff / 100) * price;
+};
+
 export const CartPreview = ({ onCheckout }) => {
   const cart = useSelector((state) => state.cart.data);
   const coupons = useSelector((state) => state.coupons.data);
@@ -87,25 +104,40 @@ export const CartPreview = ({ onCheckout }) => {
     return null;
   }
 
-  const totalDiscount = sum(
-    coupons.filter((coupon) => coupon.metadata.type === 'price').map((coupon) => coupon.amountOff)
+  const coupon = coupons.find((c) => c.metadata.type === 'price');
+  const totalQty = sum(cart.map(({ selectedQty }) => selectedQty));
+  const updatedCart = cart.map(({ product, selectedQty }) => {
+    const amountOff = getAmountOff(coupon, product.price, totalQty);
+    const discountedPrice = product.price - amountOff;
+    return {
+      product: {
+        ...product,
+        price: discountedPrice,
+      },
+      selectedQty,
+    };
+  });
+
+  const totalAmount = sum(
+    updatedCart.map(({ product, selectedQty }) => product.price * selectedQty)
   );
-  const totalAmount = sum(cart.map((item) => item.sku.price)) - totalDiscount;
 
   return (
     <Wrapper>
       <Rows>
-        {cart.map((item) => (
+        {updatedCart.map((item) => (
           <CartItem item={item} key={item.product.id} />
         ))}
         <TotalWrapper>
-          <TotalRow>
-            <Label>Discount: </Label>
-            <Price>${formatAmount(totalDiscount)}</Price>
-          </TotalRow>
+          {/* {coupon && (
+            <TotalRow>
+              <Label>Discount: </Label>
+              <Label>${formatAmount(totalDiscount)}</Label>
+            </TotalRow>
+          )} */}
           <TotalRow>
             <Label>Total: </Label>
-            <Price>${formatAmount(totalAmount)}</Price>
+            <Label>${formatAmount(totalAmount)}</Label>
           </TotalRow>
         </TotalWrapper>
       </Rows>

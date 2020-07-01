@@ -13,7 +13,7 @@ export const useCrudState = (defaultState = {}) => {
     setState({ ...state, meta: { status: MetaStatus.BUSY } });
     try {
       const response = await axios.get(fetchUrl);
-      const fetchedState = response.data.data;
+      const fetchedState = response.data.data || response.data;
       setState({ data: fetchedState, meta: { status: MetaStatus.RESOLVED } });
       return fetchedState;
     } catch (error) {
@@ -25,7 +25,7 @@ export const useCrudState = (defaultState = {}) => {
     setState({ ...state, meta: { status: MetaStatus.BUSY } });
     try {
       const response = await axios.put(updateUrl, values);
-      const updatedState = response.data.data;
+      const updatedState = response.data.data || response.data;
       setState({ data: updatedState, meta: { status: MetaStatus.RESOLVED } });
       return updatedState;
     } catch (error) {
@@ -37,7 +37,7 @@ export const useCrudState = (defaultState = {}) => {
     setState({ ...state, meta: { status: MetaStatus.BUSY } });
     try {
       const response = await axios.post(createUrl, values);
-      const updatedState = response.data.data;
+      const updatedState = response.data.data || response.data;
       setState({ data: updatedState, meta: { status: MetaStatus.RESOLVED } });
       return updatedState;
     } catch (error) {

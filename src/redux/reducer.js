@@ -7,7 +7,6 @@ import { uploads } from './uploads/reducer';
 import { plans } from './plans/reducer';
 import { cart } from './cart/reducer';
 import { checkoutSession } from './checkout-session/reducer';
-import { skus } from './skus/reducer';
 import { users } from './users/reducer';
 import { email } from './email/reducer';
 import { coupons } from './coupons/reducer';
@@ -24,7 +23,6 @@ export const rootReducer = combineReducers({
   uploads,
   cart,
   checkoutSession,
-  skus,
   users,
   email,
   coupons,

@@ -1,87 +1,143 @@
-import React, { useState } from 'react';
 import styled from '@emotion/styled';
+import React, { Fragment, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { spacing, font } from '../../../constants/style-guide';
-import { Button as BaseButton } from '../../common/Button';
-import { Select } from '../../common/Select';
-import { Spinner } from '../../common/Spinner';
-import { isResolved, isBusy } from '../../../utils/meta-status';
-import { media } from '../../../utils/media';
+import { font, spacing } from '../../../constants/style-guide';
 import { formatAmount } from '../../../utils/format-helpers';
+import { Button as BaseButton, Select } from '../../common';
+import { ProductPicture } from './ProductPicture';
 
-const Wrapper = styled('div')`
-  padding: ${spacing.quadruple}px;
-  max-width: 30%;
-  ${media.mobile()} {
-    max-width: 80%;
-  }
-`;
+const Wrapper = styled('div')``;
 
-const Picture = styled('img')``;
+const ItemContentWrapper = styled('div')``;
 
-const ItemContent = styled('div')``;
-
-const Name = styled('div')`
+const Price = styled('div')`
   text-align: center;
-  font-size: ${font.size.large}px;
-  padding: ${spacing.regular}px;
+  font-size: ${font.size.largest}px;
 `;
 
-const SubscribeWrapper = styled('div')`
+const Value = styled('div')`
+  width: 50%;
+`;
+
+const Row = styled('div')`
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding-top: ${spacing.double}px;
+`;
+
+const Label = styled('div')`
+  width: 50%;
+  margin-right: ${spacing.half}px;
+`;
+
+const ActionWrapper = styled('div')`
   margin-top: ${spacing.double}px;
 `;
 
 const Button = styled(BaseButton)`
   width: 100%;
+  opacity: ${(p) => (p.isInCart ? 0.6 : 1)};
 `;
 
+const ActionButton = (props) => {
+  const { isInCart, onAddItem, product, isSoldOut, selectedQty } = props;
+  const text = isSoldOut ? 'Sold out' : isInCart ? 'Update quantity' : 'Add to cart';
+  const onClick = isSoldOut ? null : onAddItem;
+  return (
+    <Button isDisabled={isSoldOut} onClick={() => onClick({ product, selectedQty })}>
+      {text}
+    </Button>
+  );
+};
+
+const createOptions = (product) => {
+  if (product.quantity === 0) {
+    return [];
+  }
+
+  const options = [];
+  for (let i = 0; i <= Math.min(product.quantity, 3); i += 1) {
+    options.push({
+      value: i,
+      label: i,
+    });
+  }
+  return options;
+};
+
+const ItemContent = (props) => {
+  const { product, onSelectQty, selectedQty, isSoldOut } = props;
+  return (
+    <ItemContentWrapper>
+      <Row>
+        <Price>${formatAmount(product.price)}</Price>
+      </Row>
+      <Row>
+        <Label>Quantity: </Label>
+        <Value>
+          <Select
+            style={{ width: '50%' }}
+            options={createOptions(product)}
+            value={{ value: selectedQty, label: selectedQty }}
+            onChange={onSelectQty}
+            isDisabled={isSoldOut}
+            isSearchable={false}
+          />
+        </Value>
+      </Row>
+    </ItemContentWrapper>
+  );
+};
+
+const Product = (props) => {
+  const { product, imageSrc, onSelectQty, isSoldOut, selectedQty } = props;
+
+  return (
+    <Fragment>
+      <ProductPicture imageSrc={imageSrc} />
+      <ItemContent
+        product={product}
+        onSelectQty={onSelectQty}
+        selectedQty={selectedQty}
+        isSoldOut={isSoldOut}
+      />
+      <ActionWrapper>
+        <ActionButton {...props} isSoldOut={isSoldOut} />
+      </ActionWrapper>
+    </Fragment>
+  );
+};
+
 export const ProductItem = (props) => {
-  const [selectedSkuOption, setSelectedSkuOption] = useState(null);
-  const skusState = useSelector((state) => state.skus);
   const cart = useSelector((state) => state.cart.data);
-  const { onAddItem, onRemoveItem, product } = props;
+  const { product } = props;
+  const isJotm = product.name.toLowerCase().includes('subscription');
+  const inventoryCount = product.quantity;
+  const isSoldOut = inventoryCount === 0;
+  const [selectedQty, setSelectedQty] = useState(isSoldOut ? 0 : 1);
 
-  const skusOptions = skusState.data
-    .filter((sku) => sku.product === product.id)
-    .map((sku) => ({
-      label: `${sku.attributes.interval} -- $${formatAmount(sku.price)}`,
-      value: sku.id,
-      sku,
-    }));
-
-  const isSubscription = isResolved(skusState.meta) && skusOptions.length > 0;
   const isInCart = cart.find((item) => item.product.id === product.id);
+
+  const imageSrc = product.images?.[0] || '/assets/images/jotm.jpeg';
+
+  const onSelectQty = (option) => {
+    const quantity = +option.value;
+    setSelectedQty(quantity);
+  };
 
   return (
     <Wrapper>
-      <Picture src="/assets/images/jotm.jpeg" />
-      <ItemContent>
-        <Name>{product.name}</Name>
-      </ItemContent>
-      {isSubscription ? (
-        <Select
-          onChange={setSelectedSkuOption}
-          options={skusOptions}
-          value={selectedSkuOption}
-          placeholder="Subscription Interval..."
-          isSearchable={false}
-        />
-      ) : (
-        isBusy(skusState.meta) && <Spinner />
-      )}
-      {selectedSkuOption && (
-        <SubscribeWrapper>
-          {isInCart ? (
-            <Button onClick={() => onRemoveItem({ product, sku: selectedSkuOption.sku })}>
-              Remove from cart
-            </Button>
-          ) : (
-            <Button onClick={() => onAddItem({ product, sku: selectedSkuOption.sku })}>
-              Add to cart
-            </Button>
-          )}
-        </SubscribeWrapper>
-      )}
+      <Product
+        {...props}
+        product={product}
+        isSoldOut={isSoldOut}
+        imageSrc={imageSrc}
+        isInCart={isInCart}
+        isJotm={isJotm}
+        onSelectQty={onSelectQty}
+        selectedQty={selectedQty}
+      />
     </Wrapper>
   );
 };

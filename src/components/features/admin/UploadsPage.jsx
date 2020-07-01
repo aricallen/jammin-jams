@@ -107,7 +107,7 @@ export const UploadsPage = () => {
             multiple={true}
             ref={inputRef}
           />
-          <Button onClick={onClickUpload} disabled={!hasFiles} isBusy={isUploading}>
+          <Button onClick={onClickUpload} isDisabled={!hasFiles} isBusy={isUploading}>
             Upload
           </Button>
         </Controls>

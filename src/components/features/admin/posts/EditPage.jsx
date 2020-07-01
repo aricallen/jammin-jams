@@ -61,7 +61,7 @@ export const EditPage = ({ history, match }) => {
             <Button
               variant="secondary"
               onClick={cancelCreate}
-              disabled={isBusy(postsState.meta.one)}
+              isDisabled={isBusy(postsState.meta.one)}
             >
               Cancel
             </Button>

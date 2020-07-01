@@ -94,11 +94,11 @@ const updateRecord = async (conn, tableName, resourceId, values) => {
 const updateRecordBy = async (conn, tableName, whereKey, whereValue, values) => {
   try {
     await conn.query(
-      `UPDATE ${tableName} SET ? WHERE \`${whereKey}\` = ${whereValue}`,
+      `UPDATE ${tableName} SET ? WHERE \`${whereKey}\` = "${whereValue}"`,
       omit(values, ['id', 'dateCreated', 'dateModified'])
     );
     const updated = await conn.query(
-      `SELECT * FROM ${tableName} WHERE \`${whereKey}\` = ${whereValue}`
+      `SELECT * FROM ${tableName} WHERE \`${whereKey}\` = "${whereValue}"`
     );
     return updated[0];
   } catch (err) {

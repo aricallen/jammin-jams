@@ -42,6 +42,7 @@ import { EditPage } from './features/admin/uploads/EditPage';
 import { Page as AlertsPage } from './features/admin/alerts/Page';
 import { Page as PageMetaPage } from './features/admin/pages/Page';
 import { List as PagesListPage } from './features/admin/pages/List';
+import { Page as InventoryPage } from './features/admin/inventory/Page';
 
 // blog
 import { Blog } from './features/blog/Blog';
@@ -51,7 +52,6 @@ import { Footer } from './common/Footer';
 import { NavBar } from './features/nav/NavBar';
 import { globalStyles } from '../constants/global-styles';
 import { sizes, pallet } from '../constants/style-guide';
-import { isBetaTester } from '../utils/beta-testing';
 
 const Wrapper = styled('div')`
   display: grid;
@@ -101,10 +101,6 @@ export const App = () => {
           <Route exact path="/store/checkout" component={Checkout} />
           <Route exact path="/store/success" component={Success} />
           <Route exact path="/store/cancel" component={Cancel} />
-          {/* non beta */}
-          {!isBetaTester() && (
-            <Route exact path="/store" component={() => <Redirect to="/p/covid-waitlist" />} />
-          )}
 
           <Route exact path="/jam-journeys/:postId">
             <BlogPost />
@@ -126,6 +122,7 @@ export const App = () => {
           <AdminRoute exact path="/admin/uploads/:uploadId" component={EditPage} />
           <AdminRoute exact path="/admin/uploads" component={UploadsPage} />
           <AdminRoute exact path="/admin/alerts" component={AlertsPage} />
+          <AdminRoute exact path="/admin/inventory" component={InventoryPage} />
           <AdminRoute exact path="/admin/pages" component={PagesListPage} />
           <AdminRoute exact path="/admin/pages/:pageId" component={PageMetaPage} />
           <AdminRoute path="/admin" component={() => <Redirect to="/admin/dashboard" />} />

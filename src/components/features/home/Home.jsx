@@ -102,16 +102,16 @@ const FollowUsWrapper = styled('div')`
 `;
 
 const disableAnimation = () => {
-  const disabledUntil = Date.now() + ANIMATION_TIMEOUT;
-  SessionStorage.setItem(ANIMATION_STORAGE_KEY, disabledUntil);
+  const isDisabledUntil = Date.now() + ANIMATION_TIMEOUT;
+  SessionStorage.setItem(ANIMATION_STORAGE_KEY, isDisabledUntil);
 };
 
 const shouldAnimate = () => {
-  const disabledUntil = SessionStorage.getItem(ANIMATION_STORAGE_KEY);
-  if (!disabledUntil) {
+  const isDisabledUntil = SessionStorage.getItem(ANIMATION_STORAGE_KEY);
+  if (!isDisabledUntil) {
     return true;
   }
-  return Date.now() > +disabledUntil;
+  return Date.now() > +isDisabledUntil;
 };
 
 export const Home = () => {

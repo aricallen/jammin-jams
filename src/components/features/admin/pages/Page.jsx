@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
 import { useRouteMatch, useHistory } from 'react-router-dom';
-import { useCrudState } from '../../../../utils/useCrudState';
+import { useCrudState } from '../../../../hooks/useCrudState';
 import * as MetaStatus from '../../../../utils/meta-status';
 import { Spinner } from '../../../common/Spinner';
 import { Section } from '../../../common/Structure';
