@@ -15,7 +15,12 @@ import { spacing, pallet } from '../../../constants/style-guide';
 
 const Wrapper = styled('div')``;
 
-const ListWrapper = styled('div')``;
+const ListWrapper = styled('div')`
+  ${media.desktop()} {
+    display: grid;
+    grid-template-columns: ${(p) => (p.hasItems ? '3fr 1fr' : 'auto')};
+  }
+`;
 
 // only for mobile
 const FloatingButton = styled('div')`
@@ -218,7 +223,7 @@ export const Store = () => {
         </TopContent>
       </Top>
       <Bottom ref={ref}>
-        <ListWrapper hasCart={cart.length > 0}>
+        <ListWrapper hasItems={hasItems}>
           <List>
             {productsState.data.map((product) => (
               <ItemWrapper key={product.id}>
