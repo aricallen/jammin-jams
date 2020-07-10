@@ -216,7 +216,7 @@ export const Store = () => {
             </TextBlock>
           </TextWrapper>
           <OrgLinkWrapper>
-            <a href="artogether.org" target="_blank" rel="noopener noreferrer">
+            <a href="https://artogether.org" target="_blank" rel="noopener noreferrer">
               <Img src="/assets/uploads/medium/artogether.png" />
             </a>
           </OrgLinkWrapper>
