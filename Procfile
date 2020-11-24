@@ -1,1 +1,1 @@
-web: yarn forever
+web: yarn serve
