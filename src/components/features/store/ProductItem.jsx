@@ -68,11 +68,13 @@ const createOptions = (product) => {
 
 const ItemContent = (props) => {
   const { product, onSelectQty, selectedQty, isSoldOut } = props;
+  const [, name] = product.name.split(' - ');
   return (
     <ItemContentWrapper>
       <Row>
         <Price>${formatAmount(product.price)}</Price>
       </Row>
+      <Row>{name}</Row>
       <Row>
         <Label>Quantity: </Label>
         <Value>
