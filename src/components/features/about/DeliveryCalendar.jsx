@@ -187,7 +187,9 @@ export const DeliveryCalendarContent = () => {
           />
         ))}
       </Section>
-      <Section />
+      <Section style={{ marginTop: 32 }}>
+        Stay tuned for the rest of the year. We will be updating this soon!
+      </Section>
     </ContentWrapper>
   );
 };
