@@ -39,6 +39,7 @@ const OAK = [
   '94611',
   '94612',
   '94618',
+  '94620',
 ];
 
 const BERK = [
@@ -54,11 +55,29 @@ const BERK = [
   '94720',
 ];
 
-const SF = ['94105'];
+const EAST = [
+  '94523', // pleasant hill
+  '94518',
+  '94549', // lafayette
+  '94556', // moraga
+  '94563', // orinda
+  '94516', // canyon
+  '94507', // alamo
+  '94595', // walnut creek
+  '94596',
+  '94597',
+  '94598',
+  '94530', // el cerrito
+  '94501', // alameda
+  '94502',
+  '94808',
+  '94662',
+];
 
-export const VALID_ZIPCODES = [...OAK, ...BERK, ...SF];
+export const VALID_ZIPCODES = [...OAK, ...BERK, ...EAST];
+// build map via https://www.randymajors.org/
 
 export const Method = {
   PROMO: 'promo',
-  BICYCLE: 'bicycle',
+  LOCAL: 'local',
 };

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import Color from 'color';
 import { useHistory } from 'react-router-dom';
 import styled from '@emotion/styled';
 import { spacing, pallet } from '../../../constants/style-guide';

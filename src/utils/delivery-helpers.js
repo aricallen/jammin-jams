@@ -1,20 +1,15 @@
 import { format } from 'date-fns';
 
 export const DeliveryType = {
-  BICYCLE: 'BICYCLE',
+  LOCAL: 'LOCAL',
   OTHER: 'OTHER',
 };
 
 export const CALENDAR_DATA = [
-  { month: 'June', num: 5, [DeliveryType.BICYCLE]: [26, 27, 28], [DeliveryType.OTHER]: 23 },
-  { month: 'July', num: 6, [DeliveryType.BICYCLE]: [24, 25, 26], [DeliveryType.OTHER]: 23 },
-  { month: 'August', num: 7, [DeliveryType.BICYCLE]: [21, 22, 23], [DeliveryType.OTHER]: 23 },
-  { month: 'September', num: 8, [DeliveryType.BICYCLE]: [25, 26, 27], [DeliveryType.OTHER]: 23 },
-  { month: 'October', num: 9, [DeliveryType.BICYCLE]: [23, 24, 25], [DeliveryType.OTHER]: 23 },
-  { month: 'November', num: 10, [DeliveryType.BICYCLE]: [20, 21, 22], [DeliveryType.OTHER]: 23 },
+  { month: 'January 2021', num: 1, [DeliveryType.LOCAL]: [18], [DeliveryType.OTHER]: 23 },
 ];
 
-const configToString = (config, type = DeliveryType.BICYCLE) => {
+const configToString = (config, type = DeliveryType.LOCAL) => {
   const date = new Date();
   const currYear = date.getFullYear();
   const deliveryDays = config[type];

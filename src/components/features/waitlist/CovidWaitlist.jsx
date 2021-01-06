@@ -63,7 +63,7 @@ export const CovidWaitlistContent = () => {
       <Section>
         <Paragraph>
           First, we are <Emphasis>absolutely thrilled</Emphasis> you want some of our jam. However,
-          our service is powered by bicycle delivery. Because of the current pandemic situation, in
+          our service is powered by local delivery. Because of the current pandemic situation, in
           order to protect our fellow humans, subscriptions are temporarily closed. Let&apos;s
           flatten that curve!
         </Paragraph>

@@ -29,7 +29,7 @@ export const Shipping = (props) => {
           key={field}
           name={field}
           value={values[field] || ''}
-          isDisabled={field === 'zipCode' && values.deliveryMethod === Method.BICYCLE}
+          isDisabled={field === 'zipCode' && values.deliveryMethod === Method.LOCAL}
           onChange={handleChange(field, (e) => e.target.value)}
           label={field === 'address2' ? 'Address 2' : startCase(field)}
           isRequired={field !== 'address2'}

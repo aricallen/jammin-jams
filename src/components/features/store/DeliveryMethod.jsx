@@ -33,8 +33,8 @@ const isInvalidZip = (val) => {
 
 const OPTIONS = [
   {
-    label: 'Bicycle',
-    value: Method.BICYCLE,
+    label: 'Local',
+    value: Method.LOCAL,
   },
   {
     label: 'Special (requires exception code)',
@@ -52,7 +52,7 @@ export const isValid = (values = {}) => {
     return deliveryExceptionCode && deliveryExceptionCode.length > 0;
   }
 
-  if (deliveryMethod === Method.BICYCLE) {
+  if (deliveryMethod === Method.LOCAL) {
     return zipCode && zipCode.length === 5 && !isInvalidZip(zipCode);
   }
   return true;
@@ -83,14 +83,14 @@ export const DeliveryMethod = (props) => {
   const couponsState = useSelector((state) => state.coupons);
   const { values, onUpdate, setIsValid } = props;
 
-  const { zipCode, deliveryMethod = Method.BICYCLE, deliveryExceptionCode } = values;
+  const { zipCode, deliveryMethod = Method.LOCAL, deliveryExceptionCode } = values;
 
   const zipError = isInvalidZip(zipCode)
     ? 'Unfortunately, we do not service this zip code at the moment.'
     : null;
 
   const showPromo = deliveryMethod && deliveryMethod === Method.PROMO;
-  const showZip = deliveryMethod && deliveryMethod === Method.BICYCLE;
+  const showZip = deliveryMethod && deliveryMethod === Method.LOCAL;
 
   const handleChange = (name, getValue) => (event) => {
     const newVal = getValue(event);
@@ -112,9 +112,8 @@ export const DeliveryMethod = (props) => {
   return (
     <Wrapper>
       <Description>
-        For our initial launch, we will only be delivering via bicycle in the areas seen in the map.
-        If you have an exeption code, choose &ldquo;Special&rdquo; as your method and enter it
-        below.
+        For our initial launch, we will only be delivering to the areas seen in the map. If you have
+        an exeption code, choose &ldquo;Special&rdquo; as your method and enter it below.
       </Description>
       <InputsWrapper>
         <Fieldset className="required">
@@ -156,7 +155,7 @@ export const DeliveryMethod = (props) => {
             <b>Service Area</b>
           </Description>
           <ImageWrapper>
-            <StyledImage src="/assets/images/service-territory.png" />
+            <StyledImage src="/assets/images/updated-service-territory.png" />
           </ImageWrapper>
         </Fragment>
       )}
