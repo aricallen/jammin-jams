@@ -67,7 +67,6 @@ const EAST = [
   '94596',
   '94597',
   '94598',
-  '94553', // martinez
   '94530', // el cerrito
   '94501', // alameda
   '94502',
@@ -76,6 +75,7 @@ const EAST = [
 ];
 
 export const VALID_ZIPCODES = [...OAK, ...BERK, ...EAST];
+// build map via https://www.randymajors.org/
 
 export const Method = {
   PROMO: 'promo',

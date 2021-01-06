@@ -155,7 +155,7 @@ export const DeliveryMethod = (props) => {
             <b>Service Area</b>
           </Description>
           <ImageWrapper>
-            <StyledImage src="/assets/images/service-territory.png" />
+            <StyledImage src="/assets/images/updated-service-territory.png" />
           </ImageWrapper>
         </Fragment>
       )}
