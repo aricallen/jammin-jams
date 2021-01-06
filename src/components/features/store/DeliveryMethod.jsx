@@ -33,7 +33,7 @@ const isInvalidZip = (val) => {
 
 const OPTIONS = [
   {
-    label: 'Bicycle',
+    label: 'Local',
     value: Method.LOCAL,
   },
   {
