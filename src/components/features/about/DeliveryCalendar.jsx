@@ -74,8 +74,8 @@ const D3Wrapper = styled('div')`
 
 const DELIVERY_TYPES = [
   {
-    label: DeliveryType.BICYCLE,
-    value: DeliveryType.BICYCLE,
+    label: DeliveryType.LOCAL,
+    value: DeliveryType.LOCAL,
   },
   // {
   //   label: OTHER,
@@ -150,7 +150,7 @@ const MonthCalendar = ({ monthConfig, deliveryType }) => {
 };
 
 export const DeliveryCalendarContent = () => {
-  const [currentDeliveryType, setContentDeliveryType] = useState(DeliveryType.BICYCLE);
+  const [currentDeliveryType, setContentDeliveryType] = useState(DeliveryType.LOCAL);
   const handleChange = (option) => {
     setContentDeliveryType(option.value);
   };

@@ -60,5 +60,5 @@ export const VALID_ZIPCODES = [...OAK, ...BERK, ...SF];
 
 export const Method = {
   PROMO: 'promo',
-  BICYCLE: 'bicycle',
+  LOCAL: 'local',
 };
