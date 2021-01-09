@@ -6,7 +6,7 @@ export const DeliveryType = {
 };
 
 export const CALENDAR_DATA = [
-  { month: 'January 2021', num: 0, [DeliveryType.LOCAL]: [18, 19], [DeliveryType.OTHER]: [19] },
+  { month: 'January', num: 0, [DeliveryType.LOCAL]: [18, 19], [DeliveryType.OTHER]: [18, 19] },
 ];
 
 const configToString = (config, type = DeliveryType.LOCAL) => {
@@ -14,7 +14,7 @@ const configToString = (config, type = DeliveryType.LOCAL) => {
   const currYear = date.getFullYear();
   const deliveryDays = config[type];
   const begConfigDate = new Date(`${config.month} ${deliveryDays[0]} ${currYear}`);
-  const endConfigDate = new Date(`${config.month} ${deliveryDays.pop()} ${currYear}`);
+  const endConfigDate = new Date(`${config.month} ${deliveryDays[1]} ${currYear}`);
   const combinedStr = `${format(begConfigDate, 'MMMM do')}-${format(endConfigDate, 'do')}`;
   return combinedStr.replace(' ', '\u00A0');
 };
