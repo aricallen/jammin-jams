@@ -37,6 +37,15 @@ const Image = styled('img')`
   object-fit: cover;
 `;
 
+const VideoElem = styled('video')`
+  width: 100%;
+  object-fit: cover;
+`;
+
+const Video = ({ src }) => {
+  return <VideoElem src={src} autoPlay={true} loop={true} muted={true} />;
+};
+
 const getImgUrls = (cameraRollState) => {
   if (cameraRollState.meta.error) {
     return FALLBACK_URLS;
@@ -71,7 +80,7 @@ export const CameraRoll = () => {
     <ImageGrid>
       {urls.map((src) => (
         <ImageWrapper key={src}>
-          <Image src={src} />
+          {src.includes('video') ? <Video src={src} /> : <Image src={src} />}
         </ImageWrapper>
       ))}
     </ImageGrid>

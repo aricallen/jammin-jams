@@ -72,9 +72,7 @@ router.get('/', async (req, res) => {
     const queryString = new URLSearchParams(queryParams).toString();
     const url = `${MEDIA_ENDPOINT}?${queryString}`;
     const response = await axios.get(url);
-    const urls = response.data.data
-      .filter((item) => !item.media_url.includes('video'))
-      .map((item) => item.media_url);
+    const urls = response.data.data.map((item) => item.media_url);
     res.send({ data: urls });
     refreshToken();
   } catch (err) {
