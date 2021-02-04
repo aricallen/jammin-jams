@@ -8,7 +8,7 @@ let _connection = null;
 const getConnection = async (dbUrl = DATABASE_URL) => {
   // eslint-disable-next-line
   const [user, password, host, _, database] = dbUrl.replace('mysql://', '').split(/\/|:|@/g);
-  if (_connection !== null) {
+  if (_connection === null) {
     _connection = await pmysql.createConnection({ host, user, password, database });
   }
   return _connection;
