@@ -33,8 +33,8 @@ router.use('/products', productsRouter);
 // general api
 router.get('/status', async (req, res) => {
   try {
-    const conn = await getConnection();
-    conn.end();
+    await getConnection();
+    console.log('db connection ok!');
   } catch (err) {
     return res.send({
       api: 'ok',

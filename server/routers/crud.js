@@ -27,7 +27,6 @@ router.get('/:tableName/:resourceId', async (req, res) => {
   } catch (err) {
     res.status(400).send(parseError(err, req));
   }
-  conn.end();
 });
 
 /**
@@ -45,7 +44,6 @@ router.get('/:tableName', async (req, res) => {
   } catch (err) {
     res.status(400).send(parseError(err, req));
   }
-  conn.end();
 });
 
 /**
@@ -63,7 +61,6 @@ router.put('/:tableName/:resourceId', checkReadonly, async (req, res) => {
   } catch (err) {
     res.status(400).send(parseError(err, req));
   }
-  conn.end();
 });
 
 /**
@@ -88,7 +85,6 @@ router.post('/:tableName', checkReadonly, async (req, res) => {
   } catch (err) {
     res.status(400).send(parseError(err, req));
   }
-  conn.end();
 });
 
 /**
@@ -106,7 +102,6 @@ router.delete('/:tableName/:resourceId', checkReadonly, async (req, res) => {
   } catch (err) {
     res.status(400).send(parseError(err, req));
   }
-  conn.end();
 });
 
 module.exports = { router };

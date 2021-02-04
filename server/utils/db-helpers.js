@@ -3,11 +3,15 @@ const pmysql = require('promise-mysql');
 
 const { DATABASE_URL } = process.env;
 
+let _connection = null;
+
 const getConnection = async (dbUrl = DATABASE_URL) => {
   // eslint-disable-next-line
   const [user, password, host, _, database] = dbUrl.replace('mysql://', '').split(/\/|:|@/g);
-  const connection = await pmysql.createConnection({ host, user, password, database });
-  return connection;
+  if (_connection !== null) {
+    _connection = await pmysql.createConnection({ host, user, password, database });
+  }
+  return _connection;
 };
 
 const serialize = (obj) => {

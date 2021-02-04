@@ -36,7 +36,6 @@ const createGetController = (tableName) => {
         message: `Unable to fetch rows for ${tableName}`,
       });
     }
-    conn.end();
   };
 };
 
@@ -54,7 +53,6 @@ const createGetOneController = (tableName) => {
         message: `Unable to fetch rows for ${tableName}`,
       });
     }
-    conn.end();
   };
 };
 
@@ -74,7 +72,6 @@ const createUpdateController = (tableName) => {
     } catch (err) {
       res.status(400).send(parseError(err, req));
     }
-    conn.end();
   };
 };
 

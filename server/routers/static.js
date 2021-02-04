@@ -99,7 +99,6 @@ const staticPostServer = async (req, res) => {
   } catch (err) {
     res.status(400).send(parseError(err, req));
   }
-  conn.end();
 };
 
 /**

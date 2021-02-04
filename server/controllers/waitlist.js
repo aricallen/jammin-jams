@@ -11,7 +11,6 @@ const controller = async (req, res) => {
   } catch (err) {
     res.status(400).send(parseError(err, req));
   }
-  conn.end();
 };
 
 module.exports = { controller };
