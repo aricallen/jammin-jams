@@ -41,6 +41,9 @@ const controller = async (req, res) => {
       message: 'Invalid username or password',
     });
   } catch (err) {
+    if (err.fatal) {
+      await getConnection();
+    }
     res.status(400).send({
       error: 'unable to login',
       message: 'Unknown error attempting to login',

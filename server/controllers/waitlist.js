@@ -9,6 +9,9 @@ const controller = async (req, res) => {
       data: inserted,
     });
   } catch (err) {
+    if (err.fatal) {
+      await getConnection();
+    }
     res.status(400).send(parseError(err, req));
   }
 };

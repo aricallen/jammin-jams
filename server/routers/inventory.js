@@ -17,6 +17,9 @@ router.put('/', async (req, res) => {
     }
     res.send({ data: allUpdated });
   } catch (err) {
+    if (err.fatal) {
+      await getConnection();
+    }
     const message = 'error updating product inventory';
     res.status(400).send({ error: err, message });
     throw new Error(message);

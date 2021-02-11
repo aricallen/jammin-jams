@@ -100,20 +100,26 @@ const processFileUpload = async (file) => {
   // remove file from tmp
   fs.unlinkSync(file.path);
 
-  // update db
-  const conn = await getConnection();
-  const record = await upsertRecord(
-    conn,
-    'uploads',
-    {
-      filename: file.originalname,
-      title: file.originalname,
-      altText: file.originalname,
-      caption: file.originalname,
-    },
-    'filename'
-  );
-  return record;
+  try {
+    // update db
+    const conn = await getConnection();
+    const record = await upsertRecord(
+      conn,
+      'uploads',
+      {
+        filename: file.originalname,
+        title: file.originalname,
+        altText: file.originalname,
+        caption: file.originalname,
+      },
+      'filename'
+    );
+    return record;
+  } catch (err) {
+    if (err.fatal) {
+      await getConnection();
+    }
+  }
 };
 
 router.post('/', uploader.array('uploads', { dest: TEMP_DIR }), async (req, res) => {
@@ -168,6 +174,9 @@ router.put('/:resourceId', async (req, res) => {
     await Promise.all(promises);
     res.send({ data: updatedRecord });
   } catch (err) {
+    if (err.fatal) {
+      await getConnection();
+    }
     res.status(400).send({
       error: err,
       message: `Error while trying to update ${oldRecord.filename}`,
@@ -200,6 +209,9 @@ router.delete('/:resourceId', async (req, res) => {
     await Promise.all(promises);
     res.send({ data: deletedRecord });
   } catch (err) {
+    if (err.fatal) {
+      await getConnection();
+    }
     res.status(400).send({
       error: err,
       message: `Error while trying to delete ${oldRecord.filename}`,

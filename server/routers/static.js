@@ -99,6 +99,9 @@ const staticPostServer = async (req, res) => {
     };
     res.send(getCompiledIndex(ogData));
   } catch (err) {
+    if (err.fatal) {
+      await getConnection();
+    }
     res.status(400).send(parseError(err, req));
   }
 };

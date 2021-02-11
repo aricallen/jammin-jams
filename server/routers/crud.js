@@ -25,6 +25,9 @@ router.get('/:tableName/:resourceId', async (req, res) => {
       data: row,
     });
   } catch (err) {
+    if (err.fatal) {
+      await getConnection();
+    }
     res.status(400).send(parseError(err, req));
   }
 });
@@ -42,6 +45,9 @@ router.get('/:tableName', async (req, res) => {
       data: results,
     });
   } catch (err) {
+    if (err.fatal) {
+      await getConnection();
+    }
     res.status(400).send(parseError(err, req));
   }
 });
@@ -59,6 +65,9 @@ router.put('/:tableName/:resourceId', checkReadonly, async (req, res) => {
       data: updated,
     });
   } catch (err) {
+    if (err.fatal) {
+      await getConnection();
+    }
     res.status(400).send(parseError(err, req));
   }
 });
@@ -83,6 +92,9 @@ router.post('/:tableName', checkReadonly, async (req, res) => {
       data: inserted,
     });
   } catch (err) {
+    if (err.fatal) {
+      await getConnection();
+    }
     res.status(400).send(parseError(err, req));
   }
 });
@@ -100,6 +112,9 @@ router.delete('/:tableName/:resourceId', checkReadonly, async (req, res) => {
       data: results[0],
     });
   } catch (err) {
+    if (err.fatal) {
+      await getConnection();
+    }
     res.status(400).send(parseError(err, req));
   }
 });

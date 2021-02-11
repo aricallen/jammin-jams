@@ -31,6 +31,9 @@ const createGetController = (tableName) => {
         data: records,
       });
     } catch (err) {
+      if (err.fatal) {
+        await getConnection();
+      }
       res.status(400).send({
         error: err,
         message: `Unable to fetch rows for ${tableName}`,
@@ -48,6 +51,9 @@ const createGetOneController = (tableName) => {
         data: record,
       });
     } catch (err) {
+      if (err.fatal) {
+        await getConnection();
+      }
       res.status(400).send({
         error: err,
         message: `Unable to fetch rows for ${tableName}`,
@@ -70,6 +76,9 @@ const createUpdateController = (tableName) => {
         data: updated[0],
       });
     } catch (err) {
+      if (err.fatal) {
+        await getConnection();
+      }
       res.status(400).send(parseError(err, req));
     }
   };

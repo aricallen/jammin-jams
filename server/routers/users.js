@@ -18,6 +18,9 @@ router.post('/', async (req, res) => {
     updateSession(req, 'user', data);
     return res.send({ data });
   } catch (err) {
+    if (err.fatal) {
+      await getConnection();
+    }
     return res.status(400).send({
       error: err,
       message: 'Unable to create new user',
@@ -38,6 +41,9 @@ router.get('/email/:email', async (req, res) => {
       data: omit(userRecord, ['password']),
     });
   } catch (err) {
+    if (err.fatal) {
+      await getConnection();
+    }
     res.status(400).send({
       error: err,
       message: `Error fetching user by email '${email}'`,

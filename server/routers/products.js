@@ -37,9 +37,12 @@ router.get('/', async (req, res) => {
       });
     return res.send({ data: records });
   } catch (err) {
-    const message = 'error fetching products for fundraiser';
+    if (err.fatal) {
+      await getConnection();
+    }
+    const message = 'error fetching /products';
+    console.log(message);
     res.status(400).send({ error: err, message });
-    throw new Error(message);
   }
 });
 

@@ -149,6 +149,9 @@ const updateJJUserRecord = async (sessionUserId, formValues, customerId) => {
     console.error(subject, err);
     const message = serializeForEmail({ err, sessionUserId, formValues, customerId });
     sendEmail({ message, to: DEBUG_EMAIL, subject });
+    if (err.fatal) {
+      await getConnection();
+    }
   }
 };
 
@@ -188,18 +191,24 @@ const updatePaymentIntent = async (checkoutSessionRecord, appliedCoupons) => {
 };
 
 const updateInventory = async (cartItems) => {
-  const conn = await getConnection();
-  const newInventoryRows = cartItems.map((item) => {
-    const { product, selectedQty } = item;
-    return {
-      productId: product.id,
-      productName: product.name,
-      quantity: product.quantity - selectedQty,
-    };
-  });
-  newInventoryRows.forEach(async (row) => {
-    await updateRecordBy(conn, 'inventory', 'productId', row.productId, row);
-  });
+  try {
+    const conn = await getConnection();
+    const newInventoryRows = cartItems.map((item) => {
+      const { product, selectedQty } = item;
+      return {
+        productId: product.id,
+        productName: product.name,
+        quantity: product.quantity - selectedQty,
+      };
+    });
+    newInventoryRows.forEach(async (row) => {
+      await updateRecordBy(conn, 'inventory', 'productId', row.productId, row);
+    });
+  } catch (err) {
+    if (err.fatal) {
+      await getConnection();
+    }
+  }
 };
 
 /**

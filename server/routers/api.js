@@ -36,6 +36,9 @@ router.get('/status', async (req, res) => {
     await getConnection();
     console.log('db connection ok!');
   } catch (err) {
+    if (err.fatal) {
+      await getConnection();
+    }
     return res.send({
       api: 'ok',
       db: 'not connected',
