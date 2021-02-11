@@ -1,4 +1,3 @@
-require('dotenv').config();
 const express = require('express');
 const session = require('express-session');
 const morgan = require('morgan');
@@ -7,8 +6,7 @@ const bodyParser = require('body-parser');
 const { notify } = require('./middleware/notify');
 const { router: apiRouter } = require('./routers/api');
 const { router: staticRouter } = require('./routers/static');
-
-const { TARGET_ENV, SENTRY_URL } = process.env;
+const { TARGET_ENV, SENTRY_URL, SESSION_SECRET, API_PORT } = require('../common/environment');
 
 if (TARGET_ENV === 'production') {
   const Sentry = require('@sentry/node');
@@ -24,7 +22,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(
   session({
-    secret: process.env.SESSION_SECRET,
+    secret: SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
   })
@@ -33,6 +31,6 @@ app.use(notify);
 app.use('/api', apiRouter);
 app.use('/', staticRouter);
 
-const port = process.env.API_PORT || 5000;
+const port = API_PORT || 5000;
 console.log(`listening on ${port}`);
 app.listen(port);

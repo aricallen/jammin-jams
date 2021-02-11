@@ -1,7 +1,7 @@
 # dev artificats
 dist/
 build/
-dev-scripts/
+local-scripts/
 node_modules/
 *.log
 .vscode/
