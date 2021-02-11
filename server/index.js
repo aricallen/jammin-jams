@@ -6,7 +6,7 @@ const bodyParser = require('body-parser');
 const { notify } = require('./middleware/notify');
 const { router: apiRouter } = require('./routers/api');
 const { router: staticRouter } = require('./routers/static');
-const { TARGET_ENV, SENTRY_URL, SESSION_SECRET, API_PORT } = require('../common/environment');
+const { TARGET_ENV, SENTRY_URL, SESSION_SECRET, API_PORT } = require('./utils/environment');
 
 if (TARGET_ENV === 'production') {
   const Sentry = require('@sentry/node');
