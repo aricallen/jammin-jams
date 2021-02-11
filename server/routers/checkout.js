@@ -10,7 +10,7 @@ const {
   PORT,
   TARGET_ENV,
   DEBUG_EMAIL,
-} = require('../../common/environment');
+} = require('../utils/environment');
 
 const router = express.Router();
 

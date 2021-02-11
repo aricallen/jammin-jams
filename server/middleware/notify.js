@@ -1,5 +1,5 @@
 const { sendEmail, serializeForEmail } = require('../utils/email-helpers');
-const { TARGET_ENV } = require('../../common/environment');
+const { TARGET_ENV } = require('../utils/environment');
 
 const recipients = ['jam@jmnjams.com', 'aric.allen2@gmail.com', 'celestetretto@gmail.com'];
 

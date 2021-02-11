@@ -1,4 +1,4 @@
-const { TARGET_ENV } = require('../../common/environment');
+const { TARGET_ENV } = process.env;
 
 const SCRIPT_ID = 'google-analyics';
 const SCRIPT_SRC = 'https://www.googletagmanager.com/gtag/js?id=UA-162143638-1';

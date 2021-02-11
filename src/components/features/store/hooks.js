@@ -3,7 +3,8 @@ import { useSelector } from 'react-redux';
 import { pick } from 'lodash';
 import { useLocation } from 'react-router-dom';
 import { isBetaTester } from '../../../utils/beta-testing';
-import { BETA_STORE_ACCESS_CODE } from '../../../../common/environment';
+
+const { BETA_STORE_ACCESS_CODE } = process.env;
 
 export const useIsAllowedStoreAccess = () => {
   const location = useLocation();

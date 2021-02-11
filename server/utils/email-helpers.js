@@ -6,7 +6,7 @@ const {
   MAILCHIMP_LIST_ID,
   DEBUG_EMAIL,
   TARGET_ENV,
-} = require('../../common/environment');
+} = require('../utils/environment');
 
 const server = email.server.connect({
   user: EMAIL_USERNAME,

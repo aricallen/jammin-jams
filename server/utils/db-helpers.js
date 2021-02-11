@@ -1,6 +1,6 @@
 const { snakeCase, camelCase, pick, omit } = require('lodash');
 const pmysql = require('promise-mysql');
-const { DATABASE_URL, DB_NAME } = require('../../common/environment');
+const { DATABASE_URL, DB_NAME } = require('../utils/environment');
 
 let _connection = null;
 

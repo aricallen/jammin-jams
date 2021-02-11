@@ -1,5 +1,5 @@
 const crypto = require('crypto');
-const { SECRET_KEY, SECRET_KEY_LENGTH } = require('../../common/environment');
+const { SECRET_KEY, SECRET_KEY_LENGTH } = require('../utils/environment');
 
 const hashIt = (str) => {
   return crypto

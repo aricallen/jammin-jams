@@ -2,8 +2,8 @@ import { applyMiddleware, compose, createStore } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import { rootReducer } from './reducer';
-import { TARGET_ENV } from '../../common/environment';
 
+const { TARGET_ENV } = process.env;
 const middleware = [thunkMiddleware];
 
 if (TARGET_ENV !== 'production') {

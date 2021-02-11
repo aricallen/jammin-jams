@@ -3,7 +3,7 @@ const axios = require('axios');
 const ms = require('ms');
 const { format } = require('date-fns');
 const { sendDebugEmail } = require('../utils/email-helpers');
-const { INSTAGRAM_ACCESS_TOKEN } = require('../../common/environment');
+const { INSTAGRAM_ACCESS_TOKEN } = require('../utils/environment');
 
 const router = express.Router();
 
