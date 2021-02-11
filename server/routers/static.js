@@ -50,14 +50,17 @@ const getImageUrl = async (conn, uploadsId) => {
 const cleanPath = (p) => p.replace(/^https:\/\/jmnjams.com\//, '').replace(/\/$/, '');
 
 const getPageData = async (reqUrl) => {
-  const conn = await getConnection();
-  const pageRows = await getRecords(conn, 'pages');
-  const cleaned = cleanPath(reqUrl);
-  const matchingPage = pageRows.find((row) => row.url && row.url === cleaned);
-  if (matchingPage) {
-    return matchingPage;
+  try {
+    const conn = await getConnection();
+    const pageRows = await getRecords(conn, 'pages');
+    const cleaned = cleanPath(reqUrl);
+    const matchingPage = pageRows.find((row) => row.url && row.url === cleaned);
+    if (matchingPage) {
+      return matchingPage;
+    }
+  } catch (err) {
+    return {};
   }
-  return {};
 };
 
 const staticPageServer = async (req, res, next) => {
