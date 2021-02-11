@@ -4,10 +4,9 @@ const express = require('express');
 const { compile } = require('../utils/compile');
 const { getConnection, getRecord, getRecords } = require('../utils/db-helpers');
 const { parseError } = require('../utils/api-helpers');
+const { HOST, PORT, TARGET_ENV } = require('../../common/environment');
 
 const router = express.Router();
-
-const { HOST, PORT, TARGET_ENV } = process.env;
 
 const staticDir = TARGET_ENV === 'local' ? 'dist' : 'src';
 const staticDirPath = path.resolve(__dirname, '..', '..', staticDir);

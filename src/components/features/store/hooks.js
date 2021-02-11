@@ -3,12 +3,13 @@ import { useSelector } from 'react-redux';
 import { pick } from 'lodash';
 import { useLocation } from 'react-router-dom';
 import { isBetaTester } from '../../../utils/beta-testing';
+import { BETA_STORE_ACCESS_CODE } from '../../../../common/environment';
 
 export const useIsAllowedStoreAccess = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const isAllowed =
-    isBetaTester() || searchParams.get('superSecretCode') === process.env.BETA_STORE_ACCESS_CODE;
+    isBetaTester() || searchParams.get('superSecretCode') === BETA_STORE_ACCESS_CODE;
   return isAllowed;
 };
 

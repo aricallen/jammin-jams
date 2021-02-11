@@ -1,6 +1,12 @@
 const email = require('emailjs/email');
-
-const { EMAIL_USERNAME, EMAIL_PASSWORD, EMAIL_HOST, MAILCHIMP_LIST_ID, DEBUG_EMAIL } = process.env;
+const {
+  EMAIL_USERNAME,
+  EMAIL_PASSWORD,
+  EMAIL_HOST,
+  MAILCHIMP_LIST_ID,
+  DEBUG_EMAIL,
+  TARGET_ENV,
+} = require('../../common/environment');
 
 const server = email.server.connect({
   user: EMAIL_USERNAME,
@@ -46,7 +52,7 @@ const serializeForEmail = (row = {}) => {
 const sendDebugEmail = (data, subject, productionOnly = true) => {
   const message = serializeForEmail(data);
   console.log(message);
-  if (productionOnly && process.env.TARGET_ENV === 'production') {
+  if (productionOnly && TARGET_ENV === 'production') {
     sendEmail({ message, subject: `JmnJams Error Debug -- ${subject}`, to: DEBUG_EMAIL });
   }
 };

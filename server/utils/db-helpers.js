@@ -1,7 +1,6 @@
 const { snakeCase, camelCase, pick, omit } = require('lodash');
 const pmysql = require('promise-mysql');
-
-const { DATABASE_URL } = process.env;
+const { DATABASE_URL, DB_NAME } = require('../../common/environment');
 
 let _connection = null;
 
@@ -33,7 +32,7 @@ const deserialize = (row) => {
 const getColumnNames = async (conn, tableName) => {
   const columnNames = await conn.query(`SELECT COLUMN_NAME
     FROM INFORMATION_SCHEMA.COLUMNS
-    WHERE TABLE_SCHEMA='${process.env.DB_NAME}'
+    WHERE TABLE_SCHEMA='${DB_NAME}'
     AND TABLE_NAME='${tableName}'`);
   return columnNames;
 };

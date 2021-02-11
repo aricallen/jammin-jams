@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const { MAILCHIMP_API_HOST, MAILCHIMP_API_KEY } = process.env;
+const { MAILCHIMP_API_HOST, MAILCHIMP_API_KEY } = require('../../common/environment');
 
 const headers = {
   'Content-Type': 'application/json',

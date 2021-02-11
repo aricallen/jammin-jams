@@ -1,6 +1,8 @@
+const { TARGET_ENV } = require('../../common/environment');
+
 const SCRIPT_ID = 'google-analyics';
 const SCRIPT_SRC = 'https://www.googletagmanager.com/gtag/js?id=UA-162143638-1';
-const shouldLoadScript = process.env.TARGET_ENV === 'production';
+const shouldLoadScript = TARGET_ENV === 'production';
 
 const initGa = () => {
   window.dataLayer = window.dataLayer || [];

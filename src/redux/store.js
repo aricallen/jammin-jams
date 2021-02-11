@@ -2,10 +2,11 @@ import { applyMiddleware, compose, createStore } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { createLogger } from 'redux-logger';
 import { rootReducer } from './reducer';
+import { TARGET_ENV } from '../../common/environment';
 
 const middleware = [thunkMiddleware];
 
-if (process.env.TARGET_ENV !== 'production') {
+if (TARGET_ENV !== 'production') {
   const loggerMiddleware = createLogger({ collapsed: true });
   middleware.push(loggerMiddleware);
 }
@@ -28,7 +29,7 @@ function configureStore(initialState = {}) {
     });
   }
 
-  if (process.env.TARGET_ENV !== 'production') {
+  if (TARGET_ENV !== 'production') {
     window.store = store;
   }
 

@@ -4,8 +4,13 @@ const { getConnection, updateRecord, updateRecordBy } = require('../utils/db-hel
 const { sendEmail, serializeForEmail, addMember } = require('../utils/email-helpers');
 const { adapter: emailListAdapter } = require('../adapters/email-list');
 const { adapter: stripeAdapter } = require('../adapters/stripe');
-
-const { STRIPE_PUBLISHABLE_KEY, HOST, PORT, TARGET_ENV, DEBUG_EMAIL } = process.env;
+const {
+  STRIPE_PUBLISHABLE_KEY,
+  HOST,
+  PORT,
+  TARGET_ENV,
+  DEBUG_EMAIL,
+} = require('../../common/environment');
 
 const router = express.Router();
 
