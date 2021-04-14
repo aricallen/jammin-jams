@@ -25,6 +25,6 @@ export const getNextDeliveryDay = () => {
   if (config) {
     return configToString(config);
   }
-  // assume its first month config (pre launch)
-  return configToString(CALENDAR_DATA[0]);
+  // missing current month
+  return 'this month';
 };
