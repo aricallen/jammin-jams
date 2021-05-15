@@ -32,6 +32,21 @@ yarn install
 cp ./config/_.env ./.env
 ```
 
+## Troubleshooting
+
+You may run into a mysql version mismatch error running mysql 8
+After running server (`yarn serve`) and the local frontend (`yarn start`), you may see
+`ER_NOT_SUPPORTED_AUTH_MODE`
+
+In this case, update the local user with the following command
+
+```sh
+# start console
+mysql -u root -p jmnjams # enter password
+# update root user
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';
+```
+
 ## Development
 
 ```sh
